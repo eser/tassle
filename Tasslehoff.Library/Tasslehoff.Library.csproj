@@ -48,11 +48,28 @@
     <Compile Include="DataAccess\DataEntity.cs" />
     <Compile Include="DataAccess\DataEntityMapper.cs" />
     <Compile Include="DataAccess\DataEntityFieldAttribute.cs" />
+    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Logger\LogLevel.cs" />
+    <Compile Include="Logger\LogEntry.cs" />
+    <Compile Include="Logger\LoggerDelegate.cs" />
+    <Compile Include="Utils\VariableUtils.cs" />
+    <Compile Include="Logger\StreamLogger.cs" />
+    <Compile Include="Services\ServiceStatus.cs" />
+    <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\ServiceControllable.cs" />
+    <Compile Include="Services\ServiceStatusChangedEventArgs.cs" />
+    <Compile Include="Services\LocalResource.Designer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="DataAccess\" />
     <Folder Include="Config\" />
     <Folder Include="Collections\" />
+    <Folder Include="Logger\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Services\LocalResource.resx" />
   </ItemGroup>
 </Project>

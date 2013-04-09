@@ -27,21 +27,25 @@ namespace Tasslehoff.Library.Collections
 {
     public class DictionaryBase<T> : IEnumerable
     {
+        // fields
         protected Collection<string> keys;
         protected Collection<T> values;
 
+        // constructors
         public DictionaryBase()
         {
             this.keys = new Collection<string>();
             this.values = new Collection<T>();
         }
 
+        // properties
         public int Count {
             get {
                 return this.keys.Count;
             }
         }
-        
+
+        // indexer
         public T this[string key] {
             get {
                 int _index = this.keys.IndexOf(key);
@@ -56,6 +60,7 @@ namespace Tasslehoff.Library.Collections
             }
         }
 
+        // methods
         public void Add(string key, T value, bool replace = false) {
             int _index = this.keys.IndexOf(key);
             if(_index != -1) {
@@ -91,6 +96,7 @@ namespace Tasslehoff.Library.Collections
             return this.keys.Contains(key);
         }
 
+        // implementations
         public IEnumerator GetEnumerator() {
             for(int _i = 0;_i < this.keys.Count;_i++) {
                 yield return new KeyValuePair<string, T>(this.keys[_i], this.values[_i]);

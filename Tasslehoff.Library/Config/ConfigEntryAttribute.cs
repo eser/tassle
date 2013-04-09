@@ -25,14 +25,17 @@ namespace Tasslehoff.Library.Config
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class ConfigEntryAttribute : Attribute
     {
+        // fields
         private object defaultValue;
         private bool isCrypted;
         private bool skipInReset;
 
+        // constructors
         public ConfigEntryAttribute() : base()
         {
         }
 
+        // attributes
         public object DefaultValue {
             get { return this.defaultValue; }
             set { this.defaultValue = value; }

@@ -31,10 +31,12 @@ namespace Tasslehoff.Library.DataAccess
 {
     public class DataEntityMapper : DictionaryBase<DataEntityFieldAttribute>
     {
+        // constructors
         public DataEntityMapper() : base()
         {
         }
 
+        // methods
         public static DataEntityMapper ReadFromClass(Type type) {
             DataEntityMapper _mappings = new DataEntityMapper();
             

@@ -25,6 +25,7 @@ namespace Tasslehoff.Library.DataAccess
 {
     public class DataEntityFieldAttribute : Attribute
     {
+        // fields
         private MemberInfo classMember;
         private string fieldName;
         private Type type;
@@ -32,10 +33,12 @@ namespace Tasslehoff.Library.DataAccess
         private Func<object, object> getFunction;
         private Func<object, object> setFunction;
 
+        // constructors
         public DataEntityFieldAttribute() : base()
         {
         }
 
+        // properties
         public MemberInfo ClassMember {
             get {
                 return this.classMember;

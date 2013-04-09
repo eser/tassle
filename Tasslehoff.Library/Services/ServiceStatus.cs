@@ -1,5 +1,5 @@
 //
-//  DataEntity.cs
+//  ServiceStatus.cs
 //
 //  Author:
 //       larukedi <eser@sent.com>
@@ -19,32 +19,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using System.Data.Common;
 
-namespace Tasslehoff.Library.DataAccess
+namespace Tasslehoff.Library.Services
 {
-    public class DataEntity<T> where T : class, new()
+    public enum ServiceStatus
     {
-        // fields
-        private readonly DataEntityMapper map;
-
-        // constructors
-        public DataEntity()
-        {
-            this.map = DataEntityMapper.ReadFromClass(typeof(T));
-        }
-
-        // attributes
-        public DataEntityMapper Map {
-            get {
-                return this.map;
-            }
-        }
-
-        // methods
-        public T GetItem(DbDataReader reader) {
-            return this.map.GetItem<T>(reader);
-        }
+        Passive,
+        Running,
+        Stopped
     }
 }
 

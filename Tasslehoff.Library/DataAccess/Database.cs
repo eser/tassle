@@ -27,17 +27,21 @@ namespace Tasslehoff.Library.DataAccess
 {
     public class Database
     {
+        // constants
         public const int DEFAULT_COMMAND_TIMEOUT = 3600;
 
+        // fields
         private readonly string connectionString;
         private DbProviderFactory dbProviderFactory;
 
-        public Database (string databaseDriver, string connectionString)
+        // constructors
+        public Database(string databaseDriver, string connectionString)
         {
             this.dbProviderFactory = DbProviderFactories.GetFactory(databaseDriver);
             this.connectionString = connectionString;
         }
 
+        // methods
         public DbConnection GetConnection()
         {
             DbConnection _connection = this.dbProviderFactory.CreateConnection();

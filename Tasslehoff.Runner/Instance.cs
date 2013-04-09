@@ -42,7 +42,7 @@ namespace Tasslehoff.Runner
         // fields
         public readonly InstanceConfig configuration;
 
-        // constructor
+        // constructors
         public Instance(InstanceConfig configuration)
 		{
             // singleton pattern

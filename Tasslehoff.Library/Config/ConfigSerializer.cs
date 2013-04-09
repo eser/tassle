@@ -28,6 +28,7 @@ namespace Tasslehoff.Library.Config
 {
     public static class ConfigSerializer
     {
+        // methods
         public static XmlObjectSerializer GetSerializer(Type type) {
             /*
             DataContractJsonSerializerSettings _settings = new DataContractJsonSerializerSettings() {

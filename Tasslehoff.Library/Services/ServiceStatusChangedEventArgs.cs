@@ -1,5 +1,5 @@
 //
-//  DataEntity.cs
+//  ServiceStatusChangedEventArgs.cs
 //
 //  Author:
 //       larukedi <eser@sent.com>
@@ -19,31 +19,33 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using System.Data.Common;
 
-namespace Tasslehoff.Library.DataAccess
+namespace Tasslehoff.Library.Services
 {
-    public class DataEntity<T> where T : class, new()
+    public class ServiceStatusChangedEventArgs : EventArgs
     {
         // fields
-        private readonly DataEntityMapper map;
+        private readonly ServiceStatus previousState;
+        private readonly ServiceStatus status;
 
         // constructors
-        public DataEntity()
+        public ServiceStatusChangedEventArgs(ServiceStatus previousState, ServiceStatus status)
         {
-            this.map = DataEntityMapper.ReadFromClass(typeof(T));
+            this.previousState = previousState;
+            this.status = status;
         }
 
-        // attributes
-        public DataEntityMapper Map {
+        // properties
+        public ServiceStatus PreviousState {
             get {
-                return this.map;
+                return this.previousState;
             }
         }
 
-        // methods
-        public T GetItem(DbDataReader reader) {
-            return this.map.GetItem<T>(reader);
+        public ServiceStatus Status {
+            get {
+                return this.status;
+            }
         }
     }
 }
