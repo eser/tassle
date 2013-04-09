@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,6 +112,10 @@
     <ProjectReference Include="..\Tasslehoff.Globals\Tasslehoff.Globals.csproj">
       <Project>{C3B5872D-2DD7-42CB-8C10-4D56ACEC5723}</Project>
       <Name>Tasslehoff.Globals</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Library\Tasslehoff.Library.csproj">
+      <Project>{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}</Project>
+      <Name>Tasslehoff.Library</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,9 +19,9 @@
     <OutputPath>bin\Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
     <LangVersion>5</LangVersion>
-    <Externalconsole>true</Externalconsole>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG;</DefineConstants>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -33,6 +33,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Npgsql">
+      <HintPath>..\_References\Npgsql2.0.12.0-bin-ms.net4.0\Npgsql.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -44,8 +47,64 @@
       <Properties>
         <Policies>
           <TextStylePolicy FileWidth="120" EolMarker="Unix" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
-          <CSharpFormattingPolicy ElseIfNewLinePlacement="SameLine" AfterDelegateDeclarationParameterComma="True" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
-          <TextStylePolicy FileWidth="120" EolMarker="Unix" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+          <CSharpFormattingPolicy inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy inheritsSet="Mono" inheritsScope="text/plain" scope="text/plain" />
+          <XmlFormattingPolicy inheritsSet="Mono" inheritsScope="application/xml" scope="application/xml" />
+          <NameConventionPolicy>
+            <Rules>
+              <NamingRule Name="Namespaces" AffectedEntity="Namespace" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Types" AffectedEntity="Class, Struct, Enum, Delegate" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Interfaces" AffectedEntity="Interface" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
+                <RequiredPrefixes>
+                  <String>I</String>
+                </RequiredPrefixes>
+              </NamingRule>
+              <NamingRule Name="Attributes" AffectedEntity="CustomAttributes" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
+                <RequiredSuffixes>
+                  <String>Attribute</String>
+                </RequiredSuffixes>
+              </NamingRule>
+              <NamingRule Name="Event Arguments" AffectedEntity="CustomEventArgs" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
+                <RequiredSuffixes>
+                  <String>EventArgs</String>
+                </RequiredSuffixes>
+              </NamingRule>
+              <NamingRule Name="Exceptions" AffectedEntity="CustomExceptions" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
+                <RequiredSuffixes>
+                  <String>Exception</String>
+                </RequiredSuffixes>
+              </NamingRule>
+              <NamingRule Name="Methods" AffectedEntity="Methods" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Static Readonly Fields" AffectedEntity="ReadonlyField" VisibilityMask="Internal, Protected, Public" NamingStyle="PascalCase" IncludeInstanceMembers="False" IncludeStaticEntities="True" />
+              <NamingRule Name="Fields (Non Private)" AffectedEntity="Field" VisibilityMask="Internal, Protected, Public" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="ReadOnly Fields (Non Private)" AffectedEntity="ReadonlyField" VisibilityMask="Internal, Protected, Public" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="False" />
+              <NamingRule Name="Fields (Private)" AffectedEntity="Field, ReadonlyField" VisibilityMask="Private" NamingStyle="CamelCase" IncludeInstanceMembers="True" IncludeStaticEntities="False">
+                <AllowedPrefixes>
+                  <String>_</String>
+                  <String>m_</String>
+                </AllowedPrefixes>
+              </NamingRule>
+              <NamingRule Name="Static Fields (Private)" AffectedEntity="Field" VisibilityMask="Private" NamingStyle="CamelCase" IncludeInstanceMembers="False" IncludeStaticEntities="True" />
+              <NamingRule Name="ReadOnly Fields (Private)" AffectedEntity="ReadonlyField" VisibilityMask="Private" NamingStyle="CamelCase" IncludeInstanceMembers="True" IncludeStaticEntities="False">
+                <AllowedPrefixes>
+                  <String>_</String>
+                  <String>m_</String>
+                </AllowedPrefixes>
+              </NamingRule>
+              <NamingRule Name="Constant Fields" AffectedEntity="ConstantField" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Properties" AffectedEntity="Property" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Events" AffectedEntity="Event" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Enum Members" AffectedEntity="EnumMember" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Parameters" AffectedEntity="Parameter" VisibilityMask="VisibilityMask" NamingStyle="CamelCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
+              <NamingRule Name="Type Parameters" AffectedEntity="TypeParameter" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
+                <RequiredPrefixes>
+                  <String>T</String>
+                </RequiredPrefixes>
+              </NamingRule>
+            </Rules>
+          </NameConventionPolicy>
+          <VersionControlPolicy inheritsSet="Mono" />
+          <ChangeLogPolicy inheritsSet="Mono" />
         </Policies>
       </Properties>
     </MonoDevelop>
@@ -59,5 +118,12 @@
       <Project>{F0A8219B-6B58-4666-B58B-ED3ACF9557B0}</Project>
       <Name>Tasslehoff.Runner</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Library\Tasslehoff.Library.csproj">
+      <Project>{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}</Project>
+      <Name>Tasslehoff.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
 </Project>

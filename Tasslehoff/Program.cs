@@ -19,15 +19,71 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
+using System.IO;
 using Tasslehoff.Runner;
+using Tasslehoff.Globals;
+using Tasslehoff.Library.Config;
 
 namespace Tasslehoff
 {
 	class MainClass
 	{
+        public const string CONFIG_FILENAME = "instanceConfig.json"; 
+
 		public static void Main (string[] args)
 		{
-            Instance _instance = new Instance();
+            string _configFile = null;
+
+            try {
+                Queue<string> _argsQueue = new Queue<string>(args);
+
+                while(_argsQueue.Count > 0) {
+                    string _arg = _argsQueue.Dequeue();
+
+                    switch(_arg) {
+                    case "--config":
+                    case "-c":
+                        if(_argsQueue.Count == 0) {
+                            throw new ArgumentException("No input file specified.", "--config");
+                        }
+
+                        _configFile = _argsQueue.Dequeue();
+                        // if(!File.Exists(_configFile)) {
+                        //    throw new ArgumentException("File not found or inaccessible - \"" + _configFile + "\".", "--config");
+                        // }
+
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid parameter - \"" + _arg + "\".", _arg);
+                    }
+                }
+            }
+            catch(ArgumentException _ex) {
+                Console.WriteLine(_ex.Message);
+                return;
+            }
+
+            InstanceConfig _config;
+            if(_configFile != null) {
+                if(!File.Exists(_configFile)) {
+                    throw new ArgumentException("File not found or inaccessible - \"" + _configFile + "\".", "--config");
+                }
+
+                Stream _fileStream = File.OpenRead(_configFile);
+                _config = ConfigSerializer.Load<InstanceConfig>(_fileStream);
+            }
+            else if(File.Exists(MainClass.CONFIG_FILENAME)) {
+                Stream _fileStream = File.OpenRead(CONFIG_FILENAME);
+                _config = ConfigSerializer.Load<InstanceConfig>(_fileStream);
+            }
+            else {
+                _config = new InstanceConfig();
+                ConfigSerializer.Reset(_config);
+                ConfigSerializer.Save(File.OpenWrite(MainClass.CONFIG_FILENAME), _config);
+            }
+
+            Instance _instance = new Instance(_config);
 		}
 	}
 }
