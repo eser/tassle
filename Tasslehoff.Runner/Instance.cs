@@ -1,5 +1,5 @@
 //
-//  Program.cs
+//  Instance.cs
 //
 //  Author:
 //       larukedi <eser@sent.com>
@@ -19,15 +19,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Tasslehoff.Runner;
 
-namespace Tasslehoff
+namespace Tasslehoff.Runner
 {
-	class MainClass
+	public class Instance
 	{
-		public static void Main (string[] args)
+		public Instance ()
 		{
-            Instance _instance = new Instance();
 		}
 	}
 }
+
