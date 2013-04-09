@@ -1,5 +1,5 @@
 //
-//  InstanceConfig.cs
+//  DataEntity.cs
 //
 //  Author:
 //       larukedi <eser@sent.com>
@@ -19,21 +19,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using System.Runtime.Serialization;
-using Tasslehoff.Library.Config;
+using System.Data.Common;
 
-namespace Tasslehoff.Globals
+namespace Tasslehoff.Library.DataAccess
 {
-    [DataContract]
-    public class InstanceConfig : IConfig
+    public class DataEntity<T> where T : class, new()
     {
-        [DataMember]
-        [ConfigEntry(DefaultValue = "Npgsql")]
-        public string DatabaseDriver { get; set; }
+        private readonly DataEntityMapper map;
 
-        [DataMember]
-        [ConfigEntry(DefaultValue = "Server=debian;Port=5432;Database=interesd;User Id=interesd;Password=;")]
-        public string ConnectionString { get; set; }
+        public DataEntity()
+        {
+            this.map = DataEntityMapper.ReadFromClass(typeof(T));
+        }
+
+        public DataEntityMapper Map {
+            get {
+                return this.map;
+            }
+        }
+
+        public T GetItem(DbDataReader reader) {
+            return this.map.GetItem<T>(reader);
+        }
     }
 }
 

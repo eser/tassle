@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InstanceConfig.cs" />
+    <Compile Include="Entities\User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -112,5 +113,8 @@
       <Project>{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}</Project>
       <Name>Tasslehoff.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
   </ItemGroup>
 </Project>

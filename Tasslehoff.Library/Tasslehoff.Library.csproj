@@ -44,10 +44,15 @@
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Config\ConfigSerializer.cs" />
     <Compile Include="Config\ConfigEntryAttribute.cs" />
+    <Compile Include="Collections\DictionaryBase.cs" />
+    <Compile Include="DataAccess\DataEntity.cs" />
+    <Compile Include="DataAccess\DataEntityMapper.cs" />
+    <Compile Include="DataAccess\DataEntityFieldAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="DataAccess\" />
     <Folder Include="Config\" />
+    <Folder Include="Collections\" />
   </ItemGroup>
 </Project>

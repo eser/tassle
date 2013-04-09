@@ -29,8 +29,10 @@ namespace Tasslehoff
 {
 	class MainClass
 	{
+        // constants
         public const string CONFIG_FILENAME = "instanceConfig.json"; 
 
+        // entry point
 		public static void Main (string[] args)
 		{
             string _configFile = null;
@@ -49,10 +51,6 @@ namespace Tasslehoff
                         }
 
                         _configFile = _argsQueue.Dequeue();
-                        // if(!File.Exists(_configFile)) {
-                        //    throw new ArgumentException("File not found or inaccessible - \"" + _configFile + "\".", "--config");
-                        // }
-
                         break;
                     default:
                         throw new ArgumentException("Invalid parameter - \"" + _arg + "\".", _arg);

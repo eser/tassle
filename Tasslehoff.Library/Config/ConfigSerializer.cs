@@ -29,12 +29,14 @@ namespace Tasslehoff.Library.Config
     public static class ConfigSerializer
     {
         public static XmlObjectSerializer GetSerializer(Type type) {
+            /*
             DataContractJsonSerializerSettings _settings = new DataContractJsonSerializerSettings() {
                 UseSimpleDictionaryFormat = true,
                 SerializeReadOnlyTypes = false
             };
+            */
 
-            return new DataContractJsonSerializer(type, _settings);
+            return new DataContractJsonSerializer(type);
         }
 
         public static T Load<T>(Stream input, bool resetFirst = true) {

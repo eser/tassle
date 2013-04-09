@@ -1,5 +1,5 @@
 //
-//  InstanceConfig.cs
+//  User.cs
 //
 //  Author:
 //       larukedi <eser@sent.com>
@@ -20,20 +20,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Runtime.Serialization;
-using Tasslehoff.Library.Config;
+using Tasslehoff.Library.DataAccess;
 
-namespace Tasslehoff.Globals
+namespace Tasslehoff.Globals.Entities
 {
     [DataContract]
-    public class InstanceConfig : IConfig
+    public class User
     {
         [DataMember]
-        [ConfigEntry(DefaultValue = "Npgsql")]
-        public string DatabaseDriver { get; set; }
-
+        [DataEntityField(FieldName = "userid")]
+        public Guid UserId { get; set; }
+        
         [DataMember]
-        [ConfigEntry(DefaultValue = "Server=debian;Port=5432;Database=interesd;User Id=interesd;Password=;")]
-        public string ConnectionString { get; set; }
+        [DataEntityField(FieldName = "username")]
+        public string Username { get; set; }
     }
 }
 

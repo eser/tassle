@@ -24,16 +24,35 @@ using System.Data;
 using System.Data.Common;
 using Tasslehoff.Library.Config;
 using Tasslehoff.Globals;
+using Tasslehoff.Globals.Entities;
 
 namespace Tasslehoff.Runner
 {
 	public class Instance
 	{
+        // singleton pattern
+        private static Instance context = null;
+
+        public static Instance Context {
+            get {
+                return Instance.context;
+            }
+        }
+
+        // fields
         public readonly InstanceConfig configuration;
 
+        // constructor
         public Instance(InstanceConfig configuration)
 		{
+            // singleton pattern
+            if(Instance.context == null) {
+                Instance.context = this;
+            }
+
             this.configuration = configuration;
+
+            DataEntity<User> _users = new DataEntity<User>();
 
             Database _database = new Database(this.configuration.DatabaseDriver, this.configuration.ConnectionString);
             _database.ExecuteReader(
@@ -43,7 +62,8 @@ namespace Tasslehoff.Runner
                 null,
                 (DbDataReader reader) => {
                     while(reader.Read()) {
-                        if(reader["username"] == System.DBNull.Value) {
+                        User _user = _users.GetItem(reader);
+                        if(_user.Username == null) {
                             continue;
                         }
 
@@ -51,6 +71,8 @@ namespace Tasslehoff.Runner
                     }
                 }
             );
+
+            Console.Read();
         }
 	}
 }
