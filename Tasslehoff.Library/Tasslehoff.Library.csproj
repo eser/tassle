@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,6 +39,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IDataEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Database.cs" />
     <Compile Include="Config\IConfig.cs" />
@@ -62,12 +63,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="DataAccess\" />
-    <Folder Include="Config\" />
-    <Folder Include="Collections\" />
-    <Folder Include="Logger\" />
-    <Folder Include="Utils\" />
-    <Folder Include="Services\" />
+    <Folder Include="Cron\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Services\LocalResource.resx" />

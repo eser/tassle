@@ -28,7 +28,8 @@ namespace Tasslehoff.Library.Services {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LocalResource() {
+        internal LocalResource()
+        {
         }
         
         /// <summary>
@@ -37,7 +38,8 @@ namespace Tasslehoff.Library.Services {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tasslehoff.Library.Services.LocalResource", typeof(LocalResource).Assembly);
                     resourceMan = temp;
                 }

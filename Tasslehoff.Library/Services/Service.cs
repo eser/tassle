@@ -1,124 +1,239 @@
-//
-//  Service.cs
-//
-//  Author:
-//       larukedi <eser@sent.com>
-//
-//  Copyright (c) 2013 larukedi
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using Tasslehoff.Library.Logger;
-using Tasslehoff.Library.Utils;
+// -----------------------------------------------------------------------
+// <copyright file="Service.cs" company="-">
+// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// </copyright>
+// <author>larukedi (http://github.com/larukedi/)</author>
+// -----------------------------------------------------------------------
+
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+//// 
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Tasslehoff.Library.Services
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Tasslehoff.Library.Logger;
+    using Tasslehoff.Library.Utils;
+
+    /// <summary>
+    /// Service class.
+    /// </summary>
     public abstract class Service : IDisposable
     {
         // fields
+
+        /// <summary>
+        /// The is controllable
+        /// </summary>
+        private bool isControllable;
+
+        /// <summary>
+        /// The status
+        /// </summary>
         private ServiceStatus status;
+
+        /// <summary>
+        /// The status date
+        /// </summary>
         private DateTime statusDate;
+
+        /// <summary>
+        /// The log
+        /// </summary>
         private LoggerDelegate log;
+
+        /// <summary>
+        /// The disposed
+        /// </summary>
         private bool disposed;
 
         // constructors
-        protected Service()
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Service"/> class.
+        /// </summary>
+        /// <param name="isControllable">if set to <c>true</c> [is controllable].</param>
+        protected Service(bool isControllable)
         {
-            this.status = (this.IsControllable) ? ServiceStatus.Stopped : ServiceStatus.Passive;
+            this.isControllable = isControllable;
+            this.status = this.isControllable ? ServiceStatus.Stopped : ServiceStatus.Passive;
             this.statusDate = DateTime.UtcNow;
 
             this.log = new LoggerDelegate();
         }
 
-        ~Service() {
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Service"/> class.
+        /// </summary>
+        ~Service()
+        {
             this.Dispose(false);
         }
 
         // abstract properties
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public abstract string Name { get; }
 
-        public virtual string Description {
-            get {
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
+        public virtual string Description
+        {
+            get
+            {
                 return string.Empty;
             }
         }
 
-        public virtual bool IsControllable {
-            get {
-                return false;
+        // properties
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is controllable.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is controllable; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsControllable
+        {
+            get
+            {
+                return this.isControllable;
             }
         }
 
-        // properties
-        public ServiceStatus Status {
-            get {
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
+        public ServiceStatus Status
+        {
+            get
+            {
                 return this.status;
             }
-            protected set {
+
+            protected set
+            {
                 this.status = value;
             }
         }
 
-        public DateTime StatusDate {
-            get {
+        /// <summary>
+        /// Gets or sets the status date.
+        /// </summary>
+        /// <value>
+        /// The status date.
+        /// </value>
+        public DateTime StatusDate
+        {
+            get
+            {
                 return this.statusDate;
             }
-            protected set {
+
+            protected set
+            {
                 this.statusDate = value;
             }
         }
 
-        public LoggerDelegate Log {
-            get {
+        /// <summary>
+        /// Gets or sets the log.
+        /// </summary>
+        /// <value>
+        /// The log.
+        /// </value>
+        public LoggerDelegate Log
+        {
+            get
+            {
                 return this.log;
             }
-            protected set {
+
+            protected set
+            {
                 this.log = value;
             }
         }
 
-        public bool Disposed {
-            get {
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Service"/> is disposed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        /// </value>
+        public bool Disposed
+        {
+            get
+            {
                 return this.disposed;
             }
-            protected set {
+
+            protected set
+            {
                 this.disposed = value;
             }
         }
 
-        protected virtual void OnDispose() {
-            VariableUtils.CheckAndDispose(this.log);
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+
+            GC.SuppressFinalize(this);
         }
 
-        // implementations
-        protected void Dispose(bool disposing) {
-            if(this.disposed) {
+        /// <summary>
+        /// Called when [dispose].
+        /// </summary>
+        protected virtual void OnDispose()
+        {
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "log", Justification = "log is already will be disposed using CheckAndDispose method.")]
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "It uses virtual method OnDispose() implementation for derived classes.")]
+        protected void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
                 return;
             }
             
-            if(disposing) {
+            if (disposing)
+            {
+                VariableUtils.CheckAndDispose(this.log);
+
                 this.OnDispose();
             }
             
             this.disposed = true;
         }
-        
-        public void Dispose() {
-            this.Dispose(true);
-            
-            GC.SuppressFinalize(this);
-        }
     }
 }
-

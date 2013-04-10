@@ -1,37 +1,48 @@
-//
-//  ConfigSerializer.cs
-//
-//  Author:
-//       larukedi <eser@sent.com>
-//
-//  Copyright (c) 2013 larukedi
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
+// -----------------------------------------------------------------------
+// <copyright file="ConfigSerializer.cs" company="-">
+// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// </copyright>
+// <author>larukedi (http://github.com/larukedi/)</author>
+// -----------------------------------------------------------------------
+
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+//// 
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Tasslehoff.Library.Config
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Json;
+
+    /// <summary>
+    /// Serializer for configuration classes.
+    /// </summary>
     public static class ConfigSerializer
     {
         // methods
-        public static XmlObjectSerializer GetSerializer(Type type) {
+
+        /// <summary>
+        /// Gets the serializer instance.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>A data contract serializer.</returns>
+        public static XmlObjectSerializer GetSerializer(Type type)
+        {
             /*
-            DataContractJsonSerializerSettings _settings = new DataContractJsonSerializerSettings() {
+            DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings()
+            {
                 UseSimpleDictionaryFormat = true,
                 SerializeReadOnlyTypes = false
             };
@@ -40,45 +51,68 @@ namespace Tasslehoff.Library.Config
             return new DataContractJsonSerializer(type);
         }
 
-        public static T Load<T>(Stream input, bool resetFirst = true) {
-            XmlObjectSerializer _serializer = ConfigSerializer.GetSerializer(typeof(T));
-            if(resetFirst) {
+        /// <summary>
+        /// Deserializes a configuration from the stream.
+        /// </summary>
+        /// <typeparam name="T">An IConfig implementation.</typeparam>
+        /// <param name="input">The input.</param>
+        /// <param name="resetFirst">if set to <c>true</c> [reset first].</param>
+        /// <returns>Deserialized configuration class instance.</returns>
+        public static T Load<T>(Stream input, bool resetFirst = true) where T : IConfig
+        {
+            XmlObjectSerializer serializer = ConfigSerializer.GetSerializer(typeof(T));
+            if (resetFirst)
+            {
                 input.Position = 0;
             }
-            T _return = (T)_serializer.ReadObject(input);
 
-            return _return;
+            return (T)serializer.ReadObject(input);
         }
 
-        public static void Save(Stream output, IConfig configObject, bool flushAfter = true) {
-            Type _type = configObject.GetType();
+        /// <summary>
+        /// Serializes a configuration class instance to the stream.
+        /// </summary>
+        /// <param name="output">The output.</param>
+        /// <param name="configObject">The config object.</param>
+        /// <param name="flushAfter">if set to <c>true</c> [flush after].</param>
+        public static void Save(Stream output, IConfig configObject, bool flushAfter = true)
+        {
+            Type type = configObject.GetType();
             
-            XmlObjectSerializer _serializer = ConfigSerializer.GetSerializer(_type);
-            _serializer.WriteObject(output, configObject);
+            XmlObjectSerializer serializer = ConfigSerializer.GetSerializer(type);
+            serializer.WriteObject(output, configObject);
 
-            if(flushAfter) {
+            if (flushAfter)
+            {
                 output.Flush();
             }
         }
 
-        public static void Reset(IConfig configObject) {
-            Type _type = configObject.GetType();
+        /// <summary>
+        /// Resets the specified config object.
+        /// </summary>
+        /// <param name="configObject">The config object.</param>
+        public static void Reset(IConfig configObject)
+        {
+            Type type = configObject.GetType();
             
-            foreach(PropertyInfo _property in _type.GetProperties()) {
-                object _value = null;
-                ConfigEntryAttribute[] _attributes = (ConfigEntryAttribute[])_property.GetCustomAttributes(typeof(ConfigEntryAttribute), true);
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                object value = null;
+                ConfigEntryAttribute[] attributes = (ConfigEntryAttribute[])property.GetCustomAttributes(typeof(ConfigEntryAttribute), true);
                 
-                if(_attributes.Length > 0) {
-                    if(_attributes[0].SkipInReset) {
+                if (attributes.Length > 0)
+                {
+                    if (attributes[0].SkipInReset)
+                    {
                         continue;
                     }
                     
-                    _value = _attributes[0].DefaultValue;
+                    value = attributes[0].DefaultValue;
                 }
                 
-                _property.SetValue(configObject, _value, null);
+                property.SetValue(configObject, value, null);
             }
         }
     }
 }
-

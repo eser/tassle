@@ -1,126 +1,225 @@
-//
-//  LoggerDelegate.cs
-//
-//  Author:
-//       larukedi <eser@sent.com>
-//
-//  Copyright (c) 2013 larukedi
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using System.Text;
-using Tasslehoff.Library.Utils;
+// -----------------------------------------------------------------------
+// <copyright file="LoggerDelegate.cs" company="-">
+// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// </copyright>
+// <author>larukedi (http://github.com/larukedi/)</author>
+// -----------------------------------------------------------------------
+
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+//// 
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Tasslehoff.Library.Logger
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Text;
+    using Tasslehoff.Library.Utils;
+
+    /// <summary>
+    /// A delegate for the Logger instance.
+    /// </summary>
     public class LoggerDelegate : IDisposable
     {
         // fields
+
+        /// <summary>
+        /// The application
+        /// </summary>
         private string application;
+
+        /// <summary>
+        /// The category
+        /// </summary>
         private string category;
+
+        /// <summary>
+        /// The is direct
+        /// </summary>
         private bool isDirect;
+
+        /// <summary>
+        /// The assigned logger
+        /// </summary>
         private Logger assignedLogger;
+
+        /// <summary>
+        /// The disposed
+        /// </summary>
         private bool disposed;
 
         // constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoggerDelegate"/> class.
+        /// </summary>
         public LoggerDelegate()
         {
             this.assignedLogger = Logger.Context;
         }
 
-        ~LoggerDelegate() {
+        /// <summary>
+        /// Finalizes an instance of the <see cref="LoggerDelegate"/> class.
+        /// </summary>
+        ~LoggerDelegate()
+        {
             this.Dispose(false);
         }
 
         // attributes
-        public string Application {
-            get {
+
+        /// <summary>
+        /// Gets or sets the application.
+        /// </summary>
+        /// <value>
+        /// The application.
+        /// </value>
+        public string Application
+        {
+            get
+            {
                 return this.application;
             }
-            set {
+
+            set
+            {
                 this.application = value;
             }
         }
 
-        public string Category {
-            get {
+        /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        /// <value>
+        /// The category.
+        /// </value>
+        public string Category
+        {
+            get
+            {
                 return this.category;
             }
-            set {
+
+            set
+            {
                 this.category = value;
             }
         }
 
-        public bool IsDirect {
-            get {
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is direct.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is direct; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsDirect
+        {
+            get
+            {
                 return this.isDirect;
             }
-            set {
+
+            set
+            {
                 this.isDirect = value;
             }
         }
 
-        public Logger AssignedLogger {
-            get {
+        /// <summary>
+        /// Gets the assigned logger.
+        /// </summary>
+        /// <value>
+        /// The assigned logger.
+        /// </value>
+        public Logger AssignedLogger
+        {
+            get
+            {
                 return this.assignedLogger;
             }
         }
 
-        public bool Disposed {
-            get {
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="LoggerDelegate"/> is disposed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        /// </value>
+        public bool Disposed
+        {
+            get
+            {
                 return this.disposed;
             }
-            protected set {
+
+            protected set
+            {
                 this.disposed = value;
             }
         }
 
-        // abstract methods
-        protected virtual void OnDispose() {
-            VariableUtils.CheckAndDispose(this.assignedLogger);
-        }
-
         // methods
-        public void AssignLogger(Logger logger, string category, string application = null, bool isDirect = false) {
+
+        /// <summary>
+        /// Assigns the logger.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="application">The application.</param>
+        /// <param name="isDirect">if set to <c>true</c> [is direct].</param>
+        public void AssignLogger(Logger logger, string category, string application = null, bool isDirect = false)
+        {
             this.assignedLogger = logger;
             this.category = category;
             this.application = application;
             this.isDirect = isDirect;
         }
 
-        public LogEntry Get(LogLevel level, string text, Exception exception = null, DateTime? date = null, string application = null, string category = null, bool? isDirect = null) {
-            if(exception != null) {
-                StringBuilder _string = new StringBuilder();
-                _string.Append("Exception: ");
-                _string.AppendLine(exception.GetType().Name);
+        /// <summary>
+        /// Gets the specified level.
+        /// </summary>
+        /// <param name="level">The level.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="exception">The exception.</param>
+        /// <param name="date">The date.</param>
+        /// <param name="application">The application.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="isDirect">The is direct.</param>
+        /// <returns>LogEntry instance.</returns>
+        public LogEntry Get(LogLevel level, string text, Exception exception = null, DateTime? date = null, string application = null, string category = null, bool? isDirect = null)
+        {
+            if (exception != null)
+            {
+                StringBuilder message = new StringBuilder();
+                message.Append("Exception: ");
+                message.AppendLine(exception.GetType().Name);
                 
-                _string.Append("Detail: ");
-                _string.AppendLine(text);
+                message.Append("Detail: ");
+                message.AppendLine(text);
                 
-                _string.Append("Message: ");
-                _string.AppendLine(exception.Message);
+                message.Append("Message: ");
+                message.AppendLine(exception.Message);
                 
-                _string.Append("Source: ");
-                _string.AppendLine(exception.Source);
+                message.Append("Source: ");
+                message.AppendLine(exception.Source);
                 
-                _string.AppendLine("=== Stack Trace ===");
-                _string.AppendLine(exception.StackTrace);
+                message.AppendLine("=== Stack Trace ===");
+                message.AppendLine(exception.StackTrace);
                 
-                text = _string.ToString();
+                text = message.ToString();
             }
             
-            return new LogEntry() {
+            return new LogEntry()
+            {
                 Level = level,
                 Application = application ?? this.application,
                 Category = category ?? this.category,
@@ -130,33 +229,66 @@ namespace Tasslehoff.Library.Logger
             };
         }
 
-        public bool Write(LogLevel level, string text, Exception exception = null, DateTime? date = null, string application = null, string category = null, bool? isDirect = null) {
-            if(this.assignedLogger == null) {
+        /// <summary>
+        /// Writes the specified level.
+        /// </summary>
+        /// <param name="level">The level.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="exception">The exception.</param>
+        /// <param name="date">The date.</param>
+        /// <param name="application">The application.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="isDirect">The is direct.</param>
+        /// <returns>Is written or not.</returns>
+        public bool Write(LogLevel level, string text, Exception exception = null, DateTime? date = null, string application = null, string category = null, bool? isDirect = null)
+        {
+            if (this.assignedLogger == null)
+            {
                 return false;
             }
             
-            LogEntry _logEntry = this.Get(level, text, exception, date, application, category, isDirect);
-            return this.assignedLogger.Write(_logEntry);
+            LogEntry logEntry = this.Get(level, text, exception, date, application, category, isDirect);
+            return this.assignedLogger.Write(logEntry);
         }
 
-        // implementations
-        protected void Dispose(bool disposing) {
-            if(this.disposed) {
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "It uses virtual method OnDispose() implementation for derived classes.")]
+        protected void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
                 return;
             }
             
-            if(disposing) {
+            if (disposing)
+            {
                 this.OnDispose();
             }
             
             this.disposed = true;
         }
-        
-        public void Dispose() {
-            this.Dispose(true);
-            
-            GC.SuppressFinalize(this);
+
+        // abstract methods
+
+        /// <summary>
+        /// Called when [dispose].
+        /// </summary>
+        protected virtual void OnDispose()
+        {
+            VariableUtils.CheckAndDispose(this.assignedLogger);
         }
     }
 }
-

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="VariableUtils.cs" company="-">
+// <copyright file="IDataEntity.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,25 +18,12 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Library.Utils
+namespace Tasslehoff.Library.DataAccess
 {
-    using System;
-
     /// <summary>
-    /// VariableUtils class.
+    /// IDataEntity interface.
     /// </summary>
-    public static class VariableUtils
+    public interface IDataEntity
     {
-        /// <summary>
-        /// Checks the and dispose.
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        public static void CheckAndDispose(IDisposable variable)
-        {
-            if (variable != null)
-            {
-                variable.Dispose();
-            }
-        }
     }
 }

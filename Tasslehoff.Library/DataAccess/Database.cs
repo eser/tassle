@@ -1,154 +1,243 @@
-//
-//  Database.cs
-//
-//  Author:
-//       larukedi <eser@sent.com>
-//
-//  Copyright (c) 2013 larukedi
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
+// -----------------------------------------------------------------------
+// <copyright file="Database.cs" company="-">
+// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// </copyright>
+// <author>larukedi (http://github.com/larukedi/)</author>
+// -----------------------------------------------------------------------
+
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+//// 
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Tasslehoff.Library.DataAccess
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
+
+    /// <summary>
+    /// Database class.
+    /// </summary>
     public class Database
     {
         // constants
-        public const int DEFAULT_COMMAND_TIMEOUT = 3600;
+
+        /// <summary>
+        /// The default command timeout
+        /// </summary>
+        public const int DefaultCommandTimeout = 3600;
 
         // fields
+
+        /// <summary>
+        /// The connection string
+        /// </summary>
         private readonly string connectionString;
-        private DbProviderFactory dbProviderFactory;
+
+        /// <summary>
+        /// The database provider factory
+        /// </summary>
+        private DbProviderFactory providerFactory;
 
         // constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Database"/> class.
+        /// </summary>
+        /// <param name="databaseDriver">The database driver.</param>
+        /// <param name="connectionString">The connection string.</param>
         public Database(string databaseDriver, string connectionString)
         {
-            this.dbProviderFactory = DbProviderFactories.GetFactory(databaseDriver);
+            this.providerFactory = DbProviderFactories.GetFactory(databaseDriver);
             this.connectionString = connectionString;
         }
 
         // methods
+
+        /// <summary>
+        /// Gets the connection.
+        /// </summary>
+        /// <returns>A database connection.</returns>
+        /// <exception cref="System.NotImplementedException">If connection could not be created.</exception>
         public DbConnection GetConnection()
         {
-            DbConnection _connection = this.dbProviderFactory.CreateConnection();
-            if(_connection == null) {
+            DbConnection connection = this.providerFactory.CreateConnection();
+            if (connection == null)
+            {
                 throw new NotImplementedException();
             }
 
-            _connection.ConnectionString = this.connectionString;
-            if(_connection.State == ConnectionState.Closed || _connection.State == ConnectionState.Broken) {
-                _connection.Open();
+            connection.ConnectionString = this.connectionString;
+            if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
+            {
+                connection.Open();
             }
             
-            return _connection;
+            return connection;
         }
 
-        public DbCommand GetCommand(DbConnection connection, string commandText, CommandType commandType = CommandType.Text, int commandTimeout = Database.DEFAULT_COMMAND_TIMEOUT) {
-            DbCommand _result = connection.CreateCommand();
-            if(_result == null) {
+        /// <summary>
+        /// Gets the command.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="commandText">The command text.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <returns>A command object related to database connection.</returns>
+        /// <exception cref="System.NotImplementedException">If command object could not be created.</exception>
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Data access layer already sends queries parameterized.")]
+        public DbCommand GetCommand(DbConnection connection, string commandText, CommandType commandType = CommandType.Text, int commandTimeout = Database.DefaultCommandTimeout)
+        {
+            DbCommand result = connection.CreateCommand();
+            if (result == null)
+            {
                 throw new NotImplementedException();
             }
             
-            _result.CommandText = commandText;
-            _result.CommandType = commandType;
-            _result.CommandTimeout = commandTimeout;
+            result.CommandText = commandText;
+            result.CommandType = commandType;
+            result.CommandTimeout = commandTimeout;
             
-            return _result;
+            return result;
         }
 
-        public DbParameter GetParameter(string name, object value) {
-            DbParameter _result = this.dbProviderFactory.CreateParameter();
-            if(_result == null) {
+        /// <summary>
+        /// Gets the parameter.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>A parameter object related to database.</returns>
+        /// <exception cref="System.NotImplementedException">If parameter object could not be created.</exception>
+        public DbParameter GetParameter(string name, object value)
+        {
+            DbParameter result = this.providerFactory.CreateParameter();
+            if (result == null)
+            {
                 throw new NotImplementedException();
             }
             
-            _result.ParameterName = name;
-            _result.Value = value;
+            result.ParameterName = name;
+            result.Value = value;
             
-            return _result;
+            return result;
         }
 
-        public void ExecuteReader(string commandText, CommandType commandType = CommandType.Text, CommandBehavior commandBehavior = CommandBehavior.Default, IEnumerable<DbParameter> parameters = null, Action<DbDataReader> function = null) {
-            using(DbConnection _connection = this.GetConnection()) {
-                using(DbCommand _command = this.GetCommand(_connection, commandText, commandType)) {
-                    if(parameters != null) {
-                        // Parallel.ForEach<DbParameter>(parameters, _parameter => {
-                        foreach(DbParameter _parameter in parameters) {
-                            _command.Parameters.Add(_parameter);
+        /// <summary>
+        /// Executes the reader.
+        /// </summary>
+        /// <param name="commandText">The command text.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="function">The function.</param>
+        public void ExecuteReader(string commandText, CommandType commandType = CommandType.Text, CommandBehavior commandBehavior = CommandBehavior.Default, IEnumerable<DbParameter> parameters = null, Action<DbDataReader> function = null)
+        {
+            using (DbConnection connection = this.GetConnection())
+            {
+                using (DbCommand command = this.GetCommand(connection, commandText, commandType))
+                {
+                    if (parameters != null)
+                    {
+                        // Parallel.ForEach<DbParameter>(parameters, parameter => {
+                        foreach (DbParameter parameter in parameters)
+                        {
+                            command.Parameters.Add(parameter);
                         }
                     }
                     
-                    using(DbDataReader _reader = _command.ExecuteReader(commandBehavior)) {
-                        try {
-                            if(function != null) {
-                                function.Invoke(_reader);
-                            }
+                    DbDataReader reader = command.ExecuteReader(commandBehavior);
+                    try
+                    {
+                        if (function != null)
+                        {
+                            function.Invoke(reader);
                         }
-                        finally {
-                            _reader.Close();
-                        }
+                    }
+                    finally
+                    {
+                        reader.Close(); // reader.Disponse() instead?
                     }
                 }
                 
-                // _connection.Close();
+                // connection.Close();
             }
         }
 
-        public object ExecuteScalar(string commandText, CommandType commandType = CommandType.Text, IEnumerable<DbParameter> parameters = null) {
-            object _result;
+        /// <summary>
+        /// Executes the scalar.
+        /// </summary>
+        /// <param name="commandText">The command text.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>A single field returned from the database query.</returns>
+        public object ExecuteScalar(string commandText, CommandType commandType = CommandType.Text, IEnumerable<DbParameter> parameters = null)
+        {
+            object result;
             
-            using(DbConnection _connection = this.GetConnection()) {
-                using(DbCommand _command = this.GetCommand(_connection, commandText, commandType)) {
-                    if(parameters != null) {
-                        // Parallel.ForEach<DbParameter>(parameters, _parameter => {
-                        foreach(DbParameter _parameter in parameters) {
-                            _command.Parameters.Add(_parameter);
+            using (DbConnection connection = this.GetConnection())
+            {
+                using (DbCommand command = this.GetCommand(connection, commandText, commandType))
+                {
+                    if (parameters != null)
+                    {
+                        // Parallel.ForEach<DbParameter>(parameters, parameter => {
+                        foreach (DbParameter parameter in parameters)
+                        {
+                            command.Parameters.Add(parameter);
                         }
                     }
                     
-                    _result = _command.ExecuteScalar();
+                    result = command.ExecuteScalar();
                 }
                 
-                // _connection.Close();
+                // connection.Close();
             }
             
-            return _result;
+            return result;
         }
 
-        public int ExecuteNonQuery(string commandText, CommandType commandType = CommandType.Text, IEnumerable<DbParameter> parameters = null) {
-            int _result;
+        /// <summary>
+        /// Executes the non query.
+        /// </summary>
+        /// <param name="commandText">The command text.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>Number of records affected.</returns>
+        public int ExecuteNonQuery(string commandText, CommandType commandType = CommandType.Text, IEnumerable<DbParameter> parameters = null)
+        {
+            int result;
             
-            using(DbConnection _connection = this.GetConnection()) {
-                using(DbCommand _command = this.GetCommand(_connection, commandText, commandType)) {
-                    if(parameters != null) {
-                        // Parallel.ForEach<DbParameter>(parameters, _parameter => {
-                        foreach(DbParameter _parameter in parameters) {
-                            _command.Parameters.Add(_parameter);
+            using (DbConnection connection = this.GetConnection())
+            {
+                using (DbCommand command = this.GetCommand(connection, commandText, commandType))
+                {
+                    if (parameters != null)
+                    {
+                        // Parallel.ForEach<DbParameter>(parameters, parameter => {
+                        foreach (DbParameter parameter in parameters)
+                        {
+                            command.Parameters.Add(parameter);
                         }
                     }
                     
-                    _result = _command.ExecuteNonQuery();
+                    result = command.ExecuteNonQuery();
                 }
                 
-                // _connection.Close();
+                // connection.Close();
             }
             
-            return _result;
+            return result;
         }
     }
 }
-
