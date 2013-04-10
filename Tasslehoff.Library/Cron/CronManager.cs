@@ -121,6 +121,14 @@ namespace Tasslehoff.Library.Cron
         }
 
         /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        public void Clear()
+        {
+            this.parameters.Clear();
+        }
+
+        /// <summary>
         /// Services the start.
         /// </summary>
         protected override void ServiceStart()

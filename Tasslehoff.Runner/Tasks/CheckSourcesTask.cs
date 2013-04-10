@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetStoriesTask.cs" company="-">
+// <copyright file="CheckSourcesTask.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -25,11 +25,12 @@ namespace Tasslehoff.Runner.Tasks
     using System.Data.Common;
     using Tasslehoff.Globals.Entities;
     using Tasslehoff.Library.DataAccess;
+    using Tasslehoff.Library.Utils;
 
     /// <summary>
-    /// GetStoriesTask class.
+    /// CheckSourcesTask class.
     /// </summary>
-    public class GetStoriesTask : ITask
+    public class CheckSourcesTask : ITask
     {
         /// <summary>
         /// Does the task.
@@ -39,7 +40,7 @@ namespace Tasslehoff.Runner.Tasks
             Instance instance = Instance.Context;
             DataEntity<User> users = new DataEntity<User>();
 
-            Console.WriteLine("Executing Task...");
+            Console.WriteLine("Filling the queue...");
             instance.Database.ExecuteReader(
                 "SELECT * FROM users",
                 CommandType.Text,
@@ -55,7 +56,8 @@ namespace Tasslehoff.Runner.Tasks
                             continue;
                         }
 
-                        Console.WriteLine((string)reader["username"]);
+                        byte[] serializedData = VariableUtils.Serialize(user);
+                        Instance.Context.MessageQueue.Enqueue("task_queue", serializedData);
                     }
                 });
 

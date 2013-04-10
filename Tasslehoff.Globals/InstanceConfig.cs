@@ -20,7 +20,6 @@
 
 namespace Tasslehoff.Globals
 {
-    using System;
     using System.Runtime.Serialization;
     using Tasslehoff.Library.Config;
 
@@ -41,14 +40,24 @@ namespace Tasslehoff.Globals
         public string DatabaseDriver { get; set; }
 
         /// <summary>
-        /// Gets or sets the connection string.
+        /// Gets or sets the database connection string.
         /// </summary>
         /// <value>
-        /// The connection string.
+        /// The database connection string.
         /// </value>
         [DataMember]
         [ConfigEntry(DefaultValue = "Server=debian;Port=5432;Database=interesd;User Id=interesd;Password=;")]
-        public string ConnectionString { get; set; }
+        public string DatabaseConnectionString { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RabbitMQ host.
+        /// </summary>
+        /// <value>
+        /// The RabbitMQ host.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "localhost")]
+        public string RabbitMQHost { get; set; }
 
         /// <summary>
         /// Gets or sets the culture.

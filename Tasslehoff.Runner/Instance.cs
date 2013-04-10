@@ -28,6 +28,7 @@ namespace Tasslehoff.Runner
     using Tasslehoff.Library.DataAccess;
     using Tasslehoff.Library.Services;
     using Tasslehoff.Runner.Tasks;
+    using Tasslehoff.Runner.Utils;
 
     /// <summary>
     /// Instance class.
@@ -56,6 +57,11 @@ namespace Tasslehoff.Runner
         /// </summary>
         private readonly CronManager cronManager;
 
+        /// <summary>
+        /// The message queue
+        /// </summary>
+        private RabbitMQConnection messageQueue;
+
         // constructors
 
         /// <summary>
@@ -73,16 +79,11 @@ namespace Tasslehoff.Runner
             this.configuration = configuration;
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
+            this.database = new Database(this.configuration.DatabaseDriver, this.configuration.DatabaseConnectionString);
+
+            RabbitMQConnection.Host = configuration.RabbitMQHost;
+
             this.cronManager = new CronManager();
-            this.database = new Database(this.configuration.DatabaseDriver, this.configuration.ConnectionString);
-
-            GetStoriesTask getStoriesTask = new GetStoriesTask();
-
-            this.cronManager.Add(
-                "cron",
-                new CronItem(
-                    Recurrence.Periodically(TimeSpan.FromSeconds(10)),
-                    new Action(getStoriesTask.Do)));
         }
 
         // properties
@@ -171,6 +172,20 @@ namespace Tasslehoff.Runner
             }
         }
 
+        /// <summary>
+        /// Gets the message queue.
+        /// </summary>
+        /// <value>
+        /// The message queue.
+        /// </value>
+        public RabbitMQConnection MessageQueue
+        {
+            get
+            {
+                return this.messageQueue;
+            }
+        }
+
         // methods
 
         /// <summary>
@@ -178,6 +193,16 @@ namespace Tasslehoff.Runner
         /// </summary>
         protected override void ServiceStart()
         {
+            this.messageQueue = new RabbitMQConnection();
+
+            CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
+            CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), new Action(checkSourcesTask.Do));
+            this.cronManager.Add("checkSources", checkSourcesCronItem);
+
+            FetchStoriesTask fetchStoriesTask = new FetchStoriesTask();
+            CronItem fetchStoriesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(1)), new Action(fetchStoriesTask.Do));
+            this.cronManager.Add("fetchStories", fetchStoriesCronItem);
+
             this.cronManager.Start();
         }
 
@@ -187,6 +212,21 @@ namespace Tasslehoff.Runner
         protected override void ServiceStop()
         {
             this.cronManager.Stop();
+            this.cronManager.Clear();
+
+            this.messageQueue.Dispose();
+        }
+
+        /// <summary>
+        /// Called when [dispose].
+        /// </summary>
+        protected override void OnDispose()
+        {
+            base.OnDispose();
+
+            this.cronManager.Dispose();
+
+            this.messageQueue.Dispose();
         }
     }
 }

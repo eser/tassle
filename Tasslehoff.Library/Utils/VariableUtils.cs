@@ -21,6 +21,8 @@
 namespace Tasslehoff.Library.Utils
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     /// VariableUtils class.
@@ -70,6 +72,45 @@ namespace Tasslehoff.Library.Utils
             }
 
             return hash;
+        }
+
+        /// <summary>
+        /// Serializes an object to byte array.
+        /// </summary>
+        /// <param name="graph">The graph.</param>
+        /// <returns>Serialized byte array</returns>
+        public static byte[] Serialize(object graph)
+        {
+            byte[] bytes;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(memoryStream, graph);
+
+                bytes = memoryStream.ToArray();
+            }
+
+            return bytes;
+        }
+
+        /// <summary>
+        /// Deserializes byte array to an object.
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns>Deserialized object</returns>
+        public static T Deserialize<T>(byte[] bytes)
+        {
+            T graph;
+
+            using (MemoryStream memoryStream = new MemoryStream(bytes, false))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                graph = (T)formatter.Deserialize(memoryStream);
+            }
+
+            return graph;
         }
     }
 }

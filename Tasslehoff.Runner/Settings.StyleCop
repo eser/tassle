@@ -2,6 +2,7 @@
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
       <Value>cron</Value>
+      <Value>Dequeues</Value>
     </CollectionProperty>
   </GlobalSettings>
 </StyleCopSettings>

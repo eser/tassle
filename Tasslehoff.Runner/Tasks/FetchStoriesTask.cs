@@ -1,5 +1,5 @@
-// -----------------------------------------------------------------------
-// <copyright file="User.cs" company="-">
+﻿// -----------------------------------------------------------------------
+// <copyright file="FetchStoriesTask.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,37 +18,33 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Globals.Entities
+namespace Tasslehoff.Runner.Tasks
 {
     using System;
-    using System.Runtime.Serialization;
-    using Tasslehoff.Library.DataAccess;
+    using Tasslehoff.Globals.Entities;
+    using Tasslehoff.Library.Utils;
 
     /// <summary>
-    /// User entity class
+    /// FetchStoriesTask class.
     /// </summary>
-    [Serializable]
-    [DataContract]
-    public class User : IDataEntity
+    public class FetchStoriesTask : ITask
     {
         /// <summary>
-        /// Gets or sets the user id.
+        /// Does the task.
         /// </summary>
-        /// <value>
-        /// The user id.
-        /// </value>
-        [DataMember]
-        [DataEntityField(FieldName = "userid")]
-        public Guid UserId { get; set; }
+        public void Do()
+        {
+            Instance instance = Instance.Context;
 
-        /// <summary>
-        /// Gets or sets the username.
-        /// </summary>
-        /// <value>
-        /// The username.
-        /// </value>
-        [DataMember]
-        [DataEntityField(FieldName = "username")]
-        public string Username { get; set; }
+            byte[] bytes = instance.MessageQueue.Dequeue("task_queue", 1000);
+            if (bytes == null)
+            {
+                Console.WriteLine("end of queue");
+                return;
+            }
+
+            User user = VariableUtils.Deserialize<User>(bytes);
+            Console.WriteLine(user.Username);
+        }
     }
 }
