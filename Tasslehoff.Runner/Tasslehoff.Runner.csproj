@@ -53,6 +53,7 @@
     <Compile Include="Tasks\FetchStoriesTask.cs" />
     <Compile Include="Tasks\CheckSourcesTask.cs" />
     <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Utils\MemcachedConnection.cs" />
     <Compile Include="Utils\RabbitMQConnection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -3,6 +3,7 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>cron</Value>
       <Value>Dequeues</Value>
+      <Value>Memcached</Value>
     </CollectionProperty>
   </GlobalSettings>
 </StyleCopSettings>

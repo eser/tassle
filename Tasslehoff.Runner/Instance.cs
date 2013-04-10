@@ -178,6 +178,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The message queue.
         /// </value>
+        [CLSCompliant(false)]
         public RabbitMQConnection MessageQueue
         {
             get
