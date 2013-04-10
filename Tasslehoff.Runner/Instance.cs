@@ -21,21 +21,18 @@
 namespace Tasslehoff.Runner
 {
     using System;
-    using System.Data;
-    using System.Data.Common;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Threading;
-    using System.Threading.Tasks;
     using Tasslehoff.Globals;
-    using Tasslehoff.Globals.Entities;
     using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.DataAccess;
+    using Tasslehoff.Library.Services;
+    using Tasslehoff.Runner.Tasks;
 
     /// <summary>
     /// Instance class.
     /// </summary>
-    public class Instance
+    public class Instance : ServiceControllable
     {
         // fields
 
@@ -49,13 +46,23 @@ namespace Tasslehoff.Runner
         /// </summary>
         private readonly InstanceConfig configuration;
 
+        /// <summary>
+        /// The database
+        /// </summary>
+        private readonly Database database;
+
+        /// <summary>
+        /// The cron manager
+        /// </summary>
+        private readonly CronManager cronManager;
+
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Instance"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public Instance(InstanceConfig configuration)
+        public Instance(InstanceConfig configuration) : base()
         {
             // singleton pattern
             if (Instance.context == null)
@@ -64,56 +71,18 @@ namespace Tasslehoff.Runner
             }
 
             this.configuration = configuration;
-
-            DataEntity<User> users = new DataEntity<User>();
-
-            Database database = new Database(this.configuration.DatabaseDriver, this.configuration.ConnectionString);
-            database.ExecuteReader(
-                "SELECT * FROM users",
-                CommandType.Text,
-                CommandBehavior.Default,
-                null,
-                (DbDataReader reader) =>
-                {
-                    while (reader.Read())
-                    {
-                        User user = users.GetItem(reader);
-                        if (user.Username == null)
-                        {
-                            continue;
-                        }
-
-                        Console.WriteLine((string)reader["username"]);
-                    }
-                });
-
-            //// var client = new FacebookClient();
-            //// dynamic me = client.Get("larukedi");
-            //// Console.WriteLine(me.name);
-
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
-            CronManager cronManager = new CronManager();
-            cronManager.Add(
+            this.cronManager = new CronManager();
+            this.database = new Database(this.configuration.DatabaseDriver, this.configuration.ConnectionString);
+
+            GetStoriesTask getStoriesTask = new GetStoriesTask();
+
+            this.cronManager.Add(
                 "cron",
                 new CronItem(
-                    Recurrence.Periodically(TimeSpan.FromSeconds(1)),
-                    () =>
-                    {
-                        Console.WriteLine("1");
-                    }));
-            cronManager.Add(
-                "cron2",
-                new CronItem(
-                    Recurrence.Periodically(TimeSpan.FromSeconds(2)),
-                    () =>
-                    {
-                        Console.WriteLine("2");
-                    }));
-
-            cronManager.Start();
-
-            Console.Read();
+                    Recurrence.Periodically(TimeSpan.FromSeconds(10)),
+                    new Action(getStoriesTask.Do)));
         }
 
         // properties
@@ -130,6 +99,94 @@ namespace Tasslehoff.Runner
             {
                 return Instance.context;
             }
+        }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public override string Name
+        {
+            get
+            {
+                return "Tasslehoff Runner";
+            }
+        }
+
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
+        public override string Description
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
+        public InstanceConfig Configuration
+        {
+            get
+            {
+                return this.configuration;
+            }
+        }
+
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>
+        /// The database.
+        /// </value>
+        public Database Database
+        {
+            get
+            {
+                return this.database;
+            }
+        }
+
+        /// <summary>
+        /// Gets the cron manager.
+        /// </summary>
+        /// <value>
+        /// The cron manager.
+        /// </value>
+        public CronManager CronManager
+        {
+            get
+            {
+                return this.cronManager;
+            }
+        }
+
+        // methods
+
+        /// <summary>
+        /// Services the start.
+        /// </summary>
+        protected override void ServiceStart()
+        {
+            this.cronManager.Start();
+        }
+
+        /// <summary>
+        /// Services the stop.
+        /// </summary>
+        protected override void ServiceStop()
+        {
+            this.cronManager.Stop();
         }
     }
 }
