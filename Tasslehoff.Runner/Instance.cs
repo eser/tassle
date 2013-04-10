@@ -23,9 +23,13 @@ namespace Tasslehoff.Runner
     using System;
     using System.Data;
     using System.Data.Common;
-    using Facebook;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Tasslehoff.Globals;
     using Tasslehoff.Globals.Entities;
+    using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.DataAccess;
 
     /// <summary>
@@ -83,9 +87,23 @@ namespace Tasslehoff.Runner
                     }
                 });
 
-            var client = new FacebookClient();
-            dynamic me = client.Get("larukedi");
-            Console.WriteLine(me.name);
+            //// var client = new FacebookClient();
+            //// dynamic me = client.Get("larukedi");
+            //// Console.WriteLine(me.name);
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-us");
+
+            CronManager cronManager = new CronManager();
+            cronManager.Add(
+                "cron",
+                new CronItem(
+                    Recurrence.Periodically(TimeSpan.FromSeconds(5)),
+                    () =>
+                    {
+                        Console.WriteLine("test");
+                    }));
+
+            cronManager.Start();
 
             Console.Read();
         }

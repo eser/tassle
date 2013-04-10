@@ -1,0 +1,9 @@
+<StyleCopSettings Version="105">
+  <GlobalSettings>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>Cron</Value>
+      <Value>partow</Value>
+      <Value>Sedgwicks</Value>
+    </CollectionProperty>
+  </GlobalSettings>
+</StyleCopSettings>

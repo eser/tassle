@@ -39,6 +39,14 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cron\CronItem.cs" />
+    <Compile Include="Cron\CronItemStatus.cs" />
+    <Compile Include="Cron\CronManager.cs" />
+    <Compile Include="Cron\DayFlags.cs" />
+    <Compile Include="Cron\DayOfWeekFlags.cs" />
+    <Compile Include="Cron\HourFlags.cs" />
+    <Compile Include="Cron\MonthFlags.cs" />
+    <Compile Include="Cron\Recurrence.cs" />
     <Compile Include="DataAccess\IDataEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Database.cs" />
@@ -53,19 +61,23 @@
     <Compile Include="Logger\LogLevel.cs" />
     <Compile Include="Logger\LogEntry.cs" />
     <Compile Include="Logger\LoggerDelegate.cs" />
+    <Compile Include="Services\LocalResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\VariableUtils.cs" />
     <Compile Include="Logger\StreamLogger.cs" />
     <Compile Include="Services\ServiceStatus.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\ServiceControllable.cs" />
     <Compile Include="Services\ServiceStatusChangedEventArgs.cs" />
-    <Compile Include="Services\LocalResource.Designer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Cron\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Services\LocalResource.resx" />
+    <EmbeddedResource Include="Services\LocalResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
