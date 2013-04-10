@@ -21,15 +21,15 @@
 namespace Tasslehoff.Runner.Utils
 {
     using System;
-    using System.Collections.Generic;
     using Enyim.Caching;
+    using Enyim.Caching.Configuration;
     using Enyim.Caching.Memcached;
+    using Tasslehoff.Library.Utils;
 
     /// <summary>
     /// MemcachedConnection class.
     /// </summary>
-    [CLSCompliant(false)]
-    public class MemcachedConnection : IDisposable
+    internal class MemcachedConnection : IDisposable
     {
         // fields
 
@@ -39,9 +39,9 @@ namespace Tasslehoff.Runner.Utils
         public const int DefaultTimeout = 3600;
 
         /// <summary>
-        /// The host
+        /// The addresses
         /// </summary>
-        private readonly string host;
+        private readonly string[] addresses;
 
         /// <summary>
         /// The connection
@@ -58,10 +58,22 @@ namespace Tasslehoff.Runner.Utils
         /// <summary>
         /// Initializes a new instance of the <see cref="MemcachedConnection" /> class.
         /// </summary>
-        /// <param name="host">The host.</param>
-        public MemcachedConnection(string host)
+        /// <param name="addresses">The addresses.</param>
+        public MemcachedConnection(string[] addresses)
         {
-            this.host = host;
+            this.addresses = addresses;
+            
+            if (this.addresses.Length > 0)
+            {
+                MemcachedClientConfiguration configuration = new MemcachedClientConfiguration();
+                
+                foreach (string address in addresses)
+                {
+                    configuration.AddServer(address);
+                }
+
+                this.connection = new MemcachedClient(configuration);
+            }
         }
 
         /// <summary>
@@ -75,16 +87,16 @@ namespace Tasslehoff.Runner.Utils
         // attributes
 
         /// <summary>
-        /// Gets the host.
+        /// Gets the addresses.
         /// </summary>
         /// <value>
-        /// The host.
+        /// The addresses.
         /// </value>
-        public string Host
+        public string[] Addresses
         {
             get
             {
-                return this.host;
+                return this.addresses;
             }
         }
 
@@ -112,6 +124,11 @@ namespace Tasslehoff.Runner.Utils
         /// <returns>The cached object.</returns>
         public T Get<T>(string key) where T : class
         {
+            if (this.connection == null)
+            {
+                return null;
+            }
+
             return this.connection.Get(key) as T;
         }
 
@@ -124,9 +141,14 @@ namespace Tasslehoff.Runner.Utils
         /// <returns>Is written to cache or not.</returns>
         public bool Set(string key, object value, DateTime? expiresAt = null)
         {
+            if (this.connection == null)
+            {
+                return false;
+            }
+
             if (expiresAt.HasValue)
             {
-                return this.connection.Store(StoreMode.Set, key, value, expiresAt.Value);
+                return this.connection.Store(StoreMode.Set, key, value, expiresAt.Value.Subtract(DateTime.UtcNow));
             }
 
             return this.connection.Store(StoreMode.Set, key, value);
@@ -146,6 +168,7 @@ namespace Tasslehoff.Runner.Utils
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "connection", Justification = "connection is already will be disposed using CheckAndDispose method.")]
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -155,7 +178,8 @@ namespace Tasslehoff.Runner.Utils
 
             if (disposing)
             {
-                this.connection.Dispose();
+                VariableUtils.CheckAndDispose(this.connection);
+                this.connection = null;
             }
 
             this.disposed = true;

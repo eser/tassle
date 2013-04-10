@@ -50,14 +50,24 @@ namespace Tasslehoff.Globals
         public string DatabaseConnectionString { get; set; }
 
         /// <summary>
-        /// Gets or sets the RabbitMQ host.
+        /// Gets or sets the RabbitMQ address.
         /// </summary>
         /// <value>
-        /// The RabbitMQ host.
+        /// The RabbitMQ address.
         /// </value>
         [DataMember]
         [ConfigEntry(DefaultValue = "localhost")]
-        public string RabbitMQHost { get; set; }
+        public string RabbitMQAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the memcached addresses.
+        /// </summary>
+        /// <value>
+        /// The memcached addresses.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = null)]
+        public string MemcachedAddresses { get; set; }
 
         /// <summary>
         /// Gets or sets the culture.

@@ -27,6 +27,7 @@ namespace Tasslehoff.Runner
     using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.DataAccess;
     using Tasslehoff.Library.Services;
+    using Tasslehoff.Library.Utils;
     using Tasslehoff.Runner.Tasks;
     using Tasslehoff.Runner.Utils;
 
@@ -60,7 +61,12 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// The message queue
         /// </summary>
-        private RabbitMQConnection messageQueue;
+        private RabbitMQConnection messageQueue = null;
+
+        /// <summary>
+        /// The cache
+        /// </summary>
+        private MemcachedConnection cache = null;
 
         // constructors
 
@@ -81,7 +87,7 @@ namespace Tasslehoff.Runner
 
             this.database = new Database(this.configuration.DatabaseDriver, this.configuration.DatabaseConnectionString);
 
-            RabbitMQConnection.Host = configuration.RabbitMQHost;
+            RabbitMQConnection.Address = configuration.RabbitMQAddress;
 
             this.cronManager = new CronManager();
         }
@@ -178,12 +184,25 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The message queue.
         /// </value>
-        [CLSCompliant(false)]
-        public RabbitMQConnection MessageQueue
+        internal RabbitMQConnection MessageQueue
         {
             get
             {
                 return this.messageQueue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the cache.
+        /// </summary>
+        /// <value>
+        /// The cache.
+        /// </value>
+        internal MemcachedConnection Cache
+        {
+            get
+            {
+                return this.cache;
             }
         }
 
@@ -195,6 +214,9 @@ namespace Tasslehoff.Runner
         protected override void ServiceStart()
         {
             this.messageQueue = new RabbitMQConnection();
+
+            string[] memcachedAddresses = !string.IsNullOrWhiteSpace(this.configuration.MemcachedAddresses) ? this.configuration.MemcachedAddresses.Split(',') : new string[0];
+            this.cache = new MemcachedConnection(memcachedAddresses);
 
             CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
             CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), new Action(checkSourcesTask.Do));
@@ -215,7 +237,11 @@ namespace Tasslehoff.Runner
             this.cronManager.Stop();
             this.cronManager.Clear();
 
-            this.messageQueue.Dispose();
+            VariableUtils.CheckAndDispose(this.cache);
+            this.cache = null;
+
+            VariableUtils.CheckAndDispose(this.messageQueue);
+            this.messageQueue = null;
         }
 
         /// <summary>
@@ -225,9 +251,13 @@ namespace Tasslehoff.Runner
         {
             base.OnDispose();
 
-            this.cronManager.Dispose();
+            VariableUtils.CheckAndDispose(this.cronManager);
 
-            this.messageQueue.Dispose();
+            VariableUtils.CheckAndDispose(this.cache);
+            this.cache = null;
+
+            VariableUtils.CheckAndDispose(this.messageQueue);
+            this.messageQueue = null;
         }
     }
 }

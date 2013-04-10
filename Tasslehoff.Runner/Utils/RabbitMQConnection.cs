@@ -24,12 +24,12 @@ namespace Tasslehoff.Runner.Utils
     using System.Collections.Generic;
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
+    using Tasslehoff.Library.Utils;
 
     /// <summary>
     /// RabbitMQConnection class.
     /// </summary>
-    [CLSCompliant(false)]
-    public class RabbitMQConnection : IDisposable
+    internal class RabbitMQConnection : IDisposable
     {
         // fields
 
@@ -39,9 +39,9 @@ namespace Tasslehoff.Runner.Utils
         public const int DefaultTimeout = 3600;
 
         /// <summary>
-        /// The host
+        /// The address
         /// </summary>
-        private static string host = null;
+        private static string address = null;
 
         /// <summary>
         /// The connection factory
@@ -49,14 +49,14 @@ namespace Tasslehoff.Runner.Utils
         private static ConnectionFactory connectionFactory = null;
 
         /// <summary>
-        /// The connection
-        /// </summary>
-        private readonly IConnection connection;
-
-        /// <summary>
         /// The models
         /// </summary>
         private readonly IDictionary<string, IModel> models;
+
+        /// <summary>
+        /// The connection
+        /// </summary>
+        private IConnection connection = null;
 
         /// <summary>
         /// The consumer
@@ -75,16 +75,16 @@ namespace Tasslehoff.Runner.Utils
         /// </summary>
         public RabbitMQConnection()
         {
-            if (RabbitMQConnection.host == null)
+            if (RabbitMQConnection.address == null)
             {
-                throw new ArgumentNullException("host", "Hostname is not specified for RabbitMQConnection.");
+                throw new ArgumentNullException("address", "Address is not specified for RabbitMQConnection.");
             }
 
             if (RabbitMQConnection.connectionFactory == null)
             {
                 RabbitMQConnection.connectionFactory = new ConnectionFactory()
                 {
-                    HostName = RabbitMQConnection.host
+                    HostName = RabbitMQConnection.address
                 };
             }
 
@@ -103,21 +103,21 @@ namespace Tasslehoff.Runner.Utils
         // attributes
 
         /// <summary>
-        /// Gets or sets the host.
+        /// Gets or sets the address.
         /// </summary>
         /// <value>
-        /// The host.
+        /// The address.
         /// </value>
-        public static string Host
+        public static string Address
         {
             get
             {
-                return RabbitMQConnection.host;
+                return RabbitMQConnection.address;
             }
 
             set
             {
-                RabbitMQConnection.host = value;
+                RabbitMQConnection.address = value;
             }
         }
 
@@ -260,10 +260,13 @@ namespace Tasslehoff.Runner.Utils
             {
                 foreach (IModel model in this.models.Values)
                 {
-                    model.Dispose();
+                    VariableUtils.CheckAndDispose(model);
                 }
 
-                this.connection.Dispose();
+                this.models.Clear();
+
+                VariableUtils.CheckAndDispose(this.connection);
+                this.connection = null;
             }
 
             this.disposed = true;

@@ -21,7 +21,6 @@
 namespace Tasslehoff.Library.Logger
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Tasslehoff.Library.Utils;
 
@@ -50,7 +49,7 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// The assigned logger
         /// </summary>
-        private Logger assignedLogger;
+        private Logger assignedLogger = null;
 
         /// <summary>
         /// The disposed
@@ -288,6 +287,7 @@ namespace Tasslehoff.Library.Logger
         protected virtual void OnDispose()
         {
             VariableUtils.CheckAndDispose(this.assignedLogger);
+            this.assignedLogger = null;
         }
     }
 }

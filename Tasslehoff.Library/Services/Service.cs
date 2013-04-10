@@ -50,7 +50,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// The log
         /// </summary>
-        private LoggerDelegate log;
+        private LoggerDelegate log = null;
 
         /// <summary>
         /// The disposed
@@ -228,6 +228,7 @@ namespace Tasslehoff.Library.Services
             if (disposing)
             {
                 VariableUtils.CheckAndDispose(this.log);
+                this.log = null;
 
                 this.OnDispose();
             }
