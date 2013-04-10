@@ -49,5 +49,15 @@ namespace Tasslehoff.Globals
         [DataMember]
         [ConfigEntry(DefaultValue = "Server=debian;Port=5432;Database=interesd;User Id=interesd;Password=;")]
         public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// Gets or sets the culture.
+        /// </summary>
+        /// <value>
+        /// The culture.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "en-us")]
+        public string Culture { get; set; }
     }
 }

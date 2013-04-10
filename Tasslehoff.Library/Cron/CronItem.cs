@@ -171,7 +171,7 @@ namespace Tasslehoff.Library.Cron
                 return;
             }
 
-            this.task.Invoke();
+            System.Threading.Tasks.Task.Run(this.task);
             this.lastRun = now;
             if (this.recurrence.Interval == TimeSpan.Zero)
             {

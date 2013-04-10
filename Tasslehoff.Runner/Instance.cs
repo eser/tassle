@@ -91,16 +91,24 @@ namespace Tasslehoff.Runner
             //// dynamic me = client.Get("larukedi");
             //// Console.WriteLine(me.name);
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-us");
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
             CronManager cronManager = new CronManager();
             cronManager.Add(
                 "cron",
                 new CronItem(
-                    Recurrence.Periodically(TimeSpan.FromSeconds(5)),
+                    Recurrence.Periodically(TimeSpan.FromSeconds(1)),
                     () =>
                     {
-                        Console.WriteLine("test");
+                        Console.WriteLine("1");
+                    }));
+            cronManager.Add(
+                "cron2",
+                new CronItem(
+                    Recurrence.Periodically(TimeSpan.FromSeconds(2)),
+                    () =>
+                    {
+                        Console.WriteLine("2");
                     }));
 
             cronManager.Start();

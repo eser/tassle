@@ -145,12 +145,10 @@ namespace Tasslehoff.Library.Cron
         {
             this.now = e.SignalTime.ToUniversalTime();
 
-            Parallel.ForEach<KeyValuePair<string, CronItem>>(
-                this.parameters,
-                (pair) =>
-                {
-                    pair.Value.Run(this.now);
-                });
+            foreach (KeyValuePair<string, CronItem> pair in this.parameters)
+            {
+                pair.Value.Run(this.now);
+            }
 
             this.timer.Start();
         }
