@@ -61,17 +61,11 @@ namespace Tasslehoff
                 return;
             }
 
-            CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
-            CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), checkSourcesTask.Do);
-            instance.CronManager.Add("checkSources", checkSourcesCronItem);
-
-            FetchStoriesTask fetchStoriesTask = new FetchStoriesTask();
-            CronItem fetchStoriesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(5)), fetchStoriesTask.Do, TimeSpan.FromSeconds(4));
-            instance.CronManager.Add("fetchStories", fetchStoriesCronItem);
-
-            ////TestTask testTask = new TestTask();
-            ////CronItem testCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(10)), testTask.Do, TimeSpan.FromSeconds(5));
-            ////instance.CronManager.Add("test", testCronItem);
+            #if DEBUG
+            TestTask testTask = new TestTask();
+            CronItem testCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(10)), testTask.Do, TimeSpan.FromSeconds(5));
+            instance.CronManager.Add("test", testCronItem);
+            #endif
 
             instance.Start();
 

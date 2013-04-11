@@ -28,7 +28,7 @@ namespace Tasslehoff.Library.Services
     /// <summary>
     /// Service class.
     /// </summary>
-    public abstract class Service : IDisposable
+    public abstract class Service : IService
     {
         // fields
 

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="FetchStoriesTask.cs" company="-">
+// <copyright file="IServiceControllable.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,42 +18,38 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff
+namespace Tasslehoff.Library.Services
 {
     using System;
-    using Tasslehoff.Globals.Entities;
-    using Tasslehoff.Library.Cron;
-    using Tasslehoff.Library.Utils;
-    using Tasslehoff.Runner;
 
     /// <summary>
-    /// FetchStoriesTask class.
+    /// IServiceControllable interface.
     /// </summary>
-    public class FetchStoriesTask : ITask
+    public interface IServiceControllable : IService
     {
         /// <summary>
-        /// Does the task.
+        /// Occurs when [on start].
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        public void Do(CronActionParameters parameters)
-        {
-            Instance instance = Instance.Context;
+        event EventHandler<ServiceStatusChangedEventArgs> OnStart;
 
-            Console.WriteLine("Started: FetchStories");
-            while (!parameters.MustBeFinished())
-            {
-                byte[] bytes = instance.MessageQueue.Dequeue("task_queue", 1000);
-                if (bytes == null)
-                {
-                    Console.WriteLine("end of queue");
-                    break;
-                }
+        /// <summary>
+        /// Occurs when [on stop].
+        /// </summary>
+        event EventHandler<ServiceStatusChangedEventArgs> OnStop;
 
-                User user = SerializationUtils.Deserialize<User>(bytes);
-                Console.WriteLine(user.Username);
-            }
+        /// <summary>
+        /// Restarts this instance.
+        /// </summary>
+        void Restart();
 
-            Console.WriteLine("Finished: FetchStories");
-        }
+        /// <summary>
+        /// Starts this instance.
+        /// </summary>
+        void Start();
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        void Stop();
     }
 }

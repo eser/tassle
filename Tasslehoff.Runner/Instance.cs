@@ -21,16 +21,17 @@
 namespace Tasslehoff.Runner
 {
     using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    using Tasslehoff.Globals;
-    using Tasslehoff.Library.Config;
-    using Tasslehoff.Library.Cron;
-    using Tasslehoff.Library.DataAccess;
-    using Tasslehoff.Library.Extensions;
-    using Tasslehoff.Library.Services;
-    using Tasslehoff.Library.Utils;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using Tasslehoff.Globals;
+using Tasslehoff.Library.Config;
+using Tasslehoff.Library.Cron;
+using Tasslehoff.Library.DataAccess;
+using Tasslehoff.Library.Extensions;
+using Tasslehoff.Library.Plugins;
+using Tasslehoff.Library.Services;
+using Tasslehoff.Library.Utils;
 
     /// <summary>
     /// Instance class.
@@ -50,6 +51,11 @@ namespace Tasslehoff.Runner
         /// The context
         /// </summary>
         private static Instance context = null;
+
+        /// <summary>
+        /// The options
+        /// </summary>
+        private readonly InstanceOptions options;
 
         /// <summary>
         /// The configuration.
@@ -72,6 +78,11 @@ namespace Tasslehoff.Runner
         private readonly ExtensionManager extensionManager;
 
         /// <summary>
+        /// The plugin container
+        /// </summary>
+        private readonly PluginContainer pluginContainer;
+
+        /// <summary>
         /// The message queue
         /// </summary>
         private RabbitMQConnection messageQueue = null;
@@ -86,8 +97,10 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// Initializes a new instance of the <see cref="Instance"/> class.
         /// </summary>
+        /// <param name="options">The options.</param>
         /// <param name="configuration">The configuration.</param>
-        internal Instance(InstanceConfig configuration) : base()
+        /// <returns>Created instance.</returns>
+        internal Instance(InstanceOptions options, InstanceConfig configuration) : base()
         {
             // singleton pattern
             if (Instance.context == null)
@@ -95,6 +108,8 @@ namespace Tasslehoff.Runner
                 Instance.context = this;
             }
 
+            // initialization
+            this.options = options;
             this.configuration = configuration;
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
@@ -108,7 +123,15 @@ namespace Tasslehoff.Runner
             this.extensionManager = new ExtensionManager();
             this.AddChild(this.extensionManager);
 
-            // this.extensionManager.SearchFiles(
+            // search for extensions
+            string extensionDirectory = Path.Combine(this.options.WorkingDirectory, "extensions");
+            if (Directory.Exists(extensionDirectory))
+            {
+                this.extensionManager.SearchFiles(extensionDirectory + "\\*.dll");
+            }
+            
+            this.pluginContainer = new PluginContainer(this.extensionManager);
+            this.AddChild(this.pluginContainer);
         }
 
         // properties
@@ -152,6 +175,20 @@ namespace Tasslehoff.Runner
             get
             {
                 return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets the options.
+        /// </summary>
+        /// <value>
+        /// The options.
+        /// </value>
+        public InstanceOptions Options
+        {
+            get
+            {
+                return this.options;
             }
         }
 
@@ -277,6 +314,8 @@ namespace Tasslehoff.Runner
                 throw new ArgumentException("Working directory not found or inaccessible - \"" + workingDirectory + "\".", "--working-dir");
             }
 
+            options.WorkingDirectory = workingDirectory;
+
             // config file
             string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, Instance.ConfigFilename);
 
@@ -297,6 +336,8 @@ namespace Tasslehoff.Runner
                 throw new ArgumentException("File not found or inaccessible - \"" + configFile + "\".", "--config");
             }
 
+            options.ConfigFile = configFile;
+
             // help
             bool showHelp = options.ShowHelp;
 
@@ -306,7 +347,7 @@ namespace Tasslehoff.Runner
                 return null;
             }
 
-            return new Instance(config);
+            return new Instance(options, config);
         }
 
         /// <summary>

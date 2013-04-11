@@ -36,7 +36,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// The children
         /// </summary>
-        private readonly IDictionary<string, Service> children;
+        private readonly IDictionary<string, IService> children;
 
         // constructors
 
@@ -45,7 +45,7 @@ namespace Tasslehoff.Library.Services
         /// </summary>
         protected ServiceContainer() : base()
         {
-            this.children = new Dictionary<string, Service>();
+            this.children = new Dictionary<string, IService>();
         }
 
         // attributes
@@ -56,7 +56,7 @@ namespace Tasslehoff.Library.Services
         /// <value>
         /// The children.
         /// </value>
-        public IDictionary<string, Service> Children
+        public IDictionary<string, IService> Children
         {
             get
             {
@@ -70,7 +70,7 @@ namespace Tasslehoff.Library.Services
         /// Adds the child.
         /// </summary>
         /// <param name="service">The service.</param>
-        public void AddChild(Service service)
+        public void AddChild(IService service)
         {
             this.children.Add(service.Name, service);
         }
@@ -119,10 +119,10 @@ namespace Tasslehoff.Library.Services
                 }
                 
                 // stop children
-                Service[] childServices = ArrayUtils.GetArray<Service>(this.children.Values);
+                IService[] childServices = ArrayUtils.GetArray<IService>(this.children.Values);
                 Array.Reverse(childServices);
 
-                foreach (Service child in childServices)
+                foreach (IService child in childServices)
                 {
                     ServiceControllable controllableChild = child as ServiceControllable;
 
@@ -154,10 +154,10 @@ namespace Tasslehoff.Library.Services
 
             if (disposing)
             {
-                Service[] childServices = ArrayUtils.GetArray<Service>(this.children.Values);
+                IService[] childServices = ArrayUtils.GetArray<IService>(this.children.Values);
                 Array.Reverse(childServices);
 
-                foreach (Service child in childServices)
+                foreach (IService child in childServices)
                 {
                     child.Dispose();
                 }
