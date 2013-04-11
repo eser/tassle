@@ -20,11 +20,15 @@
 
 namespace Tasslehoff.Runner
 {
+    using System;
     using System.Globalization;
+    using System.IO;
     using System.Threading;
     using Tasslehoff.Globals;
+    using Tasslehoff.Library.Config;
     using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.DataAccess;
+    using Tasslehoff.Library.Extensions;
     using Tasslehoff.Library.Services;
     using Tasslehoff.Library.Utils;
 
@@ -33,6 +37,13 @@ namespace Tasslehoff.Runner
     /// </summary>
     public class Instance : ServiceContainer
     {
+        // constants
+
+        /// <summary>
+        /// Filename of the default configuration file
+        /// </summary>
+        public const string ConfigFilename = "instanceConfig.json"; 
+
         // fields
 
         /// <summary>
@@ -56,6 +67,11 @@ namespace Tasslehoff.Runner
         private readonly CronManager cronManager;
 
         /// <summary>
+        /// The extension manager
+        /// </summary>
+        private readonly ExtensionManager extensionManager;
+
+        /// <summary>
         /// The message queue
         /// </summary>
         private RabbitMQConnection messageQueue = null;
@@ -71,7 +87,7 @@ namespace Tasslehoff.Runner
         /// Initializes a new instance of the <see cref="Instance"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public Instance(InstanceConfig configuration) : base()
+        internal Instance(InstanceConfig configuration) : base()
         {
             // singleton pattern
             if (Instance.context == null)
@@ -88,6 +104,11 @@ namespace Tasslehoff.Runner
 
             this.cronManager = new CronManager();
             this.AddChild(this.cronManager);
+
+            this.extensionManager = new ExtensionManager();
+            this.AddChild(this.extensionManager);
+
+            // this.extensionManager.SearchFiles(
         }
 
         // properties
@@ -177,6 +198,20 @@ namespace Tasslehoff.Runner
         }
 
         /// <summary>
+        /// Gets the extension manager.
+        /// </summary>
+        /// <value>
+        /// The extension manager.
+        /// </value>
+        public ExtensionManager ExtensionManager
+        {
+            get
+            {
+                return this.extensionManager;
+            }
+        }
+
+        /// <summary>
         /// Gets the message queue.
         /// </summary>
         /// <value>
@@ -205,6 +240,74 @@ namespace Tasslehoff.Runner
         }
 
         // methods
+
+        /// <summary>
+        /// Writes the header.
+        /// </summary>
+        /// <param name="output">The output.</param>
+        public static void WriteHeader(TextWriter output)
+        {
+            output.WriteLine("Tasslehoff 1.0  (c) 2013 larukedi (eser@sent.com). All rights reserved.");
+            output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
+            output.WriteLine();
+        }
+
+        /// <summary>
+        /// Creates the specified options.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <param name="output">The output.</param>
+        /// <returns>
+        /// Created instance.
+        /// </returns>
+        public static Instance Create(InstanceOptions options, TextWriter output)
+        {
+            Instance.WriteHeader(output);
+
+            // working directory
+            string workingDirectory = options.WorkingDirectory ?? ".";
+
+            if (!Path.IsPathRooted(workingDirectory))
+            {
+                workingDirectory = Path.Combine(Environment.CurrentDirectory, workingDirectory);
+            }
+
+            if (!Directory.Exists(workingDirectory))
+            {
+                throw new ArgumentException("Working directory not found or inaccessible - \"" + workingDirectory + "\".", "--working-dir");
+            }
+
+            // config file
+            string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, Instance.ConfigFilename);
+
+            InstanceConfig config;
+            if (File.Exists(configFile))
+            {
+                Stream fileStream = File.OpenRead(configFile);
+                config = ConfigSerializer.Load<InstanceConfig>(fileStream);
+            }
+            else if (options.ConfigFile == null)
+            {
+                config = new InstanceConfig();
+                ConfigSerializer.Reset(config);
+                ConfigSerializer.Save(File.OpenWrite(configFile), config);
+            }
+            else
+            {
+                throw new ArgumentException("File not found or inaccessible - \"" + configFile + "\".", "--config");
+            }
+
+            // help
+            bool showHelp = options.ShowHelp;
+
+            if (showHelp)
+            {
+                output.Write(InstanceOptions.Help());
+                return null;
+            }
+
+            return new Instance(config);
+        }
 
         /// <summary>
         /// Services the start.

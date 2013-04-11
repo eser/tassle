@@ -22,6 +22,7 @@ namespace Tasslehoff
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using Tasslehoff.Globals;
     using Tasslehoff.Library.Config;
@@ -33,13 +34,6 @@ namespace Tasslehoff
     /// </summary>
     public class Program
     {
-        // constants
-
-        /// <summary>
-        /// Filename of the default configuration file
-        /// </summary>
-        public const string ConfigFilename = "instanceConfig.json"; 
-
         // methods
 
         /// <summary>
@@ -51,62 +45,21 @@ namespace Tasslehoff
         /// </exception>
         public static void Main(string[] args)
         {
-            string configFile = null;
+            Instance instance = null;
 
             try
             {
-                Queue<string> argsQueue = new Queue<string>(args);
-
-                while (argsQueue.Count > 0)
-                {
-                    string arg = argsQueue.Dequeue();
-
-                    switch (arg)
-                    {
-                    case "--config":
-                    case "-c":
-                        if (argsQueue.Count == 0)
-                        {
-                            throw new ArgumentException("No input file specified.", "--config");
-                        }
-
-                        configFile = argsQueue.Dequeue();
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid parameter - \"" + arg + "\".", arg);
-                    }
-                }
+                instance = Instance.Create(InstanceOptions.FromCommandLine(args), Console.Out);
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+
+            if (instance == null)
+            {
                 return;
             }
-
-            InstanceConfig config;
-            if (configFile != null)
-            {
-                if (!File.Exists(configFile))
-                {
-                    throw new ArgumentException("File not found or inaccessible - \"" + configFile + "\".", "--config");
-                }
-
-                Stream fileStream = File.OpenRead(configFile);
-                config = ConfigSerializer.Load<InstanceConfig>(fileStream);
-            }
-            else if (File.Exists(Program.ConfigFilename))
-            {
-                Stream fileStream = File.OpenRead(ConfigFilename);
-                config = ConfigSerializer.Load<InstanceConfig>(fileStream);
-            }
-            else
-            {
-                config = new InstanceConfig();
-                ConfigSerializer.Reset(config);
-                ConfigSerializer.Save(File.OpenWrite(Program.ConfigFilename), config);
-            }
-
-            Instance instance = new Instance(config);
 
             CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
             CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), checkSourcesTask.Do);
@@ -126,9 +79,6 @@ namespace Tasslehoff
 
             instance.Stop();
             instance.Dispose();
-
-            Console.WriteLine("done.");
-            Console.ReadLine();
         }
     }
 }
