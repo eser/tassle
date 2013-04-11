@@ -219,12 +219,16 @@ namespace Tasslehoff.Runner
             this.cache = new MemcachedConnection(memcachedAddresses);
 
             CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
-            CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), new Action(checkSourcesTask.Do));
+            CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), checkSourcesTask.Do);
             this.cronManager.Add("checkSources", checkSourcesCronItem);
 
             FetchStoriesTask fetchStoriesTask = new FetchStoriesTask();
-            CronItem fetchStoriesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(1)), new Action(fetchStoriesTask.Do));
+            CronItem fetchStoriesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(5)), fetchStoriesTask.Do, TimeSpan.FromSeconds(4));
             this.cronManager.Add("fetchStories", fetchStoriesCronItem);
+
+            //TestTask testTask = new TestTask();
+            //CronItem testCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(10)), testTask.Do, TimeSpan.FromSeconds(5));
+            //this.cronManager.Add("test", testCronItem);
 
             this.cronManager.Start();
         }

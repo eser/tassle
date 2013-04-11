@@ -39,6 +39,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cron\CronActionParameters.cs" />
     <Compile Include="Cron\CronItem.cs" />
     <Compile Include="Cron\CronItemStatus.cs" />
     <Compile Include="Cron\CronManager.cs" />

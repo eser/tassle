@@ -21,7 +21,6 @@
 namespace Tasslehoff.Library.Cron
 {
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// CronItem class.
@@ -38,7 +37,7 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// The task
         /// </summary>
-        private Action task;
+        private Action<CronActionParameters> task;
 
         /// <summary>
         /// The status
@@ -50,20 +49,27 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         private DateTime lastRun;
 
+        /// <summary>
+        /// The lifetime
+        /// </summary>
+        private TimeSpan lifetime;
+
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CronItem"/> class.
+        /// Initializes a new instance of the <see cref="CronItem" /> class.
         /// </summary>
         /// <param name="recurrence">The recurrence.</param>
         /// <param name="task">The task.</param>
-        public CronItem(Recurrence recurrence, Action task)
+        /// <param name="lifetime">The lifetime.</param>
+        public CronItem(Recurrence recurrence, Action<CronActionParameters> task, TimeSpan? lifetime = null)
         {
             this.status = CronItemStatus.NotStarted;
             this.lastRun = DateTime.MinValue;
 
             this.recurrence = recurrence;
             this.task = task;
+            this.lifetime = lifetime.GetValueOrDefault(TimeSpan.Zero);
         }
 
         /// <summary>
@@ -91,7 +97,7 @@ namespace Tasslehoff.Library.Cron
         /// <value>
         /// The task.
         /// </value>
-        public Action Task
+        public Action<CronActionParameters> Task
         {
             get
             {
@@ -129,6 +135,20 @@ namespace Tasslehoff.Library.Cron
             get
             {
                 return this.lastRun;
+            }
+        }
+
+        /// <summary>
+        /// Gets the lifetime.
+        /// </summary>
+        /// <value>
+        /// The lifetime.
+        /// </value>
+        public TimeSpan Lifetime
+        {
+            get
+            {
+                return this.lifetime;
             }
         }
 
@@ -171,8 +191,8 @@ namespace Tasslehoff.Library.Cron
                 return;
             }
 
-            System.Threading.Tasks.Task.Run(this.task);
             this.lastRun = now;
+            System.Threading.Tasks.Task.Run(() => { this.task(new CronActionParameters(this, this.lastRun)); });
             if (this.recurrence.Interval == TimeSpan.Zero)
             {
                 this.status = CronItemStatus.Stopped;

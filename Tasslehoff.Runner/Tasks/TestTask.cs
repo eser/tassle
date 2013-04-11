@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ITask.cs" company="-">
+// <copyright file="TestTask.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -21,19 +21,29 @@
 namespace Tasslehoff.Runner.Tasks
 {
     using System;
+    using System.Threading;
     using Tasslehoff.Library.Cron;
 
     /// <summary>
-    /// ITask interface.
+    /// TestTask class.
     /// </summary>
-    public interface ITask
+    public class TestTask : ITask
     {
-        // methods
-
         /// <summary>
         /// Does the task.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
-        void Do(CronActionParameters parameters);
+        public void Do(CronActionParameters parameters)
+        {
+            Instance instance = Instance.Context;
+
+            Console.WriteLine("Started: Test");
+            while (!parameters.MustBeFinished())
+            {
+                Thread.Sleep(100);
+            }
+
+            Console.WriteLine("Finished: Test");
+        }
     }
 }

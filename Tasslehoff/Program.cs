@@ -108,7 +108,10 @@ namespace Tasslehoff
             Instance instance = new Instance(config);
             instance.Start();
 
-            Console.Read();
+            Console.ReadLine();
+
+            instance.Stop();
+            //// instance.Dispose();
         }
     }
 }

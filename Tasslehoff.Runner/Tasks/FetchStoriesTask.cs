@@ -22,6 +22,7 @@ namespace Tasslehoff.Runner.Tasks
 {
     using System;
     using Tasslehoff.Globals.Entities;
+    using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.Utils;
 
     /// <summary>
@@ -32,19 +33,26 @@ namespace Tasslehoff.Runner.Tasks
         /// <summary>
         /// Does the task.
         /// </summary>
-        public void Do()
+        /// <param name="parameters">The parameters.</param>
+        public void Do(CronActionParameters parameters)
         {
             Instance instance = Instance.Context;
 
-            byte[] bytes = instance.MessageQueue.Dequeue("task_queue", 1000);
-            if (bytes == null)
+            Console.WriteLine("Started: FetchStories");
+            while (!parameters.MustBeFinished())
             {
-                Console.WriteLine("end of queue");
-                return;
+                byte[] bytes = instance.MessageQueue.Dequeue("task_queue", 1000);
+                if (bytes == null)
+                {
+                    Console.WriteLine("end of queue");
+                    break;
+                }
+
+                User user = VariableUtils.Deserialize<User>(bytes);
+                Console.WriteLine(user.Username);
             }
 
-            User user = VariableUtils.Deserialize<User>(bytes);
-            Console.WriteLine(user.Username);
+            Console.WriteLine("Finished: FetchStories");
         }
     }
 }

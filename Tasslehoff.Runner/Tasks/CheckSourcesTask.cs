@@ -24,6 +24,7 @@ namespace Tasslehoff.Runner.Tasks
     using System.Data;
     using System.Data.Common;
     using Tasslehoff.Globals.Entities;
+    using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.DataAccess;
     using Tasslehoff.Library.Utils;
 
@@ -35,12 +36,13 @@ namespace Tasslehoff.Runner.Tasks
         /// <summary>
         /// Does the task.
         /// </summary>
-        public void Do()
+        /// <param name="parameters">The parameters.</param>
+        public void Do(CronActionParameters parameters)
         {
             Instance instance = Instance.Context;
             DataEntity<User> users = new DataEntity<User>();
 
-            Console.WriteLine("Filling the queue...");
+            Console.WriteLine("Started: CheckSources");
             instance.Database.ExecuteReader(
                 "SELECT * FROM users",
                 CommandType.Text,
@@ -64,6 +66,7 @@ namespace Tasslehoff.Runner.Tasks
             //// var client = new FacebookClient();
             //// dynamic me = client.Get("larukedi");
             //// Console.WriteLine(me.name);
+            Console.WriteLine("Finished: CheckSources");
         }
     }
 }
