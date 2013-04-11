@@ -34,7 +34,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceControllable"/> class.
         /// </summary>
-        protected ServiceControllable() : base(true)
+        protected ServiceControllable() : base()
         {
         }
 
@@ -55,7 +55,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public void Start()
+        public virtual void Start()
         {
             try
             {
@@ -88,7 +88,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// Stops this instance.
         /// </summary>
-        public void Stop()
+        public virtual void Stop()
         {
             try
             {

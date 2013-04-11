@@ -33,11 +33,6 @@ namespace Tasslehoff.Library.Services
         // fields
 
         /// <summary>
-        /// The is controllable
-        /// </summary>
-        private bool isControllable;
-
-        /// <summary>
         /// The status
         /// </summary>
         private ServiceStatus status;
@@ -62,11 +57,9 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="Service"/> class.
         /// </summary>
-        /// <param name="isControllable">if set to <c>true</c> [is controllable].</param>
-        protected Service(bool isControllable)
+        protected Service()
         {
-            this.isControllable = isControllable;
-            this.status = this.isControllable ? ServiceStatus.Stopped : ServiceStatus.Passive;
+            this.status = (this is ServiceControllable) ? ServiceStatus.Stopped : ServiceStatus.Passive;
             this.statusDate = DateTime.UtcNow;
 
             this.log = new LoggerDelegate();
@@ -105,20 +98,6 @@ namespace Tasslehoff.Library.Services
         }
 
         // properties
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is controllable.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is controllable; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsControllable
-        {
-            get
-            {
-                return this.isControllable;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the status.

@@ -50,12 +50,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance.cs" />
-    <Compile Include="Tasks\TestTask.cs" />
-    <Compile Include="Tasks\FetchStoriesTask.cs" />
-    <Compile Include="Tasks\CheckSourcesTask.cs" />
-    <Compile Include="Tasks\ITask.cs" />
-    <Compile Include="Utils\MemcachedConnection.cs" />
-    <Compile Include="Utils\RabbitMQConnection.cs" />
+    <Compile Include="ITask.cs" />
+    <Compile Include="MemcachedConnection.cs" />
+    <Compile Include="RabbitMQConnection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

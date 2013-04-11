@@ -18,7 +18,7 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Runner.Utils
+namespace Tasslehoff.Runner
 {
     using System;
     using Enyim.Caching;
@@ -29,7 +29,7 @@ namespace Tasslehoff.Runner.Utils
     /// <summary>
     /// MemcachedConnection class.
     /// </summary>
-    internal class MemcachedConnection : IDisposable
+    public class MemcachedConnection : IDisposable
     {
         // fields
 
@@ -106,7 +106,7 @@ namespace Tasslehoff.Runner.Utils
         /// <value>
         /// The connection.
         /// </value>
-        public MemcachedClient Connection
+        internal MemcachedClient Connection
         {
             get
             {

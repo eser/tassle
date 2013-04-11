@@ -20,7 +20,6 @@
 
 namespace Tasslehoff.Runner
 {
-    using System;
     using System.Globalization;
     using System.Threading;
     using Tasslehoff.Globals;
@@ -28,13 +27,11 @@ namespace Tasslehoff.Runner
     using Tasslehoff.Library.DataAccess;
     using Tasslehoff.Library.Services;
     using Tasslehoff.Library.Utils;
-    using Tasslehoff.Runner.Tasks;
-    using Tasslehoff.Runner.Utils;
 
     /// <summary>
     /// Instance class.
     /// </summary>
-    public class Instance : ServiceControllable
+    public class Instance : ServiceContainer
     {
         // fields
 
@@ -90,6 +87,7 @@ namespace Tasslehoff.Runner
             RabbitMQConnection.Address = configuration.RabbitMQAddress;
 
             this.cronManager = new CronManager();
+            this.AddChild(this.cronManager);
         }
 
         // properties
@@ -184,7 +182,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The message queue.
         /// </value>
-        internal RabbitMQConnection MessageQueue
+        public RabbitMQConnection MessageQueue
         {
             get
             {
@@ -198,7 +196,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The cache.
         /// </value>
-        internal MemcachedConnection Cache
+        public MemcachedConnection Cache
         {
             get
             {
@@ -217,20 +215,6 @@ namespace Tasslehoff.Runner
 
             string[] memcachedAddresses = !string.IsNullOrWhiteSpace(this.configuration.MemcachedAddresses) ? this.configuration.MemcachedAddresses.Split(',') : new string[0];
             this.cache = new MemcachedConnection(memcachedAddresses);
-
-            CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
-            CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), checkSourcesTask.Do);
-            this.cronManager.Add("checkSources", checkSourcesCronItem);
-
-            FetchStoriesTask fetchStoriesTask = new FetchStoriesTask();
-            CronItem fetchStoriesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(5)), fetchStoriesTask.Do, TimeSpan.FromSeconds(4));
-            this.cronManager.Add("fetchStories", fetchStoriesCronItem);
-
-            //TestTask testTask = new TestTask();
-            //CronItem testCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(10)), testTask.Do, TimeSpan.FromSeconds(5));
-            //this.cronManager.Add("test", testCronItem);
-
-            this.cronManager.Start();
         }
 
         /// <summary>
@@ -238,7 +222,6 @@ namespace Tasslehoff.Runner
         /// </summary>
         protected override void ServiceStop()
         {
-            this.cronManager.Stop();
             this.cronManager.Clear();
 
             VariableUtils.CheckAndDispose(this.cache);
@@ -254,8 +237,6 @@ namespace Tasslehoff.Runner
         protected override void OnDispose()
         {
             base.OnDispose();
-
-            VariableUtils.CheckAndDispose(this.cronManager);
 
             VariableUtils.CheckAndDispose(this.cache);
             this.cache = null;

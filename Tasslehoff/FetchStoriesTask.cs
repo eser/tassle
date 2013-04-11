@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CheckSourcesTask.cs" company="-">
+// <copyright file="FetchStoriesTask.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,20 +18,18 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Runner.Tasks
+namespace Tasslehoff
 {
     using System;
-    using System.Data;
-    using System.Data.Common;
     using Tasslehoff.Globals.Entities;
     using Tasslehoff.Library.Cron;
-    using Tasslehoff.Library.DataAccess;
     using Tasslehoff.Library.Utils;
+    using Tasslehoff.Runner;
 
     /// <summary>
-    /// CheckSourcesTask class.
+    /// FetchStoriesTask class.
     /// </summary>
-    public class CheckSourcesTask : ITask
+    public class FetchStoriesTask : ITask
     {
         /// <summary>
         /// Does the task.
@@ -40,33 +38,22 @@ namespace Tasslehoff.Runner.Tasks
         public void Do(CronActionParameters parameters)
         {
             Instance instance = Instance.Context;
-            DataEntity<User> users = new DataEntity<User>();
 
-            Console.WriteLine("Started: CheckSources");
-            instance.Database.ExecuteReader(
-                "SELECT * FROM users",
-                CommandType.Text,
-                CommandBehavior.Default,
-                null,
-                (DbDataReader reader) =>
+            Console.WriteLine("Started: FetchStories");
+            while (!parameters.MustBeFinished())
+            {
+                byte[] bytes = instance.MessageQueue.Dequeue("task_queue", 1000);
+                if (bytes == null)
                 {
-                    while (reader.Read())
-                    {
-                        User user = users.GetItem(reader);
-                        if (user.Username == null)
-                        {
-                            continue;
-                        }
+                    Console.WriteLine("end of queue");
+                    break;
+                }
 
-                        byte[] serializedData = VariableUtils.Serialize(user);
-                        Instance.Context.MessageQueue.Enqueue("task_queue", serializedData);
-                    }
-                });
+                User user = SerializationUtils.Deserialize<User>(bytes);
+                Console.WriteLine(user.Username);
+            }
 
-            //// var client = new FacebookClient();
-            //// dynamic me = client.Get("larukedi");
-            //// Console.WriteLine(me.name);
-            Console.WriteLine("Finished: CheckSources");
+            Console.WriteLine("Finished: FetchStories");
         }
     }
 }

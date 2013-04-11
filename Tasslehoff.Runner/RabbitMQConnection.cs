@@ -18,7 +18,7 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Runner.Utils
+namespace Tasslehoff.Runner
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Tasslehoff.Runner.Utils
     /// <summary>
     /// RabbitMQConnection class.
     /// </summary>
-    internal class RabbitMQConnection : IDisposable
+    public class RabbitMQConnection : IDisposable
     {
         // fields
 
@@ -127,7 +127,7 @@ namespace Tasslehoff.Runner.Utils
         /// <value>
         /// The connection factory.
         /// </value>
-        public static ConnectionFactory ConnectionFactory
+        internal static ConnectionFactory ConnectionFactory
         {
             get
             {
@@ -141,7 +141,7 @@ namespace Tasslehoff.Runner.Utils
         /// <value>
         /// The connection.
         /// </value>
-        public IConnection Connection
+        internal IConnection Connection
         {
             get
             {
@@ -155,7 +155,7 @@ namespace Tasslehoff.Runner.Utils
         /// <value>
         /// The consumer.
         /// </value>
-        public QueueingBasicConsumer Consumer
+        internal QueueingBasicConsumer Consumer
         {
             get
             {
@@ -173,7 +173,7 @@ namespace Tasslehoff.Runner.Utils
         /// </value>
         /// <param name="key">The key.</param>
         /// <returns>IModel instance.</returns>
-        public IModel this[string key]
+        internal IModel this[string key]
         {
             get
             {

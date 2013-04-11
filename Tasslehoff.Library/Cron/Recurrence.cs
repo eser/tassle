@@ -292,7 +292,7 @@ namespace Tasslehoff.Library.Cron
         /// </returns>
         public override int GetHashCode()
         {
-            return VariableUtils.RSHash(this.dateStart, this.dateEnd, this.interval, this.excludedHours, this.excludedDayOfWeeks, this.excludedDays, this.excludedMonths);
+            return HashUtils.RSHash(this.dateStart, this.dateEnd, this.interval, this.excludedHours, this.excludedDayOfWeeks, this.excludedDays, this.excludedMonths);
         }
 
         /// <summary>

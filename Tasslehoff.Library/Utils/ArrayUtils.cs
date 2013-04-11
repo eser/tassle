@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="VariableUtils.cs" company="-">
+// <copyright file="ArrayUtils.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -20,25 +20,27 @@
 
 namespace Tasslehoff.Library.Utils
 {
-    using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// VariableUtils class.
+    /// ArrayUtils class.
     /// </summary>
-    public static class VariableUtils
+    public static class ArrayUtils
     {
         // methods
 
         /// <summary>
-        /// Checks the and dispose.
+        /// Gets the array.
         /// </summary>
-        /// <param name="variable">The variable.</param>
-        public static void CheckAndDispose(IDisposable variable)
+        /// <typeparam name="T">The type array contains.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <returns>Array of given type.</returns>
+        public static T[] GetArray<T>(ICollection<T> collection)
         {
-            if (variable != null)
-            {
-                variable.Dispose();
-            }
+            T[] array = new T[collection.Count];
+            collection.CopyTo(array, 0);
+
+            return array;
         }
     }
 }

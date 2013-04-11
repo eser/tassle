@@ -25,6 +25,7 @@ namespace Tasslehoff
     using System.IO;
     using Tasslehoff.Globals;
     using Tasslehoff.Library.Config;
+    using Tasslehoff.Library.Cron;
     using Tasslehoff.Runner;
 
     /// <summary>
@@ -106,12 +107,28 @@ namespace Tasslehoff
             }
 
             Instance instance = new Instance(config);
+
+            CheckSourcesTask checkSourcesTask = new CheckSourcesTask();
+            CronItem checkSourcesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(25)), checkSourcesTask.Do);
+            instance.CronManager.Add("checkSources", checkSourcesCronItem);
+
+            FetchStoriesTask fetchStoriesTask = new FetchStoriesTask();
+            CronItem fetchStoriesCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(5)), fetchStoriesTask.Do, TimeSpan.FromSeconds(4));
+            instance.CronManager.Add("fetchStories", fetchStoriesCronItem);
+
+            ////TestTask testTask = new TestTask();
+            ////CronItem testCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(10)), testTask.Do, TimeSpan.FromSeconds(5));
+            ////instance.CronManager.Add("test", testCronItem);
+
             instance.Start();
 
             Console.ReadLine();
 
             instance.Stop();
-            //// instance.Dispose();
+            instance.Dispose();
+
+            Console.WriteLine("done.");
+            Console.ReadLine();
         }
     }
 }
