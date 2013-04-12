@@ -70,6 +70,16 @@ namespace Tasslehoff.Globals
         public string MemcachedAddresses { get; set; }
 
         /// <summary>
+        /// Gets or sets the web service endpoint.
+        /// </summary>
+        /// <value>
+        /// The web service endpoint.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "http://localhost:3535")]
+        public string WebServiceEndpoint { get; set; }
+
+        /// <summary>
         /// Gets or sets the culture.
         /// </summary>
         /// <value>

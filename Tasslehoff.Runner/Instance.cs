@@ -32,6 +32,7 @@ using Tasslehoff.Library.Extensions;
 using Tasslehoff.Library.Plugins;
 using Tasslehoff.Library.Services;
 using Tasslehoff.Library.Utils;
+using Tasslehoff.Library.WebServices;
 
     /// <summary>
     /// Instance class.
@@ -83,6 +84,11 @@ using Tasslehoff.Library.Utils;
         private readonly PluginContainer pluginContainer;
 
         /// <summary>
+        /// The web service manager
+        /// </summary>
+        private readonly WebServiceManager webServiceManager;
+
+        /// <summary>
         /// The message queue
         /// </summary>
         private RabbitMQConnection messageQueue = null;
@@ -132,6 +138,9 @@ using Tasslehoff.Library.Utils;
             
             this.pluginContainer = new PluginContainer(this.extensionManager);
             this.AddChild(this.pluginContainer);
+
+            this.webServiceManager = new WebServiceManager(this.configuration.WebServiceEndpoint);
+            this.AddChild(this.webServiceManager);
         }
 
         // properties
@@ -245,6 +254,34 @@ using Tasslehoff.Library.Utils;
             get
             {
                 return this.extensionManager;
+            }
+        }
+
+        /// <summary>
+        /// Gets the plugin container.
+        /// </summary>
+        /// <value>
+        /// The plugin container.
+        /// </value>
+        public PluginContainer PluginContainer
+        {
+            get
+            {
+                return this.pluginContainer;
+            }
+        }
+
+        /// <summary>
+        /// Gets the web service manager.
+        /// </summary>
+        /// <value>
+        /// The web service manager.
+        /// </value>
+        public WebServiceManager WebServiceManager
+        {
+            get
+            {
+                return this.webServiceManager;
             }
         }
 

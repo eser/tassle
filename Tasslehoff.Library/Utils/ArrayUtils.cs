@@ -42,5 +42,17 @@ namespace Tasslehoff.Library.Utils
 
             return array;
         }
+
+        /// <summary>
+        /// Gets the array.
+        /// </summary>
+        /// <typeparam name="T">The type array contains.</typeparam>
+        /// <param name="enumerable">The enumerable.</param>
+        /// <returns>Array of given type.</returns>
+        public static T[] GetArray<T>(IEnumerable<T> enumerable)
+        {
+            List<T> collection = new List<T>(enumerable);
+            return collection.ToArray();
+        }
     }
 }

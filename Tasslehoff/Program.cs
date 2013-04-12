@@ -21,11 +21,7 @@
 namespace Tasslehoff
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
     using Tasslehoff.Globals;
-    using Tasslehoff.Library.Config;
     using Tasslehoff.Library.Cron;
     using Tasslehoff.Runner;
 
@@ -40,10 +36,22 @@ namespace Tasslehoff
         /// Entry point method of the project.
         /// </summary>
         /// <param name="args">Command line arguments</param>
-        /// <exception cref="System.ArgumentException">
-        /// Occurs when one of the command line argument has problems.
-        /// </exception>
         public static void Main(string[] args)
+        {
+            if (Environment.UserInteractive)
+            {
+                Program.ConsoleStart(args);
+                return;
+            }
+
+            // TODO: Windows Service
+        }
+
+        /// <summary>
+        /// Consoles the start.
+        /// </summary>
+        /// <param name="args">The args.</param>
+        public static void ConsoleStart(string[] args)
         {
             Instance instance = null;
 
