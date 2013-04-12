@@ -40,7 +40,6 @@
     <Compile Include="InstanceOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InstanceConfig.cs" />
-    <Compile Include="Entities\User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
