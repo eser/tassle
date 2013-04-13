@@ -21,12 +21,14 @@
 namespace Tasslehoff.Library.Cron
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
+    using Tasslehoff.Library.Utils;
 
     /// <summary>
     /// CronActionParameters class.
     /// </summary>
-    public class CronActionParameters
+    public class CronActionParameters : IDisposable
     {
         // fields
 
@@ -45,6 +47,11 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         private CancellationTokenSource cancellationTokenSource;
 
+        /// <summary>
+        /// The disposed
+        /// </summary>
+        private bool disposed;
+
         // constructors
 
         /// <summary>
@@ -58,6 +65,14 @@ namespace Tasslehoff.Library.Cron
             this.actionStarted = actionStarted;
 
             this.cancellationTokenSource = new CancellationTokenSource();
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="CronActionParameters"/> class.
+        /// </summary>
+        ~CronActionParameters()
+        {
+            this.Dispose(false);
         }
 
         // properties
@@ -102,6 +117,58 @@ namespace Tasslehoff.Library.Cron
             {
                 return this.cancellationTokenSource;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Service"/> is disposed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        /// </value>
+        public bool Disposed
+        {
+            get
+            {
+                return this.disposed;
+            }
+
+            protected set
+            {
+                this.disposed = value;
+            }
+        }
+
+        // methods
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource", Justification = "cancellationTokenSource is already will be disposed using CheckAndDispose method.")]
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                VariableUtils.CheckAndDispose(this.cancellationTokenSource);
+                this.cancellationTokenSource = null;
+            }
+
+            this.disposed = true;
         }
     }
 }

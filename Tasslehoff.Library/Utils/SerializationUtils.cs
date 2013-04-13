@@ -21,7 +21,9 @@
 namespace Tasslehoff.Library.Utils
 {
     using System.IO;
+    using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Runtime.Serialization.Json;
 
     /// <summary>
     /// SerializationUtils class.
@@ -31,11 +33,11 @@ namespace Tasslehoff.Library.Utils
         // methods
 
         /// <summary>
-        /// Serializes an object to byte array.
+        /// Binaries the serialize.
         /// </summary>
         /// <param name="graph">The graph.</param>
-        /// <returns>Serialized byte array</returns>
-        public static byte[] Serialize(object graph)
+        /// <returns>Serialized data.</returns>
+        public static byte[] BinarySerialize(object graph)
         {
             byte[] bytes;
 
@@ -51,12 +53,14 @@ namespace Tasslehoff.Library.Utils
         }
 
         /// <summary>
-        /// Deserializes byte array to an object.
+        /// Binaries the deserialize.
         /// </summary>
-        /// <typeparam name="T">Object type</typeparam>
+        /// <typeparam name="T">Any type.</typeparam>
         /// <param name="bytes">The bytes.</param>
-        /// <returns>Deserialized object</returns>
-        public static T Deserialize<T>(byte[] bytes)
+        /// <returns>
+        /// Deserialized object.
+        /// </returns>
+        public static T BinaryDeserialize<T>(byte[] bytes)
         {
             T graph;
 
@@ -64,6 +68,88 @@ namespace Tasslehoff.Library.Utils
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 graph = (T)formatter.Deserialize(memoryStream);
+            }
+
+            return graph;
+        }
+
+        /// <summary>
+        /// Serializes the object into JSON.
+        /// </summary>
+        /// <param name="graph">The graph.</param>
+        /// <returns>Serialized data.</returns>
+        public static byte[] JsonSerialize(object graph)
+        {
+            byte[] bytes;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(graph.GetType());
+                serializer.WriteObject(memoryStream, graph);
+
+                bytes = memoryStream.ToArray();
+            }
+
+            return bytes;
+        }
+
+        /// <summary>
+        /// Deserializes JSON data into object.
+        /// </summary>
+        /// <typeparam name="T">Any type.</typeparam>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns>
+        /// Deserialized object.
+        /// </returns>
+        public static T JsonDeserialize<T>(byte[] bytes)
+        {
+            T graph;
+
+            using (MemoryStream memoryStream = new MemoryStream(bytes, false))
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
+                graph = (T)serializer.ReadObject(memoryStream);
+            }
+
+            return graph;
+        }
+
+        /// <summary>
+        /// XMLs the serialize.
+        /// </summary>
+        /// <param name="graph">The graph.</param>
+        /// <returns>Serialized data.</returns>
+        public static byte[] XmlSerialize(object graph)
+        {
+            byte[] bytes;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                DataContractSerializer serializer = new DataContractSerializer(graph.GetType());
+                serializer.WriteObject(memoryStream, graph);
+
+                bytes = memoryStream.ToArray();
+            }
+
+            return bytes;
+        }
+
+        /// <summary>
+        /// XMLs the deserialize.
+        /// </summary>
+        /// <typeparam name="T">Any type.</typeparam>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns>
+        /// Deserialized object.
+        /// </returns>
+        public static T XmlDeserialize<T>(byte[] bytes)
+        {
+            T graph;
+
+            using (MemoryStream memoryStream = new MemoryStream(bytes, false))
+            {
+                DataContractSerializer serializer = new DataContractSerializer(typeof(T));
+                graph = (T)serializer.ReadObject(memoryStream);
             }
 
             return graph;
