@@ -21,6 +21,9 @@
 namespace Tasslehoff.Library.Cron
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// CronItem class.
@@ -35,9 +38,9 @@ namespace Tasslehoff.Library.Cron
         private Recurrence recurrence;
 
         /// <summary>
-        /// The task
+        /// The action
         /// </summary>
-        private Action<CronActionParameters> task;
+        private Action<CronActionParameters> action;
 
         /// <summary>
         /// The status
@@ -54,22 +57,29 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         private TimeSpan lifetime;
 
+        /// <summary>
+        /// The active actions
+        /// </summary>
+        private ICollection<CronActionParameters> activeActions;
+
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CronItem" /> class.
         /// </summary>
         /// <param name="recurrence">The recurrence.</param>
-        /// <param name="task">The task.</param>
+        /// <param name="action">The action.</param>
         /// <param name="lifetime">The lifetime.</param>
-        public CronItem(Recurrence recurrence, Action<CronActionParameters> task, TimeSpan? lifetime = null)
+        public CronItem(Recurrence recurrence, Action<CronActionParameters> action, TimeSpan? lifetime = null)
         {
             this.status = CronItemStatus.NotStarted;
             this.lastRun = DateTime.MinValue;
 
             this.recurrence = recurrence;
-            this.task = task;
+            this.action = action;
             this.lifetime = lifetime.GetValueOrDefault(TimeSpan.Zero);
+
+            this.activeActions = new Collection<CronActionParameters>();
         }
 
         /// <summary>
@@ -92,21 +102,21 @@ namespace Tasslehoff.Library.Cron
         }
 
         /// <summary>
-        /// Gets or sets the task.
+        /// Gets or sets the action.
         /// </summary>
         /// <value>
-        /// The task.
+        /// The action.
         /// </value>
-        public Action<CronActionParameters> Task
+        public Action<CronActionParameters> Action
         {
             get
             {
-                return this.task;
+                return this.action;
             }
 
             set
             {
-                this.task = value;
+                this.action = value;
             }
         }
 
@@ -152,6 +162,20 @@ namespace Tasslehoff.Library.Cron
             }
         }
 
+        /// <summary>
+        /// Gets the active actions.
+        /// </summary>
+        /// <value>
+        /// The active actions.
+        /// </value>
+        public ICollection<CronActionParameters> ActiveActions
+        {
+            get
+            {
+                return this.activeActions;
+            }
+        }
+
         // methods
 
         /// <summary>
@@ -192,10 +216,29 @@ namespace Tasslehoff.Library.Cron
             }
 
             this.lastRun = now;
-            System.Threading.Tasks.Task.Run(() => { this.task(new CronActionParameters(this, this.lastRun)); });
+            CronActionParameters cronActionParameters = new CronActionParameters(this, this.lastRun);
+            this.activeActions.Add(cronActionParameters);
+
+            if (this.Lifetime != TimeSpan.Zero)
+            {
+                cronActionParameters.CancellationTokenSource.CancelAfter(this.Lifetime);
+            }
+
+            Task.Run(() => { this.action(cronActionParameters); this.activeActions.Remove(cronActionParameters); });
             if (this.recurrence.Interval == TimeSpan.Zero)
             {
                 this.status = CronItemStatus.Stopped;
+            }
+        }
+
+        /// <summary>
+        /// Cancels the active actions.
+        /// </summary>
+        public void CancelActiveActions()
+        {
+            foreach (CronActionParameters activeAction in this.activeActions)
+            {
+                activeAction.CancellationTokenSource.Cancel();
             }
         }
     }

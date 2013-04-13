@@ -39,7 +39,7 @@ namespace Tasslehoff
             Instance instance = Instance.Context;
 
             Console.WriteLine("Started: Test");
-            while (!parameters.MustBeFinished())
+            while (!parameters.CancellationTokenSource.IsCancellationRequested)
             {
                 Thread.Sleep(100);
             }

@@ -23,8 +23,6 @@ namespace Tasslehoff.Library.WebServices
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.ServiceModel;
-    using System.ServiceModel.Description;
     using System.ServiceModel.Web;
     using Tasslehoff.Library.Services;
     using Tasslehoff.Library.Utils;

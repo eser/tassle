@@ -21,6 +21,7 @@
 namespace Tasslehoff.Library.Cron
 {
     using System;
+    using System.Threading;
 
     /// <summary>
     /// CronActionParameters class.
@@ -39,6 +40,11 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         private readonly DateTime actionStarted;
 
+        /// <summary>
+        /// The cancellation token source
+        /// </summary>
+        private CancellationTokenSource cancellationTokenSource;
+
         // constructors
 
         /// <summary>
@@ -50,6 +56,8 @@ namespace Tasslehoff.Library.Cron
         {
             this.source = source;
             this.actionStarted = actionStarted;
+
+            this.cancellationTokenSource = new CancellationTokenSource();
         }
 
         // properties
@@ -82,25 +90,18 @@ namespace Tasslehoff.Library.Cron
             }
         }
 
-        // methods
-
         /// <summary>
-        /// Musts the be finished.
+        /// Gets the cancellation token source.
         /// </summary>
-        /// <returns>Does action have to finish or not.</returns>
-        public bool MustBeFinished()
+        /// <value>
+        /// The cancellation token source.
+        /// </value>
+        public CancellationTokenSource CancellationTokenSource
         {
-            if (this.source.Lifetime == TimeSpan.Zero)
+            get
             {
-                return false;
+                return this.cancellationTokenSource;
             }
-
-            if (DateTime.UtcNow.Subtract(this.actionStarted) < this.source.Lifetime)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

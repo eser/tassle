@@ -33,9 +33,9 @@ namespace Tasslehoff.Library.Cron
         // fields
 
         /// <summary>
-        /// The parameters
+        /// The items
         /// </summary>
-        private IDictionary<string, CronItem> parameters;
+        private IDictionary<string, CronItem> items;
 
         /// <summary>
         /// The timer
@@ -54,7 +54,7 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         public CronManager() : base()
         {
-            this.parameters = new Dictionary<string, CronItem>();
+            this.items = new Dictionary<string, CronItem>();
 
             this.timer = new Timer(1000)
             {
@@ -107,7 +107,7 @@ namespace Tasslehoff.Library.Cron
         {
             item.Init();
 
-            this.parameters.Add(key, item);
+            this.items.Add(key, item);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Tasslehoff.Library.Cron
         /// <param name="key">The key.</param>
         public void Remove(string key)
         {
-            this.parameters.Remove(key);
+            this.items.Remove(key);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         public void Clear()
         {
-            this.parameters.Clear();
+            this.items.Clear();
         }
 
         /// <summary>
@@ -140,6 +140,11 @@ namespace Tasslehoff.Library.Cron
         /// </summary>
         protected override void ServiceStop()
         {
+            foreach (CronItem item in this.items.Values)
+            {
+                item.CancelActiveActions();
+            }
+
             this.timer.Stop();
         }
 
@@ -152,7 +157,7 @@ namespace Tasslehoff.Library.Cron
         {
             this.now = e.SignalTime.ToUniversalTime();
 
-            foreach (KeyValuePair<string, CronItem> pair in this.parameters)
+            foreach (KeyValuePair<string, CronItem> pair in this.items)
             {
                 pair.Value.Run(this.now);
             }
