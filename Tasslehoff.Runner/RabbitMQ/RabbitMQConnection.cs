@@ -18,12 +18,12 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Runner
+namespace Tasslehoff.Runner.RabbitMQ
 {
     using System;
     using System.Collections.Generic;
-    using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
+    using global::RabbitMQ.Client;
+    using global::RabbitMQ.Client.Events;
     using Tasslehoff.Library.Utils;
 
     /// <summary>
@@ -200,6 +200,11 @@ namespace Tasslehoff.Runner
         public byte[] Dequeue(string queueKey, int timeout = RabbitMQConnection.DefaultTimeout)
         {
             IModel channel = this[queueKey];
+
+            if (!channel.IsOpen)
+            {
+                // throw 
+            }
 
             if (this.consumer == null)
             {

@@ -41,6 +41,8 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseException.cs" />
+    <Compile Include="BaseExceptionGeneric.cs" />
     <Compile Include="Cron\CronActionParameters.cs" />
     <Compile Include="Cron\CronItem.cs" />
     <Compile Include="Cron\CronItemStatus.cs" />

@@ -47,8 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="ITask.cs" />
-    <Compile Include="MemcachedConnection.cs" />
-    <Compile Include="RabbitMQConnection.cs" />
+    <Compile Include="Memcached\MemcachedConnection.cs" />
+    <Compile Include="RabbitMQ\RabbitMQConnection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
