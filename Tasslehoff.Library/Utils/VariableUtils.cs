@@ -21,6 +21,7 @@
 namespace Tasslehoff.Library.Utils
 {
     using System;
+    using System.Reflection;
 
     /// <summary>
     /// VariableUtils class.
@@ -38,6 +39,65 @@ namespace Tasslehoff.Library.Utils
             if (variable != null)
             {
                 variable.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Gets the member type.
+        /// </summary>
+        /// <param name="member">The member.</param>
+        /// <returns>Member type.</returns>
+        public static Type GetMemberType(MemberInfo member)
+        {
+            if (member.MemberType == MemberTypes.Field)
+            {
+                return (member as FieldInfo).FieldType;
+            }
+            else if (member.MemberType == MemberTypes.Property)
+            {
+                return (member as PropertyInfo).PropertyType;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Reads the member value.
+        /// </summary>
+        /// <param name="member">The member.</param>
+        /// <param name="instance">The instance.</param>
+        /// <returns>Value of the field/property instance.</returns>
+        public static object ReadMemberValue(MemberInfo member, object instance)
+        {
+            object value = null;
+
+            if (member.MemberType == MemberTypes.Field)
+            {
+                value = (member as FieldInfo).GetValue(instance);
+            }
+            else if (member.MemberType == MemberTypes.Property)
+            {
+                value = (member as PropertyInfo).GetValue(instance, null);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Writes the member value.
+        /// </summary>
+        /// <param name="member">The member.</param>
+        /// <param name="instance">The instance.</param>
+        /// <param name="value">The value.</param>
+        public static void WriteMemberValue(MemberInfo member, object instance, object value)
+        {
+            if (member.MemberType == MemberTypes.Field)
+            {
+                (member as FieldInfo).SetValue(instance, value);
+            }
+            else if (member.MemberType == MemberTypes.Property)
+            {
+                (member as PropertyInfo).SetValue(instance, value, null);
             }
         }
     }

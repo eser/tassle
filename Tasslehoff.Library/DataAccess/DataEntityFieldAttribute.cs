@@ -45,21 +45,6 @@ namespace Tasslehoff.Library.DataAccess
         /// </summary>
         private Type type;
 
-        /// <summary>
-        /// The underlying type
-        /// </summary>
-        private Type underlyingType;
-
-        /// <summary>
-        /// The get function
-        /// </summary>
-        private Func<object, object> getFunction;
-
-        /// <summary>
-        /// The set function
-        /// </summary>
-        private Func<object, object> setFunction;
-
         // constructors
 
         /// <summary>
@@ -125,63 +110,6 @@ namespace Tasslehoff.Library.DataAccess
             set
             {
                 this.type = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the type of the underlying.
-        /// </summary>
-        /// <value>
-        /// The type of the underlying.
-        /// </value>
-        public Type UnderlyingType
-        {
-            get
-            {
-                return this.underlyingType;
-            }
-
-            set
-            {
-                this.underlyingType = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the get function.
-        /// </summary>
-        /// <value>
-        /// The get function.
-        /// </value>
-        public Func<object, object> GetFunction
-        {
-            get
-            {
-                return this.getFunction;
-            }
-
-            set
-            {
-                this.getFunction = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the set function.
-        /// </summary>
-        /// <value>
-        /// The set function.
-        /// </value>
-        public Func<object, object> SetFunction
-        {
-            get
-            {
-                return this.setFunction;
-            }
-
-            set
-            {
-                this.setFunction = value;
             }
         }
     }

@@ -45,6 +45,7 @@ namespace Tasslehoff
             }
 
             // TODO: Windows Service
+            Program.ConsoleStart(args);
         }
 
         /// <summary>

@@ -52,6 +52,7 @@
     <Compile Include="Cron\HourFlags.cs" />
     <Compile Include="Cron\MonthFlags.cs" />
     <Compile Include="Cron\Recurrence.cs" />
+    <Compile Include="DataAccess\DataEntity.cs" />
     <Compile Include="DataAccess\IDataEntity.cs" />
     <Compile Include="Plugins\LocalResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -72,8 +73,7 @@
     <Compile Include="Config\ConfigSerializer.cs" />
     <Compile Include="Config\ConfigEntryAttribute.cs" />
     <Compile Include="Collections\DictionaryBase.cs" />
-    <Compile Include="DataAccess\DataEntity.cs" />
-    <Compile Include="DataAccess\DataEntityMapper.cs" />
+    <Compile Include="DataAccess\DataEntityMap{T}.cs" />
     <Compile Include="DataAccess\DataEntityFieldAttribute.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\LogLevel.cs" />

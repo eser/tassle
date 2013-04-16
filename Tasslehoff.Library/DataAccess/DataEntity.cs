@@ -21,57 +21,32 @@
 namespace Tasslehoff.Library.DataAccess
 {
     using System;
-    using System.Data.Common;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     /// <summary>
-    /// DataEntity wrapper class.
+    /// DataEntity class.
     /// </summary>
-    /// <typeparam name="T">IDataEntity implementation.</typeparam>
-    public class DataEntity<T> where T : IDataEntity, new()
+    [Serializable]
+    [DataContract]
+    public abstract class DataEntity : IDataEntity
     {
-        // fields
-
-        /// <summary>
-        /// The map
-        /// </summary>
-        private readonly DataEntityMapper map;
-
-        // constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataEntity{T}"/> class.
-        /// </summary>
-        public DataEntity()
-        {
-            this.map = DataEntityMapper.ReadFromClass(typeof(T));
-        }
-
-        // attributes
-
-        /// <summary>
-        /// Gets the map.
-        /// </summary>
-        /// <value>
-        /// The map.
-        /// </value>
-        public DataEntityMapper Map
-        {
-            get
-            {
-                return this.map;
-            }
-        }
-
         // methods
 
         /// <summary>
-        /// Gets the item.
+        /// Called when [serialize].
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>Deserialized class.</returns>
-        public T GetItem(DbDataReader reader)
+        /// <param name="dictionary">The dictionary.</param>
+        public virtual void OnSerialize(ref IDictionary<string, object> dictionary)
         {
-            return this.map.GetItem<T>(reader);
+        }
+
+        /// <summary>
+        /// Called when [deserialize].
+        /// </summary>
+        /// <param name="dictionary">The dictionary.</param>
+        public virtual void OnDeserialize(ref IDictionary<string, object> dictionary)
+        {
         }
     }
 }

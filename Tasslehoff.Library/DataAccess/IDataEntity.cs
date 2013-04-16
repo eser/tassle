@@ -20,10 +20,25 @@
 
 namespace Tasslehoff.Library.DataAccess
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// IDataEntity interface.
     /// </summary>
     public interface IDataEntity
     {
+        // methods
+
+        /// <summary>
+        /// Called when [serialize].
+        /// </summary>
+        /// <param name="dictionary">The dictionary.</param>
+        void OnSerialize(ref IDictionary<string, object> dictionary);
+
+        /// <summary>
+        /// Called when [deserialize].
+        /// </summary>
+        /// <param name="dictionary">The dictionary.</param>
+        void OnDeserialize(ref IDictionary<string, object> dictionary);
     }
 }
