@@ -239,5 +239,14 @@ namespace Tasslehoff.Library.DataAccess
             
             return result;
         }
+
+        /// <summary>
+        /// Creates a new DataQuery instance.
+        /// </summary>
+        /// <returns>A new data query instance.</returns>
+        public DataQuery NewQuery()
+        {
+            return new DataQuery(this);
+        }
     }
 }
