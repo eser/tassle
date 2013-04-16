@@ -2,8 +2,10 @@
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
       <Value>Cron</Value>
+      <Value>deserializer</Value>
       <Value>partow</Value>
       <Value>Sedgwicks</Value>
+      <Value>serializers</Value>
     </CollectionProperty>
   </GlobalSettings>
 </StyleCopSettings>

@@ -94,6 +94,11 @@ namespace Tasslehoff.Library.DataEntities
                     value = DBNull.Value;
                 }
 
+                if (fieldAttribute.Serializer != null)
+                {
+                    value = FieldSerializers.Get(fieldAttribute.Serializer).Serializer(value);
+                }
+
                 dictionary.Add(fieldAttribute.FieldName, value);
             }
 
@@ -115,7 +120,25 @@ namespace Tasslehoff.Library.DataEntities
 
             foreach (KeyValuePair<string, object> pair in dictionary)
             {
-                VariableUtils.WriteMemberValue(this[pair.Key].ClassMember, instance, pair.Value);
+                if (!this.ContainsKey(pair.Key))
+                {
+                    continue;
+                }
+
+                object fieldValue = pair.Value;
+                if (Convert.IsDBNull(fieldValue))
+                {
+                    fieldValue = null;
+                }
+
+                DataEntityFieldAttribute attribute = this[pair.Key];
+
+                if (attribute.Serializer != null)
+                {
+                    fieldValue = FieldSerializers.Get(attribute.Serializer).Deserializer(fieldValue);
+                }
+
+                VariableUtils.WriteMemberValue(attribute.ClassMember, instance, fieldValue);
             }
 
             return instance;
@@ -134,20 +157,7 @@ namespace Tasslehoff.Library.DataEntities
 
             for (int i = 0; i < record.FieldCount; i++)
             {
-                string fieldName = record.GetName(i);
-                
-                if (!this.ContainsKey(fieldName))
-                {
-                    continue;
-                }
-
-                object fieldValue = record.GetValue(i);
-                if (Convert.IsDBNull(fieldValue))
-                {
-                    fieldValue = null;
-                }
-                
-                dictionary.Add(fieldName, fieldValue);
+                dictionary.Add(record.GetName(i), record.GetValue(i));
             }
 
             return this.Deserialize(dictionary);

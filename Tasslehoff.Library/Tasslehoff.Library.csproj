@@ -53,6 +53,8 @@
     <Compile Include="Cron\MonthFlags.cs" />
     <Compile Include="Cron\Recurrence.cs" />
     <Compile Include="DataAccess\DataQuery.cs" />
+    <Compile Include="DataEntities\FieldSerializer.cs" />
+    <Compile Include="DataEntities\FieldSerializers.cs" />
     <Compile Include="DataEntities\DataEntity.cs" />
     <Compile Include="DataEntities\IDataEntity.cs" />
     <Compile Include="DataEntities\IDataEntityMap.cs" />

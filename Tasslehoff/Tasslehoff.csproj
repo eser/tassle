@@ -33,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\..\..\Goldsoft Projects\Interesd\_References\</OutputPath>
     <WarningLevel>4</WarningLevel>
     <LangVersion>5</LangVersion>
     <DebugSymbols>true</DebugSymbols>

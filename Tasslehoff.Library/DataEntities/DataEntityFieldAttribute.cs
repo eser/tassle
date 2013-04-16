@@ -45,6 +45,11 @@ namespace Tasslehoff.Library.DataEntities
         /// </summary>
         private Type type;
 
+        /// <summary>
+        /// The serializer
+        /// </summary>
+        private string serializer = null;
+
         // constructors
 
         /// <summary>
@@ -110,6 +115,25 @@ namespace Tasslehoff.Library.DataEntities
             set
             {
                 this.type = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the serializer.
+        /// </summary>
+        /// <value>
+        /// The serializer.
+        /// </value>
+        public string Serializer
+        {
+            get
+            {
+                return this.serializer;
+            }
+
+            set
+            {
+                this.serializer = value;
             }
         }
     }
