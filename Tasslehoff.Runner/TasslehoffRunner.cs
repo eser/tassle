@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="Instance.cs" company="-">
+// <copyright file="TasslehoffRunner.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -37,9 +37,9 @@ namespace Tasslehoff.Runner
     using Tasslehoff.Runner.RabbitMQ;
 
     /// <summary>
-    /// Instance class.
+    /// TasslehoffRunner class.
     /// </summary>
-    public class Instance : ServiceContainer
+    public class TasslehoffRunner : ServiceContainer
     {
         // constants
 
@@ -51,19 +51,19 @@ namespace Tasslehoff.Runner
         // fields
 
         /// <summary>
-        /// The context
+        /// Singleton instance
         /// </summary>
-        private static Instance context = null;
+        private static TasslehoffRunner instance = null;
 
         /// <summary>
         /// The options
         /// </summary>
-        private readonly InstanceOptions options;
+        private readonly RunnerOptions options;
 
         /// <summary>
         /// The configuration.
         /// </summary>
-        private readonly InstanceConfig configuration;
+        private readonly RunnerConfig configuration;
 
         /// <summary>
         /// The database
@@ -103,17 +103,16 @@ namespace Tasslehoff.Runner
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Instance"/> class.
+        /// Initializes a new instance of the <see cref="TasslehoffRunner" /> class.
         /// </summary>
         /// <param name="options">The options.</param>
         /// <param name="configuration">The configuration.</param>
-        /// <returns>Created instance.</returns>
-        internal Instance(InstanceOptions options, InstanceConfig configuration) : base()
+        internal TasslehoffRunner(RunnerOptions options, RunnerConfig configuration) : base()
         {
             // singleton pattern
-            if (Instance.context == null)
+            if (TasslehoffRunner.instance == null)
             {
-                Instance.context = this;
+                TasslehoffRunner.instance = this;
             }
 
             // initialization
@@ -148,16 +147,16 @@ namespace Tasslehoff.Runner
         // properties
 
         /// <summary>
-        /// Gets the context.
+        /// Gets the singleton instance.
         /// </summary>
         /// <value>
-        /// The context.
+        /// The singleton instance.
         /// </value>
-        public static Instance Context
+        public static TasslehoffRunner Instance
         {
             get
             {
-                return Instance.context;
+                return TasslehoffRunner.instance;
             }
         }
 
@@ -195,7 +194,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The options.
         /// </value>
-        public InstanceOptions Options
+        public RunnerOptions Options
         {
             get
             {
@@ -209,7 +208,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The configuration.
         /// </value>
-        public InstanceConfig Configuration
+        public RunnerConfig Configuration
         {
             get
             {
@@ -334,11 +333,11 @@ namespace Tasslehoff.Runner
         /// <param name="options">The options.</param>
         /// <param name="output">The output.</param>
         /// <returns>
-        /// Created instance.
+        /// Created runner.
         /// </returns>
-        public static Instance Create(InstanceOptions options, TextWriter output)
+        public static TasslehoffRunner Create(RunnerOptions options, TextWriter output)
         {
-            Instance.WriteHeader(output);
+            TasslehoffRunner.WriteHeader(output);
 
             // working directory
             string workingDirectory = options.WorkingDirectory ?? ".";
@@ -356,17 +355,17 @@ namespace Tasslehoff.Runner
             options.WorkingDirectory = workingDirectory;
 
             // config file
-            string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, Instance.ConfigFilename);
+            string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, TasslehoffRunner.ConfigFilename);
 
-            InstanceConfig config;
+            RunnerConfig config;
             if (File.Exists(configFile))
             {
                 Stream fileStream = File.OpenRead(configFile);
-                config = ConfigSerializer.Load<InstanceConfig>(fileStream);
+                config = ConfigSerializer.Load<RunnerConfig>(fileStream);
             }
             else if (options.ConfigFile == null)
             {
-                config = new InstanceConfig();
+                config = new RunnerConfig();
                 ConfigSerializer.Reset(config);
                 ConfigSerializer.Save(File.OpenWrite(configFile), config);
             }
@@ -382,11 +381,11 @@ namespace Tasslehoff.Runner
 
             if (showHelp)
             {
-                output.Write(InstanceOptions.Help());
+                output.Write(RunnerOptions.Help());
                 return null;
             }
 
-            return new Instance(options, config);
+            return new TasslehoffRunner(options, config);
         }
 
         /// <summary>

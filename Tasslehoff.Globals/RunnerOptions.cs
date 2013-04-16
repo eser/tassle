@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InstanceOptions.cs" company="-">
+// <copyright file="RunnerOptions.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -27,7 +27,7 @@ namespace Tasslehoff.Globals
     /// <summary>
     /// CommandLineOptions class.
     /// </summary>
-    public class InstanceOptions
+    public class RunnerOptions
     {
         // fields
 
@@ -49,9 +49,9 @@ namespace Tasslehoff.Globals
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InstanceOptions" /> class.
+        /// Initializes a new instance of the <see cref="RunnerOptions" /> class.
         /// </summary>
-        public InstanceOptions()
+        public RunnerOptions()
         {
         }
 
@@ -124,9 +124,9 @@ namespace Tasslehoff.Globals
         /// <exception cref="System.ArgumentException">
         /// If one of parameters has errors.
         /// </exception>
-        public static InstanceOptions FromCommandLine(string[] args)
+        public static RunnerOptions FromCommandLine(string[] args)
         {
-            InstanceOptions instanceOptions = new InstanceOptions();
+            RunnerOptions runnerOptions = new RunnerOptions();
             Queue<string> argsQueue = new Queue<string>(args);
 
             while (argsQueue.Count > 0)
@@ -142,7 +142,7 @@ namespace Tasslehoff.Globals
                             throw new ArgumentException("No input file specified.", "--config");
                         }
 
-                        instanceOptions.ConfigFile = argsQueue.Dequeue();
+                        runnerOptions.ConfigFile = argsQueue.Dequeue();
                         break;
                     case "--working-dir":
                     case "-w":
@@ -151,19 +151,19 @@ namespace Tasslehoff.Globals
                             throw new ArgumentException("No working directory specified.", "--working-dir");
                         }
 
-                        instanceOptions.WorkingDirectory = argsQueue.Dequeue();
+                        runnerOptions.WorkingDirectory = argsQueue.Dequeue();
                         break;
                     case "--help":
                     case "-h":
                     case "-?":
-                        instanceOptions.ShowHelp = true;
+                        runnerOptions.ShowHelp = true;
                         break;
                     default:
                         throw new ArgumentException("Invalid parameter - \"" + arg + "\".", arg);
                 }
             }
 
-            return instanceOptions;
+            return runnerOptions;
         }
 
         /// <summary>

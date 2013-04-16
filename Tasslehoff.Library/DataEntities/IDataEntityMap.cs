@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TestTask.cs" company="-">
+// <copyright file="IDataEntityMap.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,33 +18,12 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff
+namespace Tasslehoff.Library.DataEntities
 {
-    using System;
-    using System.Threading;
-    using Tasslehoff.Library.Cron;
-    using Tasslehoff.Runner;
-
     /// <summary>
-    /// TestTask class.
+    /// IDataEntityMap interface
     /// </summary>
-    public class TestTask : ITask
+    public interface IDataEntityMap
     {
-        /// <summary>
-        /// Does the task.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        public void Do(CronActionParameters parameters)
-        {
-            TasslehoffRunner runner = TasslehoffRunner.Instance;
-
-            Console.WriteLine("Started: Test");
-            while (!parameters.CancellationTokenSource.IsCancellationRequested)
-            {
-                Thread.Sleep(100);
-            }
-
-            Console.WriteLine("Finished: Test");
-        }
     }
 }

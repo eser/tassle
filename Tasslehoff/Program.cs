@@ -54,18 +54,18 @@ namespace Tasslehoff
         /// <param name="args">The args.</param>
         public static void ConsoleStart(string[] args)
         {
-            Instance instance = null;
+            TasslehoffRunner runner = null;
 
             try
             {
-                instance = Instance.Create(InstanceOptions.FromCommandLine(args), Console.Out);
+                runner = TasslehoffRunner.Create(RunnerOptions.FromCommandLine(args), Console.Out);
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-            if (instance == null)
+            if (runner == null)
             {
                 return;
             }
@@ -73,15 +73,15 @@ namespace Tasslehoff
             #if DEBUG
             TestTask testTask = new TestTask();
             CronItem testCronItem = new CronItem(Recurrence.Periodically(TimeSpan.FromSeconds(10)), testTask.Do, TimeSpan.FromSeconds(5));
-            instance.CronManager.Add("test", testCronItem);
+            runner.CronManager.Add("test", testCronItem);
             #endif
 
-            instance.Start();
+            runner.Start();
 
             Console.ReadLine();
 
-            instance.Stop();
-            instance.Dispose();
+            runner.Stop();
+            runner.Dispose();
         }
     }
 }

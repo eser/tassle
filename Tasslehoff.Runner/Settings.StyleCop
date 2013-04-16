@@ -4,6 +4,7 @@
       <Value>cron</Value>
       <Value>Dequeues</Value>
       <Value>Memcached</Value>
+      <Value>Tasslehoff</Value>
     </CollectionProperty>
   </GlobalSettings>
 </StyleCopSettings>

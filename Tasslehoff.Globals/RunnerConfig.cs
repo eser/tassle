@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="InstanceConfig.cs" company="-">
+// <copyright file="RunnerConfig.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -24,10 +24,10 @@ namespace Tasslehoff.Globals
     using Tasslehoff.Library.Config;
 
     /// <summary>
-    /// Instance configuration
+    /// Runner configuration
     /// </summary>
     [DataContract]
-    public class InstanceConfig : IConfig
+    public class RunnerConfig : IConfig
     {
         /// <summary>
         /// Gets or sets the database driver.

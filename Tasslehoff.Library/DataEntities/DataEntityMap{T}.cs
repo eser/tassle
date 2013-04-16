@@ -18,10 +18,11 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Library.DataAccess
+namespace Tasslehoff.Library.DataEntities
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Data;
     using System.Reflection;
     using System.Runtime.InteropServices;
@@ -33,7 +34,7 @@ namespace Tasslehoff.Library.DataAccess
     /// </summary>
     /// <typeparam name="T">IDataEntity implementation.</typeparam>
     [ComVisible(false)]
-    public class DataEntityMap<T> : DictionaryBase<DataEntityFieldAttribute> where T : IDataEntity, new()
+    public class DataEntityMap<T> : DictionaryBase<DataEntityFieldAttribute>, IDataEntityMap where T : IDataEntity, new()
     {
         // constructors
 
@@ -150,6 +151,23 @@ namespace Tasslehoff.Library.DataAccess
             }
 
             return this.Deserialize(dictionary);
+        }
+
+        /// <summary>
+        /// Deserializes the specified reader.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <returns>Set of deserialized objects.</returns>
+        public T[] Deserialize(IDataReader reader)
+        {
+            ICollection<T> collection = new Collection<T>();
+
+            while (reader.Read())
+            {
+                collection.Add(this.Deserialize((IDataRecord)reader));
+            }
+
+            return ArrayUtils.GetArray<T>(collection);
         }
     }
 }
