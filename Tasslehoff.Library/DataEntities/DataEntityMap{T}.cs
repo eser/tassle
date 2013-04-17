@@ -32,7 +32,7 @@ namespace Tasslehoff.Library.DataEntities
     /// <summary>
     /// DataEntityMap class.
     /// </summary>
-    /// <typeparam name="T">IDataEntity implementation.</typeparam>
+    /// <typeparam name="T">IDataEntity implementation</typeparam>
     [ComVisible(false)]
     public class DataEntityMap<T> : DictionaryBase<DataEntityFieldAttribute>, IDataEntityMap where T : IDataEntity, new()
     {
@@ -76,8 +76,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Serializes the item.
         /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="convertNullsToDBNull">if set to <c>true</c> [convert nulls to DB null].</param>
+        /// <param name="instance">The instance</param>
+        /// <param name="convertNullsToDBNull">if set to <c>true</c> [convert nulls to DB null]</param>
         /// <returns>
         /// Serialized data.
         /// </returns>
@@ -110,8 +110,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Deserializes the item.
         /// </summary>
-        /// <param name="dictionary">The dictionary.</param>
-        /// <returns>Deserialized class.</returns>
+        /// <param name="dictionary">The dictionary</param>
+        /// <returns>Deserialized class</returns>
         public T Deserialize(IDictionary<string, object> dictionary)
         {
             T instance = new T();
@@ -147,7 +147,7 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Deserializes the item.
         /// </summary>
-        /// <param name="record">The record.</param>
+        /// <param name="record">The record</param>
         /// <returns>
         /// Deserialized class.
         /// </returns>
@@ -166,8 +166,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Deserializes to enumerable.
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>Set of deserialized classes.</returns>
+        /// <param name="reader">The reader</param>
+        /// <returns>Set of deserialized classes</returns>
         public IEnumerable<T> DeserializeToEnumerable(IDataReader reader)
         {
             while (reader.Read())
@@ -179,8 +179,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Deserializes to collection.
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>Set of deserialized classes.</returns>
+        /// <param name="reader">The reader</param>
+        /// <returns>Set of deserialized classes</returns>
         public IEnumerable<T> DeserializeToCollection(IDataReader reader)
         {
             ICollection<T> collection = new Collection<T>();
@@ -196,10 +196,10 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Deserializes to dictionary.
         /// </summary>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="reader">The reader.</param>
-        /// <returns>Set of deserialized classes.</returns>
+        /// <typeparam name="TKey">The type of the key</typeparam>
+        /// <param name="key">The key</param>
+        /// <param name="reader">The reader</param>
+        /// <returns>Set of deserialized classes</returns>
         public IDictionary<TKey, T> DeserializeToDictionary<TKey>(string key, IDataReader reader)
         {
             IDictionary<TKey, T> dictionary = new Dictionary<TKey, T>();

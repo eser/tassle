@@ -57,8 +57,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Initializes a new instance of the <see cref="CronActionParameters"/> class.
         /// </summary>
-        /// <param name="source">The source.</param>
-        /// <param name="actionStarted">The action started.</param>
+        /// <param name="source">The source</param>
+        /// <param name="actionStarted">The action started</param>
         public CronActionParameters(CronItem source, DateTime actionStarted)
         {
             this.source = source;
@@ -153,7 +153,7 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource", Justification = "cancellationTokenSource is already will be disposed using CheckAndDispose method.")]
         protected virtual void Dispose(bool disposing)
         {

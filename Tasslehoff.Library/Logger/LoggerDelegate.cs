@@ -171,10 +171,10 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Assigns the logger.
         /// </summary>
-        /// <param name="logger">The logger.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="application">The application.</param>
-        /// <param name="isDirect">if set to <c>true</c> [is direct].</param>
+        /// <param name="logger">The logger</param>
+        /// <param name="category">The category</param>
+        /// <param name="application">The application</param>
+        /// <param name="isDirect">if set to <c>true</c> [is direct]</param>
         public void AssignLogger(Logger logger, string category, string application = null, bool isDirect = false)
         {
             this.assignedLogger = logger;
@@ -186,14 +186,14 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Gets the specified level.
         /// </summary>
-        /// <param name="level">The level.</param>
-        /// <param name="text">The text.</param>
-        /// <param name="exception">The exception.</param>
-        /// <param name="date">The date.</param>
-        /// <param name="application">The application.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="isDirect">The is direct.</param>
-        /// <returns>LogEntry instance.</returns>
+        /// <param name="level">The level</param>
+        /// <param name="text">The text</param>
+        /// <param name="exception">The exception</param>
+        /// <param name="date">The date</param>
+        /// <param name="application">The application</param>
+        /// <param name="category">The category</param>
+        /// <param name="isDirect">The is direct</param>
+        /// <returns>LogEntry instance</returns>
         public LogEntry Get(LogLevel level, string text, Exception exception = null, DateTime? date = null, string application = null, string category = null, bool? isDirect = null)
         {
             if (exception != null)
@@ -231,14 +231,14 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Writes the specified level.
         /// </summary>
-        /// <param name="level">The level.</param>
-        /// <param name="text">The text.</param>
-        /// <param name="exception">The exception.</param>
-        /// <param name="date">The date.</param>
-        /// <param name="application">The application.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="isDirect">The is direct.</param>
-        /// <returns>Is written or not.</returns>
+        /// <param name="level">The level</param>
+        /// <param name="text">The text</param>
+        /// <param name="exception">The exception</param>
+        /// <param name="date">The date</param>
+        /// <param name="application">The application</param>
+        /// <param name="category">The category</param>
+        /// <param name="isDirect">The is direct</param>
+        /// <returns>Is written or not</returns>
         public bool Write(LogLevel level, string text, Exception exception = null, DateTime? date = null, string application = null, string category = null, bool? isDirect = null)
         {
             if (this.assignedLogger == null)
@@ -263,7 +263,7 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)

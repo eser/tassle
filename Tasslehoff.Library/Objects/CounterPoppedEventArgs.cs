@@ -1,5 +1,5 @@
-// -----------------------------------------------------------------------
-// <copyright file="ServiceStatusChangedEventArgs.cs" company="-">
+﻿// -----------------------------------------------------------------------
+// <copyright file="CounterPoppedEventArgs.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,67 +18,61 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Library.Services
+namespace Tasslehoff.Library.Objects
 {
     using System;
 
     /// <summary>
-    /// ServiceStatusChangedEventArgs class.
+    /// CounterPoppedEventArgs class.
     /// </summary>
-    public class ServiceStatusChangedEventArgs : EventArgs
+    public class CounterPoppedEventArgs : EventArgs
     {
         // fields
 
         /// <summary>
-        /// The previous state
+        /// The key
         /// </summary>
-        private readonly ServiceStatus previousState;
+        private readonly string key;
 
         /// <summary>
-        /// The status
+        /// The period
         /// </summary>
-        private readonly ServiceStatus status;
+        private TimeSpan period;
 
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceStatusChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="CounterPoppedEventArgs"/> class.
         /// </summary>
-        /// <param name="previousState">State of the previous</param>
-        /// <param name="status">The status</param>
-        public ServiceStatusChangedEventArgs(ServiceStatus previousState, ServiceStatus status)
+        /// <param name="key">The key</param>
+        /// <param name="period">The period</param>
+        public CounterPoppedEventArgs(string key, TimeSpan period) : base()
         {
-            this.previousState = previousState;
-            this.status = status;
+            this.key = key;
+            this.period = period;
         }
 
         // properties
 
         /// <summary>
-        /// Gets the state of the previous.
+        /// Gets the key.
         /// </summary>
-        /// <value>
-        /// The state of the previous.
-        /// </value>
-        public ServiceStatus PreviousState
+        public string Key
         {
             get
             {
-                return this.previousState;
+                return this.key;
             }
         }
 
         /// <summary>
-        /// Gets the status.
+        /// Gets the period.
         /// </summary>
-        /// <value>
-        /// The status.
-        /// </value>
-        public ServiceStatus Status
+        public TimeSpan Period
         {
             get
             {
-                return this.status;
+                return this.period;
             }
         }
     }

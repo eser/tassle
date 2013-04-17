@@ -22,6 +22,7 @@ namespace Tasslehoff.Library.Utils
 {
     using System;
     using System.Reflection;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// VariableUtils class.
@@ -33,7 +34,7 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Checks the and dispose.
         /// </summary>
-        /// <param name="variable">The variable.</param>
+        /// <param name="variable">The variable</param>
         public static void CheckAndDispose(IDisposable variable)
         {
             if (variable != null)
@@ -45,8 +46,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Gets the member type.
         /// </summary>
-        /// <param name="member">The member.</param>
-        /// <returns>Member type.</returns>
+        /// <param name="member">The member</param>
+        /// <returns>Member type</returns>
         public static Type GetMemberType(MemberInfo member)
         {
             if (member.MemberType == MemberTypes.Field)
@@ -64,9 +65,9 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Reads the member value.
         /// </summary>
-        /// <param name="member">The member.</param>
-        /// <param name="instance">The instance.</param>
-        /// <returns>Value of the field/property instance.</returns>
+        /// <param name="member">The member</param>
+        /// <param name="instance">The instance</param>
+        /// <returns>Value of the field/property instance</returns>
         public static object ReadMemberValue(MemberInfo member, object instance)
         {
             object value = null;
@@ -86,9 +87,9 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Writes the member value.
         /// </summary>
-        /// <param name="member">The member.</param>
-        /// <param name="instance">The instance.</param>
-        /// <param name="value">The value.</param>
+        /// <param name="member">The member</param>
+        /// <param name="instance">The instance</param>
+        /// <param name="value">The value</param>
         public static void WriteMemberValue(MemberInfo member, object instance, object value)
         {
             if (member.MemberType == MemberTypes.Field)
@@ -99,6 +100,33 @@ namespace Tasslehoff.Library.Utils
             {
                 (member as PropertyInfo).SetValue(instance, value, null);
             }
+        }
+
+        /// <summary>
+        /// Gets the size.
+        /// </summary>
+        /// <typeparam name="T">The type</typeparam>
+        /// <returns>Size of the type</returns>
+        public static int GetSize<T>()
+        {
+            Type type = typeof(T);
+
+            if (type.IsValueType)
+            {
+                if (type.IsGenericType)
+                {
+                    // generic value type
+                    return Marshal.SizeOf(default(T));
+                }
+                else
+                {
+                    // value type
+                    return Marshal.SizeOf(type);
+                }
+            }
+
+            // a reference
+            return IntPtr.Size;
         }
     }
 }

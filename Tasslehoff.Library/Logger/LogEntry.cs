@@ -210,8 +210,8 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Applies the format.
         /// </summary>
-        /// <param name="input">The format.</param>
-        /// <returns>Formatted message.</returns>
+        /// <param name="input">The format</param>
+        /// <returns>Formatted message</returns>
         public string ApplyFormat(string input)
         {
             return Regex.Replace(

@@ -21,6 +21,7 @@
 namespace Tasslehoff.Runner.Memcached
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Enyim.Caching;
     using Enyim.Caching.Configuration;
     using Enyim.Caching.Memcached;
@@ -58,7 +59,7 @@ namespace Tasslehoff.Runner.Memcached
         /// <summary>
         /// Initializes a new instance of the <see cref="MemcachedConnection" /> class.
         /// </summary>
-        /// <param name="addresses">The addresses.</param>
+        /// <param name="addresses">The addresses</param>
         public MemcachedConnection(string[] addresses)
         {
             this.addresses = addresses;
@@ -119,9 +120,9 @@ namespace Tasslehoff.Runner.Memcached
         /// <summary>
         /// Gets the specified key.
         /// </summary>
-        /// <typeparam name="T">Object type.</typeparam>
-        /// <param name="key">The key.</param>
-        /// <returns>The cached object.</returns>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="key">The key</param>
+        /// <returns>The cached object</returns>
         public T Get<T>(string key) where T : class
         {
             if (this.connection == null)
@@ -135,10 +136,10 @@ namespace Tasslehoff.Runner.Memcached
         /// <summary>
         /// Sets the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="expiresAt">The expires at.</param>
-        /// <returns>Is written to cache or not.</returns>
+        /// <param name="key">The key</param>
+        /// <param name="value">The value</param>
+        /// <param name="expiresAt">The expires at</param>
+        /// <returns>Is written to cache or not</returns>
         public bool Set(string key, object value, DateTime? expiresAt = null)
         {
             if (this.connection == null)
@@ -167,8 +168,8 @@ namespace Tasslehoff.Runner.Memcached
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "connection", Justification = "connection is already will be disposed using CheckAndDispose method.")]
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "connection", Justification = "connection is already will be disposed using CheckAndDispose method.")]
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)

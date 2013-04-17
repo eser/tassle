@@ -61,7 +61,7 @@ namespace Tasslehoff.Library.WebServices
         /// <summary>
         /// Initializes a new instance of the <see cref="WebServiceManager"/> class.
         /// </summary>
-        /// <param name="baseAddress">The base address.</param>
+        /// <param name="baseAddress">The base address</param>
         public WebServiceManager(string baseAddress) : this(new string[] { baseAddress })
         {
         }
@@ -69,7 +69,7 @@ namespace Tasslehoff.Library.WebServices
         /// <summary>
         /// Initializes a new instance of the <see cref="WebServiceManager" /> class.
         /// </summary>
-        /// <param name="baseAddresses">The base addresses.</param>
+        /// <param name="baseAddresses">The base addresses</param>
         public WebServiceManager(IEnumerable<string> baseAddresses) : base()
         {
             this.baseAddresses = baseAddresses;
@@ -154,7 +154,7 @@ namespace Tasslehoff.Library.WebServices
         /// <summary>
         /// Adds the specified web service endpoint.
         /// </summary>
-        /// <param name="webServiceEndpoint">The web service endpoint.</param>
+        /// <param name="webServiceEndpoint">The web service endpoint</param>
         public void Add(WebServiceEndpoint webServiceEndpoint)
         {
             this.endpoints.Add(webServiceEndpoint);

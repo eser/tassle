@@ -51,7 +51,7 @@ namespace Tasslehoff
         /// <summary>
         /// Consoles the start.
         /// </summary>
-        /// <param name="args">The args.</param>
+        /// <param name="args">The args</param>
         public static void ConsoleStart(string[] args)
         {
             TasslehoffRunner runner = null;

@@ -3,9 +3,21 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>Cron</Value>
       <Value>deserializer</Value>
+      <Value>Gsm</Value>
+      <Value>Int</Value>
       <Value>partow</Value>
       <Value>Sedgwicks</Value>
       <Value>serializers</Value>
+      <Value>stackoverflow</Value>
     </CollectionProperty>
   </GlobalSettings>
+  <Analyzers>
+    <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
+      <AnalyzerSettings>
+        <CollectionProperty Name="Hungarian">
+          <Value>ip</Value>
+        </CollectionProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+  </Analyzers>
 </StyleCopSettings>

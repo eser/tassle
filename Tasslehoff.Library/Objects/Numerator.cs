@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TestTask.cs" company="-">
+// <copyright file="Numerator.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -18,33 +18,55 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff
+namespace Tasslehoff.Library.Objects
 {
-    using System;
-    using System.Threading;
-    using Tasslehoff.Library.Cron;
-    using Tasslehoff.Runner;
-
     /// <summary>
-    /// TestTask class.
+    /// Numerator class.
     /// </summary>
-    public class TestTask : ITask
+    public class Numerator
     {
+        // fields
+
         /// <summary>
-        /// Does the task.
+        /// The sync lock
         /// </summary>
-        /// <param name="parameters">The parameters</param>
-        public void Do(CronActionParameters parameters)
+        private readonly object syncLock;
+
+        /// <summary>
+        /// The next number
+        /// </summary>
+        private int nextNumber;
+
+        // constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Numerator"/> class.
+        /// </summary>
+        public Numerator()
         {
-            TasslehoffRunner runner = TasslehoffRunner.Instance;
+            this.syncLock = new object();
+            this.nextNumber = int.MinValue;
+        }
 
-            Console.WriteLine("Started: Test");
-            while (!parameters.CancellationTokenSource.IsCancellationRequested)
+        // methods
+
+        /// <summary>
+        /// Gets this instance.
+        /// </summary>
+        /// <returns>The next number</returns>
+        public int Get()
+        {
+            lock (this.syncLock)
             {
-                Thread.Sleep(100);
-            }
+                unchecked
+                {
+                    ////if(this.nextNumber + 1 >= int.MaxValue) {
+                    ////    this.nextNumber = int.MinValue;
+                    ////}
 
-            Console.WriteLine("Finished: Test");
+                    return this.nextNumber++;
+                }
+            }
         }
     }
 }

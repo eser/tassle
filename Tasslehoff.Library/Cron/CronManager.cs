@@ -101,8 +101,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="item">The item.</param>
+        /// <param name="key">The key</param>
+        /// <param name="item">The item</param>
         public void Add(string key, CronItem item)
         {
             item.Init();
@@ -113,7 +113,7 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Removes the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
+        /// <param name="key">The key</param>
         public void Remove(string key)
         {
             this.items.Remove(key);
@@ -151,8 +151,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Handles the Elapsed event of the Timer control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">The source of the event</param>
+        /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data</param>
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.now = e.SignalTime.ToUniversalTime();

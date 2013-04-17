@@ -74,8 +74,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Initializes a new instance of the <see cref="Recurrence"/> class.
         /// </summary>
-        /// <param name="dateStart">The date start.</param>
-        /// <param name="interval">The interval.</param>
+        /// <param name="dateStart">The date start</param>
+        /// <param name="interval">The interval</param>
         /// <remarks>Use TimeSpan.Zero as interval for non-recurring events.</remarks>
         public Recurrence(DateTime dateStart, TimeSpan interval)
         {
@@ -227,8 +227,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Creates recurrence works at once.
         /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <returns>Recurrence instance.</returns>
+        /// <param name="dateTime">The date time</param>
+        /// <returns>Recurrence instance</returns>
         public static Recurrence OnceAt(DateTime dateTime)
         {
             return new Recurrence(dateTime, TimeSpan.Zero);
@@ -237,8 +237,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Creates periodical recurrence instance.
         /// </summary>
-        /// <param name="period">The period.</param>
-        /// <returns>Recurrence instance.</returns>
+        /// <param name="period">The period</param>
+        /// <returns>Recurrence instance</returns>
         public static Recurrence Periodically(TimeSpan period)
         {
             return new Recurrence(DateTime.MinValue, period);
@@ -247,8 +247,8 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Checks the date.
         /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <returns>Is date valid or not.</returns>
+        /// <param name="dateTime">The date time</param>
+        /// <returns>Is date valid or not</returns>
         public bool CheckDate(DateTime dateTime)
         {
             if (this.excludedMonths.HasFlag((MonthFlags)dateTime.Month))
@@ -298,7 +298,7 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
         /// </summary>
-        /// <param name="obj">The object to compare with the current object.</param>
+        /// <param name="obj">The object to compare with the current object</param>
         /// <returns>
         /// true if the specified object  is equal to the current object; otherwise, false.
         /// </returns>

@@ -46,8 +46,8 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamLogger"/> class.
         /// </summary>
-        /// <param name="output">The output.</param>
-        /// <param name="encoding">The encoding.</param>
+        /// <param name="output">The output</param>
+        /// <param name="encoding">The encoding</param>
         public StreamLogger(Stream output, Encoding encoding = null) : base()
         {
             this.outputStream = output;
@@ -94,7 +94,7 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Writes the log.
         /// </summary>
-        /// <param name="logEntry">The log entry.</param>
+        /// <param name="logEntry">The log entry</param>
         /// <returns>
         /// Is written or not.
         /// </returns>

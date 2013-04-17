@@ -67,9 +67,9 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Initializes a new instance of the <see cref="CronItem" /> class.
         /// </summary>
-        /// <param name="recurrence">The recurrence.</param>
-        /// <param name="action">The action.</param>
-        /// <param name="lifetime">The lifetime.</param>
+        /// <param name="recurrence">The recurrence</param>
+        /// <param name="action">The action</param>
+        /// <param name="lifetime">The lifetime</param>
         public CronItem(Recurrence recurrence, Action<CronActionParameters> action, TimeSpan? lifetime = null)
         {
             this.status = CronItemStatus.NotStarted;
@@ -190,7 +190,7 @@ namespace Tasslehoff.Library.Cron
         /// <summary>
         /// Runs the specified date time.
         /// </summary>
-        /// <param name="dateTime">The date time.</param>
+        /// <param name="dateTime">The date time</param>
         public void Run(DateTime? dateTime = null)
         {
             DateTime now = dateTime.GetValueOrDefault(DateTime.UtcNow);

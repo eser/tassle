@@ -88,7 +88,7 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Initializes a new instance of the <see cref="DataQuery"/> class.
         /// </summary>
-        /// <param name="database">The database.</param>
+        /// <param name="database">The database</param>
         public DataQuery(Database database)
         {
             this.database = database;
@@ -102,8 +102,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Sets the destination table.
         /// </summary>
-        /// <param name="destinationTable">The destination table.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="destinationTable">The destination table</param>
+        /// <returns>Chain reference</returns>
         public DataQuery SetDestinationTable(string destinationTable)
         {
             this.destinationTable = destinationTable;
@@ -113,8 +113,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the fields.
         /// </summary>
-        /// <param name="fields">The fields.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="fields">The fields</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddFields(params string[] fields)
         {
             foreach (string field in fields)
@@ -128,8 +128,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the fields.
         /// </summary>
-        /// <param name="fields">The fields.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="fields">The fields</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddFields(IEnumerable<string> fields)
         {
             foreach (string field in fields)
@@ -143,8 +143,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds all fields.
         /// </summary>
-        /// <param name="tablePrefix">The table prefix.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="tablePrefix">The table prefix</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddAllFields(string tablePrefix = null)
         {
             if (!string.IsNullOrEmpty(tablePrefix))
@@ -160,8 +160,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the parameters.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="parameters">The parameters</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddParameters(params DbParameter[] parameters)
         {
             foreach (DbParameter parameter in parameters)
@@ -180,8 +180,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the parameters.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="parameters">The parameters</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddParameters(IEnumerable<DbParameter> parameters)
         {
             foreach (DbParameter parameter in parameters)
@@ -200,9 +200,9 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the parameters.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="key">The key</param>
+        /// <param name="value">The value</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddParameters(string key, object value)
         {
             object fieldValue = value;
@@ -218,8 +218,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the parameters.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="parameters">The parameters</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddParameters(params KeyValuePair<string, object>[] parameters)
         {
             foreach (KeyValuePair<string, object> parameter in parameters)
@@ -239,8 +239,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Adds the parameters.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="parameters">The parameters</param>
+        /// <returns>Chain reference</returns>
         public DataQuery AddParameters(IEnumerable<KeyValuePair<string, object>> parameters)
         {
             foreach (KeyValuePair<string, object> parameter in parameters)
@@ -260,8 +260,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Sets the where.
         /// </summary>
-        /// <param name="whereStatement">The where statement.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="whereStatement">The where statement</param>
+        /// <returns>Chain reference</returns>
         public DataQuery SetWhere(string whereStatement)
         {
             this.whereStatement = whereStatement;
@@ -271,8 +271,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Sets the output.
         /// </summary>
-        /// <param name="outputStatement">The output statement.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="outputStatement">The output statement</param>
+        /// <returns>Chain reference</returns>
         public DataQuery SetOutput(string outputStatement)
         {
             this.outputStatement = outputStatement;
@@ -282,8 +282,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Sets the group by.
         /// </summary>
-        /// <param name="groupByStatement">The group by statement.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="groupByStatement">The group by statement</param>
+        /// <returns>Chain reference</returns>
         public DataQuery SetGroupBy(string groupByStatement)
         {
             this.groupByStatement = groupByStatement;
@@ -293,8 +293,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Sets the order by.
         /// </summary>
-        /// <param name="orderByStatement">The order by statement.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="orderByStatement">The order by statement</param>
+        /// <returns>Chain reference</returns>
         public DataQuery SetOrderBy(string orderByStatement)
         {
             this.orderByStatement = orderByStatement;
@@ -304,8 +304,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Sets the limit.
         /// </summary>
-        /// <param name="limit">The limit.</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="limit">The limit</param>
+        /// <returns>Chain reference</returns>
         public DataQuery SetLimit(int limit)
         {
             this.limit = limit;
@@ -315,7 +315,7 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Selects the query.
         /// </summary>
-        /// <returns>Chain reference.</returns>
+        /// <returns>Chain reference</returns>
         public DataQuery SelectQuery()
         {
             StringBuilder queryText = new StringBuilder();
@@ -371,7 +371,7 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Inserts the query.
         /// </summary>
-        /// <returns>Chain reference.</returns>
+        /// <returns>Chain reference</returns>
         public DataQuery InsertQuery()
         {
             StringBuilder queryText = new StringBuilder();
@@ -430,8 +430,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Updates the query.
         /// </summary>
-        /// <param name="manualSet">if set to <c>true</c> [manual set].</param>
-        /// <returns>Chain reference.</returns>
+        /// <param name="manualSet">if set to <c>true</c> [manual set]</param>
+        /// <returns>Chain reference</returns>
         public DataQuery UpdateQuery(bool manualSet = false)
         {
             StringBuilder queryText = new StringBuilder();
@@ -486,7 +486,7 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Deletes the query.
         /// </summary>
-        /// <returns>Chain reference.</returns>
+        /// <returns>Chain reference</returns>
         public DataQuery DeleteQuery()
         {
             StringBuilder queryText = new StringBuilder();
@@ -521,8 +521,8 @@ namespace Tasslehoff.Library.DataAccess
         /// <summary>
         /// Executes the reader.
         /// </summary>
-        /// <param name="commandBehavior">The command behavior.</param>
-        /// <param name="function">The function.</param>
+        /// <param name="commandBehavior">The command behavior</param>
+        /// <param name="function">The function</param>
         public void ExecuteReader(CommandBehavior commandBehavior = CommandBehavior.Default, Action<DbDataReader> function = null)
         {
             this.database.ExecuteReader(this.sqlString, CommandType.Text, commandBehavior, this.parameters, function);

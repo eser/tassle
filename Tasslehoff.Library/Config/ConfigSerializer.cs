@@ -36,8 +36,8 @@ namespace Tasslehoff.Library.Config
         /// <summary>
         /// Gets the serializer instance.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>A data contract serializer.</returns>
+        /// <param name="type">The type</param>
+        /// <returns>A data contract serializer</returns>
         public static XmlObjectSerializer GetSerializer(Type type)
         {
             /*
@@ -54,10 +54,10 @@ namespace Tasslehoff.Library.Config
         /// <summary>
         /// Deserializes a configuration from the stream.
         /// </summary>
-        /// <typeparam name="T">An IConfig implementation.</typeparam>
-        /// <param name="input">The input.</param>
-        /// <param name="resetFirst">if set to <c>true</c> [reset first].</param>
-        /// <returns>Deserialized configuration class instance.</returns>
+        /// <typeparam name="T">An IConfig implementation</typeparam>
+        /// <param name="input">The input</param>
+        /// <param name="resetFirst">if set to <c>true</c> [reset first]</param>
+        /// <returns>Deserialized configuration class instance</returns>
         public static T Load<T>(Stream input, bool resetFirst = true) where T : IConfig
         {
             XmlObjectSerializer serializer = ConfigSerializer.GetSerializer(typeof(T));
@@ -72,9 +72,9 @@ namespace Tasslehoff.Library.Config
         /// <summary>
         /// Serializes a configuration class instance to the stream.
         /// </summary>
-        /// <param name="output">The output.</param>
-        /// <param name="configObject">The config object.</param>
-        /// <param name="flushAfter">if set to <c>true</c> [flush after].</param>
+        /// <param name="output">The output</param>
+        /// <param name="configObject">The config object</param>
+        /// <param name="flushAfter">if set to <c>true</c> [flush after]</param>
         public static void Save(Stream output, IConfig configObject, bool flushAfter = true)
         {
             Type type = configObject.GetType();
@@ -91,7 +91,7 @@ namespace Tasslehoff.Library.Config
         /// <summary>
         /// Resets the specified config object.
         /// </summary>
-        /// <param name="configObject">The config object.</param>
+        /// <param name="configObject">The config object</param>
         public static void Reset(IConfig configObject)
         {
             Type type = configObject.GetType();

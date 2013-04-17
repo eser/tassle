@@ -171,8 +171,8 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <value>
         /// The <see cref="IModel"/>.
         /// </value>
-        /// <param name="key">The key.</param>
-        /// <returns>IModel instance.</returns>
+        /// <param name="key">The key</param>
+        /// <returns>IModel instance</returns>
         internal IModel this[string key]
         {
             get
@@ -192,8 +192,8 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <summary>
         /// Dequeues a message.
         /// </summary>
-        /// <param name="queueKey">The queue key.</param>
-        /// <param name="timeout">The timeout.</param>
+        /// <param name="queueKey">The queue key</param>
+        /// <param name="timeout">The timeout</param>
         /// <returns>
         /// The message.
         /// </returns>
@@ -228,8 +228,8 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <summary>
         /// Enqueues a message.
         /// </summary>
-        /// <param name="queueKey">The queue key.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="queueKey">The queue key</param>
+        /// <param name="message">The message</param>
         public void Enqueue(string queueKey, byte[] message)
         {
             IModel channel = this[queueKey];
@@ -253,7 +253,7 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="ArrayUtils.cs" company="-">
+// <copyright file="NetUtils.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -20,39 +20,39 @@
 
 namespace Tasslehoff.Library.Utils
 {
-    using System.Collections.Generic;
+    using System;
 
     /// <summary>
-    /// ArrayUtils class.
+    /// NetUtils class.
     /// </summary>
-    public static class ArrayUtils
+    public static class NetUtils
     {
         // methods
 
         /// <summary>
-        /// Gets the array.
+        /// Converts to IP range.
         /// </summary>
-        /// <typeparam name="T">The type array contains</typeparam>
-        /// <param name="collection">The collection</param>
-        /// <returns>Array of given type</returns>
-        public static T[] GetArray<T>(ICollection<T> collection)
+        /// <param name="ipAddress">The IP address</param>
+        /// <returns>The IP range</returns>
+        public static string ConvertToIPRange(string ipAddress)
         {
-            T[] array = new T[collection.Count];
-            collection.CopyTo(array, 0);
+            string[] ipArray = ipAddress.Split('.');
+            double ipRange = 0;
 
-            return array;
-        }
+            for (int i = 0; i < 4; i++)
+            {
+                int numPosition = int.Parse(ipArray[3 - i].ToString());
+                if (i == 4)
+                {
+                    ipRange += numPosition;
+                }
+                else
+                {
+                    ipRange += (numPosition % 256) * Math.Pow(256, i);
+                }
+            }
 
-        /// <summary>
-        /// Gets the array.
-        /// </summary>
-        /// <typeparam name="T">The type array contains</typeparam>
-        /// <param name="enumerable">The enumerable</param>
-        /// <returns>Array of given type</returns>
-        public static T[] GetArray<T>(IEnumerable<T> enumerable)
-        {
-            List<T> collection = new List<T>(enumerable);
-            return collection.ToArray();
+            return ipRange.ToString();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// Does the task.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="parameters">The parameters</param>
         void Do(CronActionParameters parameters);
     }
 }

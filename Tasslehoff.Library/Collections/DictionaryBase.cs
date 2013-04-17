@@ -116,7 +116,7 @@ namespace Tasslehoff.Library.Collections
         /// <value>
         /// The <see cref="`0"/>.
         /// </value>
-        /// <param name="key">The key.</param>
+        /// <param name="key">The key</param>
         /// <returns>Object in the dictionary</returns>
         public T this[string key]
         {
@@ -142,9 +142,9 @@ namespace Tasslehoff.Library.Collections
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="replace">if set to <c>true</c> [replace].</param>
+        /// <param name="key">The key</param>
+        /// <param name="value">The value</param>
+        /// <param name="replace">if set to <c>true</c> [replace]</param>
         /// <exception cref="System.ArgumentException">If specified key is already exist in the dictionary</exception>
         public void Add(string key, T value, bool replace = false)
         {
@@ -167,7 +167,7 @@ namespace Tasslehoff.Library.Collections
         /// <summary>
         /// Removes the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
+        /// <param name="key">The key</param>
         /// <returns>Is the key found and removed</returns>
         public bool Remove(string key)
         {
@@ -194,7 +194,7 @@ namespace Tasslehoff.Library.Collections
         /// <summary>
         /// Determines whether the specified key contains key.
         /// </summary>
-        /// <param name="key">The key.</param>
+        /// <param name="key">The key</param>
         /// <returns>
         ///   <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
         /// </returns>

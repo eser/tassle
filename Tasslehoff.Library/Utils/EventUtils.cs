@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="ArrayUtils.cs" company="-">
+// <copyright file="EventUtils.cs" company="-">
 // Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
 // </copyright>
 // <author>larukedi (http://github.com/larukedi/)</author>
@@ -20,39 +20,33 @@
 
 namespace Tasslehoff.Library.Utils
 {
-    using System.Collections.Generic;
+    using System;
+    using System.Reflection;
 
     /// <summary>
-    /// ArrayUtils class.
+    /// EventUtils class.
     /// </summary>
-    public static class ArrayUtils
+    public static class EventUtils
     {
         // methods
 
         /// <summary>
-        /// Gets the array.
+        /// Events the once.
         /// </summary>
-        /// <typeparam name="T">The type array contains</typeparam>
-        /// <param name="collection">The collection</param>
-        /// <returns>Array of given type</returns>
-        public static T[] GetArray<T>(ICollection<T> collection)
+        /// <param name="eventObject">The event object</param>
+        /// <param name="eventMember">The event member</param>
+        /// <param name="handler">The handler</param>
+        public static void EventOnce(object eventObject, string eventMember, EventHandler handler)
         {
-            T[] array = new T[collection.Count];
-            collection.CopyTo(array, 0);
+            EventInfo eventInfo = eventObject.GetType().GetEvent(eventMember);
+            EventHandler tempEventHandler = null;
 
-            return array;
-        }
-
-        /// <summary>
-        /// Gets the array.
-        /// </summary>
-        /// <typeparam name="T">The type array contains</typeparam>
-        /// <param name="enumerable">The enumerable</param>
-        /// <returns>Array of given type</returns>
-        public static T[] GetArray<T>(IEnumerable<T> enumerable)
-        {
-            List<T> collection = new List<T>(enumerable);
-            return collection.ToArray();
+            tempEventHandler = (sender, e) =>
+            {
+                handler.Invoke(null, new EventArgs());
+                eventInfo.RemoveEventHandler(eventObject, tempEventHandler);
+            };
+            eventInfo.AddEventHandler(eventObject, tempEventHandler);
         }
     }
 }

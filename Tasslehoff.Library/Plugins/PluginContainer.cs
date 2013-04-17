@@ -42,7 +42,7 @@ namespace Tasslehoff.Library.Plugins
         /// <summary>
         /// Initializes a new instance of the <see cref="PluginContainer" /> class.
         /// </summary>
-        /// <param name="extensionManager">The extension manager.</param>
+        /// <param name="extensionManager">The extension manager</param>
         public PluginContainer(ExtensionManager extensionManager) : base()
         {
             this.extensionManager = extensionManager;

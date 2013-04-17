@@ -101,7 +101,7 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Searches the files.
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="path">The path</param>
         public void SearchFiles(string path)
         {
             DirectoryInfo searchDirectory = new DirectoryInfo(Path.GetDirectoryName(path));
@@ -117,7 +117,7 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Adds the file.
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="path">The path</param>
         public void AddFile(string path)
         {
             try
@@ -142,7 +142,7 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Adds the specified assembly.
         /// </summary>
-        /// <param name="assembly">The assembly.</param>
+        /// <param name="assembly">The assembly</param>
         public void Add(Assembly assembly)
         {
             foreach (Assembly item in this.assemblies)
@@ -161,7 +161,7 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Removes the specified assembly.
         /// </summary>
-        /// <param name="assembly">The assembly.</param>
+        /// <param name="assembly">The assembly</param>
         public void Remove(Assembly assembly)
         {
             this.assemblies.Remove(assembly);
@@ -184,8 +184,8 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Searches the interface.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>Matched types.</returns>
+        /// <param name="type">The type</param>
+        /// <returns>Matched types</returns>
         public IEnumerable<Type> SearchInterface(Type type)
         {
             return this.SearchInterface(type.FullName);
@@ -194,8 +194,8 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Searches the interface.
         /// </summary>
-        /// <param name="typeName">Name of the type.</param>
-        /// <returns>Matches types.</returns>
+        /// <param name="typeName">Name of the type</param>
+        /// <returns>Matches types</returns>
         public IEnumerable<Type> SearchInterface(string typeName)
         {
             ICollection<Type> types = new Collection<Type>();
@@ -229,8 +229,8 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Searches the type of the base.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>Matched types.</returns>
+        /// <param name="type">The type</param>
+        /// <returns>Matched types</returns>
         public IEnumerable<Type> SearchBaseType(Type type)
         {
             ICollection<Type> types = new Collection<Type>();
@@ -269,8 +269,8 @@ namespace Tasslehoff.Library.Extensions
         /// <summary>
         /// Searches the type.
         /// </summary>
-        /// <param name="typeName">Name of the type.</param>
-        /// <returns>The exact type.</returns>
+        /// <param name="typeName">Name of the type</param>
+        /// <returns>The exact type</returns>
         public Type SearchType(string typeName)
         {
             foreach (Assembly item in this.assemblies)

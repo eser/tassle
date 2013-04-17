@@ -105,8 +105,8 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// Initializes a new instance of the <see cref="TasslehoffRunner" /> class.
         /// </summary>
-        /// <param name="options">The options.</param>
-        /// <param name="configuration">The configuration.</param>
+        /// <param name="options">The options</param>
+        /// <param name="configuration">The configuration</param>
         internal TasslehoffRunner(RunnerOptions options, RunnerConfig configuration) : base()
         {
             // singleton pattern
@@ -319,7 +319,7 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// Writes the header.
         /// </summary>
-        /// <param name="output">The output.</param>
+        /// <param name="output">The output</param>
         public static void WriteHeader(TextWriter output)
         {
             output.WriteLine("Tasslehoff 1.0  (c) 2013 larukedi (eser@sent.com). All rights reserved.");
@@ -330,8 +330,8 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// Creates the specified options.
         /// </summary>
-        /// <param name="options">The options.</param>
-        /// <param name="output">The output.</param>
+        /// <param name="options">The options</param>
+        /// <param name="output">The output</param>
         /// <returns>
         /// Created runner.
         /// </returns>

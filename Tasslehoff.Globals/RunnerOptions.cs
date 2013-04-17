@@ -119,8 +119,8 @@ namespace Tasslehoff.Globals
         /// <summary>
         /// Reads instance options from the command line.
         /// </summary>
-        /// <param name="args">The args.</param>
-        /// <returns>Read command line options.</returns>
+        /// <param name="args">The args</param>
+        /// <returns>Read command line options</returns>
         /// <exception cref="System.ArgumentException">
         /// If one of parameters has errors.
         /// </exception>
@@ -169,7 +169,7 @@ namespace Tasslehoff.Globals
         /// <summary>
         /// Shows help on command line parameters.
         /// </summary>
-        /// <returns>Help context.</returns>
+        /// <returns>Help context</returns>
         public static string Help()
         {
             StringBuilder help = new StringBuilder();

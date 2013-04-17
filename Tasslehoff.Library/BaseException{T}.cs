@@ -45,7 +45,7 @@ namespace Tasslehoff.Library
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseException{T}"/> class.
         /// </summary>
-        /// <param name="exceptionObject">The exception object.</param>
+        /// <param name="exceptionObject">The exception object</param>
         public BaseException(T exceptionObject) : base()
         {
             this.exceptionObject = exceptionObject;
@@ -54,8 +54,8 @@ namespace Tasslehoff.Library
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseException{T}"/> class.
         /// </summary>
-        /// <param name="exceptionObject">The exception object.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="exceptionObject">The exception object</param>
+        /// <param name="message">The message</param>
         public BaseException(T exceptionObject, string message) : base(message)
         {
             this.exceptionObject = exceptionObject;
@@ -64,9 +64,9 @@ namespace Tasslehoff.Library
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseException{T}"/> class.
         /// </summary>
-        /// <param name="exceptionObject">The exception object.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="innerException">The inner exception.</param>
+        /// <param name="exceptionObject">The exception object</param>
+        /// <param name="message">The message</param>
+        /// <param name="innerException">The inner exception</param>
         public BaseException(T exceptionObject, string message, Exception innerException) : base(message, innerException)
         {
             this.exceptionObject = exceptionObject;
@@ -75,8 +75,8 @@ namespace Tasslehoff.Library
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseException{T}"/> class.
         /// </summary>
-        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown</param>
+        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination</param>
         protected BaseException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
@@ -102,8 +102,8 @@ namespace Tasslehoff.Library
         /// <summary>
         /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with information about the exception.
         /// </summary>
-        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown</param>
+        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination</param>
         /// <PermissionSet>
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />

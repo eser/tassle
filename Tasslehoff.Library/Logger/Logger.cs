@@ -206,8 +206,8 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Writes the specified log entry.
         /// </summary>
-        /// <param name="logEntry">The log entry.</param>
-        /// <returns>Is written or not.</returns>
+        /// <param name="logEntry">The log entry</param>
+        /// <returns>Is written or not</returns>
         public bool Write(LogEntry logEntry)
         {
             lock (this.sync)
@@ -234,15 +234,15 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Writes the log.
         /// </summary>
-        /// <param name="logEntry">The log entry.</param>
-        /// <returns>Is written or not.</returns>
+        /// <param name="logEntry">The log entry</param>
+        /// <returns>Is written or not</returns>
         protected abstract bool WriteLog(LogEntry logEntry);
 
         /// <summary>
         /// Formats the specified log entry.
         /// </summary>
-        /// <param name="logEntry">The log entry.</param>
-        /// <returns>Formatted string.</returns>
+        /// <param name="logEntry">The log entry</param>
+        /// <returns>Formatted string</returns>
         protected virtual string Format(LogEntry logEntry)
         {
             if (this.customFormat != null)
@@ -295,7 +295,7 @@ namespace Tasslehoff.Library.Logger
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)

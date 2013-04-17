@@ -69,7 +69,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// Adds the child.
         /// </summary>
-        /// <param name="service">The service.</param>
+        /// <param name="service">The service</param>
         public void AddChild(IService service)
         {
             this.children.Add(service.Name, service);
@@ -144,7 +144,7 @@ namespace Tasslehoff.Library.Services
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected override void Dispose(bool disposing)
         {
             if (this.Disposed)

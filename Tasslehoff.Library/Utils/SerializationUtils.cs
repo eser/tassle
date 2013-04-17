@@ -35,8 +35,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Binaries the serialize.
         /// </summary>
-        /// <param name="graph">The graph.</param>
-        /// <returns>Serialized data.</returns>
+        /// <param name="graph">The graph</param>
+        /// <returns>Serialized data</returns>
         public static byte[] BinarySerialize(object graph)
         {
             byte[] bytes;
@@ -55,8 +55,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Binaries the deserialize.
         /// </summary>
-        /// <typeparam name="T">Any type.</typeparam>
-        /// <param name="bytes">The bytes.</param>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="bytes">The bytes</param>
         /// <returns>
         /// Deserialized object.
         /// </returns>
@@ -76,8 +76,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Serializes the object into JSON.
         /// </summary>
-        /// <param name="graph">The graph.</param>
-        /// <returns>Serialized data.</returns>
+        /// <param name="graph">The graph</param>
+        /// <returns>Serialized data</returns>
         public static byte[] JsonSerialize(object graph)
         {
             byte[] bytes;
@@ -96,8 +96,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// Deserializes JSON data into object.
         /// </summary>
-        /// <typeparam name="T">Any type.</typeparam>
-        /// <param name="bytes">The bytes.</param>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="bytes">The bytes</param>
         /// <returns>
         /// Deserialized object.
         /// </returns>
@@ -117,8 +117,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// XMLs the serialize.
         /// </summary>
-        /// <param name="graph">The graph.</param>
-        /// <returns>Serialized data.</returns>
+        /// <param name="graph">The graph</param>
+        /// <returns>Serialized data</returns>
         public static byte[] XmlSerialize(object graph)
         {
             byte[] bytes;
@@ -137,8 +137,8 @@ namespace Tasslehoff.Library.Utils
         /// <summary>
         /// XMLs the deserialize.
         /// </summary>
-        /// <typeparam name="T">Any type.</typeparam>
-        /// <param name="bytes">The bytes.</param>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="bytes">The bytes</param>
         /// <returns>
         /// Deserialized object.
         /// </returns>

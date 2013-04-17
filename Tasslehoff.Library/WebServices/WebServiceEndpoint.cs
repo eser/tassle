@@ -44,8 +44,8 @@ namespace Tasslehoff.Library.WebServices
         /// <summary>
         /// Initializes a new instance of the <see cref="WebServiceEndpoint" /> class.
         /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="type">The type.</param>
+        /// <param name="name">The name</param>
+        /// <param name="type">The type</param>
         public WebServiceEndpoint(string name, Type type)
         {
             this.name = name;

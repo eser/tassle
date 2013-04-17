@@ -20,6 +20,7 @@
 
 namespace Tasslehoff.Library.DataEntities
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -39,8 +40,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="serializer">The serializer.</param>
+        /// <param name="key">The key</param>
+        /// <param name="serializer">The serializer</param>
         public static void Add(string key, FieldSerializer serializer)
         {
             if (FieldSerializers.serializers == null)
@@ -52,10 +53,43 @@ namespace Tasslehoff.Library.DataEntities
         }
 
         /// <summary>
+        /// Adds the defaults.
+        /// </summary>
+        public static void AddDefaults()
+        {
+            FieldSerializers.Add(
+                "uri",
+                new FieldSerializer(
+                    (object value) =>
+                    {
+                        if (value == null)
+                        {
+                            return null;
+                        }
+
+                        return new Uri((string)value);
+                    }));
+
+            // TODO: the code below assumes that everyone stores datetime as utc
+            FieldSerializers.Add(
+                "datetime",
+                new FieldSerializer(
+                    (object value) =>
+                    {
+                        if (value == null)
+                        {
+                            return new DateTime(0L, DateTimeKind.Utc);
+                        }
+
+                        return DateTime.SpecifyKind((DateTime)value, DateTimeKind.Utc);
+                    }));
+        }
+
+        /// <summary>
         /// Gets the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>The serializer function.</returns>
+        /// <param name="key">The key</param>
+        /// <returns>The serializer function</returns>
         public static FieldSerializer Get(string key)
         {
             return FieldSerializers.serializers[key];

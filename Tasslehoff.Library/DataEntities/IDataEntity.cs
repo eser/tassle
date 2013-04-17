@@ -32,13 +32,13 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Called when [serialize].
         /// </summary>
-        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="dictionary">The dictionary</param>
         void OnSerialize(ref IDictionary<string, object> dictionary);
 
         /// <summary>
         /// Called when [deserialize].
         /// </summary>
-        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="dictionary">The dictionary</param>
         void OnDeserialize(ref IDictionary<string, object> dictionary);
     }
 }

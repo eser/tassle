@@ -44,8 +44,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldSerializer" /> class.
         /// </summary>
-        /// <param name="deserializer">The deserializer.</param>
-        /// <param name="serializer">The serializer.</param>
+        /// <param name="deserializer">The deserializer</param>
+        /// <param name="serializer">The serializer</param>
         public FieldSerializer(Func<object, object> deserializer = null, Func<object, object> serializer = null)
         {
             this.deserializer = deserializer;
