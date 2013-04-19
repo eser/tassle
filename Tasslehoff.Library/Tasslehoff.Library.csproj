@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BaseException.cs" />
     <Compile Include="BaseException{T}.cs" />
+    <Compile Include="Collections\DictionaryBase{TKey1,TKey2,T}.cs" />
     <Compile Include="Cron\CronActionParameters.cs" />
     <Compile Include="Cron\CronItem.cs" />
     <Compile Include="Cron\CronItemStatus.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Config\ConfigSerializer.cs" />
     <Compile Include="Config\ConfigEntryAttribute.cs" />
-    <Compile Include="Collections\DictionaryBase.cs" />
+    <Compile Include="Collections\DictionaryBase{TKey,T}.cs" />
     <Compile Include="DataEntities\DataEntityMap{T}.cs" />
     <Compile Include="DataEntities\DataEntityFieldAttribute.cs" />
     <Compile Include="Logger\Logger.cs" />

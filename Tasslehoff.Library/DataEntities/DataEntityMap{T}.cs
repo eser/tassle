@@ -34,7 +34,7 @@ namespace Tasslehoff.Library.DataEntities
     /// </summary>
     /// <typeparam name="T">IDataEntity implementation</typeparam>
     [ComVisible(false)]
-    public class DataEntityMap<T> : DictionaryBase<DataEntityFieldAttribute>, IDataEntityMap where T : IDataEntity, new()
+    public class DataEntityMap<T> : DictionaryBase<string, DataEntityFieldAttribute>, IDataEntityMap where T : IDataEntity, new()
     {
         // constructors
 
@@ -207,6 +207,27 @@ namespace Tasslehoff.Library.DataEntities
             while (reader.Read())
             {
                 dictionary.Add((TKey)reader[key], this.Deserialize((IDataRecord)reader));
+            }
+
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Deserializes to base dictionary.
+        /// </summary>
+        /// <typeparam name="TKey1">The type of the key1.</typeparam>
+        /// <typeparam name="TKey2">The type of the key2.</typeparam>
+        /// <param name="key1">The key1.</param>
+        /// <param name="key2">The key2.</param>
+        /// <param name="reader">The reader.</param>
+        /// <returns></returns>
+        public DictionaryBase<TKey1, TKey2, T> DeserializeToBaseDictionary<TKey1, TKey2>(string key1, string key2, IDataReader reader)
+        {
+            DictionaryBase<TKey1, TKey2, T> dictionary = new DictionaryBase<TKey1, TKey2, T>();
+
+            while (reader.Read())
+            {
+                dictionary.Add((TKey1)reader[key1], (TKey2)reader[key2], this.Deserialize((IDataRecord)reader));
             }
 
             return dictionary;
