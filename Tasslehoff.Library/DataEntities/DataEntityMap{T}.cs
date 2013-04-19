@@ -149,7 +149,7 @@ namespace Tasslehoff.Library.DataEntities
         /// </summary>
         /// <param name="record">The record</param>
         /// <returns>
-        /// Deserialized class.
+        /// Deserialized class
         /// </returns>
         public T Deserialize(IDataRecord record)
         {
@@ -161,6 +161,20 @@ namespace Tasslehoff.Library.DataEntities
             }
 
             return this.Deserialize(dictionary);
+        }
+
+        /// <summary>
+        /// Deserializes the specified reader.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <returns>Deserialized class</returns>
+        public T Deserialize(IDataReader reader)
+        {
+            if (reader.Read()) {
+                return this.Deserialize((IDataRecord)reader);
+            }
+
+            return default(T);
         }
 
         /// <summary>

@@ -123,14 +123,40 @@ namespace Tasslehoff.Runner.Memcached
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="key">The key</param>
         /// <returns>The cached object</returns>
-        public T Get<T>(string key) where T : class
+        public T Get<T>(string key)
+        {
+            if (this.connection == null)
+            {
+                return default(T);
+            }
+
+            object value = this.connection.Get(key);
+
+            return (T)value;
+        }
+
+        /// <summary>
+        /// Gets the json.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <returns>The cached object</returns>
+        public T GetJson<T>(string key) where T : class
         {
             if (this.connection == null)
             {
                 return null;
             }
 
-            return this.connection.Get(key) as T;
+            byte[] bytes = this.connection.Get(key) as byte[];
+            if (bytes == null)
+            {
+                return null;
+            }
+
+            T value = SerializationUtils.JsonDeserialize<T>(bytes);
+
+            return value;
         }
 
         /// <summary>
@@ -153,6 +179,19 @@ namespace Tasslehoff.Runner.Memcached
             }
 
             return this.connection.Store(StoreMode.Set, key, value);
+        }
+
+        /// <summary>
+        /// Sets the specified key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="expiresAt">The expires at.</param>
+        /// <returns>Is written to cache or not</returns>
+        public bool SetJson(string key, object value, DateTime? expiresAt = null)
+        {
+            byte[] serializedValue = SerializationUtils.JsonSerialize(value);
+            return this.Set(key, serializedValue, expiresAt);
         }
 
         /// <summary>

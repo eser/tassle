@@ -195,7 +195,7 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <param name="queueKey">The queue key</param>
         /// <param name="timeout">The timeout</param>
         /// <returns>
-        /// The message.
+        /// The message
         /// </returns>
         public byte[] Dequeue(string queueKey, int timeout = RabbitMQConnection.DefaultTimeout)
         {
@@ -226,6 +226,28 @@ namespace Tasslehoff.Runner.RabbitMQ
         }
 
         /// <summary>
+        /// Dequeues a message.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queueKey">The queue key.</param>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns>
+        /// The message
+        /// </returns>
+        public T DequeueJson<T>(string queueKey, int timeout = RabbitMQConnection.DefaultTimeout) where T : class
+        {
+            byte[] bytes = this.Dequeue(queueKey, timeout);
+            if (bytes == null)
+            {
+                return null;
+            }
+
+            T message = SerializationUtils.JsonDeserialize<T>(bytes);
+
+            return message;
+        }
+
+        /// <summary>
         /// Enqueues a message.
         /// </summary>
         /// <param name="queueKey">The queue key</param>
@@ -238,6 +260,17 @@ namespace Tasslehoff.Runner.RabbitMQ
             properties.DeliveryMode = 2;
 
             channel.BasicPublish(string.Empty, queueKey, properties, message);
+        }
+
+        /// <summary>
+        /// Enqueues the specified queue key.
+        /// </summary>
+        /// <param name="queueKey">The queue key.</param>
+        /// <param name="message">The message.</param>
+        public void EnqueueJson(string queueKey, object message)
+        {
+            byte[] serializedMessage = SerializationUtils.JsonSerialize(message);
+            this.Enqueue(queueKey, serializedMessage);
         }
 
         /// <summary>
