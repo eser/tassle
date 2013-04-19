@@ -82,6 +82,22 @@ namespace Tasslehoff.Library.DataEntities
                         }
 
                         return DateTime.SpecifyKind((DateTime)value, DateTimeKind.Utc);
+                    },
+                    value => ((DateTime)value).ToString("yyyy-MM-dd HH':'mm':'ss")));
+
+            FieldSerializers.Add(
+                "nullable",
+                new FieldSerializer(
+                    value => value,
+                    (object value) =>
+                    {
+                        if (value == null)
+                        {
+                            return null;
+                        }
+
+                        Type type = Nullable.GetUnderlyingType(value.GetType());
+                        return Convert.ChangeType(value, type);
                     }));
         }
 

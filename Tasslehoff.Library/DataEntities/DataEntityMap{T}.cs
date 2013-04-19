@@ -89,14 +89,14 @@ namespace Tasslehoff.Library.DataEntities
             {
                 object value = VariableUtils.ReadMemberValue(fieldAttribute.ClassMember, instance);
 
-                if (convertNullsToDBNull && value == null)
-                {
-                    value = DBNull.Value;
-                }
-
                 if (fieldAttribute.Serializer != null)
                 {
                     value = FieldSerializers.Get(fieldAttribute.Serializer).Serializer(value);
+                }
+
+                if (convertNullsToDBNull && value == null)
+                {
+                    value = DBNull.Value;
                 }
 
                 dictionary.Add(fieldAttribute.FieldName, value);
