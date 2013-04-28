@@ -107,6 +107,11 @@
     <Compile Include="Text\GsmDecoder.cs" />
     <Compile Include="Text\GsmEncoder.cs" />
     <Compile Include="Text\GsmEncoding.cs" />
+    <Compile Include="Threading\ChannelSingleTask.cs" />
+    <Compile Include="Threading\ChannelTaskQueue.cs" />
+    <Compile Include="Threading\ChannelTasksDoneEventArgs.cs" />
+    <Compile Include="Threading\ChannelTaskStatus.cs" />
+    <Compile Include="Threading\ChannelTaskStatusChangedEventArgs.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Utils\MimeUtils.cs" />

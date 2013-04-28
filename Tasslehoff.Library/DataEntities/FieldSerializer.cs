@@ -53,7 +53,8 @@ namespace Tasslehoff.Library.DataEntities
 
             if (this.serializer == null)
             {
-                this.serializer = (object value) => {
+                this.serializer = (object value) =>
+                {
                     if (value == null)
                     {
                         return null;

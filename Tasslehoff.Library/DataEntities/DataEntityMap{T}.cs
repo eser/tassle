@@ -52,17 +52,17 @@ namespace Tasslehoff.Library.DataEntities
                 {
                     continue;
                 }
-                
+
                 object[] attributes = member.GetCustomAttributes(typeof(DataEntityFieldAttribute), true);
                 foreach (object attribute in attributes)
                 {
                     DataEntityFieldAttribute fieldAttribute = (DataEntityFieldAttribute)attribute;
-                    
+
                     if (string.IsNullOrEmpty(fieldAttribute.FieldName))
                     {
                         fieldAttribute.FieldName = member.Name;
                     }
-                    
+
                     fieldAttribute.ClassMember = member;
                     fieldAttribute.Type = VariableUtils.GetMemberType(member);
 
@@ -170,7 +170,8 @@ namespace Tasslehoff.Library.DataEntities
         /// <returns>Deserialized class</returns>
         public T Deserialize(IDataReader reader)
         {
-            if (reader.Read()) {
+            if (reader.Read())
+            {
                 return this.Deserialize((IDataRecord)reader);
             }
 
@@ -234,7 +235,7 @@ namespace Tasslehoff.Library.DataEntities
         /// <param name="key1">The key1.</param>
         /// <param name="key2">The key2.</param>
         /// <param name="reader">The reader.</param>
-        /// <returns></returns>
+        /// <returns>Dictionary object</returns>
         public DictionaryBase<TKey1, TKey2, T> DeserializeToBaseDictionary<TKey1, TKey2>(string key1, string key2, IDataReader reader)
         {
             DictionaryBase<TKey1, TKey2, T> dictionary = new DictionaryBase<TKey1, TKey2, T>();

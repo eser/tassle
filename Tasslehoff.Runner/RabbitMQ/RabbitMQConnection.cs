@@ -228,7 +228,7 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <summary>
         /// Dequeues a message.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Object type</typeparam>
         /// <param name="queueKey">The queue key.</param>
         /// <param name="timeout">The timeout.</param>
         /// <returns>

@@ -3,6 +3,7 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>cron</Value>
       <Value>Dequeues</Value>
+      <Value>Json</Value>
       <Value>Memcached</Value>
       <Value>Tasslehoff</Value>
     </CollectionProperty>

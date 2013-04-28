@@ -86,6 +86,29 @@ namespace Tasslehoff.Library.DataEntities
                     value => ((DateTime)value).ToString("yyyy-MM-dd HH':'mm':'ss")));
 
             FieldSerializers.Add(
+                "datetime?",
+                new FieldSerializer(
+                    (object value) =>
+                    {
+                        if (value == null)
+                        {
+                            return null;
+                        }
+
+                        return DateTime.SpecifyKind((DateTime)value, DateTimeKind.Utc);
+                    },
+                    (object value) =>
+                    {
+                        DateTime? unboxed = (DateTime?)value;
+                        if (!unboxed.HasValue)
+                        {
+                            return null;
+                        }
+
+                        return unboxed.Value.ToString("yyyy-MM-dd HH':'mm':'ss");
+                    }));
+
+            FieldSerializers.Add(
                 "nullable",
                 new FieldSerializer(
                     value => value,

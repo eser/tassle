@@ -138,7 +138,7 @@ namespace Tasslehoff.Runner.Memcached
         /// <summary>
         /// Gets the json.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Object type</typeparam>
         /// <param name="key">The key.</param>
         /// <returns>The cached object</returns>
         public T GetJson<T>(string key) where T : class
