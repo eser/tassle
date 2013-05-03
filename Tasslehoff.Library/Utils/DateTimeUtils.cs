@@ -21,6 +21,7 @@
 namespace Tasslehoff.Library.Utils
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// DateTimeUtils class.
@@ -49,6 +50,31 @@ namespace Tasslehoff.Library.Utils
         {
             DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return epoch.AddSeconds(secondsPassed);
+        }
+
+        /// <summary>
+        /// Converts to ISO8601 formatted datetime.
+        /// </summary>
+        /// <param name="datetime">The datetime.</param>
+        /// <returns>ISO8601 formatted datetime</returns>
+        public static string ISO8601(DateTime datetime)
+        {
+            return datetime.ToString("s");
+        }
+
+        /// <summary>
+        /// Converts from ISO8601 formatted datetime.
+        /// </summary>
+        /// <param name="datetime">The datetime.</param>
+        /// <returns>DateTime Object</returns>
+        public static DateTime FromISO8601(string datetime)
+        {
+            return DateTime.ParseExact(
+                datetime,
+                new string[] { "s", "u" },
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None
+            );
         }
 
         /// <summary>
