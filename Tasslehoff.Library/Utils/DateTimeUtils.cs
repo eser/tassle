@@ -59,7 +59,7 @@ namespace Tasslehoff.Library.Utils
         /// <returns>ISO8601 formatted datetime</returns>
         public static string ISO8601(DateTime datetime)
         {
-            return datetime.ToString("s");
+            return datetime.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'sszzz");
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Tasslehoff.Library.Utils
         {
             return DateTime.ParseExact(
                 datetime,
-                new string[] { "s", "u" },
+                "yyyy'-'MM'-'dd'T'HH':'mm':'sszzz", // new string[] { "s", "u" },
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None
             );
