@@ -48,6 +48,13 @@ namespace Tasslehoff.Library.Services
             this.children = new Dictionary<string, IService>();
         }
 
+        // events
+
+        /// <summary>
+        /// Occurs when [on start with children].
+        /// </summary>
+        public event EventHandler OnStartWithChildren;
+
         // attributes
 
         /// <summary>
@@ -97,6 +104,11 @@ namespace Tasslehoff.Library.Services
                     {
                         controllableChild.Start();
                     }
+                }
+
+                if (this.OnStartWithChildren != null)
+                {
+                    this.OnStartWithChildren(this, null);
                 }
             }
             catch (Exception ex)

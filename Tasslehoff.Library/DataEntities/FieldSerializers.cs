@@ -62,12 +62,13 @@ namespace Tasslehoff.Library.DataEntities
                 new FieldSerializer(
                     (object value) =>
                     {
-                        if (value == null)
+                        string strValue = (string)value;
+                        if (string.IsNullOrEmpty(strValue))
                         {
                             return null;
                         }
 
-                        return new Uri((string)value);
+                        return new Uri(strValue);
                     }));
 
             // TODO: the code below assumes that everyone stores datetime as utc

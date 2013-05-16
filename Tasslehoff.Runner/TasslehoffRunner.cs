@@ -66,6 +66,11 @@ namespace Tasslehoff.Runner
         private readonly RunnerConfig configuration;
 
         /// <summary>
+        /// The output
+        /// </summary>
+        private readonly TextWriter output;
+
+        /// <summary>
         /// The database
         /// </summary>
         private readonly Database database;
@@ -107,7 +112,8 @@ namespace Tasslehoff.Runner
         /// </summary>
         /// <param name="options">The options</param>
         /// <param name="configuration">The configuration</param>
-        internal TasslehoffRunner(RunnerOptions options, RunnerConfig configuration) : base()
+        /// <param name="output">The output</param>
+        internal TasslehoffRunner(RunnerOptions options, RunnerConfig configuration, TextWriter output) : base()
         {
             // singleton pattern
             if (TasslehoffRunner.instance == null)
@@ -118,6 +124,7 @@ namespace Tasslehoff.Runner
             // initialization
             this.options = options;
             this.configuration = configuration;
+            this.output = output;
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
             this.database = new Database(this.configuration.DatabaseDriver, this.configuration.DatabaseConnectionString);
@@ -142,6 +149,8 @@ namespace Tasslehoff.Runner
 
             this.webServiceManager = new WebServiceManager(this.configuration.WebServiceEndpoint);
             this.AddChild(this.webServiceManager);
+
+            this.OnStartWithChildren += TasslehoffRunner_OnStartWithChildren;
         }
 
         // properties
@@ -213,6 +222,20 @@ namespace Tasslehoff.Runner
             get
             {
                 return this.configuration;
+            }
+        }
+
+        /// <summary>
+        /// Gets the output.
+        /// </summary>
+        /// <value>
+        /// The output.
+        /// </value>
+        public TextWriter Output
+        {
+            get
+            {
+                return this.output;
             }
         }
 
@@ -385,7 +408,7 @@ namespace Tasslehoff.Runner
                 return null;
             }
 
-            return new TasslehoffRunner(options, config);
+            return new TasslehoffRunner(options, config, output);
         }
 
         /// <summary>
@@ -425,6 +448,30 @@ namespace Tasslehoff.Runner
 
             VariableUtils.CheckAndDispose(this.messageQueue);
             this.messageQueue = null;
+        }
+
+        /// <summary>
+        /// Handles the OnStartWithChildren event of the TasslehoffRunner control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void TasslehoffRunner_OnStartWithChildren(object sender, EventArgs e)
+        {
+            this.output.WriteLine("Loaded Plugins:");
+            foreach (IService service in this.pluginContainer.Children.Values)
+            {
+                this.output.WriteLine("- {0} {1}", service.Name, service.Description);
+            }
+            this.output.WriteLine("{0} total", this.pluginContainer.Children.Count);
+            this.output.WriteLine();
+
+            this.output.WriteLine("Loaded WebServices:");
+            foreach (WebServiceEndpoint endpoint in this.webServiceManager.Endpoints)
+            {
+                this.output.WriteLine("- {0}", endpoint.Name);
+            }
+            this.output.WriteLine("{0} total", this.webServiceManager.Endpoints.Count);
+            this.output.WriteLine();
         }
     }
 }
