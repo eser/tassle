@@ -141,7 +141,12 @@ namespace Tasslehoff.Runner
             string extensionDirectory = Path.Combine(this.options.WorkingDirectory, "extensions");
             if (Directory.Exists(extensionDirectory))
             {
-                this.extensionManager.SearchFiles(extensionDirectory + "\\*.dll");
+                this.extensionManager.SearchFiles(Path.Combine(extensionDirectory, "*.dll"));
+                this.output.WriteLine("{0} extensions found.", this.extensionManager.Assemblies.Count);
+            }
+            else
+            {
+                this.output.WriteLine("extensions folder is not accessible.");
             }
             
             this.pluginContainer = new PluginContainer(this.extensionManager);
@@ -150,7 +155,14 @@ namespace Tasslehoff.Runner
             this.webServiceManager = new WebServiceManager(this.configuration.WebServiceEndpoint);
             this.AddChild(this.webServiceManager);
 
-            this.OnStartWithChildren += TasslehoffRunner_OnStartWithChildren;
+            this.OnStartWithChildren += this.TasslehoffRunner_OnStartWithChildren;
+
+            if (this.options.VerboseMode)
+            {
+                this.output.WriteLine("Working Directory: {0}", this.options.WorkingDirectory);
+                this.output.WriteLine("Config File: {0}", this.options.ConfigFile);
+                this.output.WriteLine();
+            }
         }
 
         // properties
@@ -363,7 +375,7 @@ namespace Tasslehoff.Runner
             TasslehoffRunner.WriteHeader(output);
 
             // working directory
-            string workingDirectory = options.WorkingDirectory ?? ".";
+            string workingDirectory = options.WorkingDirectory ?? "";
 
             if (!Path.IsPathRooted(workingDirectory))
             {
@@ -399,6 +411,9 @@ namespace Tasslehoff.Runner
 
             options.ConfigFile = configFile;
 
+            // verbose
+            bool verboseMode = options.VerboseMode;
+            
             // help
             bool showHelp = options.ShowHelp;
 
@@ -409,6 +424,21 @@ namespace Tasslehoff.Runner
             }
 
             return new TasslehoffRunner(options, config, output);
+        }
+
+        /// <summary>
+        /// Debugs the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Debug(string message)
+        {
+            // TODO use logger and console output instead
+            if (!this.options.VerboseMode)
+            {
+                return;
+            }
+
+            this.output.WriteLine(message);
         }
 
         /// <summary>
@@ -457,21 +487,23 @@ namespace Tasslehoff.Runner
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TasslehoffRunner_OnStartWithChildren(object sender, EventArgs e)
         {
-            this.output.WriteLine("Loaded Plugins:");
-            foreach (IService service in this.pluginContainer.Children.Values)
-            {
-                this.output.WriteLine("- {0} {1}", service.Name, service.Description);
-            }
-            this.output.WriteLine("{0} total", this.pluginContainer.Children.Count);
-            this.output.WriteLine();
+            if (this.options.VerboseMode) {
+                this.output.WriteLine("Loaded Plugins:");
+                foreach (IService service in this.pluginContainer.Children.Values)
+                {
+                    this.output.WriteLine("- {0} {1}", service.Name, service.Description);
+                }
+                this.output.WriteLine("{0} total", this.pluginContainer.Children.Count);
+                this.output.WriteLine();
 
-            this.output.WriteLine("Loaded WebServices:");
-            foreach (WebServiceEndpoint endpoint in this.webServiceManager.Endpoints)
-            {
-                this.output.WriteLine("- {0}", endpoint.Name);
+                this.output.WriteLine("Loaded WebServices:");
+                foreach (WebServiceEndpoint endpoint in this.webServiceManager.Endpoints)
+                {
+                    this.output.WriteLine("- {0}", endpoint.Name);
+                }
+                this.output.WriteLine("{0} total", this.webServiceManager.Endpoints.Count);
+                this.output.WriteLine();
             }
-            this.output.WriteLine("{0} total", this.webServiceManager.Endpoints.Count);
-            this.output.WriteLine();
         }
     }
 }

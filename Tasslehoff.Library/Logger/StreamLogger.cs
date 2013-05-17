@@ -20,7 +20,6 @@
 
 namespace Tasslehoff.Library.Logger
 {
-    using System;
     using System.IO;
     using System.Text;
 

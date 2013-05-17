@@ -46,6 +46,11 @@ namespace Tasslehoff.Globals
         /// </summary>
         private bool showHelp = false;
 
+        /// <summary>
+        /// The verbose mode
+        /// </summary>
+        private bool verboseMode = false;
+
         // constructors
 
         /// <summary>
@@ -114,6 +119,25 @@ namespace Tasslehoff.Globals
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [verbose mode].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [verbose mode]; otherwise, <c>false</c>.
+        /// </value>
+        public bool VerboseMode
+        {
+            get
+            {
+                return this.verboseMode;
+            }
+
+            set
+            {
+                this.verboseMode = value;
+            }
+        }
+
         // methods
 
         /// <summary>
@@ -158,6 +182,10 @@ namespace Tasslehoff.Globals
                     case "-?":
                         runnerOptions.ShowHelp = true;
                         break;
+                    case "--verbose":
+                    case "-v":
+                        runnerOptions.VerboseMode = true;
+                        break;
                     default:
                         throw new ArgumentException("Invalid parameter - \"" + arg + "\".", arg);
                 }
@@ -178,6 +206,7 @@ namespace Tasslehoff.Globals
             help.AppendLine("-c | --config               : Configuration File");
             help.AppendLine("-w | --working-dir          : Working Directory");
             help.AppendLine("-h | --help                 : This help");
+            help.AppendLine("-v | --verbose              : Verbose");
             help.AppendLine();
             help.AppendLine("For further information, visit:");
             help.AppendLine("https://github.com/larukedi/tasslehoff");

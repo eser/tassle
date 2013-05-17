@@ -36,15 +36,15 @@ namespace Tasslehoff
         /// <param name="parameters">The parameters</param>
         public void Do(CronActionParameters parameters)
         {
-            TasslehoffRunner runner = TasslehoffRunner.Instance;
+            TasslehoffRunner instance = TasslehoffRunner.Instance;
 
-            Console.WriteLine("Started: Test");
+            instance.Debug("Started: Test");
             while (!parameters.CancellationTokenSource.IsCancellationRequested)
             {
                 Thread.Sleep(100);
             }
 
-            Console.WriteLine("Finished: Test");
+            instance.Debug("Finished: Test");
         }
     }
 }

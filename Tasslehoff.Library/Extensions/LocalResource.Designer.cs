@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tasslehoff.Library.Extensions {
-    using System;
-    
-    
+namespace Tasslehoff.Library.Extensions
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

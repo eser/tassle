@@ -24,6 +24,8 @@ namespace Tasslehoff.Library.Utils
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Runtime.Serialization.Json;
+    using System.Text;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// SerializationUtils class.
@@ -77,18 +79,22 @@ namespace Tasslehoff.Library.Utils
         /// Serializes the object into JSON.
         /// </summary>
         /// <param name="graph">The graph</param>
-        /// <returns>Serialized data</returns>
-        public static byte[] JsonSerialize(object graph)
+        /// <param name="encoding">The encoding</param>
+        /// <returns>
+        /// Serialized data
+        /// </returns>
+        public static byte[] JsonSerialize(object graph, Encoding encoding = null)
         {
             byte[] bytes;
 
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(graph.GetType());
-                serializer.WriteObject(memoryStream, graph);
+            //using (MemoryStream memoryStream = new MemoryStream())
+            //{
+            //    DataContractJsonSerializer serializer = new DataContractJsonSerializer(graph.GetType());
+            //    serializer.WriteObject(memoryStream, graph);
 
-                bytes = memoryStream.ToArray();
-            }
+            //    bytes = memoryStream.ToArray();
+            //}
+            bytes = (encoding ?? Encoding.Default).GetBytes(JsonConvert.SerializeObject(graph, Formatting.Indented));
 
             return bytes;
         }
@@ -98,18 +104,20 @@ namespace Tasslehoff.Library.Utils
         /// </summary>
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="bytes">The bytes</param>
+        /// <param name="encoding">The encoding</param>
         /// <returns>
         /// Deserialized object.
         /// </returns>
-        public static T JsonDeserialize<T>(byte[] bytes)
+        public static T JsonDeserialize<T>(byte[] bytes, Encoding encoding = null)
         {
             T graph;
 
-            using (MemoryStream memoryStream = new MemoryStream(bytes, false))
-            {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-                graph = (T)serializer.ReadObject(memoryStream);
-            }
+            //using (MemoryStream memoryStream = new MemoryStream(bytes, false))
+            //{
+            //    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
+            //    graph = (T)serializer.ReadObject(memoryStream);
+            //}
+            graph = JsonConvert.DeserializeObject<T>((encoding ?? Encoding.Default).GetString(bytes));
 
             return graph;
         }

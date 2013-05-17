@@ -20,7 +20,6 @@
 
 namespace Tasslehoff.Library.Logger
 {
-    using System;
 
     /// <summary>
     /// Level for logging.

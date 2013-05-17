@@ -20,7 +20,6 @@
 
 namespace Tasslehoff.Library.Services
 {
-    using System;
 
     /// <summary>
     /// Status of the service instance.

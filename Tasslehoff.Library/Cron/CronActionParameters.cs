@@ -43,6 +43,11 @@ namespace Tasslehoff.Library.Cron
         private readonly DateTime actionStarted;
 
         /// <summary>
+        /// The lifetime
+        /// </summary>
+        private readonly TimeSpan lifetime;
+
+        /// <summary>
         /// The cancellation token source
         /// </summary>
         private CancellationTokenSource cancellationTokenSource;
@@ -55,16 +60,24 @@ namespace Tasslehoff.Library.Cron
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CronActionParameters"/> class.
+        /// Initializes a new instance of the <see cref="CronActionParameters" /> class.
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="actionStarted">The action started</param>
-        public CronActionParameters(CronItem source, DateTime actionStarted)
+        /// <param name="lifetime">The lifetime</param>
+        public CronActionParameters(CronItem source, DateTime actionStarted, TimeSpan lifetime)
         {
             this.source = source;
             this.actionStarted = actionStarted;
 
-            this.cancellationTokenSource = new CancellationTokenSource();
+            if (lifetime != TimeSpan.Zero)
+            {
+                this.cancellationTokenSource = new CancellationTokenSource(lifetime);
+            }
+            else
+            {
+                this.cancellationTokenSource = new CancellationTokenSource();
+            }
         }
 
         /// <summary>

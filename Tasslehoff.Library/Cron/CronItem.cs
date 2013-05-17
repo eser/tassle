@@ -216,13 +216,8 @@ namespace Tasslehoff.Library.Cron
             }
 
             this.lastRun = now;
-            CronActionParameters cronActionParameters = new CronActionParameters(this, this.lastRun);
+            CronActionParameters cronActionParameters = new CronActionParameters(this, this.lastRun, this.Lifetime);
             this.activeActions.Add(cronActionParameters);
-
-            if (this.Lifetime != TimeSpan.Zero)
-            {
-                cronActionParameters.CancellationTokenSource.CancelAfter(this.Lifetime);
-            }
 
             Task.Run(() => { this.action(cronActionParameters); this.activeActions.Remove(cronActionParameters); });
             if (this.recurrence.Interval == TimeSpan.Zero)
