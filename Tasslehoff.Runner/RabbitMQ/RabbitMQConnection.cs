@@ -22,6 +22,7 @@ namespace Tasslehoff.Runner.RabbitMQ
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
     using Tasslehoff.Library.Utils;
@@ -269,7 +270,7 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <param name="message">The message.</param>
         public void EnqueueJson(string queueKey, object message)
         {
-            byte[] serializedMessage = SerializationUtils.JsonSerialize(message);
+            byte[] serializedMessage = SerializationUtils.JsonSerialize(message, Encoding.Default);
             this.Enqueue(queueKey, serializedMessage);
         }
 

@@ -22,6 +22,7 @@ namespace Tasslehoff.Runner.Memcached
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Text;
     using Enyim.Caching;
     using Enyim.Caching.Configuration;
     using Enyim.Caching.Memcached;
@@ -190,7 +191,7 @@ namespace Tasslehoff.Runner.Memcached
         /// <returns>Is written to cache or not</returns>
         public bool SetJson(string key, object value, DateTime? expiresAt = null)
         {
-            byte[] serializedValue = SerializationUtils.JsonSerialize(value);
+            byte[] serializedValue = SerializationUtils.JsonSerialize(value, Encoding.Default);
             return this.Set(key, serializedValue, expiresAt);
         }
 

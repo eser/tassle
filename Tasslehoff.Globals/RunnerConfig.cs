@@ -46,7 +46,7 @@ namespace Tasslehoff.Globals
         /// The database connection string.
         /// </value>
         [DataMember]
-        [ConfigEntry(DefaultValue = "Server=debian;Port=5432;Database=interesd;User Id=interesd;Password=;")]
+        [ConfigEntry(DefaultValue = "Server=debian;Port=5432;Database=interesd;User id=interesd;Password=;Pooling=true;Sslmode=Disable")]
         public string DatabaseConnectionString { get; set; }
 
         /// <summary>
