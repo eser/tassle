@@ -29,9 +29,9 @@ namespace Tasslehoff.Runner
     using Tasslehoff.Library.Cron;
     using Tasslehoff.Library.DataAccess;
     using Tasslehoff.Library.Extensions;
+    using Tasslehoff.Library.Helpers;
     using Tasslehoff.Library.Plugins;
     using Tasslehoff.Library.Services;
-    using Tasslehoff.Library.Utils;
     using Tasslehoff.Library.WebServices;
     using Tasslehoff.Runner.Memcached;
     using Tasslehoff.Runner.RabbitMQ;
@@ -395,14 +395,13 @@ namespace Tasslehoff.Runner
             RunnerConfig config;
             if (File.Exists(configFile))
             {
-                Stream fileStream = File.OpenRead(configFile);
-                config = ConfigSerializer.Load<RunnerConfig>(fileStream);
+                config = ConfigSerializer.LoadFromFile<RunnerConfig>(configFile);
             }
             else if (options.ConfigFile == null)
             {
                 config = new RunnerConfig();
-                ConfigSerializer.Reset(config);
-                ConfigSerializer.Save(File.OpenWrite(configFile), config);
+                config.Reset();
+                config.SaveToFile(configFile);
             }
             else
             {
@@ -459,25 +458,19 @@ namespace Tasslehoff.Runner
         {
             this.cronManager.Clear();
 
-            VariableUtils.CheckAndDispose(this.cache);
-            this.cache = null;
-
-            VariableUtils.CheckAndDispose(this.messageQueue);
-            this.messageQueue = null;
+            VariableHelpers.CheckAndDispose(ref this.cache);
+            VariableHelpers.CheckAndDispose(ref this.messageQueue);
         }
 
         /// <summary>
         /// Called when [dispose].
         /// </summary>
-        protected override void OnDispose()
+        protected override void OnDispose(bool releaseManagedResources)
         {
-            base.OnDispose();
+            base.OnDispose(releaseManagedResources);
 
-            VariableUtils.CheckAndDispose(this.cache);
-            this.cache = null;
-
-            VariableUtils.CheckAndDispose(this.messageQueue);
-            this.messageQueue = null;
+            VariableHelpers.CheckAndDispose(ref this.cache);
+            VariableHelpers.CheckAndDispose(ref this.messageQueue);
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace Tasslehoff.Runner.Memcached
     using Enyim.Caching;
     using Enyim.Caching.Configuration;
     using Enyim.Caching.Memcached;
+    using Tasslehoff.Library.Helpers;
     using Tasslehoff.Library.Utils;
 
     /// <summary>
@@ -155,7 +156,8 @@ namespace Tasslehoff.Runner.Memcached
                 return null;
             }
 
-            T value = SerializationUtils.JsonDeserialize<T>(bytes);
+            string json = Encoding.Default.GetString(bytes);
+            T value = SerializationHelpers.JsonDeserialize<T>(json);
 
             return value;
         }
@@ -191,7 +193,7 @@ namespace Tasslehoff.Runner.Memcached
         /// <returns>Is written to cache or not</returns>
         public bool SetJson(string key, object value, DateTime? expiresAt = null)
         {
-            byte[] serializedValue = SerializationUtils.JsonSerialize(value, Encoding.Default);
+            byte[] serializedValue = Encoding.Default.GetBytes(SerializationHelpers.JsonSerialize(value));
             return this.Set(key, serializedValue, expiresAt);
         }
 
@@ -219,8 +221,7 @@ namespace Tasslehoff.Runner.Memcached
 
             if (disposing)
             {
-                VariableUtils.CheckAndDispose(this.connection);
-                this.connection = null;
+                VariableHelpers.CheckAndDispose(ref this.connection);
             }
 
             this.disposed = true;

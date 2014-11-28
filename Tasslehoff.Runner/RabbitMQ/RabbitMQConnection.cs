@@ -25,7 +25,7 @@ namespace Tasslehoff.Runner.RabbitMQ
     using System.Text;
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
-    using Tasslehoff.Library.Utils;
+    using Tasslehoff.Library.Helpers;
 
     /// <summary>
     /// RabbitMQConnection class.
@@ -243,7 +243,8 @@ namespace Tasslehoff.Runner.RabbitMQ
                 return null;
             }
 
-            T message = SerializationUtils.JsonDeserialize<T>(bytes);
+            string json = Encoding.Default.GetString(bytes);
+            T message = SerializationHelpers.JsonDeserialize<T>(json);
 
             return message;
         }
@@ -270,7 +271,7 @@ namespace Tasslehoff.Runner.RabbitMQ
         /// <param name="message">The message.</param>
         public void EnqueueJson(string queueKey, object message)
         {
-            byte[] serializedMessage = SerializationUtils.JsonSerialize(message, Encoding.Default);
+            byte[] serializedMessage = Encoding.Default.GetBytes(SerializationHelpers.JsonSerialize(message));
             this.Enqueue(queueKey, serializedMessage);
         }
 
@@ -297,15 +298,15 @@ namespace Tasslehoff.Runner.RabbitMQ
 
             if (disposing)
             {
-                foreach (IModel model in this.models.Values)
-                {
-                    VariableUtils.CheckAndDispose(model);
-                }
+                // FIXME
+                //foreach (IModel model in this.models.Values)
+                //{
+                //    VariableHelpers.CheckAndDispose(ref model);
+                //}
 
                 this.models.Clear();
 
-                VariableUtils.CheckAndDispose(this.connection);
-                this.connection = null;
+                VariableHelpers.CheckAndDispose(ref this.connection);
             }
 
             this.disposed = true;

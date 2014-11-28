@@ -27,7 +27,7 @@ namespace Tasslehoff.Globals
     /// Runner configuration
     /// </summary>
     [DataContract]
-    public class RunnerConfig : IConfig
+    public class RunnerConfig : Config
     {
         /// <summary>
         /// Gets or sets the database driver.
