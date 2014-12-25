@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff", "Tasslehoff.Runner\Tasslehoff.csproj", "{F0A8219B-6B58-4666-B58B-ED3ACF9557B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff", "Tasslehoff\Tasslehoff.csproj", "{F0A8219B-6B58-4666-B58B-ED3ACF9557B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.Library", "Tasslehoff.Library\Tasslehoff.Library.csproj", "{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}"
 EndProject
