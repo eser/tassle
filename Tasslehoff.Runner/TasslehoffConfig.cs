@@ -1,8 +1,9 @@
 // -----------------------------------------------------------------------
-// <copyright file="RunnerConfig.cs" company="-">
-// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// <copyright file="TasslehoffConfig.cs" company="-">
+// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
-// <author>larukedi (http://github.com/larukedi/)</author>
+// <author>Eser Ozvataf (eser@sent.com)</author>
 // -----------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -18,16 +19,16 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Globals
+namespace Tasslehoff
 {
     using System.Runtime.Serialization;
-    using Tasslehoff.Library.Config;
+    using Library.Config;
 
     /// <summary>
     /// Runner configuration
     /// </summary>
     [DataContract]
-    public class RunnerConfig : Config
+    public class TasslehoffConfig : Config
     {
         /// <summary>
         /// Gets or sets the database driver.

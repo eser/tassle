@@ -1,8 +1,9 @@
 // -----------------------------------------------------------------------
-// <copyright file="TasslehoffRunner.cs" company="-">
-// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// <copyright file="Tasslehoff.cs" company="-">
+// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
-// <author>larukedi (http://github.com/larukedi/)</author>
+// <author>Eser Ozvataf (eser@sent.com)</author>
 // -----------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -18,28 +19,27 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Runner
+namespace Tasslehoff
 {
     using System;
     using System.Globalization;
     using System.IO;
     using System.Threading;
-    using Tasslehoff.Globals;
-    using Tasslehoff.Library.Config;
-    using Tasslehoff.Library.Cron;
-    using Tasslehoff.Library.DataAccess;
-    using Tasslehoff.Library.Extensions;
-    using Tasslehoff.Library.Helpers;
-    using Tasslehoff.Library.Plugins;
-    using Tasslehoff.Library.Services;
-    using Tasslehoff.Library.WebServices;
-    using Tasslehoff.Runner.Memcached;
-    using Tasslehoff.Runner.RabbitMQ;
+    using Library.Config;
+    using Library.Cron;
+    using Library.DataAccess;
+    using Library.Extensions;
+    using Library.Helpers;
+    using Library.Plugins;
+    using Library.Services;
+    using Library.WebServices;
+    using Memcached;
+    using RabbitMQ;
 
     /// <summary>
     /// TasslehoffRunner class.
     /// </summary>
-    public class TasslehoffRunner : ServiceContainer
+    public class Tasslehoff : ServiceContainer
     {
         // constants
 
@@ -53,17 +53,17 @@ namespace Tasslehoff.Runner
         /// <summary>
         /// Singleton instance
         /// </summary>
-        private static TasslehoffRunner instance = null;
+        private static Tasslehoff instance = null;
 
         /// <summary>
         /// The options
         /// </summary>
-        private readonly RunnerOptions options;
+        private readonly TasslehoffOptions options;
 
         /// <summary>
         /// The configuration.
         /// </summary>
-        private readonly RunnerConfig configuration;
+        private readonly TasslehoffConfig configuration;
 
         /// <summary>
         /// The output
@@ -108,17 +108,17 @@ namespace Tasslehoff.Runner
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TasslehoffRunner" /> class.
+        /// Initializes a new instance of the <see cref="Tasslehoff" /> class.
         /// </summary>
         /// <param name="options">The options</param>
         /// <param name="configuration">The configuration</param>
         /// <param name="output">The output</param>
-        internal TasslehoffRunner(RunnerOptions options, RunnerConfig configuration, TextWriter output) : base()
+        internal Tasslehoff(TasslehoffOptions options, TasslehoffConfig configuration, TextWriter output) : base()
         {
             // singleton pattern
-            if (TasslehoffRunner.instance == null)
+            if (Tasslehoff.instance == null)
             {
-                TasslehoffRunner.instance = this;
+                Tasslehoff.instance = this;
             }
 
             // initialization
@@ -173,11 +173,11 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The singleton instance.
         /// </value>
-        public static TasslehoffRunner Instance
+        public static Tasslehoff Instance
         {
             get
             {
-                return TasslehoffRunner.instance;
+                return Tasslehoff.instance;
             }
         }
 
@@ -215,7 +215,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The options.
         /// </value>
-        public RunnerOptions Options
+        public TasslehoffOptions Options
         {
             get
             {
@@ -229,7 +229,7 @@ namespace Tasslehoff.Runner
         /// <value>
         /// The configuration.
         /// </value>
-        public RunnerConfig Configuration
+        public TasslehoffConfig Configuration
         {
             get
             {
@@ -370,9 +370,9 @@ namespace Tasslehoff.Runner
         /// <returns>
         /// Created runner.
         /// </returns>
-        public static TasslehoffRunner Create(RunnerOptions options, TextWriter output)
+        public static Tasslehoff Create(TasslehoffOptions options, TextWriter output)
         {
-            TasslehoffRunner.WriteHeader(output);
+            Tasslehoff.WriteHeader(output);
 
             // working directory
             string workingDirectory = options.WorkingDirectory ?? "";
@@ -390,16 +390,16 @@ namespace Tasslehoff.Runner
             options.WorkingDirectory = workingDirectory;
 
             // config file
-            string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, TasslehoffRunner.ConfigFilename);
+            string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, Tasslehoff.ConfigFilename);
 
-            RunnerConfig config;
+            TasslehoffConfig config;
             if (File.Exists(configFile))
             {
-                config = ConfigSerializer.LoadFromFile<RunnerConfig>(configFile);
+                config = ConfigSerializer.LoadFromFile<TasslehoffConfig>(configFile);
             }
             else if (options.ConfigFile == null)
             {
-                config = new RunnerConfig();
+                config = new TasslehoffConfig();
                 config.Reset();
                 config.SaveToFile(configFile);
             }
@@ -418,11 +418,11 @@ namespace Tasslehoff.Runner
 
             if (showHelp)
             {
-                output.Write(RunnerOptions.Help());
+                output.Write(TasslehoffOptions.Help());
                 return null;
             }
 
-            return new TasslehoffRunner(options, config, output);
+            return new Tasslehoff(options, config, output);
         }
 
         /// <summary>

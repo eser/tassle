@@ -1,8 +1,9 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="RunnerOptions.cs" company="-">
-// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// <copyright file="TasslehoffOptions.cs" company="-">
+// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
-// <author>larukedi (http://github.com/larukedi/)</author>
+// <author>Eser Ozvataf (eser@sent.com)</author>
 // -----------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -18,7 +19,7 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tasslehoff.Globals
+namespace Tasslehoff
 {
     using System;
     using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Tasslehoff.Globals
     /// <summary>
     /// CommandLineOptions class.
     /// </summary>
-    public class RunnerOptions
+    public class TasslehoffOptions
     {
         // fields
 
@@ -54,9 +55,9 @@ namespace Tasslehoff.Globals
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RunnerOptions" /> class.
+        /// Initializes a new instance of the <see cref="TasslehoffOptions" /> class.
         /// </summary>
-        public RunnerOptions()
+        public TasslehoffOptions()
         {
         }
 
@@ -148,9 +149,9 @@ namespace Tasslehoff.Globals
         /// <exception cref="System.ArgumentException">
         /// If one of parameters has errors.
         /// </exception>
-        public static RunnerOptions FromCommandLine(string[] args)
+        public static TasslehoffOptions FromCommandLine(string[] args)
         {
-            RunnerOptions runnerOptions = new RunnerOptions();
+            TasslehoffOptions runnerOptions = new TasslehoffOptions();
             Queue<string> argsQueue = new Queue<string>(args);
 
             while (argsQueue.Count > 0)
