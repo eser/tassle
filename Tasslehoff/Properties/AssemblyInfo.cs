@@ -1,8 +1,9 @@
 // -----------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="-">
-// Copyright (c) 2013 larukedi (eser@sent.com). All rights reserved.
+// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
-// <author>larukedi (http://github.com/larukedi/)</author>
+// <author>Eser Ozvataf (eser@sent.com)</author>
 // -----------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -30,7 +31,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("larukedi")]
+[assembly: AssemblyCopyright("Eser Ozvataf")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -38,7 +39,7 @@ using System.Resources;
 //// The form "{Major}.{Minor}.*" will automatically update the build and revision,
 //// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.1.0")]
 [assembly: AssemblyInformationalVersion("1.0")]
 
 //// The following attributes are used to specify the signing key for the assembly, 

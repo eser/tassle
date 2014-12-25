@@ -71,16 +71,6 @@ namespace Tasslehoff
         public string MemcachedAddresses { get; set; }
 
         /// <summary>
-        /// Gets or sets the web service endpoint.
-        /// </summary>
-        /// <value>
-        /// The web service endpoint.
-        /// </value>
-        [DataMember]
-        [ConfigEntry(DefaultValue = "http://localhost:3535")]
-        public string WebServiceEndpoint { get; set; }
-
-        /// <summary>
         /// Gets or sets the culture.
         /// </summary>
         /// <value>
@@ -89,5 +79,35 @@ namespace Tasslehoff
         [DataMember]
         [ConfigEntry(DefaultValue = "en-us")]
         public string Culture { get; set; }
+
+        /// <summary>
+        /// Gets or sets the verbose mode.
+        /// </summary>
+        /// <value>
+        /// The verbose mode.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = false)]
+        public bool VerboseMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the working directory.
+        /// </summary>
+        /// <value>
+        /// The working directory.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "{base}")]
+        public string WorkingDirectory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension paths.
+        /// </summary>
+        /// <value>
+        /// The extension paths.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = null)]
+        public string[] ExtensionPaths { get; set; }
     }
 }

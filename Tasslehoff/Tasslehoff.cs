@@ -32,33 +32,20 @@ namespace Tasslehoff
     using Library.Helpers;
     using Library.Plugins;
     using Library.Services;
-    using Library.WebServices;
-    using Memcached;
-    using RabbitMQ;
+    using Adapters.Memcached;
+    using Adapters.RabbitMQ;
 
     /// <summary>
     /// TasslehoffRunner class.
     /// </summary>
     public class Tasslehoff : ServiceContainer
     {
-        // constants
-
-        /// <summary>
-        /// Filename of the default configuration file
-        /// </summary>
-        public const string ConfigFilename = "instanceConfig.json"; 
-
         // fields
 
         /// <summary>
         /// Singleton instance
         /// </summary>
         private static Tasslehoff instance = null;
-
-        /// <summary>
-        /// The options
-        /// </summary>
-        private readonly TasslehoffOptions options;
 
         /// <summary>
         /// The configuration.
@@ -91,11 +78,6 @@ namespace Tasslehoff
         private readonly PluginContainer pluginContainer;
 
         /// <summary>
-        /// The web service manager
-        /// </summary>
-        private readonly WebServiceManager webServiceManager;
-
-        /// <summary>
         /// The message queue
         /// </summary>
         private RabbitMQConnection messageQueue = null;
@@ -113,7 +95,7 @@ namespace Tasslehoff
         /// <param name="options">The options</param>
         /// <param name="configuration">The configuration</param>
         /// <param name="output">The output</param>
-        internal Tasslehoff(TasslehoffOptions options, TasslehoffConfig configuration, TextWriter output) : base()
+        internal Tasslehoff(TasslehoffConfig configuration, TextWriter output) : base()
         {
             // singleton pattern
             if (Tasslehoff.instance == null)
@@ -122,10 +104,13 @@ namespace Tasslehoff
             }
 
             // initialization
-            this.options = options;
             this.configuration = configuration;
             this.output = output;
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
+
+            this.output.WriteLine("Tasslehoff 1.1.0  (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.");
+            this.output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
+            this.output.WriteLine();
 
             this.database = new Database(this.configuration.DatabaseDriver, this.configuration.DatabaseConnectionString);
 
@@ -138,29 +123,23 @@ namespace Tasslehoff
             this.AddChild(this.extensionManager);
 
             // search for extensions
-            string extensionDirectory = Path.Combine(this.options.WorkingDirectory, "extensions");
-            if (Directory.Exists(extensionDirectory))
+            if (this.configuration.ExtensionPaths != null)
             {
-                this.extensionManager.SearchFiles(Path.Combine(extensionDirectory, "*.dll"));
-                this.output.WriteLine("{0} extensions found.", this.extensionManager.Assemblies.Count);
+                foreach (string extensionPath in this.configuration.ExtensionPaths)
+                {
+                    this.extensionManager.SearchFiles(extensionPath);
+                }
             }
-            else
-            {
-                this.output.WriteLine("extensions folder is not accessible.");
-            }
+            this.output.WriteLine("{0} extensions found.", this.extensionManager.Assemblies.Count);
             
             this.pluginContainer = new PluginContainer(this.extensionManager);
             this.AddChild(this.pluginContainer);
 
-            this.webServiceManager = new WebServiceManager(this.configuration.WebServiceEndpoint);
-            this.AddChild(this.webServiceManager);
-
             this.OnStartWithChildren += this.TasslehoffRunner_OnStartWithChildren;
 
-            if (this.options.VerboseMode)
+            if (this.configuration.VerboseMode)
             {
-                this.output.WriteLine("Working Directory: {0}", this.options.WorkingDirectory);
-                this.output.WriteLine("Config File: {0}", this.options.ConfigFile);
+                this.output.WriteLine("Working Directory: {0}", this.configuration.WorkingDirectory);
                 this.output.WriteLine();
             }
         }
@@ -191,7 +170,7 @@ namespace Tasslehoff
         {
             get
             {
-                return "Tasslehoff Runner";
+                return "Tasslehoff Core";
             }
         }
 
@@ -206,20 +185,6 @@ namespace Tasslehoff
             get
             {
                 return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the options.
-        /// </summary>
-        /// <value>
-        /// The options.
-        /// </value>
-        public TasslehoffOptions Options
-        {
-            get
-            {
-                return this.options;
             }
         }
 
@@ -308,20 +273,6 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the web service manager.
-        /// </summary>
-        /// <value>
-        /// The web service manager.
-        /// </value>
-        public WebServiceManager WebServiceManager
-        {
-            get
-            {
-                return this.webServiceManager;
-            }
-        }
-
-        /// <summary>
         /// Gets the message queue.
         /// </summary>
         /// <value>
@@ -332,6 +283,10 @@ namespace Tasslehoff
             get
             {
                 return this.messageQueue;
+            }
+            protected set
+            {
+                this.messageQueue = value;
             }
         }
 
@@ -347,83 +302,13 @@ namespace Tasslehoff
             {
                 return this.cache;
             }
+            protected set
+            {
+                this.cache = value;
+            }
         }
 
         // methods
-
-        /// <summary>
-        /// Writes the header.
-        /// </summary>
-        /// <param name="output">The output</param>
-        public static void WriteHeader(TextWriter output)
-        {
-            output.WriteLine("Tasslehoff 1.0  (c) 2013 larukedi (eser@sent.com). All rights reserved.");
-            output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
-            output.WriteLine();
-        }
-
-        /// <summary>
-        /// Creates the specified options.
-        /// </summary>
-        /// <param name="options">The options</param>
-        /// <param name="output">The output</param>
-        /// <returns>
-        /// Created runner.
-        /// </returns>
-        public static Tasslehoff Create(TasslehoffOptions options, TextWriter output)
-        {
-            Tasslehoff.WriteHeader(output);
-
-            // working directory
-            string workingDirectory = options.WorkingDirectory ?? "";
-
-            if (!Path.IsPathRooted(workingDirectory))
-            {
-                workingDirectory = Path.Combine(Environment.CurrentDirectory, workingDirectory);
-            }
-
-            if (!Directory.Exists(workingDirectory))
-            {
-                throw new ArgumentException("Working directory not found or inaccessible - \"" + workingDirectory + "\".", "--working-dir");
-            }
-
-            options.WorkingDirectory = workingDirectory;
-
-            // config file
-            string configFile = options.ConfigFile ?? Path.Combine(workingDirectory, Tasslehoff.ConfigFilename);
-
-            TasslehoffConfig config;
-            if (File.Exists(configFile))
-            {
-                config = ConfigSerializer.LoadFromFile<TasslehoffConfig>(configFile);
-            }
-            else if (options.ConfigFile == null)
-            {
-                config = new TasslehoffConfig();
-                config.Reset();
-                config.SaveToFile(configFile);
-            }
-            else
-            {
-                throw new ArgumentException("File not found or inaccessible - \"" + configFile + "\".", "--config");
-            }
-
-            options.ConfigFile = configFile;
-
-            // verbose
-            bool verboseMode = options.VerboseMode;
-            
-            // help
-            bool showHelp = options.ShowHelp;
-
-            if (showHelp)
-            {
-                output.Write(TasslehoffOptions.Help());
-                return null;
-            }
-
-            return new Tasslehoff(options, config, output);
-        }
 
         /// <summary>
         /// Debugs the specified message.
@@ -432,12 +317,12 @@ namespace Tasslehoff
         public void Debug(string message)
         {
             // TODO use logger and console output instead
-            if (!this.options.VerboseMode)
+            if (!this.Configuration.VerboseMode)
             {
                 return;
             }
 
-            this.output.WriteLine(message);
+            this.Output.WriteLine(message);
         }
 
         /// <summary>
@@ -445,10 +330,10 @@ namespace Tasslehoff
         /// </summary>
         protected override void ServiceStart()
         {
-            this.messageQueue = new RabbitMQConnection();
+            this.MessageQueue = new RabbitMQConnection();
 
-            string[] memcachedAddresses = !string.IsNullOrWhiteSpace(this.configuration.MemcachedAddresses) ? this.configuration.MemcachedAddresses.Split(',') : new string[0];
-            this.cache = new MemcachedConnection(memcachedAddresses);
+            string[] memcachedAddresses = !string.IsNullOrWhiteSpace(this.Configuration.MemcachedAddresses) ? this.Configuration.MemcachedAddresses.Split(',') : new string[0];
+            this.Cache = new MemcachedConnection(memcachedAddresses);
         }
 
         /// <summary>
@@ -456,7 +341,7 @@ namespace Tasslehoff
         /// </summary>
         protected override void ServiceStop()
         {
-            this.cronManager.Clear();
+            this.CronManager.Clear();
 
             VariableHelpers.CheckAndDispose(ref this.cache);
             VariableHelpers.CheckAndDispose(ref this.messageQueue);
@@ -480,22 +365,14 @@ namespace Tasslehoff
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TasslehoffRunner_OnStartWithChildren(object sender, EventArgs e)
         {
-            if (this.options.VerboseMode) {
-                this.output.WriteLine("Loaded Plugins:");
-                foreach (IService service in this.pluginContainer.Children.Values)
+            if (this.Configuration.VerboseMode) {
+                this.Output.WriteLine("Loaded Plugins:");
+                foreach (IService service in this.PluginContainer.Children.Values)
                 {
-                    this.output.WriteLine("- {0} {1}", service.Name, service.Description);
+                    this.Output.WriteLine("- {0} {1}", service.Name, service.Description);
                 }
-                this.output.WriteLine("{0} total", this.pluginContainer.Children.Count);
-                this.output.WriteLine();
-
-                this.output.WriteLine("Loaded WebServices:");
-                foreach (WebServiceEndpoint endpoint in this.webServiceManager.Endpoints)
-                {
-                    this.output.WriteLine("- {0}", endpoint.Name);
-                }
-                this.output.WriteLine("{0} total", this.webServiceManager.Endpoints.Count);
-                this.output.WriteLine();
+                this.Output.WriteLine("{0} total", this.PluginContainer.Children.Count);
+                this.Output.WriteLine();
             }
         }
     }
