@@ -92,10 +92,10 @@ namespace Tasslehoff
         /// <summary>
         /// Initializes a new instance of the <see cref="Tasslehoff" /> class.
         /// </summary>
-        /// <param name="options">The options</param>
         /// <param name="configuration">The configuration</param>
         /// <param name="output">The output</param>
-        internal Tasslehoff(TasslehoffConfig configuration, TextWriter output) : base()
+        public Tasslehoff(TasslehoffConfig configuration, TextWriter output)
+            : base()
         {
             // singleton pattern
             if (Tasslehoff.instance == null)
@@ -131,7 +131,7 @@ namespace Tasslehoff
                 }
             }
             this.output.WriteLine("{0} extensions found.", this.extensionManager.Assemblies.Count);
-            
+
             this.pluginContainer = new PluginContainer(this.extensionManager);
             this.AddChild(this.pluginContainer);
 
@@ -365,7 +365,8 @@ namespace Tasslehoff
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TasslehoffRunner_OnStartWithChildren(object sender, EventArgs e)
         {
-            if (this.Configuration.VerboseMode) {
+            if (this.Configuration.VerboseMode)
+            {
                 this.Output.WriteLine("Loaded Plugins:");
                 foreach (IService service in this.PluginContainer.Children.Values)
                 {

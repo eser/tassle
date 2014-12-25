@@ -66,11 +66,11 @@ namespace Tasslehoff.Adapters.Memcached
         public MemcachedConnection(string[] addresses)
         {
             this.addresses = addresses;
-            
+
             if (this.addresses.Length > 0)
             {
                 MemcachedClientConfiguration configuration = new MemcachedClientConfiguration();
-                
+
                 foreach (string address in addresses)
                 {
                     configuration.AddServer(address);
