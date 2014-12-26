@@ -46,6 +46,8 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\ICacheManager.cs" />
+    <Compile Include="Adapters\IQueueManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TasslehoffConfig.cs" />
     <Compile Include="Tasslehoff.cs" />

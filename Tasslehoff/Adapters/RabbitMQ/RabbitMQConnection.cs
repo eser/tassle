@@ -31,7 +31,7 @@ namespace Tasslehoff.Adapters.RabbitMQ
     /// <summary>
     /// RabbitMQConnection class.
     /// </summary>
-    public class RabbitMQConnection : IDisposable
+    public class RabbitMQConnection : IQueueManager, IDisposable
     {
         // fields
 

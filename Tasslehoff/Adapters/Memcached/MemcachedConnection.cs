@@ -33,7 +33,7 @@ namespace Tasslehoff.Adapters.Memcached
     /// <summary>
     /// MemcachedConnection class.
     /// </summary>
-    public class MemcachedConnection : IDisposable
+    public class MemcachedConnection : ICacheManager, IDisposable
     {
         // fields
 

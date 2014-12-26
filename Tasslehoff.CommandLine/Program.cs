@@ -1,4 +1,25 @@
-﻿namespace Tasslehoff.CommandLine
+﻿// -----------------------------------------------------------------------
+// <copyright file="Program.cs" company="-">
+// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
+// </copyright>
+// <author>Eser Ozvataf (eser@sent.com)</author>
+// -----------------------------------------------------------------------
+
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+//// 
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+namespace Tasslehoff.CommandLine
 {
     using System;
     using Library.Services;
@@ -7,23 +28,14 @@
     {
         public static void Main(string[] args)
         {
-            BlankServiceContainer container = new BlankServiceContainer("root");
+            TasslehoffConfig tasslehoffConfig = new TasslehoffConfig()
+            {
+                Culture = "en-us",
+                VerboseMode = true,
+                WorkingDirectory = Environment.CurrentDirectory
+            };
 
-            BlankServiceContainer c1 = new BlankServiceContainer("c1");
-            container.AddChild(c1);
-            
-            BlankServiceContainer c1_1 = new BlankServiceContainer("c1_1");
-            c1.AddChild(c1_1);
-
-            BlankServiceContainer c1_2 = new BlankServiceContainer("c1_2");
-            c1.AddChild(c1_2);
-
-            BlankServiceContainer c2 = new BlankServiceContainer("c2");
-            container.AddChild(c2);
-
-            IService service = container.Find("c2");
-
-            Console.WriteLine(service.Name);
+            Tasslehoff tasslehoff = new Tasslehoff(tasslehoffConfig, Console.Out);
 
             Console.Read();
         }
