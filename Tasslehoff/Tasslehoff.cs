@@ -25,18 +25,15 @@ namespace Tasslehoff
     using System.Globalization;
     using System.IO;
     using System.Threading;
-    using Library.Config;
+    using Adapters;
     using Library.Cron;
     using Library.DataAccess;
-    using Library.Helpers;
     using Library.Plugins;
     using Library.Services;
     using Library.Utils;
-    using Adapters.Memcached;
-    using Adapters.RabbitMQ;
 
     /// <summary>
-    /// TasslehoffRunner class.
+    /// Tasslehoff class.
     /// </summary>
     public class Tasslehoff : ServiceContainer
     {
@@ -78,14 +75,14 @@ namespace Tasslehoff
         private readonly PluginContainer pluginContainer;
 
         /// <summary>
-        /// The message queue
+        /// The queue manager
         /// </summary>
-        private RabbitMQConnection messageQueue = null;
+        private IQueueManager queueManager = null;
 
         /// <summary>
-        /// The cache
+        /// The cache manager
         /// </summary>
-        private MemcachedConnection cache = null;
+        private ICacheManager cacheManager = null;
 
         // constructors
 
@@ -126,8 +123,6 @@ namespace Tasslehoff
                     }
                 );
             }
-
-            RabbitMQConnection.Address = configuration.RabbitMQAddress;
 
             this.cronManager = new CronManager();
             this.AddChild(this.cronManager);
@@ -286,67 +281,48 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the message queue.
+        /// Gets the queue manager.
         /// </summary>
         /// <value>
-        /// The message queue.
+        /// The queue manager.
         /// </value>
-        public RabbitMQConnection MessageQueue
+        public IQueueManager QueueManager
         {
             get
             {
-                return this.messageQueue;
+                return this.queueManager;
             }
             protected set
             {
-                this.messageQueue = value;
+                this.queueManager = value;
             }
         }
 
         /// <summary>
-        /// Gets the cache.
+        /// Gets the cache manager.
         /// </summary>
         /// <value>
-        /// The cache.
+        /// The cache manager.
         /// </value>
-        public MemcachedConnection Cache
+        public ICacheManager CacheManager
         {
             get
             {
-                return this.cache;
+                return this.cacheManager;
             }
             protected set
             {
-                this.cache = value;
+                this.cacheManager = value;
             }
         }
 
         // methods
 
         /// <summary>
-        /// Debugs the specified message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public void Debug(string message)
-        {
-            // TODO use logger and console output instead
-            if (!this.Configuration.VerboseMode)
-            {
-                return;
-            }
-
-            this.Output.WriteLine(message);
-        }
-
-        /// <summary>
         /// Services the start.
         /// </summary>
         protected override void ServiceStart()
         {
-            this.MessageQueue = new RabbitMQConnection();
-
-            string[] memcachedAddresses = !string.IsNullOrWhiteSpace(this.Configuration.MemcachedAddresses) ? this.Configuration.MemcachedAddresses.Split(',') : new string[0];
-            this.Cache = new MemcachedConnection(memcachedAddresses);
         }
 
         /// <summary>
@@ -356,8 +332,6 @@ namespace Tasslehoff
         {
             this.CronManager.Clear();
 
-            VariableHelpers.CheckAndDispose(ref this.cache);
-            VariableHelpers.CheckAndDispose(ref this.messageQueue);
         }
 
         /// <summary>
@@ -366,13 +340,10 @@ namespace Tasslehoff
         protected override void OnDispose(bool releaseManagedResources)
         {
             base.OnDispose(releaseManagedResources);
-
-            VariableHelpers.CheckAndDispose(ref this.cache);
-            VariableHelpers.CheckAndDispose(ref this.messageQueue);
         }
 
         /// <summary>
-        /// Handles the OnStartWithChildren event of the TasslehoffRunner control.
+        /// Handles the OnStartWithChildren event of the Tasslehoff control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>

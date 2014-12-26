@@ -22,7 +22,6 @@
 namespace Tasslehoff.CommandLine
 {
     using System;
-    using Library.Services;
 
     public class Program
     {
@@ -36,6 +35,8 @@ namespace Tasslehoff.CommandLine
             };
 
             Tasslehoff tasslehoff = new Tasslehoff(tasslehoffConfig, Console.Out);
+            // tasslehoff.QueueManager = new RabbitMQConnection(configuration.RabbitMQAddress);
+            // tasslehoff.CacheManager = new MemcachedConnection(configuration.MemcachedAddresses.Split(','));
 
             Console.Read();
         }

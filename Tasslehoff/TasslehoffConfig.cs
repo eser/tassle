@@ -51,26 +51,6 @@ namespace Tasslehoff
         public string DatabaseConnectionString { get; set; }
 
         /// <summary>
-        /// Gets or sets the RabbitMQ address.
-        /// </summary>
-        /// <value>
-        /// The RabbitMQ address.
-        /// </value>
-        [DataMember]
-        [ConfigEntry(DefaultValue = "localhost")]
-        public string RabbitMQAddress { get; set; }
-
-        /// <summary>
-        /// Gets or sets the memcached addresses.
-        /// </summary>
-        /// <value>
-        /// The memcached addresses.
-        /// </value>
-        [DataMember]
-        [ConfigEntry(DefaultValue = null)]
-        public string MemcachedAddresses { get; set; }
-
-        /// <summary>
         /// Gets or sets the culture.
         /// </summary>
         /// <value>

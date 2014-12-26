@@ -22,18 +22,17 @@
 namespace Tasslehoff.Adapters.Memcached
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Enyim.Caching;
     using Enyim.Caching.Configuration;
     using Enyim.Caching.Memcached;
     using Library.Helpers;
-    using Library.Utils;
+    using Library.Services;
 
     /// <summary>
     /// MemcachedConnection class.
     /// </summary>
-    public class MemcachedConnection : ICacheManager, IDisposable
+    public class MemcachedConnection : Service, ICacheManager, IDisposable
     {
         // fields
 
@@ -51,11 +50,6 @@ namespace Tasslehoff.Adapters.Memcached
         /// The connection
         /// </summary>
         private MemcachedClient connection = null;
-
-        /// <summary>
-        /// The disposed
-        /// </summary>
-        private bool disposed;
 
         // constructors
 
@@ -80,15 +74,35 @@ namespace Tasslehoff.Adapters.Memcached
             }
         }
 
+        // attributes
+
         /// <summary>
-        /// Finalizes an instance of the <see cref="MemcachedConnection"/> class.
+        /// Gets the name.
         /// </summary>
-        ~MemcachedConnection()
+        /// <value>
+        /// The name.
+        /// </value>
+        public override string Name
         {
-            this.Dispose(false);
+            get
+            {
+                return "MemcachedConnection";
+            }
         }
 
-        // attributes
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
+        public override string Description
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Gets the addresses.
@@ -196,36 +210,6 @@ namespace Tasslehoff.Adapters.Memcached
         {
             byte[] serializedValue = Encoding.Default.GetBytes(SerializationHelpers.JsonSerialize(value));
             return this.Set(key, serializedValue, expiresAt);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "connection", Justification = "connection is already will be disposed using CheckAndDispose method.")]
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                VariableHelpers.CheckAndDispose(ref this.connection);
-            }
-
-            this.disposed = true;
         }
     }
 }

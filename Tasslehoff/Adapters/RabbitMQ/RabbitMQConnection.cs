@@ -21,17 +21,17 @@
 
 namespace Tasslehoff.Adapters.RabbitMQ
 {
-    using System;
     using System.Collections.Generic;
     using System.Text;
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
     using Library.Helpers;
+    using Library.Services;
 
     /// <summary>
     /// RabbitMQConnection class.
     /// </summary>
-    public class RabbitMQConnection : IQueueManager, IDisposable
+    public class RabbitMQConnection : Service, IQueueManager
     {
         // fields
 
@@ -41,14 +41,9 @@ namespace Tasslehoff.Adapters.RabbitMQ
         public const int DefaultTimeout = 3600;
 
         /// <summary>
-        /// The address
-        /// </summary>
-        private static string address = null;
-
-        /// <summary>
         /// The connection factory
         /// </summary>
-        private static ConnectionFactory connectionFactory = null;
+        private static Dictionary<string, ConnectionFactory> connectionFactories = null;
 
         /// <summary>
         /// The models
@@ -65,75 +60,79 @@ namespace Tasslehoff.Adapters.RabbitMQ
         /// </summary>
         private QueueingBasicConsumer consumer = null;
 
-        /// <summary>
-        /// The disposed
-        /// </summary>
-        private bool disposed;
-
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RabbitMQConnection"/> class.
         /// </summary>
-        public RabbitMQConnection()
+        /// <param name="address">The address</param>
+        public RabbitMQConnection(string address)
         {
-            if (RabbitMQConnection.address == null)
+            if (RabbitMQConnection.ConnectionFactories == null)
             {
-                throw new ArgumentNullException("address", "Address is not specified for RabbitMQConnection.");
+                RabbitMQConnection.ConnectionFactories = new Dictionary<string, ConnectionFactory>();
             }
 
-            if (RabbitMQConnection.connectionFactory == null)
+            if (!RabbitMQConnection.ConnectionFactories.ContainsKey(address))
             {
-                RabbitMQConnection.connectionFactory = new ConnectionFactory()
-                {
-                    HostName = RabbitMQConnection.address
-                };
+                RabbitMQConnection.ConnectionFactories.Add(
+                    address,
+                    new ConnectionFactory()
+                    {
+                        HostName = address
+                    }
+                );
             }
 
-            this.connection = RabbitMQConnection.connectionFactory.CreateConnection();
+            this.connection = RabbitMQConnection.ConnectionFactories[address].CreateConnection();
             this.models = new Dictionary<string, IModel>();
-        }
-
-        /// <summary>
-        /// Finalizes an instance of the <see cref="RabbitMQConnection"/> class.
-        /// </summary>
-        ~RabbitMQConnection()
-        {
-            this.Dispose(false);
         }
 
         // attributes
 
         /// <summary>
-        /// Gets or sets the address.
+        /// Gets the name.
         /// </summary>
         /// <value>
-        /// The address.
+        /// The name.
         /// </value>
-        public static string Address
+        public override string Name
         {
             get
             {
-                return RabbitMQConnection.address;
-            }
-
-            set
-            {
-                RabbitMQConnection.address = value;
+                return "RabbitMQConnection";
             }
         }
 
         /// <summary>
-        /// Gets the connection factory.
+        /// Gets the description.
         /// </summary>
         /// <value>
-        /// The connection factory.
+        /// The description.
         /// </value>
-        internal static ConnectionFactory ConnectionFactory
+        public override string Description
         {
             get
             {
-                return RabbitMQConnection.connectionFactory;
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets the connection factories.
+        /// </summary>
+        /// <value>
+        /// The connection factories.
+        /// </value>
+        internal static Dictionary<string, ConnectionFactory> ConnectionFactories
+        {
+            get
+            {
+                return RabbitMQConnection.connectionFactories;
+            }
+            set
+            {
+                RabbitMQConnection.connectionFactories = value;
             }
         }
 
@@ -274,43 +273,6 @@ namespace Tasslehoff.Adapters.RabbitMQ
         {
             byte[] serializedMessage = Encoding.Default.GetBytes(SerializationHelpers.JsonSerialize(message));
             this.Enqueue(queueKey, serializedMessage);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                // FIXME
-                //foreach (IModel model in this.models.Values)
-                //{
-                //    VariableHelpers.CheckAndDispose(ref model);
-                //}
-
-                this.models.Clear();
-
-                VariableHelpers.CheckAndDispose(ref this.connection);
-            }
-
-            this.disposed = true;
         }
     }
 }
