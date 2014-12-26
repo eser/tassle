@@ -28,10 +28,10 @@ namespace Tasslehoff
     using Library.Config;
     using Library.Cron;
     using Library.DataAccess;
-    using Library.Extensions;
     using Library.Helpers;
     using Library.Plugins;
     using Library.Services;
+    using Library.Utils;
     using Adapters.Memcached;
     using Adapters.RabbitMQ;
 
@@ -58,9 +58,9 @@ namespace Tasslehoff
         private readonly TextWriter output;
 
         /// <summary>
-        /// The database
+        /// The database manager
         /// </summary>
-        private readonly Database database;
+        private readonly DatabaseManager databaseManager;
 
         /// <summary>
         /// The cron manager
@@ -68,9 +68,9 @@ namespace Tasslehoff
         private readonly CronManager cronManager;
 
         /// <summary>
-        /// The extension manager
+        /// The extension finder
         /// </summary>
-        private readonly ExtensionManager extensionManager;
+        private readonly ExtensionFinder extensionFinder;
 
         /// <summary>
         /// The plugin container
@@ -106,36 +106,49 @@ namespace Tasslehoff
             // initialization
             this.configuration = configuration;
             this.output = output;
+
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
             this.output.WriteLine("Tasslehoff 1.1.0  (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.");
             this.output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
             this.output.WriteLine();
 
-            this.database = new Database(this.configuration.DatabaseDriver, this.configuration.DatabaseConnectionString);
+            this.databaseManager = new DatabaseManager();
+
+            if (!string.IsNullOrEmpty(this.configuration.DatabaseConnectionString))
+            {
+                this.databaseManager.Connections.Add(
+                    this.databaseManager.DefaultDatabaseKey,
+                    new DatabaseManagerConnection()
+                    {
+                        Driver = this.configuration.DatabaseDriver,
+                        ConnectionString = this.configuration.DatabaseConnectionString,
+                    }
+                );
+            }
 
             RabbitMQConnection.Address = configuration.RabbitMQAddress;
 
             this.cronManager = new CronManager();
             this.AddChild(this.cronManager);
 
-            this.extensionManager = new ExtensionManager();
-            this.AddChild(this.extensionManager);
+            this.extensionFinder = new ExtensionFinder();
+            this.AddChild(this.extensionFinder);
 
             // search for extensions
             if (this.configuration.ExtensionPaths != null)
             {
                 foreach (string extensionPath in this.configuration.ExtensionPaths)
                 {
-                    this.extensionManager.SearchFiles(extensionPath);
+                    this.extensionFinder.SearchFiles(extensionPath);
                 }
             }
-            this.output.WriteLine("{0} extensions found.", this.extensionManager.Assemblies.Count);
+            this.output.WriteLine("{0} extensions found.", this.extensionFinder.Assemblies.Count);
 
-            this.pluginContainer = new PluginContainer(this.extensionManager);
+            this.pluginContainer = new PluginContainer(this.extensionFinder);
             this.AddChild(this.pluginContainer);
 
-            this.OnStartWithChildren += this.TasslehoffRunner_OnStartWithChildren;
+            this.OnStartWithChildren += this.Tasslehoff_OnStartWithChildren;
 
             if (this.configuration.VerboseMode)
             {
@@ -217,16 +230,16 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the database.
+        /// Gets the database manager.
         /// </summary>
         /// <value>
-        /// The database.
+        /// The database manager.
         /// </value>
-        public Database Database
+        public DatabaseManager DatabaseManager
         {
             get
             {
-                return this.database;
+                return this.databaseManager;
             }
         }
 
@@ -245,16 +258,16 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the extension manager.
+        /// Gets the extension finder.
         /// </summary>
         /// <value>
-        /// The extension manager.
+        /// The extension finder.
         /// </value>
-        public ExtensionManager ExtensionManager
+        public ExtensionFinder ExtensionFinder
         {
             get
             {
-                return this.extensionManager;
+                return this.extensionFinder;
             }
         }
 
@@ -363,7 +376,7 @@ namespace Tasslehoff
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void TasslehoffRunner_OnStartWithChildren(object sender, EventArgs e)
+        private void Tasslehoff_OnStartWithChildren(object sender, EventArgs e)
         {
             if (this.Configuration.VerboseMode)
             {
