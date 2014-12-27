@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tasslehoff.CommandLine</RootNamespace>
     <AssemblyName>Tasslehoff.CommandLine</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -53,11 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tasslehoff.Library\Tasslehoff.Library.csproj">
-      <Project>{ee4831da-a8fa-46bb-8c06-0128edd0c856}</Project>
+      <Project>{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}</Project>
       <Name>Tasslehoff.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tasslehoff\Tasslehoff.csproj">
-      <Project>{f0a8219b-6b58-4666-b58b-ed3acf9557b0}</Project>
+      <Project>{F0A8219B-6B58-4666-B58B-ED3ACF9557B0}</Project>
       <Name>Tasslehoff</Name>
     </ProjectReference>
   </ItemGroup>

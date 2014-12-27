@@ -204,7 +204,7 @@ namespace Tasslehoff.Adapters.RabbitMQ
 
             if (!channel.IsOpen)
             {
-                // throw 
+                // throw
             }
 
             if (this.consumer == null)
@@ -214,10 +214,9 @@ namespace Tasslehoff.Adapters.RabbitMQ
                 channel.BasicConsume(queueKey, false, this.consumer);
             }
 
-            object result;
-            if (this.consumer.Queue.Dequeue(timeout, out result))
+            BasicDeliverEventArgs eventArgs;
+            if (this.consumer.Queue.Dequeue(timeout, out eventArgs))
             {
-                BasicDeliverEventArgs eventArgs = (BasicDeliverEventArgs)result;
                 channel.BasicAck(eventArgs.DeliveryTag, false);
 
                 return eventArgs.Body;
