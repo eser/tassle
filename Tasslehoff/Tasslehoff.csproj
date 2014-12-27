@@ -51,7 +51,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TasslehoffConfig.cs" />
     <Compile Include="Tasslehoff.cs" />
-    <Compile Include="ITask.cs" />
     <Compile Include="Adapters\Memcached\MemcachedConnection.cs" />
     <Compile Include="Adapters\RabbitMQ\RabbitMQConnection.cs" />
   </ItemGroup>

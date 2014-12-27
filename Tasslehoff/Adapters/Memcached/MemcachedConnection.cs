@@ -184,7 +184,7 @@ namespace Tasslehoff.Adapters.Memcached
         /// <param name="value">The value</param>
         /// <param name="expiresAt">The expires at</param>
         /// <returns>Is written to cache or not</returns>
-        public bool Set(string key, object value, DateTime? expiresAt = null)
+        public bool Set(string key, object value, DateTimeOffset? expiresAt = null)
         {
             if (this.connection == null)
             {
@@ -193,7 +193,7 @@ namespace Tasslehoff.Adapters.Memcached
 
             if (expiresAt.HasValue)
             {
-                return this.connection.Store(StoreMode.Set, key, value, expiresAt.Value.Subtract(DateTime.UtcNow));
+                return this.connection.Store(StoreMode.Set, key, value, expiresAt.Value.Subtract(DateTimeOffset.UtcNow));
             }
 
             return this.connection.Store(StoreMode.Set, key, value);
@@ -206,7 +206,7 @@ namespace Tasslehoff.Adapters.Memcached
         /// <param name="value">The value.</param>
         /// <param name="expiresAt">The expires at.</param>
         /// <returns>Is written to cache or not</returns>
-        public bool SetJson(string key, object value, DateTime? expiresAt = null)
+        public bool SetJson(string key, object value, DateTimeOffset? expiresAt = null)
         {
             byte[] serializedValue = Encoding.Default.GetBytes(SerializationHelpers.JsonSerialize(value));
             return this.Set(key, serializedValue, expiresAt);

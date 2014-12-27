@@ -22,6 +22,7 @@
 namespace Tasslehoff.CommandLine
 {
     using System;
+    using Library.Tasks;
 
     public class Program
     {
@@ -37,6 +38,19 @@ namespace Tasslehoff.CommandLine
             Tasslehoff tasslehoff = new Tasslehoff(tasslehoffConfig, Console.Out);
             // tasslehoff.QueueManager = new RabbitMQConnection(configuration.RabbitMQAddress);
             // tasslehoff.CacheManager = new MemcachedConnection(configuration.MemcachedAddresses.Split(','));
+
+            tasslehoff.Start();
+
+            TaskItem taskItem = new TaskItem(
+                // Recurrence.Once(),
+                // Recurrence.OnceAt(DateTimeOffset.UtcNow.AddSeconds(5)),
+                Recurrence.Periodically(TimeSpan.FromSeconds(3)),
+                (TaskActionParameters param) =>
+                {
+                    Console.WriteLine("helo");
+                }
+            );
+            tasslehoff.AddTask(taskItem);
 
             Console.Read();
         }

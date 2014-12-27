@@ -26,10 +26,10 @@ namespace Tasslehoff
     using System.IO;
     using System.Threading;
     using Adapters;
-    using Library.Cron;
     using Library.DataAccess;
     using Library.Plugins;
     using Library.Services;
+    using Library.Tasks;
     using Library.Utils;
 
     /// <summary>
@@ -60,9 +60,9 @@ namespace Tasslehoff
         private readonly DatabaseManager databaseManager;
 
         /// <summary>
-        /// The cron manager
+        /// The task manager
         /// </summary>
-        private readonly CronManager cronManager;
+        private readonly TaskManager taskManager;
 
         /// <summary>
         /// The extension finder
@@ -124,8 +124,8 @@ namespace Tasslehoff
                 );
             }
 
-            this.cronManager = new CronManager();
-            this.AddChild(this.cronManager);
+            this.taskManager = new TaskManager();
+            this.AddChild(this.taskManager);
 
             this.extensionFinder = new ExtensionFinder();
             this.AddChild(this.extensionFinder);
@@ -239,16 +239,16 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the cron manager.
+        /// Gets the task manager.
         /// </summary>
         /// <value>
-        /// The cron manager.
+        /// The task manager.
         /// </value>
-        public CronManager CronManager
+        public TaskManager TaskManager
         {
             get
             {
-                return this.cronManager;
+                return this.taskManager;
             }
         }
 
@@ -319,6 +319,17 @@ namespace Tasslehoff
         // methods
 
         /// <summary>
+        /// Adds a task to task manager.
+        /// </summary>
+        /// <param name="taskItem">Task item which is going to be added</param>
+        public void AddTask(TaskItem taskItem)
+        {
+            string key = string.Format("Task{0}", (this.TaskManager.Items.Count + 1));
+
+            this.TaskManager.Add(key, taskItem);
+        }
+
+        /// <summary>
         /// Services the start.
         /// </summary>
         protected override void ServiceStart()
@@ -330,7 +341,7 @@ namespace Tasslehoff
         /// </summary>
         protected override void ServiceStop()
         {
-            this.CronManager.Clear();
+            this.TaskManager.Clear();
 
         }
 

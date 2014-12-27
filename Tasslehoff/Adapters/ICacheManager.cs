@@ -48,7 +48,7 @@ namespace Tasslehoff.Adapters
         /// <param name="value">The value</param>
         /// <param name="expiresAt">The expires at</param>
         /// <returns>Is written to cache or not</returns>
-        bool Set(string key, object value, DateTime? expiresAt = null);
+        bool Set(string key, object value, DateTimeOffset? expiresAt = null);
 
         /// <summary>
         /// Sets the specified key.
@@ -57,6 +57,6 @@ namespace Tasslehoff.Adapters
         /// <param name="value">The value.</param>
         /// <param name="expiresAt">The expires at.</param>
         /// <returns>Is written to cache or not</returns>
-        bool SetJson(string key, object value, DateTime? expiresAt = null);
+        bool SetJson(string key, object value, DateTimeOffset? expiresAt = null);
     }
 }
