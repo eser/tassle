@@ -23,6 +23,8 @@ namespace Tasslehoff.CommandLine
 {
     using System;
     using Library.Tasks;
+    using Library.Dynamic;
+    using System.Reflection;
 
     public class Program
     {
@@ -51,6 +53,20 @@ namespace Tasslehoff.CommandLine
                 }
             );
             tasslehoff.AddTask(taskItem);
+
+            DynamicAssembly da = new DynamicAssembly("Deneme");
+            
+            var dc = da.AddClass("Eser");
+
+            var df = dc.AddField("a", typeof(int), FieldAttributes.Private);
+            var dp = df.ConvertToProperty(dc, "A");
+            
+            dc.Finalize();
+
+            da.Save("deneme.dll");
+
+            Console.WriteLine("done");
+            
 
             Console.Read();
         }
