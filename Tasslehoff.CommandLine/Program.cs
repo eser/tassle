@@ -63,7 +63,7 @@ namespace Tasslehoff.CommandLine
             
             dc.Finalize();
 
-            da.Save("deneme.dll");
+            da.Save();
 
             Console.WriteLine("done");
             
