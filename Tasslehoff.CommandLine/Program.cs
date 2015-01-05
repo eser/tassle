@@ -41,19 +41,22 @@ namespace Tasslehoff.CommandLine
             // tasslehoff.QueueManager = new RabbitMQConnection(configuration.RabbitMQAddress);
             // tasslehoff.CacheManager = new MemcachedConnection(configuration.MemcachedAddresses.Split(','));
 
-            tasslehoff.Start();
+            var taskItem = new TaskItem(
+                    (TaskActionParameters param) =>
+                    {
+                        Console.WriteLine("helo");
+                    }
+                )
+                .SetRecurrence(Recurrence.Once)
+                .SetRepeat(4)
+                .Postpone(TimeSpan.FromSeconds(5));
 
-            TaskItem taskItem = new TaskItem(
-                // Recurrence.Once(),
-                // Recurrence.OnceAt(DateTimeOffset.UtcNow.AddSeconds(5)),
-                Recurrence.Periodically(TimeSpan.FromSeconds(3)),
-                (TaskActionParameters param) =>
-                {
-                    Console.WriteLine("helo");
-                }
-            );
+
             tasslehoff.AddTask(taskItem);
 
+            tasslehoff.Start();
+
+            /*
             DynamicAssembly da = new DynamicAssembly("Deneme");
             
             var dc = da.AddClass("Eser");
@@ -66,7 +69,7 @@ namespace Tasslehoff.CommandLine
             da.Save();
 
             Console.WriteLine("done");
-            
+            */
 
             Console.Read();
         }
