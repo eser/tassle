@@ -1,10 +1,10 @@
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="-">
-// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@sent.com)</author>
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
 //// it under the terms of the GNU General Public License as published by
@@ -22,16 +22,28 @@
 using System;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.InteropServices;
+
+[assembly: NeutralResourcesLanguage("en")]
+
+[assembly: CLSCompliant(true)]
+
+[assembly: ComVisible(false)]
+
 
 //// Information about this assembly is defined by the following attributes. 
 //// Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("Tasslehoff")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("Eser Ozvataf")]
+[assembly: AssemblyProduct("Tasslehoff")]
+[assembly: AssemblyCopyright("(c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,15 +51,12 @@ using System.Resources;
 //// The form "{Major}.{Minor}.*" will automatically update the build and revision,
 //// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("1.1.0")]
-[assembly: AssemblyInformationalVersion("1.0")]
+[assembly: AssemblyVersion("0.7.0")]
+[assembly: AssemblyFileVersion("0.7.0")]
+[assembly: AssemblyInformationalVersion("0.7")]
 
 //// The following attributes are used to specify the signing key for the assembly, 
 //// if desired. See the Mono documentation for more information about signing.
 
 //// [assembly: AssemblyDelaySign(false)]
 //// [assembly: AssemblyKeyFile("")]
-
-[assembly: NeutralResourcesLanguage("en")]
-
-[assembly: CLSCompliant(true)]

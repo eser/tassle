@@ -125,9 +125,29 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tasslehoff.Library\Tasslehoff.Library.csproj">
-      <Project>{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}</Project>
-      <Name>Tasslehoff.Library</Name>
+    <ProjectReference Include="..\Tasslehoff.Common\Tasslehoff.Common.csproj">
+      <Project>{a1c1f575-2008-4be1-9db7-0ad91acb7e5e}</Project>
+      <Name>Tasslehoff.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Config\Tasslehoff.Config.csproj">
+      <Project>{e31a868a-e326-49df-82ee-39a3044ce913}</Project>
+      <Name>Tasslehoff.Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.DataAccess\Tasslehoff.DataAccess.csproj">
+      <Project>{98c495e9-02dd-40dc-8386-83ec65a4245c}</Project>
+      <Name>Tasslehoff.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Extensibility\Tasslehoff.Extensibility.csproj">
+      <Project>{c49bf97e-42cf-4d93-946b-ea557bf57e7c}</Project>
+      <Name>Tasslehoff.Extensibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Services\Tasslehoff.Services.csproj">
+      <Project>{e7dacfba-3d73-41a1-b7f0-9879097f895e}</Project>
+      <Name>Tasslehoff.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Tasks\Tasslehoff.Tasks.csproj">
+      <Project>{4549838e-0dd0-4ba4-bf5f-a4a5dd526a04}</Project>
+      <Name>Tasslehoff.Tasks</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

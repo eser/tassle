@@ -1,10 +1,10 @@
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // <copyright file="TasslehoffConfig.cs" company="-">
-// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@sent.com)</author>
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
 //// it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Runtime.Serialization;
+using Tasslehoff.Config;
+
 namespace Tasslehoff
 {
-    using System.Runtime.Serialization;
-    using Library.Config;
-
     /// <summary>
     /// Runner configuration
     /// </summary>
     [DataContract]
-    public class TasslehoffConfig : Config
+    public class TasslehoffConfig : Config.Config
     {
         /// <summary>
         /// Gets or sets the database driver.

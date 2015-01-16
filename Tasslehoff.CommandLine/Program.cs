@@ -1,10 +1,10 @@
-﻿// -----------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------
 // <copyright file="Program.cs" company="-">
-// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@sent.com)</author>
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
 //// it under the terms of the GNU General Public License as published by
@@ -19,13 +19,11 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using Tasslehoff.Tasks;
+
 namespace Tasslehoff.CommandLine
 {
-    using System;
-    using Library.Tasks;
-    using Library.Dynamic;
-    using System.Reflection;
-
     public class Program
     {
         public static void Main(string[] args)

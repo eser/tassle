@@ -52,9 +52,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tasslehoff.Library\Tasslehoff.Library.csproj">
-      <Project>{EE4831DA-A8FA-46BB-8C06-0128EDD0C856}</Project>
-      <Name>Tasslehoff.Library</Name>
+    <ProjectReference Include="..\Tasslehoff.Config\Tasslehoff.Config.csproj">
+      <Project>{e31a868a-e326-49df-82ee-39a3044ce913}</Project>
+      <Name>Tasslehoff.Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Dynamic\Tasslehoff.Dynamic.csproj">
+      <Project>{9894d742-9edb-4a37-b0ec-73a58a57cb95}</Project>
+      <Name>Tasslehoff.Dynamic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Services\Tasslehoff.Services.csproj">
+      <Project>{e7dacfba-3d73-41a1-b7f0-9879097f895e}</Project>
+      <Name>Tasslehoff.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Tasks\Tasslehoff.Tasks.csproj">
+      <Project>{4549838e-0dd0-4ba4-bf5f-a4a5dd526a04}</Project>
+      <Name>Tasslehoff.Tasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tasslehoff\Tasslehoff.csproj">
       <Project>{F0A8219B-6B58-4666-B58B-ED3ACF9557B0}</Project>

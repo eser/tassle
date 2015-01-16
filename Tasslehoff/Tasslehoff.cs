@@ -1,10 +1,10 @@
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // <copyright file="Tasslehoff.cs" company="-">
-// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@sent.com)</author>
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
 //// it under the terms of the GNU General Public License as published by
@@ -19,19 +19,19 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using Tasslehoff.Adapters;
+using Tasslehoff.DataAccess;
+using Tasslehoff.Extensibility;
+using Tasslehoff.Extensibility.Plugins;
+using Tasslehoff.Services;
+using Tasslehoff.Tasks;
+
 namespace Tasslehoff
 {
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    using Adapters;
-    using Library.DataAccess;
-    using Library.Plugins;
-    using Library.Services;
-    using Library.Tasks;
-    using Library.Utils;
-
     /// <summary>
     /// Tasslehoff class.
     /// </summary>
@@ -106,7 +106,7 @@ namespace Tasslehoff
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
-            this.output.WriteLine("Tasslehoff 1.1.0  (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.");
+            this.output.WriteLine("Tasslehoff 1.1.0  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
             this.output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
             this.output.WriteLine();
 

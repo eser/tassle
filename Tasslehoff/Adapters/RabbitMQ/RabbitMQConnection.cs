@@ -1,10 +1,10 @@
-﻿// -----------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------
 // <copyright file="RabbitMQConnection.cs" company="-">
-// Copyright (c) 2014 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@sent.com)</author>
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
 //// it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ namespace Tasslehoff.Adapters.RabbitMQ
     using System.Text;
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
-    using Library.Helpers;
-    using Library.Services;
+    using Common.Helpers;
+    using Services;
 
     /// <summary>
     /// RabbitMQConnection class.
