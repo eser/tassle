@@ -35,13 +35,13 @@
     <Reference Include="Enyim.Caching">
       <HintPath>..\packages\EnyimMemcached.2.12\lib\net35\Enyim.Caching.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="RabbitMQ.Client">
-      <HintPath>..\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +122,6 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Tasslehoff.Common\Tasslehoff.Common.csproj">
       <Project>{a1c1f575-2008-4be1-9db7-0ad91acb7e5e}</Project>
       <Name>Tasslehoff.Common</Name>
@@ -149,5 +146,8 @@
       <Project>{4549838e-0dd0-4ba4-bf5f-a4a5dd526a04}</Project>
       <Name>Tasslehoff.Tasks</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
