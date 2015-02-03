@@ -95,7 +95,7 @@ namespace Tasslehoff.Extensibility.Plugins
         // methods
 
         /// <summary>
-        /// Services the start.
+        /// Invokes events will be occurred during the service start.
         /// </summary>
         protected override void ServiceStart()
         {
@@ -108,7 +108,7 @@ namespace Tasslehoff.Extensibility.Plugins
         }
 
         /// <summary>
-        /// Services the stop.
+        /// Invokes events will be occurred during the service stop.
         /// </summary>
         protected override void ServiceStop()
         {

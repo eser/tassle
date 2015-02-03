@@ -93,6 +93,15 @@ namespace Tasslehoff.Dynamic
         }
 
         /// <summary>
+        /// Adds an interface implementation to type.
+        /// </summary>
+        /// <param name="interfaceType">The interface type</param>
+        public void AddInterface(Type interfaceType)
+        {
+            this.TypeBuilder.AddInterfaceImplementation(interfaceType);
+        }
+
+        /// <summary>
         /// Adds a field to type.
         /// </summary>
         /// <param name="name">Name of the field</param>

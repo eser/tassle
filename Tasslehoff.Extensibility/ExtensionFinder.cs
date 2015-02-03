@@ -41,16 +41,17 @@ namespace Tasslehoff.Extensibility
         /// <summary>
         /// The assemblies
         /// </summary>
-        private readonly ICollection<Assembly> assemblies;
+        private readonly IDictionary<string, Assembly> assemblies;
 
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionFinder"/> class.
         /// </summary>
-        public ExtensionFinder() : base()
+        public ExtensionFinder()
+            : base()
         {
-            this.assemblies = new Collection<Assembly>();
+            this.assemblies = new Dictionary<string, Assembly>();
         }
 
         // properties
@@ -89,7 +90,7 @@ namespace Tasslehoff.Extensibility
         /// <value>
         /// The assemblies.
         /// </value>
-        public ICollection<Assembly> Assemblies
+        public IDictionary<string, Assembly> Assemblies
         {
             get
             {
@@ -103,15 +104,19 @@ namespace Tasslehoff.Extensibility
         /// Searches the files.
         /// </summary>
         /// <param name="path">The path</param>
-        public void SearchFiles(string path)
+        public void SearchFiles(params string[] paths)
         {
-            DirectoryInfo searchDirectory = new DirectoryInfo(Path.GetDirectoryName(path));
-            string filePattern = Path.GetFileName(path);
-
-            FileInfo[] files = searchDirectory.GetFiles(filePattern, SearchOption.TopDirectoryOnly);
-            foreach (FileInfo file in files)
+            foreach (string path in paths)
             {
-                this.AddFile(file.FullName);
+                string[] searchDirectories = Directory.GetDirectories(path);
+
+                foreach (string searchDirectory in searchDirectories)
+                {
+                    string name = Path.GetDirectoryName(searchDirectory);
+                    string filename = Path.Combine(path, name, name + ".dll");
+
+                    this.AddFile(filename);
+                }
             }
         }
 
@@ -146,27 +151,26 @@ namespace Tasslehoff.Extensibility
         /// <param name="assembly">The assembly</param>
         public void Add(Assembly assembly)
         {
-            foreach (Assembly item in this.assemblies)
+            AssemblyName assemblyName = assembly.GetName();
+
+            if (this.assemblies.ContainsKey(assemblyName.Name))
             {
-                if (assembly.FullName == item.FullName)
-                {
-                    this.Log.Write(LogLevel.Debug, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenLoadedPreviously, item.GetName().Name));
-                    return;
-                }
+                this.Log.Write(LogLevel.Debug, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenLoadedPreviously, assemblyName.Name));
+                return;
             }
 
-            this.assemblies.Add(assembly);
-            this.Log.Write(LogLevel.Info, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenLoaded, assembly.GetName().Name, assembly.Location));
+            this.assemblies.Add(assemblyName.Name, assembly);
+            this.Log.Write(LogLevel.Info, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenLoaded, assemblyName.Name, assembly.Location));
         }
 
         /// <summary>
         /// Removes the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly</param>
-        public void Remove(Assembly assembly)
+        public void Remove(string assemblyName)
         {
-            this.assemblies.Remove(assembly);
-            this.Log.Write(LogLevel.Info, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenRemoved, assembly.GetName().Name));
+            this.assemblies.Remove(assemblyName);
+            this.Log.Write(LogLevel.Info, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenRemoved, assemblyName));
         }
 
         /// <summary>
@@ -174,9 +178,9 @@ namespace Tasslehoff.Extensibility
         /// </summary>
         public void Clear()
         {
-            Assembly[] assemblies = ArrayHelpers.GetArray<Assembly>(this.assemblies);
+            string[] assemblies = ArrayHelpers.GetArray<string>(this.assemblies.Keys);
 
-            foreach (Assembly item in assemblies)
+            foreach (string item in assemblies)
             {
                 this.Remove(item);
             }
@@ -201,7 +205,7 @@ namespace Tasslehoff.Extensibility
         {
             ICollection<Type> types = new Collection<Type>();
 
-            foreach (Assembly item in this.assemblies)
+            foreach (Assembly item in this.assemblies.Values)
             {
                 foreach (Type exportType in item.GetExportedTypes())
                 {
@@ -236,7 +240,7 @@ namespace Tasslehoff.Extensibility
         {
             ICollection<Type> types = new Collection<Type>();
 
-            foreach (Assembly item in this.assemblies)
+            foreach (Assembly item in this.assemblies.Values)
             {
                 foreach (Type exportType in item.GetExportedTypes())
                 {
@@ -274,7 +278,7 @@ namespace Tasslehoff.Extensibility
         /// <returns>The exact type</returns>
         public Type SearchType(string typeName)
         {
-            foreach (Assembly item in this.assemblies)
+            foreach (Assembly item in this.assemblies.Values)
             {
                 foreach (Type exportType in item.GetExportedTypes())
                 {

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// <copyright file="Tasslehoff.cs" company="-">
+// <copyright file="TasslehoffCore.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -33,16 +33,16 @@ using Tasslehoff.Tasks;
 namespace Tasslehoff
 {
     /// <summary>
-    /// Tasslehoff class.
+    /// TasslehoffCore class.
     /// </summary>
-    public class Tasslehoff : ServiceContainer
+    public class TasslehoffCore : ServiceContainer
     {
         // fields
 
         /// <summary>
         /// Singleton instance
         /// </summary>
-        private static Tasslehoff instance = null;
+        private static TasslehoffCore instance = null;
 
         /// <summary>
         /// The configuration.
@@ -87,17 +87,17 @@ namespace Tasslehoff
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Tasslehoff" /> class.
+        /// Initializes a new instance of the <see cref="TasslehoffCore" /> class.
         /// </summary>
         /// <param name="configuration">The configuration</param>
         /// <param name="output">The output</param>
-        public Tasslehoff(TasslehoffConfig configuration, TextWriter output)
+        public TasslehoffCore(TasslehoffConfig configuration, TextWriter output)
             : base()
         {
             // singleton pattern
-            if (Tasslehoff.instance == null)
+            if (TasslehoffCore.instance == null)
             {
-                Tasslehoff.instance = this;
+                TasslehoffCore.instance = this;
             }
 
             // initialization
@@ -160,11 +160,11 @@ namespace Tasslehoff
         /// <value>
         /// The singleton instance.
         /// </value>
-        public static Tasslehoff Instance
+        public static TasslehoffCore Instance
         {
             get
             {
-                return Tasslehoff.instance;
+                return TasslehoffCore.instance;
             }
         }
 
@@ -330,14 +330,24 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Services the start.
+        /// Gets a relative path to working directory.
+        /// </summary>
+        /// <param name="relativePath">Relative path</param>
+        /// <returns>Combined path</returns>
+        public string GetPath(string relativePath)
+        {
+            return Path.Combine(this.Configuration.WorkingDirectory, relativePath);
+        }
+
+        /// <summary>
+        /// Invokes events will be occurred during the service start.
         /// </summary>
         protected override void ServiceStart()
         {
         }
 
         /// <summary>
-        /// Services the stop.
+        /// Invokes events will be occurred during the service stop.
         /// </summary>
         protected override void ServiceStop()
         {

@@ -182,7 +182,7 @@ namespace Tasslehoff.Dynamic
             }
 
 
-            TypeBuilder typeBuilder = this.ModuleBuilder.DefineType(name, typeAttributes, baseType ?? typeof(object));                
+            TypeBuilder typeBuilder = this.ModuleBuilder.DefineType(name, typeAttributes, baseType ?? typeof(object));
             return new DynamicType(typeBuilder);
         }
     }

@@ -35,7 +35,7 @@ namespace Tasslehoff.CommandLine
                 WorkingDirectory = Environment.CurrentDirectory
             };
 
-            Tasslehoff tasslehoff = new Tasslehoff(tasslehoffConfig, Console.Out);
+            TasslehoffCore tasslehoff = new TasslehoffCore(tasslehoffConfig, Console.Out);
             // tasslehoff.QueueManager = new RabbitMQConnection(configuration.RabbitMQAddress);
             // tasslehoff.CacheManager = new MemcachedConnection(configuration.MemcachedAddresses.Split(','));
 

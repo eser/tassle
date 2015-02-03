@@ -142,12 +142,12 @@ namespace Tasslehoff.Services
         // abstract methods
 
         /// <summary>
-        /// Services the start.
+        /// Invokes events will be occurred during the service start.
         /// </summary>
         protected abstract void ServiceStart();
 
         /// <summary>
-        /// Services the stop.
+        /// Invokes events will be occurred during the service stop.
         /// </summary>
         protected abstract void ServiceStop();
     }

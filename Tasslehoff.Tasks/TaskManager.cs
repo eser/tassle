@@ -197,7 +197,7 @@ namespace Tasslehoff.Tasks
         }
 
         /// <summary>
-        /// Services the start.
+        /// Invokes events will be occurred during the service start.
         /// </summary>
         protected override void ServiceStart()
         {
@@ -207,7 +207,7 @@ namespace Tasslehoff.Tasks
         }
 
         /// <summary>
-        /// Services the stop.
+        /// Invokes events will be occurred during the service stop.
         /// </summary>
         protected override void ServiceStop()
         {
