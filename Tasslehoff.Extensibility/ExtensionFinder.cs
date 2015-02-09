@@ -39,6 +39,11 @@ namespace Tasslehoff.Extensibility
         // fields
 
         /// <summary>
+        /// The application domain
+        /// </summary>
+        private AppDomain applicationDomain = null;
+
+        /// <summary>
         /// The assemblies
         /// </summary>
         private readonly IDictionary<string, Assembly> assemblies;
@@ -81,6 +86,24 @@ namespace Tasslehoff.Extensibility
             get
             {
                 return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the application domain.
+        /// </summary>
+        /// <value>
+        /// The application domain.
+        /// </value>
+        public AppDomain ApplicationDomain
+        {
+            get
+            {
+                return this.applicationDomain;
+            }
+            private set
+            {
+                this.applicationDomain = value;
             }
         }
 
@@ -151,6 +174,11 @@ namespace Tasslehoff.Extensibility
         /// <param name="assembly">The assembly</param>
         public void Add(Assembly assembly)
         {
+            if (this.ApplicationDomain == null)
+            {
+                this.ApplicationDomain = AppDomain.CreateDomain("extensions");
+            }
+
             AssemblyName assemblyName = assembly.GetName();
 
             if (this.assemblies.ContainsKey(assemblyName.Name))
@@ -302,6 +330,26 @@ namespace Tasslehoff.Extensibility
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Unloads the application domain.
+        /// </summary>
+        public void UnloadDomain()
+        {
+            AppDomain.Unload(this.ApplicationDomain);
+            this.ApplicationDomain = null;
+        }
+
+        /// <summary>
+        /// Called when [dispose].
+        /// </summary>
+        /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        protected override void OnDispose(bool releaseManagedResources)
+        {
+            base.OnDispose(releaseManagedResources);
+
+            AppDomain.Unload(this.applicationDomain);
         }
     }
 }
