@@ -46,10 +46,16 @@ namespace Tasslehoff.DataAccess
         // fields
 
         /// <summary>
-        /// The database driver
+        /// The database provider name
         /// </summary>
         [DataMember]
-        private string databaseDriver;
+        private string databaseProviderName;
+
+        /// <summary>
+        /// The database provider manifest token
+        /// </summary>
+        [DataMember]
+        private string databaseProviderManifestToken;
 
         /// <summary>
         /// The connection string
@@ -68,12 +74,86 @@ namespace Tasslehoff.DataAccess
         /// <summary>
         /// Initializes a new instance of the <see cref="Database"/> class.
         /// </summary>
-        /// <param name="databaseDriver">The database driver</param>
+        /// <param name="databaseProviderName">The database provider name</param>
         /// <param name="connectionString">The connection string</param>
-        public Database(string databaseDriver, string connectionString)
+        public Database(string databaseProviderName, string connectionString)
         {
-            this.databaseDriver = databaseDriver;
+            this.databaseProviderName = databaseProviderName;
             this.connectionString = connectionString;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Database"/> class.
+        /// </summary>
+        /// <param name="databaseProviderName">The database provider name</param>
+        /// <param name="databaseProviderManifestToken">The database provider manifest token</param>
+        /// <param name="connectionString">The connection string</param>
+        public Database(string databaseProviderName, string databaseProviderManifestToken, string connectionString)
+        {
+            this.databaseProviderName = databaseProviderName;
+            this.databaseProviderManifestToken = databaseProviderManifestToken;
+            this.connectionString = connectionString;
+        }
+
+        // properties
+
+        /// <summary>
+        /// Gets or sets database provider name
+        /// </summary>
+        /// <value>
+        /// The database provider name.
+        /// </value>
+        public string DatabaseProviderName
+        {
+            get
+            {
+                return this.databaseProviderName;
+            }
+
+            set
+            {
+                this.databaseProviderName = value;
+                this.providerFactory = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets database provider manifest token
+        /// </summary>
+        /// <value>
+        /// The database provider manifest token.
+        /// </value>
+        public string DatabaseProviderManifestToken
+        {
+            get
+            {
+                return this.databaseProviderManifestToken;
+            }
+
+            set
+            {
+                this.databaseProviderManifestToken = value;
+                this.providerFactory = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets connection string
+        /// </summary>
+        /// <value>
+        /// The connection string.
+        /// </value>
+        public string ConnectionString
+        {
+            get
+            {
+                return this.connectionString;
+            }
+
+            set
+            {
+                this.connectionString = value;
+            }
         }
 
         // methods
@@ -81,12 +161,12 @@ namespace Tasslehoff.DataAccess
         /// <summary>
         /// Gets the factory.
         /// </summary>
-        /// <returns>The database factory class of the database driver</returns>
+        /// <returns>The database factory class of the database provider</returns>
         public DbProviderFactory GetFactory()
         {
             if (this.providerFactory == null)
             {
-                this.providerFactory = DbProviderFactories.GetFactory(databaseDriver);
+                this.providerFactory = DbProviderFactories.GetFactory(this.DatabaseProviderName);
             }
 
             return this.providerFactory;
@@ -249,6 +329,57 @@ namespace Tasslehoff.DataAccess
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Executes the enumerable dictionary.
+        /// </summary>
+        /// <param name="commandText">The command text</param>
+        /// <param name="commandType">Type of the command</param>
+        /// <param name="commandBehavior">The command behavior</param>
+        /// <param name="parameters">The parameters</param>
+        /// <returns>A enumerable dictionary returned from the database query</returns>
+        public IEnumerable<Dictionary<string, object>> ExecuteEnumerableDictionary(string commandText, CommandType commandType = CommandType.Text, CommandBehavior commandBehavior = CommandBehavior.Default, IEnumerable<DbParameter> parameters = null)
+        {
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+
+            using (DbConnection connection = this.GetConnection())
+            {
+                using (DbCommand command = this.GetCommand(connection, commandText, commandType))
+                {
+                    if (parameters != null)
+                    {
+                        // Parallel.ForEach<DbParameter>(parameters, parameter => {
+                        foreach (DbParameter parameter in parameters)
+                        {
+                            command.Parameters.Add(parameter);
+                        }
+                    }
+
+                    DbDataReader reader = command.ExecuteReader(commandBehavior);
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Dictionary<string, object> row = new Dictionary<string, object>();
+                            for (int i = reader.FieldCount - 1; i >= 0; i--)
+                            {
+                                row[reader.GetName(i)] = reader[i];
+                            }
+
+                            result.Add(row);
+                        }
+                    }
+                    finally
+                    {
+                        reader.Close(); // reader.Disponse() instead?
+                    }
+                }
+
+                // connection.Close();
+            }
+
+            return result;
         }
 
         /// <summary>

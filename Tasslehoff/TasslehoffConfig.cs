@@ -31,14 +31,24 @@ namespace Tasslehoff
     public class TasslehoffConfig : Config.Config
     {
         /// <summary>
-        /// Gets or sets the database driver.
+        /// Gets or sets the database provider name.
         /// </summary>
         /// <value>
-        /// The database driver.
+        /// The database provider name.
         /// </value>
         [DataMember]
         [ConfigEntry(DefaultValue = "Npgsql")]
-        public string DatabaseDriver { get; set; }
+        public string DatabaseProviderName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the database provider manifest token.
+        /// </summary>
+        /// <value>
+        /// The database provider manifest token.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string DatabaseProviderManifestToken { get; set; }
 
         /// <summary>
         /// Gets or sets the database connection string.

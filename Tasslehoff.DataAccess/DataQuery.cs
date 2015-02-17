@@ -689,6 +689,20 @@ namespace Tasslehoff.DataAccess
         }
 
         /// <summary>
+        /// Executes the enumerable dictionary.
+        /// </summary>
+        /// <param name="commandBehavior">The command behavior</param>
+        /// <returns>Enumerable dictionary result</returns>
+        public IEnumerable<Dictionary<string, object>> ExecuteEnumerableDictionary(CommandBehavior commandBehavior = CommandBehavior.Default)
+        {
+            string finalSqlString = DataQuery.ApplyPlaceholders(this.sqlString, this.placeholders);
+            IEnumerable<Dictionary<string, object>> result = this.database.ExecuteEnumerableDictionary(finalSqlString, CommandType.Text, commandBehavior, this.parameters);
+
+            this.Reset();
+            return result;
+        }
+
+        /// <summary>
         /// Executes the scalar.
         /// </summary>
         /// <returns>Scalar result</returns>

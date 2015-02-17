@@ -40,11 +40,6 @@ namespace Tasslehoff
         // fields
 
         /// <summary>
-        /// Singleton instance
-        /// </summary>
-        private static TasslehoffCore instance = null;
-
-        /// <summary>
         /// The configuration.
         /// </summary>
         private readonly TasslehoffConfig configuration;
@@ -52,7 +47,7 @@ namespace Tasslehoff
         /// <summary>
         /// The output
         /// </summary>
-        private readonly TextWriter output;
+        private TextWriter output;
 
         /// <summary>
         /// The database manager
@@ -91,24 +86,21 @@ namespace Tasslehoff
         /// </summary>
         /// <param name="configuration">The configuration</param>
         /// <param name="output">The output</param>
-        public TasslehoffCore(TasslehoffConfig configuration, TextWriter output)
+        public TasslehoffCore(TasslehoffConfig configuration, TextWriter output = null)
             : base()
         {
-            // singleton pattern
-            if (TasslehoffCore.instance == null)
-            {
-                TasslehoffCore.instance = this;
-            }
-
             // initialization
             this.configuration = configuration;
             this.output = output;
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
 
-            this.output.WriteLine("Tasslehoff 1.1.0  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
-            this.output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
-            this.output.WriteLine();
+            if (this.output != null)
+            {
+                this.output.WriteLine("Tasslehoff 1.1.0  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+                this.output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
+                this.output.WriteLine();
+            }
 
             this.databaseManager = new DatabaseManager();
 
@@ -118,7 +110,7 @@ namespace Tasslehoff
                     this.databaseManager.DefaultDatabaseKey,
                     new DatabaseManagerConnection()
                     {
-                        Driver = this.configuration.DatabaseDriver,
+                        ProviderName = this.configuration.DatabaseProviderName,
                         ConnectionString = this.configuration.DatabaseConnectionString,
                     }
                 );
@@ -138,14 +130,17 @@ namespace Tasslehoff
                     this.extensionFinder.SearchFiles(extensionPath);
                 }
             }
-            this.output.WriteLine("{0} extensions found.", this.extensionFinder.Assemblies.Count);
+            if (this.output != null)
+            {
+                this.output.WriteLine("{0} extensions found.", this.extensionFinder.Assemblies.Count);
+            }
 
             this.pluginContainer = new PluginContainer(this.extensionFinder);
             this.AddChild(this.pluginContainer);
 
             this.OnStartWithChildren += this.Tasslehoff_OnStartWithChildren;
 
-            if (this.configuration.VerboseMode)
+            if (this.output != null && this.configuration.VerboseMode)
             {
                 this.output.WriteLine("Working Directory: {0}", this.configuration.WorkingDirectory);
                 this.output.WriteLine();
@@ -153,20 +148,6 @@ namespace Tasslehoff
         }
 
         // properties
-
-        /// <summary>
-        /// Gets the singleton instance.
-        /// </summary>
-        /// <value>
-        /// The singleton instance.
-        /// </value>
-        public static TasslehoffCore Instance
-        {
-            get
-            {
-                return TasslehoffCore.instance;
-            }
-        }
 
         /// <summary>
         /// Gets the name.
@@ -211,7 +192,7 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the output.
+        /// Gets and sets the output.
         /// </summary>
         /// <value>
         /// The output.
@@ -221,6 +202,10 @@ namespace Tasslehoff
             get
             {
                 return this.output;
+            }
+            set
+            {
+                this.output = value;
             }
         }
 
@@ -370,7 +355,7 @@ namespace Tasslehoff
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Tasslehoff_OnStartWithChildren(object sender, EventArgs e)
         {
-            if (this.Configuration.VerboseMode)
+            if (this.Output != null && this.Configuration.VerboseMode)
             {
                 this.Output.WriteLine("Loaded Plugins:");
                 foreach (IService service in this.PluginContainer.Children.Values)

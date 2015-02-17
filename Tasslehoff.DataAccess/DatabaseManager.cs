@@ -197,7 +197,7 @@ namespace Tasslehoff.DataAccess
             if (!this.DatabaseInstances.ContainsKey(databaseKey))
             {
                 DatabaseManagerConnection database = this.Connections[databaseKey];
-                this.DatabaseInstances[databaseKey] = new Database(database.Driver, database.ConnectionString);
+                this.DatabaseInstances[databaseKey] = new Database(database.ProviderName, database.ProviderManifestToken, database.ConnectionString);
             }
 
             return this.DatabaseInstances[databaseKey];

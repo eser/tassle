@@ -34,10 +34,16 @@ namespace Tasslehoff.DataAccess
         // fields
 
         /// <summary>
-        /// Driver.
+        /// Provider name.
         /// </summary>
-        [DataMember(Name = "Driver")]
-        private string driver;
+        [DataMember(Name = "ProviderName")]
+        private string providerName;
+
+        /// <summary>
+        /// Provider manifest token.
+        /// </summary>
+        [DataMember(Name = "ProviderManifestToken")]
+        private string providerManifestToken;
 
         /// <summary>
         /// Connection string.
@@ -57,18 +63,34 @@ namespace Tasslehoff.DataAccess
         // properties
 
         /// <summary>
-        /// Gets or Sets the driver.
+        /// Gets or Sets the provider name.
         /// </summary>
         [IgnoreDataMember]
-        public string Driver
+        public string ProviderName
         {
             get
             {
-                return this.driver;
+                return this.providerName;
             }
             set
             {
-                this.driver = value;
+                this.providerName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or Sets the provider manifest token.
+        /// </summary>
+        [IgnoreDataMember]
+        public string ProviderManifestToken
+        {
+            get
+            {
+                return this.providerManifestToken;
+            }
+            set
+            {
+                this.providerManifestToken = value;
             }
         }
 
