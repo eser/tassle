@@ -28,6 +28,7 @@ namespace Tasslehoff.Services
     /// <summary>
     /// Service class.
     /// </summary>
+    [Serializable]
     public abstract class Service : IService
     {
         // fields

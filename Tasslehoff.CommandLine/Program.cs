@@ -31,8 +31,7 @@ namespace Tasslehoff.CommandLine
             TasslehoffConfig tasslehoffConfig = new TasslehoffConfig()
             {
                 Culture = "en-us",
-                VerboseMode = true,
-                WorkingDirectory = Environment.CurrentDirectory
+                VerboseMode = true
             };
 
             TasslehoffCore tasslehoff = new TasslehoffCore(tasslehoffConfig, Console.Out);

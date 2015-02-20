@@ -81,16 +81,6 @@ namespace Tasslehoff
         public bool VerboseMode { get; set; }
 
         /// <summary>
-        /// Gets or sets the working directory.
-        /// </summary>
-        /// <value>
-        /// The working directory.
-        /// </value>
-        [DataMember]
-        [ConfigEntry(DefaultValue = "{base}")]
-        public string WorkingDirectory { get; set; }
-
-        /// <summary>
         /// Gets or sets the extension paths.
         /// </summary>
         /// <value>

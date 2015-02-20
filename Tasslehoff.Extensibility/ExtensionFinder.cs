@@ -172,18 +172,28 @@ namespace Tasslehoff.Extensibility
         /// Adds the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly</param>
-        public void Add(Assembly assembly)
+        /// <param name="throwIfPreviouslyLoaded">Throws an exception if assembly is loaded before</param>
+        public void Add(Assembly assembly, bool throwIfPreviouslyLoaded = true)
         {
             if (this.ApplicationDomain == null)
             {
-                this.ApplicationDomain = AppDomain.CreateDomain("extensions");
+                this.ApplicationDomain = AppDomain.CreateDomain("extensions", null, AppDomain.CurrentDomain.SetupInformation);
+                this.ApplicationDomain.AssemblyResolve += ExtensionFinder.ApplicationDomain_AssemblyResolve;
+                this.ApplicationDomain.ReflectionOnlyAssemblyResolve += ExtensionFinder.ApplicationDomain_AssemblyResolve;
             }
 
             AssemblyName assemblyName = assembly.GetName();
 
             if (this.assemblies.ContainsKey(assemblyName.Name))
             {
-                this.Log.Write(LogLevel.Debug, string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenLoadedPreviously, assemblyName.Name));
+                string message = string.Format(CultureInfo.InvariantCulture, LocalResource.AssemblyHasBeenLoadedPreviously, assemblyName.Name);
+
+                if (throwIfPreviouslyLoaded)
+                {
+                    throw new InvalidOperationException(message);
+                }
+
+                this.Log.Write(LogLevel.Warning, message);
                 return;
             }
 
@@ -338,7 +348,31 @@ namespace Tasslehoff.Extensibility
         public void UnloadDomain()
         {
             AppDomain.Unload(this.ApplicationDomain);
+            this.ApplicationDomain.ReflectionOnlyAssemblyResolve -= ExtensionFinder.ApplicationDomain_AssemblyResolve;
+            this.ApplicationDomain.AssemblyResolve -= ExtensionFinder.ApplicationDomain_AssemblyResolve;
             this.ApplicationDomain = null;
+        }
+
+        /// <summary>
+        /// Handles the AssemblyResolve event of the ApplicationDomain control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="args">The <see cref="ResolveEventArgs"/> instance containing the event data.</param>
+        /// <returns></returns>
+        protected static Assembly ApplicationDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies(); // this.ApplicationDomain.GetAssemblies();
+
+            // Check we don't already have the assembly loaded
+            foreach (Assembly assembly in currentAssemblies)
+            {
+                if (assembly.FullName == args.Name || assembly.GetName().Name == args.Name)
+                {
+                    return assembly;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -347,9 +381,16 @@ namespace Tasslehoff.Extensibility
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected override void OnDispose(bool releaseManagedResources)
         {
-            base.OnDispose(releaseManagedResources);
+            try
+            {
+                AppDomain.Unload(this.ApplicationDomain);
+            }
+            catch (CannotUnloadAppDomainException ex)
+            {
+                // this.Log.Write(LogLevel.Error, string.Format(CultureInfo.InvariantCulture, LocalResource.AnErrorOccurredWhileLoadingAssembly, path), ex);
+            }
 
-            AppDomain.Unload(this.applicationDomain);
+            base.OnDispose(releaseManagedResources);
         }
     }
 }

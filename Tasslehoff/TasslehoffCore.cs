@@ -79,6 +79,11 @@ namespace Tasslehoff
         /// </summary>
         private ICacheManager cacheManager = null;
 
+        /// <summary>
+        /// The first initialize
+        /// </summary>
+        private bool firstInit = true;
+
         // constructors
 
         /// <summary>
@@ -86,35 +91,14 @@ namespace Tasslehoff
         /// </summary>
         /// <param name="configuration">The configuration</param>
         /// <param name="output">The output</param>
-        public TasslehoffCore(TasslehoffConfig configuration, TextWriter output = null)
+        public TasslehoffCore(TasslehoffConfig configuration = null, TextWriter output = null)
             : base()
         {
             // initialization
             this.configuration = configuration;
             this.output = output;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
-
-            if (this.output != null)
-            {
-                this.output.WriteLine("Tasslehoff 1.1.0  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
-                this.output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
-                this.output.WriteLine();
-            }
-
             this.databaseManager = new DatabaseManager();
-
-            if (!string.IsNullOrEmpty(this.configuration.DatabaseConnectionString))
-            {
-                this.databaseManager.Connections.Add(
-                    this.databaseManager.DefaultDatabaseKey,
-                    new DatabaseManagerConnection()
-                    {
-                        ProviderName = this.configuration.DatabaseProviderName,
-                        ConnectionString = this.configuration.DatabaseConnectionString,
-                    }
-                );
-            }
 
             this.taskManager = new TaskManager();
             this.AddChild(this.taskManager);
@@ -122,29 +106,10 @@ namespace Tasslehoff
             this.extensionFinder = new ExtensionFinder();
             this.AddChild(this.extensionFinder);
 
-            // search for extensions
-            if (this.configuration.ExtensionPaths != null)
-            {
-                foreach (string extensionPath in this.configuration.ExtensionPaths)
-                {
-                    this.extensionFinder.SearchFiles(extensionPath);
-                }
-            }
-            if (this.output != null)
-            {
-                this.output.WriteLine("{0} extensions found.", this.extensionFinder.Assemblies.Count);
-            }
-
             this.pluginContainer = new PluginContainer(this.extensionFinder);
             this.AddChild(this.pluginContainer);
 
             this.OnStartWithChildren += this.Tasslehoff_OnStartWithChildren;
-
-            if (this.output != null && this.configuration.VerboseMode)
-            {
-                this.output.WriteLine("Working Directory: {0}", this.configuration.WorkingDirectory);
-                this.output.WriteLine();
-            }
         }
 
         // properties
@@ -315,20 +280,56 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets a relative path to working directory.
-        /// </summary>
-        /// <param name="relativePath">Relative path</param>
-        /// <returns>Combined path</returns>
-        public string GetPath(string relativePath)
-        {
-            return Path.Combine(this.Configuration.WorkingDirectory, relativePath);
-        }
-
-        /// <summary>
         /// Invokes events will be occurred during the service start.
         /// </summary>
         protected override void ServiceStart()
         {
+            if (!firstInit)
+            {
+                return;
+            }
+
+            firstInit = false;
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
+
+            if (this.Output != null)
+            {
+                this.Output.WriteLine("Tasslehoff 1.1.0  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+                this.Output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
+                this.Output.WriteLine();
+            }
+
+            if (!string.IsNullOrEmpty(this.Configuration.DatabaseConnectionString))
+            {
+                this.DatabaseManager.Connections.Add(
+                    this.DatabaseManager.DefaultDatabaseKey,
+                    new DatabaseManagerConnection()
+                    {
+                        ProviderName = this.Configuration.DatabaseProviderName,
+                        ConnectionString = this.Configuration.DatabaseConnectionString,
+                    }
+                );
+            }
+
+            // search for extensions
+            if (this.Configuration.ExtensionPaths != null)
+            {
+                foreach (string extensionPath in this.Configuration.ExtensionPaths)
+                {
+                    this.ExtensionFinder.SearchFiles(extensionPath);
+                }
+            }
+
+            if (this.Output != null && this.Configuration.VerboseMode)
+            {
+                this.Output.WriteLine("{0} extensions found:", this.ExtensionFinder.Assemblies.Count);
+                foreach (string assemblyName in this.ExtensionFinder.Assemblies.Keys)
+                {
+                    this.Output.WriteLine("- {0}", assemblyName);
+                }
+                this.Output.WriteLine();
+            }
         }
 
         /// <summary>

@@ -28,6 +28,7 @@ namespace Tasslehoff.Logging
     /// <summary>
     /// A delegate for the Logger instance.
     /// </summary>
+    [Serializable]
     public class LoggerDelegate : IDisposable
     {
         // fields
