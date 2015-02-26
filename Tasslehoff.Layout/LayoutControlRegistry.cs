@@ -21,11 +21,11 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Tasslehoff.DataStructures.Collections;
-using Tasslehoff.Common.Helpers;
 using Newtonsoft.Json;
+using Tasslehoff.Common.Helpers;
+using Tasslehoff.DataStructures.Collections;
 
-namespace Tasslehoff.Layout.Common
+namespace Tasslehoff.Layout
 {
     /// <summary>
     /// LayoutControlRegistry class.
@@ -45,7 +45,7 @@ namespace Tasslehoff.Layout.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="LayoutControlRegistry"/> class.
         /// </summary>
-        public LayoutControlRegistry()
+        public LayoutControlRegistry() : base()
         {
             if (LayoutControlRegistry.instance == null)
             {

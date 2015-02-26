@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="Container.cs" company="-">
+// <copyright file="LayoutBody.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -22,63 +22,42 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Web.UI.HtmlControls;
+using System.Text;
+using System.Web.Mvc;
 using Tasslehoff.Common.Text;
-using Tasslehoff.Layout.Common;
 
-namespace Tasslehoff.Layout.WebUI
+namespace Tasslehoff.Layout.LayoutControls
 {
     /// <summary>
-    /// Container class.
+    /// LayoutBody class.
     /// </summary>
     [Serializable]
     [DataContract]
-    [LayoutProperties(DisplayName = "Container", Icon = "th-large")]
-    public class Container : Base
+    [LayoutProperties(DisplayName = "Layout Body", Icon = "th")]
+    public class LayoutBody : LayoutControl
     {
         // fields
 
         /// <summary>
-        /// Tag name
+        /// The title
         /// </summary>
-        [DataMember(Name = "TagName")]
-        private string tagName = "div";
+        [DataMember]
+        private string title;
+
+        // constructors
 
         /// <summary>
-        /// Title
+        /// Initializes a new instance of the <see cref="LayoutBody"/> class.
         /// </summary>
-        [DataMember(Name = "Title")]
-        private string title = string.Empty;
+        public LayoutBody()
+            : base()
+        {
+        }
 
         // properties
 
-        /// <summary>
-        /// Gets or sets tag name
-        /// </summary>
-        /// <value>
-        /// Tag name
-        /// </value>
         [IgnoreDataMember]
-        public virtual string TagName
-        {
-            get
-            {
-                return this.tagName;
-            }
-            set
-            {
-                this.tagName = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets title
-        /// </summary>
-        /// <value>
-        /// Title
-        /// </value>
-        [IgnoreDataMember]
-        public virtual string Title
+        public string Title
         {
             get
             {
@@ -93,25 +72,26 @@ namespace Tasslehoff.Layout.WebUI
         // methods
 
         /// <summary>
-        /// Creates web control
+        /// Renders the control.
         /// </summary>
-        public override void CreateWebControl()
+        /// <param name="controller">Controller instance</param>
+        /// <returns>
+        /// HTML
+        /// </returns>
+        public override string Render(Controller controller)
         {
-            HtmlGenericControl element = new HtmlGenericControl(this.TagName);
+            StringBuilder stringBuilder = new StringBuilder();
 
-            this.AddWebControlAttributes(element, element.Attributes);
-            this.AddWebControlChildren(element);
-            
-            this.WebControl = element;
-        }
+            foreach (ILayoutControl control in this.Children)
+            {
+                string output = control.Render(controller);
+                if (!string.IsNullOrEmpty(output))
+                {
+                    stringBuilder.Append(output);
+                }
+            }
 
-        /// <summary>
-        /// Occurs when [init].
-        /// </summary>
-        /// <param name="parameters">Parameters</param>
-        public override void OnInit(Dictionary<string, object> parameters)
-        {
-            base.OnInit(parameters);
+            return stringBuilder.ToString();
         }
 
         /// <summary>
@@ -120,17 +100,7 @@ namespace Tasslehoff.Layout.WebUI
         /// <param name="jsonOutputWriter">Json Output Writer</param>
         public override void OnExport(MultiFormatOutputWriter jsonOutputWriter)
         {
-            base.OnExport(jsonOutputWriter);
-
-            if (this.TagName != "div")
-            {
-                jsonOutputWriter.WriteProperty("TagName", this.TagName);
-            }
-
-            if (!string.IsNullOrEmpty(this.Title))
-            {
-                jsonOutputWriter.WriteProperty("Title", this.Title);
-            }
+            jsonOutputWriter.WriteProperty("Title", this.Title);
         }
 
         /// <summary>
@@ -139,9 +109,6 @@ namespace Tasslehoff.Layout.WebUI
         /// <param name="jsonOutputWriter">Json Output Writer</param>
         public override void OnGetEditProperties(Dictionary<string, string> properties)
         {
-            base.OnGetEditProperties(properties);
-
-            properties.Add("TagName", "Tag Name");
             properties.Add("Title", "Title");
         }
     }

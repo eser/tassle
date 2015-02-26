@@ -22,11 +22,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Web.Mvc;
 using Tasslehoff.Common.Text;
 
-namespace Tasslehoff.Layout.Common
+namespace Tasslehoff.Layout
 {
     /// <summary>
     /// LayoutControl class.
@@ -62,53 +64,10 @@ namespace Tasslehoff.Layout.Common
         private readonly string type;
 
         /// <summary>
-        /// Parameters
-        /// </summary>
-        [IgnoreDataMember]
-        private Dictionary<string, object> parameters;
-
-        /// <summary>
         /// Child objects
         /// </summary>
         [DataMember(Name = "Children")]
         private IList<ILayoutControl> children;
-
-        /// <summary>
-        /// Id
-        /// </summary>
-        [DataMember(Name = "Id")]
-        private string id;
-
-        /// <summary>
-        /// Static client id
-        /// </summary>
-        [DataMember(Name = "StaticClientId")]
-        private bool staticClientId;
-
-        /// <summary>
-        /// Css Class
-        /// </summary>
-        [DataMember(Name = "CssClass")]
-        private string cssClass;
-
-        /// <summary>
-        /// Span
-        /// </summary>
-        [DataMember(Name = "Span")]
-        private int span;
-
-        /// <summary>
-        /// Offset
-        /// </summary>
-        [DataMember(Name = "Offset")]
-        private int offset;
-
-        /// <summary>
-        /// The webcontrol
-        /// </summary>
-        [NonSerialized]
-        [IgnoreDataMember]
-        private object webControl;
 
         /// <summary>
         /// The disposed
@@ -240,25 +199,6 @@ namespace Tasslehoff.Layout.Common
         }
 
         /// <summary>
-        /// Gets or sets parameters
-        /// </summary>
-        /// <value>
-        /// Parameters
-        /// </value>
-        [IgnoreDataMember]
-        public virtual Dictionary<string, object> Parameters
-        {
-            get
-            {
-                return this.parameters;
-            }
-            set
-            {
-                this.parameters = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets child objects
         /// </summary>
         /// <value>
@@ -274,121 +214,6 @@ namespace Tasslehoff.Layout.Common
             set
             {
                 this.children = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets id
-        /// </summary>
-        /// <value>
-        /// Id
-        /// </value>
-        [IgnoreDataMember]
-        public virtual string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets static client id
-        /// </summary>
-        /// <value>
-        /// Static client id
-        /// </value>
-        [IgnoreDataMember]
-        public virtual bool StaticClientId
-        {
-            get
-            {
-                return this.staticClientId;
-            }
-            set
-            {
-                this.staticClientId = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets css class
-        /// </summary>
-        /// <value>
-        /// Css class
-        /// </value>
-        [IgnoreDataMember]
-        public virtual string CssClass
-        {
-            get
-            {
-                return this.cssClass;
-            }
-            set
-            {
-                this.cssClass = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets span
-        /// </summary>
-        /// <value>
-        /// Span
-        /// </value>
-        [IgnoreDataMember]
-        public virtual int Span
-        {
-            get
-            {
-                return this.span;
-            }
-            set
-            {
-                this.span = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets offset
-        /// </summary>
-        /// <value>
-        /// Offset
-        /// </value>
-        [IgnoreDataMember]
-        public virtual int Offset
-        {
-            get
-            {
-                return this.offset;
-            }
-            set
-            {
-                this.offset = value;
-            }
-        }
-
-
-        /// <summary>
-        /// Gets or sets webcontrol
-        /// </summary>
-        /// <value>
-        /// Webcontrol
-        /// </value>
-        [IgnoreDataMember]
-        public object WebControl
-        {
-            get
-            {
-                return this.webControl;
-            }
-            set
-            {
-                this.webControl = value;
             }
         }
 
@@ -414,39 +239,14 @@ namespace Tasslehoff.Layout.Common
         // methods
 
         /// <summary>
-        /// Initializes the layout control
+        /// Renders the control.
         /// </summary>
-        public virtual void Init()
+        /// <param name="controller">Controller instance</param>
+        /// <returns>HTML</returns>
+        public virtual string Render(Controller controller)
         {
-            this.Init(new Dictionary<string, object>());
+            return null;
         }
-
-        /// <summary>
-        /// Initializes the layout control
-        /// </summary>
-        /// <param name="parameters">Parameters</param>
-        public virtual void Init(Dictionary<string, object> parameters)
-        {
-            this.Parameters = parameters;
-
-            foreach (ILayoutControl layoutControl in this.Children)
-            {
-                layoutControl.Init(parameters);
-            }
-
-            this.OnInit(parameters);
-        }
-
-        /// <summary>
-        /// Occurs when [init].
-        /// </summary>
-        /// <param name="parameters">Parameters</param>
-        public abstract void OnInit(Dictionary<string, object> parameters);
-
-        /// <summary>
-        /// Creates web control
-        /// </summary>
-        public abstract void CreateWebControl();
 
         /// <summary>
         /// Gets children objects filtered by type
@@ -509,32 +309,6 @@ namespace Tasslehoff.Layout.Common
 
             jsonOutputWriter.WriteProperty("Type", this.Type);
 
-            if (!string.IsNullOrEmpty(this.Id))
-            {
-                jsonOutputWriter.WriteProperty("Id", this.Id);
-            }
-            if (this.StaticClientId != false)
-            {
-                jsonOutputWriter.WriteProperty("StaticClientId", this.StaticClientId);
-            }
-
-            jsonOutputWriter.WriteLine();
-
-            if (!string.IsNullOrEmpty(this.CssClass))
-            {
-                jsonOutputWriter.WriteProperty("CssClass", this.CssClass);
-            }
-
-            if (this.Span != 0)
-            {
-                jsonOutputWriter.WriteProperty("Span", this.Span);
-            }
-
-            if (this.Offset != 0)
-            {
-                jsonOutputWriter.WriteProperty("Offset", this.Offset);
-            }
-
             this.OnExport(jsonOutputWriter);
 
             if (this.Children.Count > 0)
@@ -565,11 +339,6 @@ namespace Tasslehoff.Layout.Common
         public virtual Dictionary<string, string> GetEditProperties()
         {
             Dictionary<string, string> properties = new Dictionary<string, string>();
-            properties.Add("Id", "Id");
-            properties.Add("StaticClientId", "Static Client Id");
-            properties.Add("CssClass", "Css Class");
-            properties.Add("Span", "Span");
-            properties.Add("Offset", "Offset");
 
             this.OnGetEditProperties(properties);
 
@@ -609,6 +378,32 @@ namespace Tasslehoff.Layout.Common
             this.Dispose(true);
 
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Renders the partial view to string.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>Rendered HTML output</returns>
+        protected string RenderPartialViewToString(Controller controller, string viewName = null, object model = null)
+        {
+            if (viewName == null)
+            {
+                viewName = controller.ControllerContext.RouteData.GetRequiredString("action");
+            }
+
+            controller.ViewData.Model = model ?? this;
+
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(controller.ControllerContext, viewName);
+                ViewContext viewContext = new ViewContext(controller.ControllerContext, viewResult.View, controller.ViewData, controller.TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
         }
 
         /// <summary>

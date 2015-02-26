@@ -23,9 +23,9 @@ namespace Tasslehoff.Adapters.RabbitMQ
 {
     using System.Collections.Generic;
     using System.Text;
+    using Common.Helpers;
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
-    using Common.Helpers;
     using Services;
 
     /// <summary>

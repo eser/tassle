@@ -23,9 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.DataStructures",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.Dynamic", "Tasslehoff.Dynamic\Tasslehoff.Dynamic.csproj", "{9894D742-9EDB-4A37-B0EC-73A58A57CB95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.Layout.Common", "Tasslehoff.Layout.Common\Tasslehoff.Layout.Common.csproj", "{B6F0F568-4E50-4B28-8929-A44084FC51D7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.Layout.WebUI", "Tasslehoff.Layout.WebUI\Tasslehoff.Layout.WebUI.csproj", "{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.Layout", "Tasslehoff.Layout\Tasslehoff.Layout.csproj", "{B6F0F568-4E50-4B28-8929-A44084FC51D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasslehoff.Extensibility", "Tasslehoff.Extensibility\Tasslehoff.Extensibility.csproj", "{C49BF97E-42CF-4D93-946B-EA557BF57E7C}"
 EndProject
@@ -104,12 +102,6 @@ Global
 		{B6F0F568-4E50-4B28-8929-A44084FC51D7}.Publish|Any CPU.Build.0 = Release|Any CPU
 		{B6F0F568-4E50-4B28-8929-A44084FC51D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6F0F568-4E50-4B28-8929-A44084FC51D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B13B5C0B-616A-4FC0-AF28-7028FEA9A66B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C49BF97E-42CF-4D93-946B-EA557BF57E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C49BF97E-42CF-4D93-946B-EA557BF57E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C49BF97E-42CF-4D93-946B-EA557BF57E7C}.Publish|Any CPU.ActiveCfg = Release|Any CPU

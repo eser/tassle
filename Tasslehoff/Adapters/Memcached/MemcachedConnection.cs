@@ -23,11 +23,11 @@ namespace Tasslehoff.Adapters.Memcached
 {
     using System;
     using System.Text;
+    using Common.Helpers;
     using Enyim.Caching;
     using Enyim.Caching.Configuration;
     using Enyim.Caching.Memcached;
     using Services;
-    using Common.Helpers;
 
     /// <summary>
     /// MemcachedConnection class.

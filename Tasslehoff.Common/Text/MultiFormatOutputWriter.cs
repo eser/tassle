@@ -24,7 +24,6 @@ namespace Tasslehoff.Common.Text
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using System.Reflection;
     using System.Text;
     using Newtonsoft.Json;
     using Tasslehoff.Common.Helpers;

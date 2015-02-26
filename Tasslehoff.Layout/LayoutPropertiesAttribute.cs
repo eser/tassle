@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Tasslehoff.Layout.Common
+namespace Tasslehoff.Layout
 {
     /// <summary>
     /// An attribute class for Layouts.

@@ -122,7 +122,7 @@ namespace Tasslehoff.Common.Helpers
         /// </summary>
         /// <param name="type">The type</param>
         /// <returns>A data contract serializer</returns>
-        internal static JsonSerializerSettings GetSerializerSettings()
+        public static JsonSerializerSettings GetSerializerSettings()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {

@@ -22,7 +22,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Tasslehoff.Common;
 using Tasslehoff.Common.Helpers;
 
 namespace Tasslehoff.Config

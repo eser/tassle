@@ -25,7 +25,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
-namespace Tasslehoff.Layout.Common
+namespace Tasslehoff.Layout
 {
     /// <summary>
     /// LayoutControlConverter class.

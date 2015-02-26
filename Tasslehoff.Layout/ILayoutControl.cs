@@ -21,10 +21,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using Tasslehoff.Common.Text;
 using Tasslehoff.DataStructures.Trees;
 
-namespace Tasslehoff.Layout.Common
+namespace Tasslehoff.Layout
 {
     /// <summary>
     /// ILayoutControl interface.
@@ -49,63 +50,16 @@ namespace Tasslehoff.Layout.Common
         /// </value>
         string Description { get; }
 
-        /// <summary>
-        /// Gets or sets id
-        /// </summary>
-        /// <value>
-        /// Id
-        /// </value>
-        string Id { get; }
-
-        /// <summary>
-        /// Gets or sets class
-        /// </summary>
-        /// <value>
-        /// CssClass
-        /// </value>
-        string CssClass { get; }
-
-        /// <summary>
-        /// Gets or sets span
-        /// </summary>
-        /// <value>
-        /// Span
-        /// </value>
-        int Span { get; }
-
-        /// <summary>
-        /// Gets or sets offset
-        /// </summary>
-        /// <value>
-        /// Offset
-        /// </value>
-        int Offset { get; }
-
-        /// <summary>
-        /// Gets or sets webcontrol
-        /// </summary>
-        /// <value>
-        /// Webcontrol
-        /// </value>
-        object WebControl { get; }
-
         // methods
 
         /// <summary>
-        /// Initializes the layout control
+        /// Renders the control.
         /// </summary>
-        void Init();
-
-        /// <summary>
-        /// Initializes the layout control
-        /// </summary>
-        /// <param name="parameters">Parameters</param>
-        void Init(Dictionary<string, object> parameters);
-
-        /// <summary>
-        /// Creates web control
-        /// </summary>
-        void CreateWebControl();
+        /// <param name="controller">Controller instance</param>
+        /// <returns>
+        /// HTML
+        /// </returns>
+        string Render(Controller controller);
 
         /// <summary>
         /// Gets children objects filtered by type
