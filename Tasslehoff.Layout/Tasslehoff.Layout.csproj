@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="ILayoutAware.cs" />
     <Compile Include="ILayoutControl.cs" />
+    <Compile Include="LayoutControlProperty.cs" />
     <Compile Include="LayoutControls\ViewFile.cs" />
     <Compile Include="LayoutControls\ContentPart.cs" />
     <Compile Include="LayoutControls\LayoutBody.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="LayoutControl.cs" />
     <Compile Include="LayoutControlConverter.cs" />
     <Compile Include="LayoutControlRegistry.cs" />
-    <Compile Include="LayoutPropertiesAttribute.cs" />
+    <Compile Include="LayoutItemAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualLibrary\VirtualLibraryRegistry.cs" />
     <Compile Include="VirtualLibrary\VirtualLibraryFile.cs" />

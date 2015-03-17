@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ContentPart.cs" company="-">
+// <copyright file="LayoutControlProperty.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -20,111 +20,109 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Web;
-using System.Web.Mvc;
 
-namespace Tasslehoff.Layout.LayoutControls
+namespace Tasslehoff.Layout
 {
     /// <summary>
-    /// ContentPart class.
+    /// LayoutControlProperty class.
     /// </summary>
     [Serializable]
     [DataContract]
-    [LayoutItem(DisplayName = "Content Part", Icon = "th")]
-    public class ContentPart : LayoutControl
+    public class LayoutControlProperty
     {
         // fields
 
         /// <summary>
-        /// Content
+        /// Name
         /// </summary>
-        [DataMember(Name = "Content")]
-        private string content;
+        [DataMember(Name = "Name")]
+        private string name;
 
         /// <summary>
-        /// HtmlEncode
+        /// Description
         /// </summary>
-        [DataMember(Name = "HtmlEncode")]
-        private bool htmlEncode;
+        [DataMember(Name = "Description")]
+        private string description;
 
+        /// <summary>
+        /// Value
+        /// </summary>
+        [DataMember(Name = "Value")]
+        private string value;
+        
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentPart"/> class.
+        /// Initializes a new instance of the <see cref="LayoutControlProperty"/> class.
         /// </summary>
-        public ContentPart()
-            : base()
+        /// <param name="name">Name</param>
+        /// <param name="description">Description</param>
+        /// <param name="value">Value</param>
+        public LayoutControlProperty(string name, string description, string value = null)
         {
+            this.name = name;
+            this.description = description;
+            this.value = value;
         }
 
         // properties
 
         /// <summary>
-        /// Gets or sets Content field
+        /// Gets or sets name
         /// </summary>
         /// <value>
-        /// The content.
+        /// Name
         /// </value>
         [IgnoreDataMember]
-        public string Content
+        public virtual string Name
         {
             get
             {
-                return this.content;
+                return this.name;
             }
             set
             {
-                this.content = value;
+                this.name = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [HTML encode].
+        /// Gets or sets parent description
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [HTML encode]; otherwise, <c>false</c>.
+        /// Description
         /// </value>
         [IgnoreDataMember]
-        public bool HtmlEncode
+        public virtual string Description
         {
             get
             {
-                return this.htmlEncode;
+                return this.description;
             }
             set
             {
-                this.htmlEncode = value;
+                this.description = value;
             }
         }
 
-        // methods
-
         /// <summary>
-        /// Renders the control.
+        /// Gets or sets sort index
         /// </summary>
-        /// <returns>
-        /// HTML
-        /// </returns>
-        public override string Render(Controller controller)
+        /// <value>
+        /// Sort index
+        /// </value>
+        [IgnoreDataMember]
+        public virtual string Value
         {
-            if (this.HtmlEncode)
+            get
             {
-                return HttpUtility.HtmlEncode(this.Content);
+                return this.value;
             }
-
-            return this.Content;
-        }
-
-        /// <summary>
-        /// Occurs when [get properties].
-        /// </summary>
-        /// <param name="properties">List of properties</param>
-        public override void OnGetProperties(List<LayoutControlProperty> properties)
-        {
-            properties.Add(new LayoutControlProperty("Content", "Content", this.Content));
-            properties.Add(new LayoutControlProperty("HtmlEncode", "Encode Html Contents", Convert.ToString(this.HtmlEncode)));
+            set
+            {
+                this.value = value;
+            }
         }
     }
 }

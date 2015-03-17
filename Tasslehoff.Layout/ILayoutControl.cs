@@ -75,9 +75,9 @@ namespace Tasslehoff.Layout
         void Export(MultiFormatOutputWriter jsonOutputWriter);
 
         /// <summary>
-        /// Gets editable properties
+        /// Gets properties
         /// </summary>
         /// <returns>List of properties</returns>
-        Dictionary<string, string> GetEditProperties();
+        IEnumerable<LayoutControlProperty> GetProperties();
     }
 }

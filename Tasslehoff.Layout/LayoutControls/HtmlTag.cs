@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Web.Mvc;
 using Tasslehoff.Common.Text;
 
@@ -33,7 +32,7 @@ namespace Tasslehoff.Layout.LayoutControls
     /// </summary>
     [Serializable]
     [DataContract]
-    [LayoutProperties(DisplayName = "Html Tag", Icon = "th")]
+    [LayoutItem(DisplayName = "Html Tag", Icon = "th")]
     public class HtmlTag : LayoutControl
     {
         // fields
@@ -199,64 +198,22 @@ namespace Tasslehoff.Layout.LayoutControls
                 tagBuilder.MergeAttribute("class", classNames, true);
             }
 
-            StringBuilder stringBuilder = new StringBuilder();
-
-            foreach (ILayoutControl control in this.Children)
-            {
-                string output = control.Render(controller);
-                if (!string.IsNullOrEmpty(output))
-                {
-                    stringBuilder.Append(output);
-                }
-            }
-
-            tagBuilder.InnerHtml = stringBuilder.ToString();
+            tagBuilder.InnerHtml = this.RenderChildren(controller);
 
             return tagBuilder.ToString();
         }
 
         /// <summary>
-        /// Occurs when [export].
-        /// </summary>
-        /// <param name="jsonOutputWriter">Json Output Writer</param>
-        public override void OnExport(MultiFormatOutputWriter jsonOutputWriter)
-        {
-            if (!string.IsNullOrEmpty(this.Id))
-            {
-                jsonOutputWriter.WriteProperty("Id", this.Id);
-            }
-
-            jsonOutputWriter.WriteProperty("TagName", this.TagName);
-
-            jsonOutputWriter.WriteLine();
-
-            if (!string.IsNullOrEmpty(this.CssClass))
-            {
-                jsonOutputWriter.WriteProperty("CssClass", this.CssClass);
-            }
-
-            if (this.Span != 0)
-            {
-                jsonOutputWriter.WriteProperty("Span", this.Span);
-            }
-
-            if (this.Offset != 0)
-            {
-                jsonOutputWriter.WriteProperty("Offset", this.Offset);
-            }
-        }
-
-        /// <summary>
-        /// Occurs when [get edit properties].
+        /// Occurs when [get properties].
         /// </summary>
         /// <param name="properties">List of properties</param>
-        public override void OnGetEditProperties(Dictionary<string, string> properties)
+        public override void OnGetProperties(List<LayoutControlProperty> properties)
         {
-            properties.Add("Id", "Id");
-            properties.Add("TagName", "Tag Name");
-            properties.Add("CssClass", "Css Class");
-            properties.Add("Span", "Span");
-            properties.Add("Offset", "Offset");
+            properties.Add(new LayoutControlProperty("Id", "Id", this.Id));
+            properties.Add(new LayoutControlProperty("TagName", "Tag Name", this.TagName));
+            properties.Add(new LayoutControlProperty("CssClass", "CSS Class", this.CssClass));
+            properties.Add(new LayoutControlProperty("Span", "Span", Convert.ToString(this.Span)));
+            properties.Add(new LayoutControlProperty("Offset", "Offset", Convert.ToString(this.Offset)));
         }
 
         /// <summary>

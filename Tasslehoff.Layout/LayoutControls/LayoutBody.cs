@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Web.Mvc;
 using Tasslehoff.Common.Text;
 
@@ -33,7 +32,7 @@ namespace Tasslehoff.Layout.LayoutControls
     /// </summary>
     [Serializable]
     [DataContract]
-    [LayoutProperties(DisplayName = "Layout Body", Icon = "th")]
+    [LayoutItem(DisplayName = "Layout Body", Icon = "th")]
     public class LayoutBody : LayoutControl
     {
         // fields
@@ -80,36 +79,16 @@ namespace Tasslehoff.Layout.LayoutControls
         /// </returns>
         public override string Render(Controller controller)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            foreach (ILayoutControl control in this.Children)
-            {
-                string output = control.Render(controller);
-                if (!string.IsNullOrEmpty(output))
-                {
-                    stringBuilder.Append(output);
-                }
-            }
-
-            return stringBuilder.ToString();
+            return this.RenderChildren(controller);
         }
 
         /// <summary>
-        /// Occurs when [export].
+        /// Occurs when [get properties].
         /// </summary>
-        /// <param name="jsonOutputWriter">Json Output Writer</param>
-        public override void OnExport(MultiFormatOutputWriter jsonOutputWriter)
+        /// <param name="properties">List of properties</param>
+        public override void OnGetProperties(List<LayoutControlProperty> properties)
         {
-            jsonOutputWriter.WriteProperty("Title", this.Title);
-        }
-
-        /// <summary>
-        /// Occurs when [export].
-        /// </summary>
-        /// <param name="jsonOutputWriter">Json Output Writer</param>
-        public override void OnGetEditProperties(Dictionary<string, string> properties)
-        {
-            properties.Add("Title", "Title");
+            properties.Add(new LayoutControlProperty("Title", "Title", this.Title));
         }
     }
 }

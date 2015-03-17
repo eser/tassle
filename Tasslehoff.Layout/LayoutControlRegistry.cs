@@ -31,7 +31,7 @@ namespace Tasslehoff.Layout
     /// LayoutControlRegistry class.
     /// </summary>
     [ComVisible(false)]
-    public class LayoutControlRegistry : DictionaryBase<string, LayoutPropertiesAttribute>
+    public class LayoutControlRegistry : DictionaryBase<string, LayoutItemAttribute>
     {
         // fields
 
@@ -80,10 +80,10 @@ namespace Tasslehoff.Layout
         {
             Type type = typeof(T);
 
-            object[] attributes = type.GetCustomAttributes(typeof(LayoutPropertiesAttribute), true);
+            object[] attributes = type.GetCustomAttributes(typeof(LayoutItemAttribute), true);
             foreach (object attribute in attributes)
             {
-                LayoutPropertiesAttribute typeAttribute = (LayoutPropertiesAttribute)attribute;
+                LayoutItemAttribute typeAttribute = (LayoutItemAttribute)attribute;
 
                 typeAttribute.Type = type;
 
@@ -99,7 +99,7 @@ namespace Tasslehoff.Layout
         /// <returns>Created instance</returns>
         public ILayoutControl Create(string key)
         {
-            LayoutPropertiesAttribute layoutProperties = this[key];
+            LayoutItemAttribute layoutProperties = this[key];
 
             ILayoutControl instance = Activator.CreateInstance(layoutProperties.Type) as ILayoutControl;
             return instance;

@@ -86,6 +86,21 @@ namespace Tasslehoff.DataAccess
         private int limit;
 
         /// <summary>
+        /// The CTE name
+        /// </summary>
+        private string cteName;
+
+        /// <summary>
+        /// The CTE where statement
+        /// </summary>
+        private string cteRest;
+
+        /// <summary>
+        /// The add row number
+        /// </summary>
+        private bool addRowNumber;
+
+        /// <summary>
         /// The SQL string
         /// </summary>
         private string sqlString;
@@ -414,6 +429,30 @@ namespace Tasslehoff.DataAccess
         }
 
         /// <summary>
+        /// Sets the cte.
+        /// </summary>
+        /// <param name="cteName">The CTE name</param>
+        /// <param name="cteRest">The rest of CTE'd statement</param>
+        /// <returns>Chain reference</returns>
+        public DataQuery SetCTE(string cteName, string cteRest = null)
+        {
+            this.cteName = cteName;
+            this.cteRest = cteRest;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the add row number.
+        /// </summary>
+        /// <param name="addRowNumber">if set to <c>true</c> [add row number].</param>
+        /// <returns>Chain reference</returns>
+        public DataQuery SetAddRowNumber(bool addRowNumber)
+        {
+            this.addRowNumber = addRowNumber;
+            return this;
+        }
+
+        /// <summary>
         /// Gets the SQL string.
         /// </summary>
         /// <returns>Query string</returns>
@@ -440,6 +479,13 @@ namespace Tasslehoff.DataAccess
         {
             StringBuilder queryText = new StringBuilder();
 
+            if (this.cteName != null)
+            {
+                queryText.Append("WITH ");
+                queryText.Append(this.cteName);
+                queryText.Append(" AS (");
+            }
+
             queryText.Append("SELECT ");
             if (this.limit > 0)
             {
@@ -449,6 +495,23 @@ namespace Tasslehoff.DataAccess
             }
 
             bool isFirstField = true;
+
+            if (this.addRowNumber)
+            {
+                queryText.Append("ROW_NUMBER() OVER (ORDER BY ");
+                if (this.orderByStatement != null)
+                {
+                    queryText.Append(this.orderByStatement);
+                }
+                else
+                {
+                    queryText.Append("(SELECT 1)");
+                }
+                queryText.Append(") AS RowNumber");
+
+                isFirstField = false;
+            }
+
             foreach (string field in this.fields)
             {
                 if (isFirstField)
@@ -478,10 +541,29 @@ namespace Tasslehoff.DataAccess
                 queryText.Append(this.groupByStatement);
             }
 
+            if (this.cteName != null)
+            {
+                queryText.Append(") SELECT * FROM ");
+                queryText.Append(this.cteName);
+
+                if (!string.IsNullOrWhiteSpace(this.cteRest))
+                {
+                    queryText.Append(" ");
+                    queryText.Append(this.cteRest);
+                }
+            }
+
             if (this.orderByStatement != null)
             {
                 queryText.Append(" ORDER BY ");
-                queryText.Append(this.orderByStatement);
+                if (this.addRowNumber)
+                {
+                    queryText.Append("RowNumber ASC");
+                }
+                else
+                {
+                    queryText.Append(this.orderByStatement);
+                }
             }
 
             this.sqlString = queryText.ToString();

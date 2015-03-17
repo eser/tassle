@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ViewFile.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="LayoutItemAttribute.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -20,35 +20,37 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Web.Mvc;
-using Tasslehoff.Common.Text;
 
-namespace Tasslehoff.Layout.LayoutControls
+namespace Tasslehoff.Layout
 {
     /// <summary>
-    /// ViewFile class.
+    /// An attribute class for Layouts.
     /// </summary>
-    [Serializable]
-    [DataContract]
-    [LayoutItem(DisplayName = "View File", Icon = "th")]
-    public class ViewFile : LayoutControl
+    public class LayoutItemAttribute : Attribute
     {
         // fields
 
         /// <summary>
-        /// Path
+        /// The type
         /// </summary>
-        [DataMember(Name = "Path")]
-        private string path;
+        private Type type;
+
+        /// <summary>
+        /// The display name
+        /// </summary>
+        private string displayName;
+
+        /// <summary>
+        /// The icon
+        /// </summary>
+        private string icon;
 
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewFile"/> class.
+        /// Initializes a new instance of the <see cref="LayoutItemAttribute"/> class.
         /// </summary>
-        public ViewFile()
+        public LayoutItemAttribute()
             : base()
         {
         }
@@ -56,44 +58,57 @@ namespace Tasslehoff.Layout.LayoutControls
         // properties
 
         /// <summary>
-        /// Gets or sets Path field
+        /// Gets or sets the type.
         /// </summary>
         /// <value>
-        /// The path.
+        /// The type.
         /// </value>
-        [IgnoreDataMember]
-        public string Path
+        public Type Type
         {
             get
             {
-                return this.path;
+                return this.type;
             }
             set
             {
-                this.path = value;
+                this.type = value;
             }
         }
 
-        // methods
-
         /// <summary>
-        /// Renders the control.
+        /// Gets or sets the display name.
         /// </summary>
-        /// <returns>
-        /// HTML
-        /// </returns>
-        public override string Render(Controller controller)
+        /// <value>
+        /// The display name.
+        /// </value>
+        public string DisplayName
         {
-            return this.RenderPartialViewToString(controller, this.Path);
+            get
+            {
+                return this.displayName;
+            }
+            set
+            {
+                this.displayName = value;
+            }
         }
 
         /// <summary>
-        /// Occurs when [get properties].
+        /// Gets or sets the icon.
         /// </summary>
-        /// <param name="properties">List of properties</param>
-        public override void OnGetProperties(List<LayoutControlProperty> properties)
+        /// <value>
+        /// The icon.
+        /// </value>
+        public string Icon
         {
-            properties.Add(new LayoutControlProperty("Path", "Path of View File", this.Path));
+            get
+            {
+                return this.icon;
+            }
+            set
+            {
+                this.icon = value;
+            }
         }
     }
 }

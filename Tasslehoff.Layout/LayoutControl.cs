@@ -25,6 +25,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Web.Mvc;
 using Tasslehoff.Common.Text;
 
@@ -249,6 +250,27 @@ namespace Tasslehoff.Layout
         }
 
         /// <summary>
+        /// Renders the children controls' contents
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <returns>HTML</returns>
+        public virtual string RenderChildren(Controller controller)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (ILayoutControl control in this.Children)
+            {
+                string output = control.Render(controller);
+                if (!string.IsNullOrEmpty(output))
+                {
+                    stringBuilder.Append(output);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
         /// Gets children objects filtered by type
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
@@ -309,8 +331,23 @@ namespace Tasslehoff.Layout
 
             jsonOutputWriter.WriteProperty("Type", this.Type);
 
+            // additional
             this.OnExport(jsonOutputWriter);
 
+            // properties
+            IEnumerable<LayoutControlProperty> properties = this.GetProperties();
+
+            jsonOutputWriter.WritePropertyName("Properties");
+            jsonOutputWriter.WriteStartObject();
+
+            foreach (LayoutControlProperty property in properties)
+            {
+                jsonOutputWriter.WriteProperty(property.Name, property.Value);
+            }
+
+            jsonOutputWriter.WriteEnd();
+
+            // children
             if (this.Children.Count > 0)
             {
                 jsonOutputWriter.WritePropertyName("Children");
@@ -330,26 +367,28 @@ namespace Tasslehoff.Layout
         /// Occurs when [export].
         /// </summary>
         /// <param name="jsonOutputWriter">Json Output Writer</param>
-        public abstract void OnExport(MultiFormatOutputWriter jsonOutputWriter);
+        public virtual void OnExport(MultiFormatOutputWriter jsonOutputWriter)
+        {
+        }
 
         /// <summary>
-        /// Gets editable properties
+        /// Gets properties
         /// </summary>
         /// <returns>List of properties</returns>
-        public virtual Dictionary<string, string> GetEditProperties()
+        public virtual IEnumerable<LayoutControlProperty> GetProperties()
         {
-            Dictionary<string, string> properties = new Dictionary<string, string>();
+            List<LayoutControlProperty> properties = new List<LayoutControlProperty>();
 
-            this.OnGetEditProperties(properties);
+            this.OnGetProperties(properties);
 
             return properties;
         }
 
         /// <summary>
-        /// Occurs when [get edit properties].
+        /// Occurs when [get properties].
         /// </summary>
         /// <param name="properties">List of properties</param>
-        public abstract void OnGetEditProperties(Dictionary<string, string> properties);
+        public abstract void OnGetProperties(List<LayoutControlProperty> properties);
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -382,25 +421,35 @@ namespace Tasslehoff.Layout
 
         /// <summary>
         /// Renders the partial view to string.
-        /// </summary>
+        /// </summary>|
         /// <param name="controller">The controller.</param>
         /// <param name="viewName">Name of the view.</param>
-        /// <param name="model">The model.</param>
+        /// <param name="viewData">The view data.</param>
+        /// <param name="tempData">The temp data.</param>
         /// <returns>Rendered HTML output</returns>
-        protected string RenderPartialViewToString(Controller controller, string viewName = null, object model = null)
+        protected string RenderPartialViewToString(Controller controller, string viewName = null, ViewDataDictionary viewData = null, TempDataDictionary tempData = null)
         {
             if (viewName == null)
             {
                 viewName = controller.ControllerContext.RouteData.GetRequiredString("action");
             }
 
-            controller.ViewData.Model = model ?? this;
+            if (viewData == null)
+            {
+                viewData = controller.ViewData;
+            }
+
+            if (tempData == null)
+            {
+                tempData = controller.TempData;
+            }
 
             using (StringWriter sw = new StringWriter())
             {
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(controller.ControllerContext, viewName);
-                ViewContext viewContext = new ViewContext(controller.ControllerContext, viewResult.View, controller.ViewData, controller.TempData, sw);
+                ViewContext viewContext = new ViewContext(controller.ControllerContext, viewResult.View, viewData, tempData, sw);
                 viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(controller.ControllerContext, viewResult.View);
 
                 return sw.GetStringBuilder().ToString();
             }
