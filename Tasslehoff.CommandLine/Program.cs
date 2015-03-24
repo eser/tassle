@@ -28,7 +28,7 @@ namespace Tasslehoff.CommandLine
     {
         public static void Main(string[] args)
         {
-            TasslehoffConfig tasslehoffConfig = new TasslehoffConfig()
+            TasslehoffCoreConfig tasslehoffConfig = new TasslehoffCoreConfig()
             {
                 Culture = "en-us",
                 VerboseMode = true

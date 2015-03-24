@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// <copyright file="TasslehoffConfig.cs" company="-">
+// <copyright file="TasslehoffCoreConfig.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -25,10 +25,10 @@ using Tasslehoff.Config;
 namespace Tasslehoff
 {
     /// <summary>
-    /// Runner configuration
+    /// Tasslehoff Core configuration
     /// </summary>
     [DataContract]
-    public class TasslehoffConfig : Config.Config
+    public class TasslehoffCoreConfig : Config.Config
     {
         /// <summary>
         /// Gets or sets the database provider name.

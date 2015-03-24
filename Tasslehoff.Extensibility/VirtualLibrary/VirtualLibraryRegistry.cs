@@ -27,7 +27,7 @@ using System.Web;
 using System.Web.Hosting;
 using Tasslehoff.DataStructures.Collections;
 
-namespace Tasslehoff.Layout.VirtualLibrary
+namespace Tasslehoff.Extensibility.VirtualLibrary
 {
     /// <summary>
     /// VirtualLibraryRegistry class.

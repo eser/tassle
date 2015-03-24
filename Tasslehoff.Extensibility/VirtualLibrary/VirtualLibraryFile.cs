@@ -22,7 +22,7 @@
 using System.IO;
 using System.Web.Hosting;
 
-namespace Tasslehoff.Layout.VirtualLibrary
+namespace Tasslehoff.Extensibility.VirtualLibrary
 {
     /// <summary>
     /// VirtualLibraryFile class.

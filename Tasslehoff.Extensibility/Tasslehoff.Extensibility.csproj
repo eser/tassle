@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,9 @@
     </Compile>
     <Compile Include="Plugins\PluginContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualLibrary\VirtualLibraryFile.cs" />
+    <Compile Include="VirtualLibrary\VirtualLibraryPathProvider.cs" />
+    <Compile Include="VirtualLibrary\VirtualLibraryRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LocalResource.resx">
@@ -70,6 +74,10 @@
     <ProjectReference Include="..\Tasslehoff.Common\Tasslehoff.Common.csproj">
       <Project>{a1c1f575-2008-4be1-9db7-0ad91acb7e5e}</Project>
       <Name>Tasslehoff.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.DataStructures\Tasslehoff.DataStructures.csproj">
+      <Project>{cd7d835c-4efb-4b46-91d7-ccae19e18d09}</Project>
+      <Name>Tasslehoff.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tasslehoff.Logging\Tasslehoff.Logging.csproj">
       <Project>{45dbb16f-e6dc-4d10-a00a-f6daddb7be49}</Project>

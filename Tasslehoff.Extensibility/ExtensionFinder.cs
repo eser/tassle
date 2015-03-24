@@ -144,6 +144,42 @@ namespace Tasslehoff.Extensibility
         }
 
         /// <summary>
+        /// Searches the files in preferred structure.
+        /// </summary>
+        /// <param name="path">The path</param>
+        public void SearchStructured(params string[] paths)
+        {
+            foreach (string path in paths)
+            {
+                string[] searchDirectories = Directory.GetDirectories(path);
+
+                foreach (string searchDirectory in searchDirectories)
+                {
+                    string name = Path.GetFileName(searchDirectory);
+                    string filename = Path.Combine(path, name, name + ".dll");
+
+                    this.AddFile(filename);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Searches the application domain.
+        /// </summary>
+        /// <param name="appDomain">The application domain.</param>
+        /// <param name="filter">The filter.</param>
+        public void SearchAppDomain(AppDomain appDomain, Func<Assembly, bool> filter = null)
+        {
+            foreach (Assembly assembly in appDomain.GetAssemblies())
+            {
+                if (filter == null || filter(assembly))
+                {
+                    this.Add(assembly);
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds the file.
         /// </summary>
         /// <param name="path">The path</param>

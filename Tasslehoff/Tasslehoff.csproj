@@ -87,7 +87,9 @@
     <Compile Include="Adapters\ElasticSearch\ElasticSearchConnection.cs" />
     <Compile Include="Adapters\Redis\RedisConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TasslehoffConfig.cs" />
+    <Compile Include="TasslehoffConsumer.cs" />
+    <Compile Include="TasslehoffConsumerConfig.cs" />
+    <Compile Include="TasslehoffCoreConfig.cs" />
     <Compile Include="TasslehoffCore.cs" />
     <Compile Include="Adapters\Memcached\MemcachedConnection.cs" />
     <Compile Include="Adapters\RabbitMQ\RabbitMQConnection.cs" />

@@ -25,7 +25,7 @@ using System.IO;
 using System.Web.Caching;
 using System.Web.Hosting;
 
-namespace Tasslehoff.Layout.VirtualLibrary
+namespace Tasslehoff.Extensibility.VirtualLibrary
 {
     /// <summary>
     /// VirtualLibraryPathProvider class.

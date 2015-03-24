@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// <copyright file="TasslehoffCore.cs" company="-">
+// <copyright file="TasslehoffConsumer.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -23,8 +23,6 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using Tasslehoff.Adapters;
-using Tasslehoff.DataAccess;
 using Tasslehoff.Extensibility;
 using Tasslehoff.Extensibility.Plugins;
 using Tasslehoff.Services;
@@ -33,26 +31,21 @@ using Tasslehoff.Tasks;
 namespace Tasslehoff
 {
     /// <summary>
-    /// TasslehoffCore class.
+    /// TasslehoffConsumer class.
     /// </summary>
-    public class TasslehoffCore : ServiceContainer
+    public class TasslehoffConsumer : ServiceContainer
     {
         // fields
 
         /// <summary>
-        /// The core configuration.
+        /// The consumer configuration.
         /// </summary>
-        private readonly TasslehoffCoreConfig configuration;
+        private readonly TasslehoffConsumerConfig configuration;
 
         /// <summary>
         /// The output
         /// </summary>
         private TextWriter output;
-
-        /// <summary>
-        /// The database manager
-        /// </summary>
-        private readonly DatabaseManager databaseManager;
 
         /// <summary>
         /// The task manager
@@ -70,16 +63,6 @@ namespace Tasslehoff
         private readonly PluginContainer pluginContainer;
 
         /// <summary>
-        /// The queue manager
-        /// </summary>
-        private IQueueManager queueManager = null;
-
-        /// <summary>
-        /// The cache manager
-        /// </summary>
-        private ICacheManager cacheManager = null;
-
-        /// <summary>
         /// The first initialize
         /// </summary>
         private bool firstInit = true;
@@ -87,18 +70,16 @@ namespace Tasslehoff
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TasslehoffCore" /> class.
+        /// Initializes a new instance of the <see cref="TasslehoffConsumer" /> class.
         /// </summary>
-        /// <param name="configuration">The core configuration</param>
+        /// <param name="configuration">The consumer configuration</param>
         /// <param name="output">The output</param>
-        public TasslehoffCore(TasslehoffCoreConfig configuration = null, TextWriter output = null)
+        public TasslehoffConsumer(TasslehoffConsumerConfig configuration = null, TextWriter output = null)
             : base()
         {
             // initialization
             this.configuration = configuration;
             this.output = output;
-
-            this.databaseManager = new DatabaseManager();
 
             this.taskManager = new TaskManager();
             this.AddChild(this.taskManager);
@@ -124,7 +105,7 @@ namespace Tasslehoff
         {
             get
             {
-                return "Tasslehoff Core";
+                return "Tasslehoff Consumer";
             }
         }
 
@@ -143,12 +124,12 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the core configuration.
+        /// Gets the consumer configuration.
         /// </summary>
         /// <value>
-        /// The core configuration.
+        /// The consumer configuration.
         /// </value>
-        public TasslehoffCoreConfig Configuration
+        public TasslehoffConsumerConfig Configuration
         {
             get
             {
@@ -171,20 +152,6 @@ namespace Tasslehoff
             set
             {
                 this.output = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the database manager.
-        /// </summary>
-        /// <value>
-        /// The database manager.
-        /// </value>
-        public DatabaseManager DatabaseManager
-        {
-            get
-            {
-                return this.databaseManager;
             }
         }
 
@@ -230,42 +197,6 @@ namespace Tasslehoff
             }
         }
 
-        /// <summary>
-        /// Gets the queue manager.
-        /// </summary>
-        /// <value>
-        /// The queue manager.
-        /// </value>
-        public IQueueManager QueueManager
-        {
-            get
-            {
-                return this.queueManager;
-            }
-            protected set
-            {
-                this.queueManager = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the cache manager.
-        /// </summary>
-        /// <value>
-        /// The cache manager.
-        /// </value>
-        public ICacheManager CacheManager
-        {
-            get
-            {
-                return this.cacheManager;
-            }
-            protected set
-            {
-                this.cacheManager = value;
-            }
-        }
-
         // methods
 
         /// <summary>
@@ -298,18 +229,6 @@ namespace Tasslehoff
                 this.Output.WriteLine("Tasslehoff 0.9.2  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
                 this.Output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
                 this.Output.WriteLine();
-            }
-
-            if (!string.IsNullOrEmpty(this.Configuration.DatabaseConnectionString))
-            {
-                this.DatabaseManager.Connections.Add(
-                    this.DatabaseManager.DefaultDatabaseKey,
-                    new DatabaseManagerConnection()
-                    {
-                        ProviderName = this.Configuration.DatabaseProviderName,
-                        ConnectionString = this.Configuration.DatabaseConnectionString,
-                    }
-                );
             }
 
             // search for extensions
