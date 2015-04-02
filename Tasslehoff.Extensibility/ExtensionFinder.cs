@@ -419,7 +419,10 @@ namespace Tasslehoff.Extensibility
         {
             try
             {
-                AppDomain.Unload(this.ApplicationDomain);
+                if (this.ApplicationDomain != null)
+                {
+                    AppDomain.Unload(this.ApplicationDomain);
+                }
             }
             catch (CannotUnloadAppDomainException ex)
             {

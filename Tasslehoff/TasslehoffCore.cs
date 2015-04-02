@@ -42,7 +42,7 @@ namespace Tasslehoff
         /// <summary>
         /// The core configuration.
         /// </summary>
-        private readonly TasslehoffCoreConfig configuration;
+        private TasslehoffCoreConfig configuration;
 
         /// <summary>
         /// The output
@@ -143,7 +143,7 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets the core configuration.
+        /// Gets and sets the core configuration.
         /// </summary>
         /// <value>
         /// The core configuration.
@@ -153,6 +153,10 @@ namespace Tasslehoff
             get
             {
                 return this.configuration;
+            }
+            set
+            {
+                this.configuration = value;
             }
         }
 
