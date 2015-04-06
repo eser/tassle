@@ -30,13 +30,10 @@ namespace Tasslehoff.CommandLine
         {
             TasslehoffCoreConfig tasslehoffConfig = new TasslehoffCoreConfig()
             {
-                Culture = "en-us",
-                VerboseMode = true
+                Culture = "en-us"
             };
 
-            TasslehoffCore tasslehoff = new TasslehoffCore(tasslehoffConfig, Console.Out);
-            // tasslehoff.QueueManager = new RabbitMQConnection(configuration.RabbitMQAddress);
-            // tasslehoff.CacheManager = new MemcachedConnection(configuration.MemcachedAddresses.Split(','));
+            TasslehoffCore tasslehoff = new TasslehoffCore(tasslehoffConfig);
 
             var taskItem = new TaskItem(
                     (TaskActionParameters param) =>

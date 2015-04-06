@@ -179,6 +179,10 @@
       <Project>{c49bf97e-42cf-4d93-946b-ea557bf57e7c}</Project>
       <Name>Tasslehoff.Extensibility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tasslehoff.Logging\Tasslehoff.Logging.csproj">
+      <Project>{45dbb16f-e6dc-4d10-a00a-f6daddb7be49}</Project>
+      <Name>Tasslehoff.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tasslehoff.Services\Tasslehoff.Services.csproj">
       <Project>{e7dacfba-3d73-41a1-b7f0-9879097f895e}</Project>
       <Name>Tasslehoff.Services</Name>

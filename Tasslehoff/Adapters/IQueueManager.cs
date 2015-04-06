@@ -19,10 +19,11 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Tasslehoff.Services;
+
 namespace Tasslehoff.Adapters
 {
-
-    public interface IQueueManager
+    public interface IQueueManager : IService
     {
         /// <summary>
         /// Dequeues a message.

@@ -25,6 +25,7 @@ using System.IO;
 using System.Threading;
 using Tasslehoff.Extensibility;
 using Tasslehoff.Extensibility.Plugins;
+using Tasslehoff.Logging;
 using Tasslehoff.Services;
 using Tasslehoff.Tasks;
 
@@ -224,12 +225,9 @@ namespace Tasslehoff
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
 
-            if (this.Output != null)
-            {
-                this.Output.WriteLine("Tasslehoff 0.9.4  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
-                this.Output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
-                this.Output.WriteLine();
-            }
+            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.5  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+            this.Log.Write(LogLevel.Info, "This program is free software under the terms of the GPL v3 or later.");
+            this.Log.Write(LogLevel.Info, string.Empty);
 
             // search for extensions
             if (this.Configuration.ExtensionPaths != null)
@@ -237,15 +235,12 @@ namespace Tasslehoff
                 this.ExtensionFinder.SearchStructured(this.Configuration.ExtensionPaths);
             }
 
-            if (this.Output != null && this.Configuration.VerboseMode)
+            this.Log.Write(LogLevel.Info, string.Format("{0} extensions found:", this.ExtensionFinder.Assemblies.Count));
+            foreach (string assemblyName in this.ExtensionFinder.Assemblies.Keys)
             {
-                this.Output.WriteLine("{0} extensions found:", this.ExtensionFinder.Assemblies.Count);
-                foreach (string assemblyName in this.ExtensionFinder.Assemblies.Keys)
-                {
-                    this.Output.WriteLine("- {0}", assemblyName);
-                }
-                this.Output.WriteLine();
+                this.Log.Write(LogLevel.Info, string.Format("- {0}", assemblyName));
             }
+            this.Log.Write(LogLevel.Info, string.Empty);
         }
 
         /// <summary>
@@ -271,16 +266,13 @@ namespace Tasslehoff
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Tasslehoff_OnStartWithChildren(object sender, EventArgs e)
         {
-            if (this.Output != null && this.Configuration.VerboseMode)
+            this.Log.Write(LogLevel.Info, "Loaded Plugins:");
+            foreach (IServiceDefined service in this.PluginContainer.GetDefinedChildrenOnly())
             {
-                this.Output.WriteLine("Loaded Plugins:");
-                foreach (IServiceDefined service in this.PluginContainer.GetDefinedChildrenOnly())
-                {
-                    this.Output.WriteLine("- {0} {1}", service.Name, service.Description);
-                }
-                this.Output.WriteLine("{0} total", this.PluginContainer.Children.Count);
-                this.Output.WriteLine();
+                this.Log.Write(LogLevel.Info, string.Format("- {0} {1}", service.Name, service.Description));
             }
+            this.Log.Write(LogLevel.Info, string.Format("{0} total", this.PluginContainer.Children.Count));
+            this.Log.Write(LogLevel.Info, string.Empty);
         }
     }
 }

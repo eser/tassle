@@ -51,8 +51,8 @@ using System.Runtime.InteropServices;
 //// The form "{Major}.{Minor}.*" will automatically update the build and revision,
 //// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("0.9.4")]
-[assembly: AssemblyFileVersion("0.9.4")]
+[assembly: AssemblyVersion("0.9.5")]
+[assembly: AssemblyFileVersion("0.9.5")]
 [assembly: AssemblyInformationalVersion("0.9")]
 
 //// The following attributes are used to specify the signing key for the assembly, 

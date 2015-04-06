@@ -57,7 +57,7 @@ namespace Tasslehoff.Adapters.Memcached
         /// Initializes a new instance of the <see cref="MemcachedConnection" /> class.
         /// </summary>
         /// <param name="addresses">The addresses</param>
-        public MemcachedConnection(string[] addresses)
+        public MemcachedConnection(params string[] addresses)
         {
             this.addresses = addresses;
 

@@ -21,12 +21,16 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using Tasslehoff.Adapters;
+using Tasslehoff.Adapters.IronMQ;
+using Tasslehoff.Adapters.Memcached;
+using Tasslehoff.Adapters.RabbitMQ;
+using Tasslehoff.Adapters.Redis;
 using Tasslehoff.DataAccess;
 using Tasslehoff.Extensibility;
 using Tasslehoff.Extensibility.Plugins;
+using Tasslehoff.Logging;
 using Tasslehoff.Services;
 using Tasslehoff.Tasks;
 
@@ -43,11 +47,6 @@ namespace Tasslehoff
         /// The core configuration.
         /// </summary>
         private TasslehoffCoreConfig configuration;
-
-        /// <summary>
-        /// The output
-        /// </summary>
-        private TextWriter output;
 
         /// <summary>
         /// The database manager
@@ -70,16 +69,6 @@ namespace Tasslehoff
         private readonly PluginContainer pluginContainer;
 
         /// <summary>
-        /// The queue manager
-        /// </summary>
-        private IQueueManager queueManager = null;
-
-        /// <summary>
-        /// The cache manager
-        /// </summary>
-        private ICacheManager cacheManager = null;
-
-        /// <summary>
         /// The first initialize
         /// </summary>
         private bool firstInit = true;
@@ -90,13 +79,11 @@ namespace Tasslehoff
         /// Initializes a new instance of the <see cref="TasslehoffCore" /> class.
         /// </summary>
         /// <param name="configuration">The core configuration</param>
-        /// <param name="output">The output</param>
-        public TasslehoffCore(TasslehoffCoreConfig configuration = null, TextWriter output = null)
+        public TasslehoffCore(TasslehoffCoreConfig configuration = null)
             : base()
         {
             // initialization
             this.configuration = configuration;
-            this.output = output;
 
             this.databaseManager = new DatabaseManager();
 
@@ -161,24 +148,6 @@ namespace Tasslehoff
         }
 
         /// <summary>
-        /// Gets and sets the output.
-        /// </summary>
-        /// <value>
-        /// The output.
-        /// </value>
-        public TextWriter Output
-        {
-            get
-            {
-                return this.output;
-            }
-            set
-            {
-                this.output = value;
-            }
-        }
-
-        /// <summary>
         /// Gets the database manager.
         /// </summary>
         /// <value>
@@ -234,42 +203,6 @@ namespace Tasslehoff
             }
         }
 
-        /// <summary>
-        /// Gets the queue manager.
-        /// </summary>
-        /// <value>
-        /// The queue manager.
-        /// </value>
-        public IQueueManager QueueManager
-        {
-            get
-            {
-                return this.queueManager;
-            }
-            protected set
-            {
-                this.queueManager = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the cache manager.
-        /// </summary>
-        /// <value>
-        /// The cache manager.
-        /// </value>
-        public ICacheManager CacheManager
-        {
-            get
-            {
-                return this.cacheManager;
-            }
-            protected set
-            {
-                this.cacheManager = value;
-            }
-        }
-
         // methods
 
         /// <summary>
@@ -297,12 +230,9 @@ namespace Tasslehoff
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
 
-            if (this.Output != null)
-            {
-                this.Output.WriteLine("Tasslehoff 0.9.4  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
-                this.Output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
-                this.Output.WriteLine();
-            }
+            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.5  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+            this.Log.Write(LogLevel.Info, "This program is free software under the terms of the GPL v3 or later.");
+            this.Log.Write(LogLevel.Info, string.Empty);
 
             if (!string.IsNullOrEmpty(this.Configuration.DatabaseConnectionString))
             {
@@ -322,14 +252,41 @@ namespace Tasslehoff
                 this.ExtensionFinder.SearchStructured(this.Configuration.ExtensionPaths);
             }
 
-            if (this.Output != null && this.Configuration.VerboseMode)
+            this.Log.Write(LogLevel.Info, string.Format("{0} extensions found:", this.ExtensionFinder.Assemblies.Count));
+            foreach (string assemblyName in this.ExtensionFinder.Assemblies.Keys)
             {
-                this.Output.WriteLine("{0} extensions found:", this.ExtensionFinder.Assemblies.Count);
-                foreach (string assemblyName in this.ExtensionFinder.Assemblies.Keys)
-                {
-                    this.Output.WriteLine("- {0}", assemblyName);
-                }
-                this.Output.WriteLine();
+                this.Log.Write(LogLevel.Info, string.Format("- {0}", assemblyName));
+            }
+            this.Log.Write(LogLevel.Info, string.Empty);
+
+            if (!string.IsNullOrEmpty(this.Configuration.RabbitMQAddress))
+            {
+                IQueueManager rabbitMq = new RabbitMQConnection(this.Configuration.RabbitMQAddress);
+                this.AddChild(rabbitMq);
+            }
+
+            if (!string.IsNullOrEmpty(this.Configuration.IronMQProjectId))
+            {
+                IQueueManager ironMq = new IronMQConnection(this.Configuration.IronMQProjectId, this.Configuration.IronMQToken);
+                this.AddChild(ironMq);
+            }
+
+            if (!string.IsNullOrEmpty(this.Configuration.MemcachedAddress))
+            {
+                ICacheManager memcached = new MemcachedConnection(this.Configuration.MemcachedAddress);
+                this.AddChild(memcached);
+            }
+
+            if (!string.IsNullOrEmpty(this.Configuration.RedisAddress))
+            {
+                ICacheManager redis = new RedisConnection(this.Configuration.RedisAddress);
+                this.AddChild(redis);
+            }
+
+            if (!string.IsNullOrEmpty(this.Configuration.ElasticSearchAddress))
+            {
+                ICacheManager elasticSearch = new ElasticSearchConnection(new Uri(this.Configuration.ElasticSearchAddress));
+                this.AddChild(elasticSearch);
             }
         }
 
@@ -339,6 +296,18 @@ namespace Tasslehoff
         protected override void ServiceStop()
         {
             this.TaskManager.Clear();
+
+            ICacheManager cacheManager = this.Find<ICacheManager>(false);
+            if (cacheManager != null)
+            {
+                this.Children.Remove(cacheManager);
+            }
+
+            IQueueManager queueManager = this.Find<IQueueManager>(false);
+            if (queueManager != null)
+            {
+                this.Children.Remove(queueManager);
+            }
         }
 
         /// <summary>
@@ -356,16 +325,13 @@ namespace Tasslehoff
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Tasslehoff_OnStartWithChildren(object sender, EventArgs e)
         {
-            if (this.Output != null && this.Configuration.VerboseMode)
+            this.Log.Write(LogLevel.Info, "Loaded Plugins:");
+            foreach (IServiceDefined service in this.PluginContainer.GetDefinedChildrenOnly())
             {
-                this.Output.WriteLine("Loaded Plugins:");
-                foreach (IServiceDefined service in this.PluginContainer.GetDefinedChildrenOnly())
-                {
-                    this.Output.WriteLine("- {0} {1}", service.Name, service.Description);
-                }
-                this.Output.WriteLine("{0} total", this.PluginContainer.Children.Count);
-                this.Output.WriteLine();
+                this.Log.Write(LogLevel.Info, string.Format("- {0} {1}", service.Name, service.Description));
             }
+            this.Log.Write(LogLevel.Info, string.Format("{0} total", this.PluginContainer.Children.Count));
+            this.Log.Write(LogLevel.Info, string.Empty);
         }
     }
 }

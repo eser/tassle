@@ -51,16 +51,6 @@ namespace Tasslehoff
         public string Culture { get; set; }
 
         /// <summary>
-        /// Gets or sets the verbose mode.
-        /// </summary>
-        /// <value>
-        /// The verbose mode.
-        /// </value>
-        [DataMember]
-        [ConfigEntry(DefaultValue = false)]
-        public bool VerboseMode { get; set; }
-
-        /// <summary>
         /// Gets or sets the extension paths.
         /// </summary>
         /// <value>

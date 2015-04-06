@@ -61,6 +61,66 @@ namespace Tasslehoff
         public string DatabaseConnectionString { get; set; }
 
         /// <summary>
+        /// Gets or sets the rabbitmq address.
+        /// </summary>
+        /// <value>
+        /// The rabbitmq address.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string RabbitMQAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ironmq projectid.
+        /// </summary>
+        /// <value>
+        /// The ironmq projectid.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string IronMQProjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ironmq token.
+        /// </summary>
+        /// <value>
+        /// The ironmq token.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string IronMQToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the memcached address.
+        /// </summary>
+        /// <value>
+        /// The memcached address.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string MemcachedAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the redis address.
+        /// </summary>
+        /// <value>
+        /// The redis address.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string RedisAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the elastic search address.
+        /// </summary>
+        /// <value>
+        /// The elastic search address.
+        /// </value>
+        [DataMember]
+        [ConfigEntry(DefaultValue = "")]
+        public string ElasticSearchAddress { get; set; }
+
+        /// <summary>
         /// Gets or sets the culture.
         /// </summary>
         /// <value>
@@ -69,16 +129,6 @@ namespace Tasslehoff
         [DataMember]
         [ConfigEntry(DefaultValue = "en-us")]
         public string Culture { get; set; }
-
-        /// <summary>
-        /// Gets or sets the verbose mode.
-        /// </summary>
-        /// <value>
-        /// The verbose mode.
-        /// </value>
-        [DataMember]
-        [ConfigEntry(DefaultValue = false)]
-        public bool VerboseMode { get; set; }
 
         /// <summary>
         /// Gets or sets the extension paths.
