@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlankServiceContainer.cs" />
+    <Compile Include="IServiceDefined.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="IServiceControllable.cs" />
     <Compile Include="LocalResource.Designer.cs">

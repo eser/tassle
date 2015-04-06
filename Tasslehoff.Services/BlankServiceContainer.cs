@@ -24,7 +24,7 @@ namespace Tasslehoff.Services
     /// <summary>
     /// BlankServiceContainer class.
     /// </summary>
-    public class BlankServiceContainer : ServiceContainer
+    public sealed class BlankServiceContainer : ServiceContainer
     {
         // fields
 

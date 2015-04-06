@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="IService.cs" company="-">
+// <copyright file="IServiceDefined.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -20,13 +20,55 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Tasslehoff.Logging;
 
 namespace Tasslehoff.Services
 {
     /// <summary>
-    /// IService interface.
+    /// IServiceDefined interface.
     /// </summary>
-    public interface IService
+    public interface IServiceDefined : IService, IDisposable
     {
+        // properties
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        string Name { get; }
+
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
+        string Description { get; }
+
+        /// <summary>
+        /// Gets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
+        ServiceStatus Status { get; }
+
+        /// <summary>
+        /// Gets the status date.
+        /// </summary>
+        /// <value>
+        /// The status date.
+        /// </value>
+        DateTimeOffset StatusDate { get; }
+
+        /// <summary>
+        /// Gets the log.
+        /// </summary>
+        /// <value>
+        /// The log.
+        /// </value>
+        LoggerDelegate Log { get; }
     }
 }

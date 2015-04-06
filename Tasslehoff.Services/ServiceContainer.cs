@@ -37,7 +37,7 @@ namespace Tasslehoff.Services
         /// <summary>
         /// The children
         /// </summary>
-        private readonly IDictionary<string, IService> children;
+        private readonly ICollection<IService> children;
 
         // constructors
 
@@ -46,7 +46,7 @@ namespace Tasslehoff.Services
         /// </summary>
         protected ServiceContainer() : base()
         {
-            this.children = new Dictionary<string, IService>();
+            this.children = new List<IService>();
         }
 
         // events
@@ -64,7 +64,7 @@ namespace Tasslehoff.Services
         /// <value>
         /// The children.
         /// </value>
-        public IDictionary<string, IService> Children
+        public ICollection<IService> Children
         {
             get
             {
@@ -77,10 +77,29 @@ namespace Tasslehoff.Services
         /// <summary>
         /// Adds the child.
         /// </summary>
-        /// <param name="service">The service</param>
-        public void AddChild(IService service)
+        /// <param name="services">The services</param>
+        public void AddChild(params IService[] services)
         {
-            this.children.Add(service.Name, service);
+            foreach (IService service in services)
+            {
+                this.children.Add(service);
+            }
+        }
+
+        /// <summary>
+        /// Gets only child services that implemented IServiceDefined.
+        /// </summary>
+        /// <returns>List of services</returns>
+        public IEnumerable<IServiceDefined> GetDefinedChildrenOnly()
+        {
+            foreach (IService service in this.Children)
+            {
+                IServiceDefined definedService = service as IServiceDefined;
+                if (definedService != null)
+                {
+                    yield return definedService;
+                }
+            }
         }
 
         /// <summary>
@@ -88,7 +107,7 @@ namespace Tasslehoff.Services
         /// </summary>
         /// <param name="path">Path of the service</param>
         /// <returns>A service instance</returns>
-        public IService Find(string path)
+        public IService FindByPath(string path)
         {
             Queue<string> parts = new Queue<string>(
                 path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries)
@@ -100,12 +119,24 @@ namespace Tasslehoff.Services
                 string part = parts.Dequeue();
 
                 ServiceContainer currentAsContainer = current as ServiceContainer;
-                if (!currentAsContainer.Children.ContainsKey(part))
+                bool found = false;
+
+                if (currentAsContainer != null)
+                {
+                    foreach (IServiceDefined service in currentAsContainer.GetDefinedChildrenOnly())
+                    {
+                        if (service.Name == path)
+                        {
+                            current = service;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
                 {
                     return null;
                 }
-
-                current = currentAsContainer.Children[part];
             }
 
             return current;
@@ -117,9 +148,40 @@ namespace Tasslehoff.Services
         /// <typeparam name="T">A type</typeparam>
         /// <param name="path">Path of the service</param>
         /// <returns>A service instance</returns>
-        public T Find<T>(string path) where T : class
+        public T FindByPath<T>(string path) where T : class
         {
-            return this.Find(path) as T;
+            return this.FindByPath(path) as T;
+        }
+
+        /// <summary>
+        /// Finds the specified dependency (recursively if needed).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="recursive">if set to <c>true</c> [recursive].</param>
+        /// <returns>Service if found</returns>
+        public T Find<T>(bool recursive) where T : class, IService
+        {
+            T result;
+
+            foreach (IService service in this.Children)
+            {
+                result = service as T;
+                if (result != null)
+                {
+                    return result;
+                }
+
+                if (recursive)
+                {
+                    ServiceContainer serviceAsContainer = service as ServiceContainer;
+                    if (serviceAsContainer != null)
+                    {
+                        return serviceAsContainer.Find<T>(true);
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -136,7 +198,7 @@ namespace Tasslehoff.Services
                 
                 base.Start();
 
-                foreach (Service child in this.children.Values)
+                foreach (Service child in this.children)
                 {
                     ServiceControllable controllableChild = child as ServiceControllable;
 
@@ -171,7 +233,7 @@ namespace Tasslehoff.Services
                 }
                 
                 // stop children
-                IService[] childServices = ArrayHelpers.GetArray<IService>(this.children.Values);
+                IService[] childServices = ArrayHelpers.GetArray<IService>(this.children);
                 Array.Reverse(childServices);
 
                 foreach (IService child in childServices)
@@ -199,12 +261,16 @@ namespace Tasslehoff.Services
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected override void OnDispose(bool releaseManagedResources)
         {
-            IService[] childServices = ArrayHelpers.GetArray<IService>(this.children.Values);
+            IService[] childServices = ArrayHelpers.GetArray<IService>(this.children);
             Array.Reverse(childServices);
 
             foreach (IService child in childServices)
             {
-                child.Dispose();
+                IDisposable disposableChild = child as IDisposable;
+                if (disposableChild != null)
+                {
+                    disposableChild.Dispose();
+                }
             }
 
             base.OnDispose(releaseManagedResources);

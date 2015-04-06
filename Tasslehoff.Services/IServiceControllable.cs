@@ -26,7 +26,7 @@ namespace Tasslehoff.Services
     /// <summary>
     /// IServiceControllable interface.
     /// </summary>
-    public interface IServiceControllable : IService
+    public interface IServiceControllable : IServiceDefined
     {
         // events
 

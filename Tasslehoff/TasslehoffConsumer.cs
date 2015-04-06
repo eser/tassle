@@ -226,7 +226,7 @@ namespace Tasslehoff
 
             if (this.Output != null)
             {
-                this.Output.WriteLine("Tasslehoff 0.9.2  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+                this.Output.WriteLine("Tasslehoff 0.9.4  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
                 this.Output.WriteLine("This program is free software under the terms of the GPL v3 or later.");
                 this.Output.WriteLine();
             }
@@ -274,7 +274,7 @@ namespace Tasslehoff
             if (this.Output != null && this.Configuration.VerboseMode)
             {
                 this.Output.WriteLine("Loaded Plugins:");
-                foreach (IService service in this.PluginContainer.Children.Values)
+                foreach (IServiceDefined service in this.PluginContainer.GetDefinedChildrenOnly())
                 {
                     this.Output.WriteLine("- {0} {1}", service.Name, service.Description);
                 }

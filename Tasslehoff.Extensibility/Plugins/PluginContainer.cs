@@ -112,7 +112,7 @@ namespace Tasslehoff.Extensibility.Plugins
         /// </summary>
         protected override void ServiceStop()
         {
-            foreach (Service service in this.Children.Values)
+            foreach (Service service in this.Children)
             {
                 service.Dispose();
             }
