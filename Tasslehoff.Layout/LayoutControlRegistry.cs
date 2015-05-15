@@ -111,7 +111,7 @@ namespace Tasslehoff.Layout
         /// </summary>
         /// <param name="json">Json string</param>
         /// <returns>ILayoutControl implementation</returns>
-        public ILayoutControl ImportJson(string json)
+        public T ImportJson<T>(string json)
         {
             JsonSerializerSettings settings = SerializationHelpers.GetSerializerSettings();
             settings.Converters.Add(new LayoutControlConverter(this));
@@ -120,7 +120,27 @@ namespace Tasslehoff.Layout
             //Type type = this[(string)jObject.Property("Type")];
 
             //return (ILayoutControl)JsonConvert.DeserializeObject(json, type, settings);
-            return JsonConvert.DeserializeObject<ILayoutControl>(json, settings);
+            return JsonConvert.DeserializeObject<T>(json, settings);
+        }
+
+        /// <summary>
+        /// Imports Json
+        /// </summary>
+        /// <param name="json">Json string</param>
+        /// <returns>ILayoutControl implementation</returns>
+        public ILayoutControl ImportJson(string json)
+        {
+            return this.ImportJson<ILayoutControl>(json);
+        }
+
+        /// <summary>
+        /// Imports Json From File
+        /// </summary>
+        /// <param name="path">Json path</param>
+        /// <returns>ILayoutControl implementation</returns>
+        public T ImportJsonFromFile<T>(string path)
+        {
+            return this.ImportJson<T>(File.ReadAllText(path));
         }
 
         /// <summary>
@@ -130,7 +150,7 @@ namespace Tasslehoff.Layout
         /// <returns>ILayoutControl implementation</returns>
         public ILayoutControl ImportJsonFromFile(string path)
         {
-            return this.ImportJson(File.ReadAllText(path));
+            return this.ImportJsonFromFile<ILayoutControl>(path);
         }
     }
 }
