@@ -44,9 +44,9 @@ namespace Tasslehoff.Logging
         private string category;
 
         /// <summary>
-        /// The is direct
+        /// The flags
         /// </summary>
-        private bool isDirect;
+        private LogFlags flags;
 
         /// <summary>
         /// The assigned logger
@@ -115,20 +115,20 @@ namespace Tasslehoff.Logging
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is direct.
+        /// Gets or sets a value indicating log flags.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is direct; otherwise, <c>false</c>.
+        /// The flags.
         /// </value>
-        public bool IsDirect
+        public LogFlags Flags
         {
             get
             {
-                return this.isDirect;
+                return this.flags;
             }
             set
             {
-                this.isDirect = value;
+                this.flags = value;
             }
         }
 
@@ -172,13 +172,13 @@ namespace Tasslehoff.Logging
         /// <param name="logger">The logger</param>
         /// <param name="category">The category</param>
         /// <param name="application">The application</param>
-        /// <param name="isDirect">if set to <c>true</c> [is direct]</param>
-        public void AssignLogger(Logger logger, string category, string application = null, bool isDirect = false)
+        /// <param name="flags">The flags</param>
+        public void AssignLogger(Logger logger, string category, string application = null, LogFlags flags = LogFlags.None)
         {
             this.assignedLogger = logger;
             this.category = category;
             this.application = application;
-            this.isDirect = isDirect;
+            this.flags = flags;
         }
 
         /// <summary>
@@ -190,9 +190,9 @@ namespace Tasslehoff.Logging
         /// <param name="date">The date</param>
         /// <param name="application">The application</param>
         /// <param name="category">The category</param>
-        /// <param name="isDirect">The is direct</param>
+        /// <param name="flags">The flags</param>
         /// <returns>LogEntry instance</returns>
-        public LogEntry Get(LogLevel level, string text, Exception exception = null, DateTimeOffset? date = null, string application = null, string category = null, bool? isDirect = null)
+        public LogEntry Get(LogLevel level, string text, Exception exception = null, DateTimeOffset? date = null, string application = null, string category = null, LogFlags? flags = LogFlags.None)
         {
             if (exception != null)
             {
@@ -221,7 +221,7 @@ namespace Tasslehoff.Logging
                 Application = application ?? this.application,
                 Category = category ?? this.category,
                 Message = text,
-                IsDirect = isDirect ?? this.isDirect,
+                Flags = flags ?? this.flags,
                 Date = date.GetValueOrDefault(DateTimeOffset.UtcNow)
             };
         }
@@ -235,16 +235,16 @@ namespace Tasslehoff.Logging
         /// <param name="date">The date</param>
         /// <param name="application">The application</param>
         /// <param name="category">The category</param>
-        /// <param name="isDirect">The is direct</param>
+        /// <param name="flags">The flags</param>
         /// <returns>Is written or not</returns>
-        public bool Write(LogLevel level, string text, Exception exception = null, DateTimeOffset? date = null, string application = null, string category = null, bool? isDirect = null)
+        public bool Write(LogLevel level, string text, Exception exception = null, DateTimeOffset? date = null, string application = null, string category = null, LogFlags? flags = LogFlags.None)
         {
             if (this.assignedLogger == null)
             {
                 return false;
             }
             
-            LogEntry logEntry = this.Get(level, text, exception, date, application, category, isDirect);
+            LogEntry logEntry = this.Get(level, text, exception, date, application, category, flags);
             return this.assignedLogger.Write(logEntry);
         }
 

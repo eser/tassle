@@ -21,7 +21,6 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using Tasslehoff.Extensibility;
 using Tasslehoff.Extensibility.Plugins;
@@ -42,11 +41,6 @@ namespace Tasslehoff
         /// The consumer configuration.
         /// </summary>
         private readonly TasslehoffConsumerConfig configuration;
-
-        /// <summary>
-        /// The output
-        /// </summary>
-        private TextWriter output;
 
         /// <summary>
         /// The task manager
@@ -74,13 +68,11 @@ namespace Tasslehoff
         /// Initializes a new instance of the <see cref="TasslehoffConsumer" /> class.
         /// </summary>
         /// <param name="configuration">The consumer configuration</param>
-        /// <param name="output">The output</param>
-        public TasslehoffConsumer(TasslehoffConsumerConfig configuration = null, TextWriter output = null)
+        public TasslehoffConsumer(TasslehoffConsumerConfig configuration = null)
             : base()
         {
             // initialization
             this.configuration = configuration;
-            this.output = output;
 
             this.taskManager = new TaskManager();
             this.AddChild(this.taskManager);
@@ -135,24 +127,6 @@ namespace Tasslehoff
             get
             {
                 return this.configuration;
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the output.
-        /// </summary>
-        /// <value>
-        /// The output.
-        /// </value>
-        public TextWriter Output
-        {
-            get
-            {
-                return this.output;
-            }
-            set
-            {
-                this.output = value;
             }
         }
 
@@ -216,21 +190,24 @@ namespace Tasslehoff
         /// </summary>
         protected override void ServiceStart()
         {
-            if (!firstInit)
+            if (!this.firstInit)
             {
                 return;
             }
 
-            firstInit = false;
+            this.firstInit = false;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
+            if (this.Configuration != null)
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
+            }
 
-            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.5  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.7  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
             this.Log.Write(LogLevel.Info, "This program is free software under the terms of the GPL v3 or later.");
             this.Log.Write(LogLevel.Info, string.Empty);
 
             // search for extensions
-            if (this.Configuration.ExtensionPaths != null)
+            if (this.Configuration != null && this.Configuration.ExtensionPaths != null)
             {
                 this.ExtensionFinder.SearchStructured(this.Configuration.ExtensionPaths);
             }

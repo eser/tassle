@@ -46,6 +46,8 @@
     <Compile Include="LoggerDelegate.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LogFlags.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="StreamLogger.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -221,35 +221,41 @@ namespace Tasslehoff
         /// </summary>
         protected override void ServiceStart()
         {
-            if (!firstInit)
+            if (!this.firstInit)
             {
                 return;
             }
 
-            firstInit = false;
+            this.firstInit = false;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
+            if (this.Configuration != null)
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
+            }
 
-            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.5  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
+            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.7  (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.");
             this.Log.Write(LogLevel.Info, "This program is free software under the terms of the GPL v3 or later.");
             this.Log.Write(LogLevel.Info, string.Empty);
 
-            if (!string.IsNullOrEmpty(this.Configuration.DatabaseConnectionString))
+            if (this.Configuration != null)
             {
-                this.DatabaseManager.Connections.Add(
-                    this.DatabaseManager.DefaultDatabaseKey,
-                    new DatabaseManagerConnection()
-                    {
-                        ProviderName = this.Configuration.DatabaseProviderName,
-                        ConnectionString = this.Configuration.DatabaseConnectionString,
-                    }
-                );
-            }
+                if (!string.IsNullOrEmpty(this.Configuration.DatabaseConnectionString))
+                {
+                    this.DatabaseManager.Connections.Add(
+                        this.DatabaseManager.DefaultDatabaseKey,
+                        new DatabaseManagerConnection()
+                        {
+                            ProviderName = this.Configuration.DatabaseProviderName,
+                            ConnectionString = this.Configuration.DatabaseConnectionString,
+                        }
+                    );
+                }
 
-            // search for extensions
-            if (this.Configuration.ExtensionPaths != null)
-            {
-                this.ExtensionFinder.SearchStructured(this.Configuration.ExtensionPaths);
+                // search for extensions
+                if (this.Configuration.ExtensionPaths != null)
+                {
+                    this.ExtensionFinder.SearchStructured(this.Configuration.ExtensionPaths);
+                }
             }
 
             this.Log.Write(LogLevel.Info, string.Format("{0} extensions found:", this.ExtensionFinder.Assemblies.Count));
@@ -259,34 +265,37 @@ namespace Tasslehoff
             }
             this.Log.Write(LogLevel.Info, string.Empty);
 
-            if (!string.IsNullOrEmpty(this.Configuration.RabbitMQAddress))
+            if (this.Configuration != null)
             {
-                IQueueManager rabbitMq = new RabbitMQConnection(this.Configuration.RabbitMQAddress);
-                this.AddChild(rabbitMq);
-            }
+                if (!string.IsNullOrEmpty(this.Configuration.RabbitMQAddress))
+                {
+                    IQueueManager rabbitMq = new RabbitMQConnection(this.Configuration.RabbitMQAddress);
+                    this.AddChild(rabbitMq);
+                }
 
-            if (!string.IsNullOrEmpty(this.Configuration.IronMQProjectId))
-            {
-                IQueueManager ironMq = new IronMQConnection(this.Configuration.IronMQProjectId, this.Configuration.IronMQToken);
-                this.AddChild(ironMq);
-            }
+                if (!string.IsNullOrEmpty(this.Configuration.IronMQProjectId))
+                {
+                    IQueueManager ironMq = new IronMQConnection(this.Configuration.IronMQProjectId, this.Configuration.IronMQToken);
+                    this.AddChild(ironMq);
+                }
 
-            if (!string.IsNullOrEmpty(this.Configuration.MemcachedAddress))
-            {
-                ICacheManager memcached = new MemcachedConnection(this.Configuration.MemcachedAddress);
-                this.AddChild(memcached);
-            }
+                if (!string.IsNullOrEmpty(this.Configuration.MemcachedAddress))
+                {
+                    ICacheManager memcached = new MemcachedConnection(this.Configuration.MemcachedAddress);
+                    this.AddChild(memcached);
+                }
 
-            if (!string.IsNullOrEmpty(this.Configuration.RedisAddress))
-            {
-                ICacheManager redis = new RedisConnection(this.Configuration.RedisAddress);
-                this.AddChild(redis);
-            }
+                if (!string.IsNullOrEmpty(this.Configuration.RedisAddress))
+                {
+                    ICacheManager redis = new RedisConnection(this.Configuration.RedisAddress);
+                    this.AddChild(redis);
+                }
 
-            if (!string.IsNullOrEmpty(this.Configuration.ElasticSearchAddress))
-            {
-                ICacheManager elasticSearch = new ElasticSearchConnection(new Uri(this.Configuration.ElasticSearchAddress));
-                this.AddChild(elasticSearch);
+                if (!string.IsNullOrEmpty(this.Configuration.ElasticSearchAddress))
+                {
+                    ICacheManager elasticSearch = new ElasticSearchConnection(new Uri(this.Configuration.ElasticSearchAddress));
+                    this.AddChild(elasticSearch);
+                }
             }
         }
 

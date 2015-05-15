@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Tasslehoff.Logging
 {
@@ -138,7 +139,7 @@ namespace Tasslehoff.Logging
             {
                 return this.disabled;
             }
-            
+
             set
             {
                 this.disabled = value;
@@ -208,15 +209,30 @@ namespace Tasslehoff.Logging
         /// <returns>Is written or not</returns>
         public bool Write(LogEntry logEntry)
         {
-            lock (this.sync)
+            //lock (this.sync)
+            //{
+            if (!this.disabled && this.minimumLevel > logEntry.Level)
             {
-                if (!this.disabled && this.minimumLevel > logEntry.Level)
-                {
-                    return false;
-                }
-                
-                return this.WriteLog(logEntry);
+                return false;
             }
+
+            return this.WriteLog(logEntry);
+            //}
+        }
+
+        /// <summary>
+        /// Writes the specified log entry.
+        /// </summary>
+        /// <param name="logEntry">The log entry</param>
+        /// <returns>Is written or not</returns>
+        public async Task<bool> WriteAsync(LogEntry logEntry)
+        {
+            return await Task.Run<bool>(
+                () =>
+                {
+                    return this.WriteLog(logEntry);
+                }
+            );
         }
 
         /// <summary>
@@ -261,7 +277,7 @@ namespace Tasslehoff.Logging
                 message.Append(string.Format("[{0,-12}] ", appName));
             }
 
-            if (!logEntry.IsDirect)
+            if (!logEntry.Flags.HasFlag(LogFlags.Direct))
             {
                 if (!string.IsNullOrEmpty(logEntry.Category))
                 {
@@ -279,6 +295,11 @@ namespace Tasslehoff.Logging
             string text = logEntry.Message.Replace(Environment.NewLine, newNewLine);
 
             message.Append(text);
+
+            if (!logEntry.Flags.HasFlag(LogFlags.NoNewLine))
+            {
+                message.Append(Environment.NewLine);
+            }
 
             return message.ToString();
         }

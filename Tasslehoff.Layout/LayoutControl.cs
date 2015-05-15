@@ -324,8 +324,20 @@ namespace Tasslehoff.Layout
         /// <summary>
         /// Serializes control into json
         /// </summary>
+        /// <param name="separateProperties">Put control properties in a separate node</param>
+        public virtual string Export(bool separateProperties = false)
+        {
+            MultiFormatOutputWriter writer = new MultiFormatOutputWriter(MultiFormatOutputWriterFormat.Json);
+            this.Export(writer, separateProperties);
+            return writer.ToString();
+        }
+
+        /// <summary>
+        /// Serializes control into json
+        /// </summary>
         /// <param name="jsonOutputWriter">Json Output Writer</param>
-        public virtual void Export(MultiFormatOutputWriter jsonOutputWriter)
+        /// <param name="separateProperties">Put control properties in a separate node</param>
+        public virtual void Export(MultiFormatOutputWriter jsonOutputWriter, bool separateProperties = false)
         {
             jsonOutputWriter.WriteStartObject();
 
@@ -337,15 +349,21 @@ namespace Tasslehoff.Layout
             // properties
             IEnumerable<LayoutControlProperty> properties = this.GetProperties();
 
-            jsonOutputWriter.WritePropertyName("Properties");
-            jsonOutputWriter.WriteStartObject();
+            if (separateProperties)
+            {
+                jsonOutputWriter.WritePropertyName("Properties");
+                jsonOutputWriter.WriteStartObject();
+            }
 
             foreach (LayoutControlProperty property in properties)
             {
                 jsonOutputWriter.WriteProperty(property.Name, property.Value);
             }
 
-            jsonOutputWriter.WriteEnd();
+            if (separateProperties)
+            {
+                jsonOutputWriter.WriteEnd();
+            }
 
             // children
             if (this.Children.Count > 0)

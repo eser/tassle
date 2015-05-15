@@ -21,6 +21,7 @@
 
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Tasslehoff.Logging;
 
 namespace Tasslehoff.Services
@@ -134,7 +135,7 @@ namespace Tasslehoff.Services
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected override void OnDispose(bool releaseManagedResources)
         {
-            this.Stop();
+            // this.Stop();
 
             base.OnDispose(releaseManagedResources);
         }

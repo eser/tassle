@@ -72,7 +72,14 @@ namespace Tasslehoff.Layout
         /// Serializes control into json
         /// </summary>
         /// <param name="jsonOutputWriter">Json Output Writer</param>
-        void Export(MultiFormatOutputWriter jsonOutputWriter);
+        /// <param name="separateProperties">Put control properties in a separate node</param>
+        void Export(MultiFormatOutputWriter jsonOutputWriter, bool separateProperties = false);
+
+        /// <summary>
+        /// Serializes control into json
+        /// </summary>
+        /// <param name="separateProperties">Put control properties in a separate node</param>
+        string Export(bool separateProperties = false);
 
         /// <summary>
         /// Gets properties

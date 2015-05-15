@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IServiceControllable.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="LogFlags.cs" company="-">
 // Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
@@ -20,42 +20,40 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
-namespace Tasslehoff.Services
+namespace Tasslehoff.Logging
 {
     /// <summary>
-    /// IServiceControllable interface.
+    /// LogFlags enum
     /// </summary>
-    public interface IServiceControllable : IServiceDefined
+    [Serializable]
+    [DataContract]
+    [Flags]
+    public enum LogFlags
     {
-        // events
+        /// <summary>
+        /// The none
+        /// </summary>
+        [EnumMember]
+        None,
 
         /// <summary>
-        /// Occurs when [on start].
+        /// The direct
         /// </summary>
-        event EventHandler<ServiceStatusChangedEventArgs> OnStart;
+        [EnumMember]
+        Direct,
 
         /// <summary>
-        /// Occurs when [on stop].
+        /// The no newline
         /// </summary>
-        event EventHandler<ServiceStatusChangedEventArgs> OnStop;
-
-        // methods
-
-        /// <summary>
-        /// Restarts this instance.
-        /// </summary>
-        void Restart();
+        [EnumMember]
+        NoNewLine,
 
         /// <summary>
-        /// Starts this instance.
+        /// The instant flush
         /// </summary>
-        void Start();
-
-        /// <summary>
-        /// Stops this instance.
-        /// </summary>
-        void Stop();
+        [EnumMember]
+        InstantFlush
     }
 }

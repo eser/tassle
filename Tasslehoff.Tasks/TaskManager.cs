@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Web.Hosting;
 using Tasslehoff.Services;
@@ -188,9 +189,9 @@ namespace Tasslehoff.Tasks
         }
 
         /// <summary>
-        /// Stops the service.
+        /// Requests a registered object to unregister.
         /// </summary>
-        /// <param name="immediate"></param>
+        /// <param name="immediate">true to indicate the registered object should unregister from the hosting environment before returning; otherwise, false.</param>
         public void Stop(bool immediate)
         {
             this.Stop();

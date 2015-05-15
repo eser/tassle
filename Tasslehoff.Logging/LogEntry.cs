@@ -59,9 +59,9 @@ namespace Tasslehoff.Logging
         private string message;
 
         /// <summary>
-        /// The is direct
+        /// The log flags
         /// </summary>
-        private bool isDirect;
+        private LogFlags flags;
 
         /// <summary>
         /// The level
@@ -151,20 +151,20 @@ namespace Tasslehoff.Logging
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is direct.
+        /// Gets or sets a value indicating log flags.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is direct; otherwise, <c>false</c>.
+        /// The flags.
         /// </value>
-        public bool IsDirect
+        public LogFlags Flags
         {
             get
             {
-                return this.isDirect;
+                return this.flags;
             }
             set
             {
-                this.isDirect = value;
+                this.flags = value;
             }
         }
 

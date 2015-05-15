@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 //// Information about this assembly is defined by the following attributes. 
 //// Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("Tasslehoff.Layout.Common")]
+[assembly: AssemblyTitle("Tasslehoff.Layout")]
 [assembly: AssemblyDescription("")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
@@ -51,8 +51,8 @@ using System.Runtime.InteropServices;
 //// The form "{Major}.{Minor}.*" will automatically update the build and revision,
 //// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("0.9.2")]
-[assembly: AssemblyFileVersion("0.9.2")]
+[assembly: AssemblyVersion("0.9.7")]
+[assembly: AssemblyFileVersion("0.9.7")]
 [assembly: AssemblyInformationalVersion("0.9")]
 
 //// The following attributes are used to specify the signing key for the assembly, 

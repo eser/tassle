@@ -20,6 +20,7 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using Tasslehoff.Common.Helpers;
@@ -120,6 +121,16 @@ namespace Tasslehoff.Layout
 
             //return (ILayoutControl)JsonConvert.DeserializeObject(json, type, settings);
             return JsonConvert.DeserializeObject<ILayoutControl>(json, settings);
+        }
+
+        /// <summary>
+        /// Imports Json From File
+        /// </summary>
+        /// <param name="path">Json path</param>
+        /// <returns>ILayoutControl implementation</returns>
+        public ILayoutControl ImportJsonFromFile(string path)
+        {
+            return this.ImportJson(File.ReadAllText(path));
         }
     }
 }
