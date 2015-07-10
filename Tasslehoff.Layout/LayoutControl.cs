@@ -465,6 +465,12 @@ namespace Tasslehoff.Layout
             using (StringWriter sw = new StringWriter())
             {
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(controller.ControllerContext, viewName);
+
+                if (viewResult.View == null)
+                {
+                    return string.Format("[Missing: {0}]", viewName);
+                }
+
                 ViewContext viewContext = new ViewContext(controller.ControllerContext, viewResult.View, viewData, tempData, sw);
                 viewResult.View.Render(viewContext, sw);
                 viewResult.ViewEngine.ReleaseView(controller.ControllerContext, viewResult.View);

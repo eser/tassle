@@ -23,7 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Web.Mvc;
-using Tasslehoff.Common.Text;
 
 namespace Tasslehoff.Layout.LayoutControls
 {
@@ -55,7 +54,7 @@ namespace Tasslehoff.Layout.LayoutControls
 
         // properties
 
-        [IgnoreDataMember]
+        [DataMember]
         public string Title
         {
             get
