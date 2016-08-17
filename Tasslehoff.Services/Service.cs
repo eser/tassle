@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
 // <copyright file="Service.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ namespace Tasslehoff.Services
         /// <summary>
         /// The log
         /// </summary>
-        private LoggerDelegate log = null;
+        private Logger log = null;
 
         /// <summary>
         /// The disposed
@@ -63,7 +63,7 @@ namespace Tasslehoff.Services
             this.status = (this is ServiceControllable) ? ServiceStatus.Stopped : ServiceStatus.Passive;
             this.statusDate = DateTimeOffset.UtcNow;
 
-            this.log = new LoggerDelegate();
+            this.log = new Logger(this.Name);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Tasslehoff.Services
         /// <value>
         /// The log.
         /// </value>
-        public LoggerDelegate Log
+        public Logger Log
         {
             get
             {
@@ -190,11 +190,6 @@ namespace Tasslehoff.Services
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void OnDispose(bool releaseManagedResources)
         {
-            if (this.log != null)
-            {
-                this.log.Dispose();
-                this.log = null;
-            }
         }
 
         /// <summary>

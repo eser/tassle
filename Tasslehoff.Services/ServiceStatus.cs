@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
 // <copyright file="ServiceStatus.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
