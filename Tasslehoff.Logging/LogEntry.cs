@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
 // <copyright file="LogEntry.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
-// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,6 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace Tasslehoff.Logging
 {
@@ -34,14 +31,14 @@ namespace Tasslehoff.Logging
         // fields
 
         /// <summary>
-        /// The thread from
-        /// </summary>
-        private readonly string threadFrom;
-
-        /// <summary>
         /// The application name
         /// </summary>
         private string application;
+
+        /// <summary>
+        /// The thread from
+        /// </summary>
+        private string threadFrom;
 
         /// <summary>
         /// The category
@@ -59,14 +56,19 @@ namespace Tasslehoff.Logging
         private string message;
 
         /// <summary>
+        /// The exception
+        /// </summary>
+        private Exception exception;
+
+        /// <summary>
         /// The log flags
         /// </summary>
         private LogFlags flags;
 
         /// <summary>
-        /// The level
+        /// The severity
         /// </summary>
-        private LogLevel level;
+        private LogLevel severity;
 
         // constructors
 
@@ -75,7 +77,6 @@ namespace Tasslehoff.Logging
         /// </summary>
         public LogEntry()
         {
-            this.threadFrom = Thread.CurrentThread.Name;
         }
 
         /// <summary>
@@ -93,6 +94,24 @@ namespace Tasslehoff.Logging
             set
             {
                 this.application = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the thread from.
+        /// </summary>
+        /// <value>
+        /// The thread from.
+        /// </value>
+        public string ThreadFrom
+        {
+            get
+            {
+                return this.threadFrom;
+            }
+            set
+            {
+                this.threadFrom = value;
             }
         }
 
@@ -151,6 +170,24 @@ namespace Tasslehoff.Logging
         }
 
         /// <summary>
+        /// Gets or sets the exception.
+        /// </summary>
+        /// <value>
+        /// The exception.
+        /// </value>
+        public Exception Exception
+        {
+            get
+            {
+                return this.exception;
+            }
+            set
+            {
+                this.exception = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating log flags.
         /// </summary>
         /// <value>
@@ -169,83 +206,21 @@ namespace Tasslehoff.Logging
         }
 
         /// <summary>
-        /// Gets the thread from.
+        /// Gets or sets the severity level.
         /// </summary>
         /// <value>
-        /// The thread from.
+        /// The severity level.
         /// </value>
-        public string ThreadFrom
+        public LogLevel Severity
         {
             get
             {
-                return this.threadFrom;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the level.
-        /// </summary>
-        /// <value>
-        /// The level.
-        /// </value>
-        public LogLevel Level
-        {
-            get
-            {
-                return this.level;
+                return this.severity;
             }
             set
             {
-                this.level = value;
+                this.severity = value;
             }
-        }
-
-        // methods
-
-        /// <summary>
-        /// Applies the format.
-        /// </summary>
-        /// <param name="input">The format</param>
-        /// <returns>Formatted message</returns>
-        public string ApplyFormat(string input)
-        {
-            return Regex.Replace(
-                input,
-                @"{([^:}]*)(:[^}]*)?}",
-                (match) =>
-                {
-                    string format;
-                    if (match.Groups.Count >= 2)
-                    {
-                        format = match.Groups[2].Value.TrimStart(':');
-                    }
-                    else
-                    {
-                        format = null;
-                    }
-                
-                    switch (match.Groups[1].Value)
-                    {
-                    case "application":
-                        return this.application ?? string.Empty;
-                    case "category":
-                        return this.category ?? string.Empty;
-                    case "level":
-                        return this.level.ToString();
-                    case "date":
-                    case "timestamp":
-                        if (format != null)
-                        {
-                            return this.date.ToString(format, CultureInfo.InvariantCulture);
-                        }
-
-                        return this.date.ToString(CultureInfo.InvariantCulture);
-                    case "message":
-                        return this.message;
-                    default:
-                        return match.Groups[0].Value;
-                    }
-                });
         }
     }
 }

@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
-// <copyright file="FileLogger.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
-// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
+// <copyright file="StreamLogger.cs" company="-">
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,19 @@
 using System.IO;
 using System.Text;
 
-namespace Tasslehoff.Logging
+namespace Tasslehoff.Logging.Loggers
 {
     /// <summary>
-    /// FileLogger class.
+    /// StreamLogger class.
     /// </summary>
-    public class FileLogger : Logger
+    public class StreamLogger
     {
         // fields
 
         /// <summary>
-        /// The output path
+        /// The output stream
         /// </summary>
-        private readonly string outputPath;
+        private readonly Stream outputStream;
 
         /// <summary>
         /// The output encoding
@@ -44,29 +44,29 @@ namespace Tasslehoff.Logging
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileLogger"/> class.
+        /// Initializes a new instance of the <see cref="StreamLogger"/> class.
         /// </summary>
-        /// <param name="path">The path</param>
+        /// <param name="output">The output</param>
         /// <param name="encoding">The encoding</param>
-        public FileLogger(string path, Encoding encoding = null) : base()
+        public StreamLogger(Stream output, Encoding encoding = null)
         {
-            this.outputPath = path;
+            this.outputStream = output;
             this.outputEncoding = encoding ?? Encoding.Default;
         }
 
         // properties
 
         /// <summary>
-        /// Gets the output path.
+        /// Gets the output stream.
         /// </summary>
         /// <value>
-        /// The output path.
+        /// The output stream.
         /// </value>
-        public string OutputPath
+        public Stream OutputStream
         {
             get
             {
-                return this.outputPath;
+                return this.outputStream;
             }
         }
 
@@ -91,17 +91,37 @@ namespace Tasslehoff.Logging
         // methods
 
         /// <summary>
-        /// Writes the log.
+        /// Attachs itself to the log system.
         /// </summary>
-        /// <param name="logEntry">The log entry</param>
-        /// <returns>
-        /// Is written or not.
-        /// </returns>
-        protected override bool WriteLog(LogEntry logEntry)
+        public void Attach()
         {
-            File.AppendAllText(this.outputPath, this.Format(logEntry), this.outputEncoding);
+            LoggerContext.Current.LogEntryPopped += this.OnLogEntryPopped;
+        }
 
-            return true;
+        /// <summary>
+        /// Detachs itself from the log system.
+        /// </summary>
+        public void Detach()
+        {
+            LoggerContext.Current.LogEntryPopped -= this.OnLogEntryPopped;
+        }
+
+        /// <summary>
+        /// Calls when an log entry popped
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="entry">The log entry</param>
+        private void OnLogEntryPopped(object sender, LogEntry entry)
+        {
+            var content = LoggerContext.Current.Formatter.Apply(entry);
+
+            var bytes = this.outputEncoding.GetBytes(content);
+            this.outputStream.Write(bytes, 0, bytes.Length);
+
+            if (entry.Flags.HasFlag(LogFlags.InstantFlush))
+            {
+                this.outputStream.Flush();
+            }
         }
     }
 }

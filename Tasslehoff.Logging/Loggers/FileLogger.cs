@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
-// <copyright file="StreamLogger.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
-// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
+// <copyright file="FileLogger.cs" company="-">
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,19 @@
 using System.IO;
 using System.Text;
 
-namespace Tasslehoff.Logging
+namespace Tasslehoff.Logging.Loggers
 {
     /// <summary>
-    /// StreamLogger class.
+    /// FileLogger class.
     /// </summary>
-    public class StreamLogger : Logger
+    public class FileLogger
     {
         // fields
 
         /// <summary>
-        /// The output stream
+        /// The output path
         /// </summary>
-        private readonly Stream outputStream;
+        private readonly string outputPath;
 
         /// <summary>
         /// The output encoding
@@ -44,29 +44,29 @@ namespace Tasslehoff.Logging
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StreamLogger"/> class.
+        /// Initializes a new instance of the <see cref="FileLogger"/> class.
         /// </summary>
-        /// <param name="output">The output</param>
+        /// <param name="path">The path</param>
         /// <param name="encoding">The encoding</param>
-        public StreamLogger(Stream output, Encoding encoding = null) : base()
+        public FileLogger(string path, Encoding encoding = null)
         {
-            this.outputStream = output;
+            this.outputPath = path;
             this.outputEncoding = encoding ?? Encoding.Default;
         }
 
         // properties
 
         /// <summary>
-        /// Gets the output stream.
+        /// Gets the output path.
         /// </summary>
         /// <value>
-        /// The output stream.
+        /// The output path.
         /// </value>
-        public Stream OutputStream
+        public string OutputPath
         {
             get
             {
-                return this.outputStream;
+                return this.outputPath;
             }
         }
 
@@ -91,23 +91,31 @@ namespace Tasslehoff.Logging
         // methods
 
         /// <summary>
-        /// Writes the log.
+        /// Attachs itself to the log system.
         /// </summary>
-        /// <param name="logEntry">The log entry</param>
-        /// <returns>
-        /// Is written or not.
-        /// </returns>
-        protected override bool WriteLog(LogEntry logEntry)
+        public void Attach()
         {
-            byte[] bytes = this.outputEncoding.GetBytes(this.Format(logEntry));
-            this.outputStream.Write(bytes, 0, bytes.Length);
+            LoggerContext.Current.LogEntryPopped += this.OnLogEntryPopped;
+        }
 
-            if (logEntry.Flags.HasFlag(LogFlags.InstantFlush))
-            {
-                this.outputStream.Flush();
-            }
+        /// <summary>
+        /// Detachs itself from the log system.
+        /// </summary>
+        public void Detach()
+        {
+            LoggerContext.Current.LogEntryPopped -= this.OnLogEntryPopped;
+        }
 
-            return true;
+        /// <summary>
+        /// Calls when an log entry popped
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="entry">The log entry</param>
+        private void OnLogEntryPopped(object sender, LogEntry entry)
+        {
+            var content = LoggerContext.Current.Formatter.Apply(entry);
+
+            File.AppendAllText(this.outputPath, content, this.outputEncoding);
         }
     }
 }

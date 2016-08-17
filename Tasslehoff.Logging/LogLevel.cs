@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
 // <copyright file="LogLevel.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
-// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -32,22 +32,10 @@ namespace Tasslehoff.Logging
     public enum LogLevel
     {
         /// <summary>
-        /// The emergency
+        /// The fatal
         /// </summary>
         [EnumMember]
-        Emergency,
-
-        /// <summary>
-        /// The alert
-        /// </summary>
-        [EnumMember]
-        Alert,
-
-        /// <summary>
-        /// The critical
-        /// </summary>
-        [EnumMember]
-        Critical,
+        Fatal,
 
         /// <summary>
         /// The error
@@ -60,12 +48,6 @@ namespace Tasslehoff.Logging
         /// </summary>
         [EnumMember]
         Warning,
-
-        /// <summary>
-        /// The notice
-        /// </summary>
-        [EnumMember]
-        Notice,
 
         /// <summary>
         /// The info

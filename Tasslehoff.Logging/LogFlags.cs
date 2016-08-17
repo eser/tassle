@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------
 // <copyright file="LogFlags.cs" company="-">
-// Copyright (c) 2008-2015 Eser Ozvataf (eser@sent.com). All rights reserved.
-// Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
+// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
-// <author>Eser Ozvataf (eser@sent.com)</author>
+// <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
 //// This program is free software: you can redistribute it and/or modify
@@ -20,40 +20,33 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Runtime.Serialization;
 
 namespace Tasslehoff.Logging
 {
     /// <summary>
     /// LogFlags enum
     /// </summary>
-    [Serializable]
-    [DataContract]
     [Flags]
     public enum LogFlags
     {
         /// <summary>
         /// The none
         /// </summary>
-        [EnumMember]
         None,
 
         /// <summary>
         /// The direct
         /// </summary>
-        [EnumMember]
         Direct,
 
         /// <summary>
         /// The no newline
         /// </summary>
-        [EnumMember]
         NoNewLine,
 
         /// <summary>
         /// The instant flush
         /// </summary>
-        [EnumMember]
         InstantFlush
     }
 }
