@@ -65,6 +65,11 @@ namespace Tasslehoff.Telnet
         private int nextThreadId;
 
         /// <summary>
+        /// Is running
+        /// </summary>
+        private bool isRunning;
+
+        /// <summary>
         /// The encoding
         /// </summary>
         private Encoding encoding;
@@ -96,6 +101,7 @@ namespace Tasslehoff.Telnet
             this.bindEndpoint = bindEndpoint;
             this.threads = new Dictionary<int, TelnetThread>();
             this.nextThreadId = 0;
+            this.isRunning = false;
             this.encoding = Encoding.ASCII;
         }
 
@@ -134,6 +140,20 @@ namespace Tasslehoff.Telnet
             set
             {
                 this.threads = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets is running
+        /// </summary>
+        /// <value>
+        /// Is running
+        /// </value>
+        public bool IsRunning
+        {
+            get
+            {
+                return this.isRunning;
             }
         }
 
@@ -261,6 +281,8 @@ namespace Tasslehoff.Telnet
             var tcpListener = new TcpListener(bindEndpoint);
             tcpListener.Start();
 
+            this.isRunning = true;
+
             while (!this.listenerThreadCancelled)
             {
                 var tcpClient = tcpListener.AcceptTcpClient();
@@ -279,6 +301,7 @@ namespace Tasslehoff.Telnet
             }
 
             tcpListener.Stop();
+            this.isRunning = false;
         }
     }
 }
