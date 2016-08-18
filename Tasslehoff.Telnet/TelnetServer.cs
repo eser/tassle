@@ -19,7 +19,6 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -72,10 +71,19 @@ namespace Tasslehoff.Telnet
 
         // events
 
+        /// <summary>
+        /// Occurs when [message received].
+        /// </summary>
         public event MessageReceivedDelegate MessageReceived;
 
+        /// <summary>
+        /// Occurs when [client connected].
+        /// </summary>
         public event ClientConnected ClientConnected;
 
+        /// <summary>
+        /// Occurs when [client disconnected].
+        /// </summary>
         public event ClientDisconnected ClientDisconnected;
 
         // constructors
@@ -86,7 +94,9 @@ namespace Tasslehoff.Telnet
         public TelnetServer(IPEndPoint bindEndpoint)
         {
             this.bindEndpoint = bindEndpoint;
+            this.threads = new Dictionary<int, TelnetThread>();
             this.nextThreadId = 0;
+            this.encoding = Encoding.ASCII;
         }
 
         // properties
@@ -147,6 +157,9 @@ namespace Tasslehoff.Telnet
 
         // methods
 
+        /// <summary>
+        /// Starts the server.
+        /// </summary>
         public void Start()
         {
             this.listenerThread = new Thread(this.ListenerThreadMain);
@@ -154,6 +167,9 @@ namespace Tasslehoff.Telnet
             this.listenerThread.Start();
         }
 
+        /// <summary>
+        /// Stops the server.
+        /// </summary>
         public void Stop()
         {
             this.listenerThreadCancelled = true;
@@ -166,32 +182,10 @@ namespace Tasslehoff.Telnet
             // this.listenerThread.Interrupt();
         }
 
-        internal void OnClientMessageReceived(int threadId, string message)
-        {
-            if (this.MessageReceived != null)
-            {
-                this.MessageReceived(threadId, message);
-            }
-        }
-
-        internal void OnClientConnected(int threadId)
-        {
-            if (this.ClientConnected != null)
-            {
-                this.ClientConnected(threadId);
-            }
-        }
-
-        internal void OnClientDisconnected(int threadId)
-        {
-            this.Threads.Remove(threadId);
-
-            if (this.ClientDisconnected != null)
-            {
-                this.ClientDisconnected(threadId);
-            }
-        }
-
+        /// <summary>
+        /// Broadcasts a message.
+        /// </summary>
+        /// <param name="message">Message content</param>
         public void BroadcastMessage(string message)
         {
             foreach (var telnetThread in this.Threads.Values)
@@ -200,6 +194,12 @@ namespace Tasslehoff.Telnet
             }
         }
 
+        /// <summary>
+        /// Sends a message to specific client.
+        /// </summary>
+        /// <param name="threadId">Thread id</param>
+        /// <param name="message">Message content</param>
+        /// <returns>Is message is delivered or not</returns>
         public bool SendMessage(int threadId, string message)
         {
             if (!this.Threads.ContainsKey(threadId))
@@ -214,6 +214,48 @@ namespace Tasslehoff.Telnet
             return true;
         }
 
+        /// <summary>
+        /// OnClientMessageReceived
+        /// </summary>
+        /// <param name="threadId">Thread id</param>
+        /// <param name="message">Message content</param>
+        internal void OnClientMessageReceived(int threadId, string message)
+        {
+            if (this.MessageReceived != null)
+            {
+                this.MessageReceived(threadId, message);
+            }
+        }
+
+        /// <summary>
+        /// OnClientConnected
+        /// </summary>
+        /// <param name="threadId">Thread id</param>
+        internal void OnClientConnected(int threadId)
+        {
+            if (this.ClientConnected != null)
+            {
+                this.ClientConnected(threadId);
+            }
+        }
+
+        /// <summary>
+        /// OnClientDisconnected
+        /// </summary>
+        /// <param name="threadId">Thread id</param>
+        internal void OnClientDisconnected(int threadId)
+        {
+            this.Threads.Remove(threadId);
+
+            if (this.ClientDisconnected != null)
+            {
+                this.ClientDisconnected(threadId);
+            }
+        }
+
+        /// <summary>
+        /// Main loop for listener thread
+        /// </summary>
         private void ListenerThreadMain()
         {
             var tcpListener = new TcpListener(bindEndpoint);

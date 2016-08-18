@@ -206,7 +206,7 @@ namespace Tasslehoff.Logging
                                 break;
                         }
 
-                        if (!formatUsed && format != null)
+                        if (!formatUsed && !string.IsNullOrEmpty(format))
                         {
                             return text.PadRight(int.Parse(format));
                         }

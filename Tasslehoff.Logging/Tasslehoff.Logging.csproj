@@ -42,7 +42,9 @@
     <Compile Include="LogFormatter.cs" />
     <Compile Include="LoggerContext.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Loggers\EventLogLogger.cs" />
+    <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LogFlags.cs" />

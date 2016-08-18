@@ -78,7 +78,7 @@ namespace Tasslehoff.Logging
         /// </summary>
         internal LoggerContext()
         {
-            var assemblyName = Assembly.GetExecutingAssembly().GetName();
+            var assemblyName = Assembly.GetEntryAssembly().GetName();
 
             this.application = assemblyName.Name;
 
