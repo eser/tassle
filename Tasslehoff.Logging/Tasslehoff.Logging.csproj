@@ -36,11 +36,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LogEntry.cs" />
@@ -52,12 +47,6 @@
     <Compile Include="LogFlags.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Loggers\StreamLogger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tasslehoff.Common\Tasslehoff.Common.csproj">
-      <Project>{a1c1f575-2008-4be1-9db7-0ad91acb7e5e}</Project>
-      <Name>Tasslehoff.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
