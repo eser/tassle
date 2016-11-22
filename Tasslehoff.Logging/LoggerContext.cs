@@ -20,6 +20,7 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -78,9 +79,16 @@ namespace Tasslehoff.Logging
         /// </summary>
         internal LoggerContext()
         {
-            var assemblyName = Assembly.GetEntryAssembly().GetName();
+            // var assemblyName = Assembly.GetEntryAssembly().GetName();
+            var stackTrace = new StackTrace();
+            
+            var stackTraceFrames = stackTrace.GetFrames();
 
-            this.application = assemblyName.Name;
+            var lastStackTraceFrame = stackTraceFrames[stackTraceFrames.Length - 1];
+
+            var assembly = lastStackTraceFrame.GetMethod().Module.Assembly;
+
+            this.application = assembly.GetName().Name;
 
             this.formatter = new LogFormatter();
         }

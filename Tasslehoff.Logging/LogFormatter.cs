@@ -125,8 +125,9 @@ namespace Tasslehoff.Logging
         /// </summary>
         /// <param name="input">The format string</param>
         /// <param name="entry">The log entry</param>
+        /// <param name="forceNoNewLine">Force no new line</param>
         /// <returns>Formatted message</returns>
-        public string ApplyCustom(string input, LogEntry entry)
+        public string ApplyCustom(string input, LogEntry entry, bool forceNoNewLine = false)
         {
             string formatted;
 
@@ -219,7 +220,7 @@ namespace Tasslehoff.Logging
             var newNewLine = Environment.NewLine + "-- ";
             output.Append(formatted.Replace(Environment.NewLine, newNewLine));
 
-            if (!entry.Flags.HasFlag(LogFlags.NoNewLine))
+            if (!forceNoNewLine && !entry.Flags.HasFlag(LogFlags.NoNewLine))
             {
                 output.Append(Environment.NewLine);
             }

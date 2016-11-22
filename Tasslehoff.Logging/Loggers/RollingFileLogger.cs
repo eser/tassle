@@ -21,6 +21,7 @@
 
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Tasslehoff.Logging.Loggers
 {
@@ -41,6 +42,11 @@ namespace Tasslehoff.Logging.Loggers
         /// </summary>
         private Encoding outputEncoding;
 
+        /// <summary>
+        /// The wait handle
+        /// </summary>
+        private readonly EventWaitHandle waitHandle;
+
         // constructors
 
         /// <summary>
@@ -52,6 +58,7 @@ namespace Tasslehoff.Logging.Loggers
         {
             this.outputPath = path;
             this.outputEncoding = encoding ?? Encoding.Default;
+            this.waitHandle = new EventWaitHandle(true, EventResetMode.AutoReset, path.GetHashCode().ToString());
         }
 
         // properties
@@ -113,10 +120,25 @@ namespace Tasslehoff.Logging.Loggers
         /// <param name="entry">The log entry</param>
         private void OnLogEntryPopped(object sender, LogEntry entry)
         {
-            var filepath = LoggerContext.Current.Formatter.ApplyCustom(this.outputPath, entry);
+            var filepath = LoggerContext.Current.Formatter.ApplyCustom(this.outputPath, entry, true);
             var content = LoggerContext.Current.Formatter.Apply(entry);
 
-            File.AppendAllText(filepath, content, this.outputEncoding);
+            try
+            {
+                this.waitHandle.WaitOne();
+
+                using (var fs = File.Open(filepath, FileMode.Append, FileAccess.Write, FileShare.None))
+                {
+                    var bytes = this.outputEncoding.GetBytes(content);
+                    fs.Write(bytes, 0, bytes.Length);
+
+                    fs.Close();
+                }
+            }
+            finally
+            {
+                this.waitHandle.Set();
+            }
         }
     }
 }
