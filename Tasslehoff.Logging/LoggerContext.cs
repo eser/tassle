@@ -246,9 +246,9 @@ namespace Tasslehoff.Logging
         /// </summary>
         /// <param name="entry">The log entry</param>
         /// <returns>Is written or not</returns>
-        public async Task<bool> WriteAsync(LogEntry entry)
+        public Task<bool> WriteAsync(LogEntry entry)
         {
-            return await Task.Run<bool>(
+            return Task.Factory.StartNew<bool>(
                 () => this.Write(entry));
         }
 

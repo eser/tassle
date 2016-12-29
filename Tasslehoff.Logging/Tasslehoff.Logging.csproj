@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tasslehoff.Logging</RootNamespace>
     <AssemblyName>Tasslehoff.Logging</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -38,6 +38,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventHandler{T}.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="LogFormatter.cs" />
     <Compile Include="LoggerContext.cs" />
