@@ -197,8 +197,6 @@ namespace Tassle.Tasks
         /// </summary>
         protected override void ServiceStart()
         {
-            // FIXME HostingEnvironment.RegisterObject(this);
-
             this.timer = new Timer(this.TimerCallback, null, Timeout.Infinite, 1000);
         }
 
@@ -214,8 +212,6 @@ namespace Tassle.Tasks
 
             this.timer.Dispose();
             this.timer = null;
-
-            // FIXME HostingEnvironment.UnregisterObject(this);
         }
 
         /// <summary>
@@ -224,7 +220,7 @@ namespace Tassle.Tasks
         /// <param name="state">Object state</param>
         private void TimerCallback(object state)
         {
-            this.Now = DateTime.UtcNow;
+            this.Now = DateTimeOffset.UtcNow;
 
             foreach (KeyValuePair<string, TaskItem> pair in this.Items)
             {
