@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Helpers", "Standard\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Telnet", "Standard\Tassle.Telnet\Tassle.Telnet.csproj", "{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Logging.Telnet", "Standard\Tassle.Logging.Telnet\Tassle.Logging.Telnet.csproj", "{2EFB7777-12DB-4CBF-804D-56431ABED92E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -360,6 +362,24 @@ Global
 		{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}.Release|x64.Build.0 = Release|x64
 		{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}.Release|x86.ActiveCfg = Release|x86
 		{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}.Release|x86.Build.0 = Release|x86
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Debug|x64.ActiveCfg = Debug|x64
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Debug|x64.Build.0 = Debug|x64
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Debug|x86.ActiveCfg = Debug|x86
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Debug|x86.Build.0 = Debug|x86
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Publish|Any CPU.Build.0 = Debug|Any CPU
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Publish|x64.ActiveCfg = Release|x64
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Publish|x64.Build.0 = Release|x64
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Publish|x86.ActiveCfg = Release|x86
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Publish|x86.Build.0 = Release|x86
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Release|x64.ActiveCfg = Release|x64
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Release|x64.Build.0 = Release|x64
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Release|x86.ActiveCfg = Release|x86
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -382,6 +402,7 @@ Global
 		{D1A9670C-B6B9-4BBB-A45F-4DFF562F78D9} = {64A89E07-9E3D-4843-9119-D627615D25BD}
 		{D237CEA4-104A-48FD-859F-8072BBBE4267} = {64A89E07-9E3D-4843-9119-D627615D25BD}
 		{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1} = {64A89E07-9E3D-4843-9119-D627615D25BD}
+		{2EFB7777-12DB-4CBF-804D-56431ABED92E} = {64A89E07-9E3D-4843-9119-D627615D25BD}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Tasslehoff.CommandLine\Tasslehoff.CommandLine.csproj

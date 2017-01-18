@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="-">
-// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
@@ -43,7 +43,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Tasslehoff")]
-[assembly: AssemblyCopyright("(c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.")]
+[assembly: AssemblyCopyright("(c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

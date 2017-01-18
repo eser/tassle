@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------
 // <copyright file="TasslehoffConsumer.cs" company="-">
-// Copyright (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+// Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/larukedi
 // </copyright>
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
@@ -202,7 +202,7 @@ namespace Tasslehoff
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(this.Configuration.Culture);
             }
 
-            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.7  (c) 2008-2016 Eser Ozvataf (eser@ozvataf.com). All rights reserved.");
+            this.Log.Write(LogLevel.Info, "Tasslehoff 0.9.7  (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.");
             this.Log.Write(LogLevel.Info, "This program is free software under the terms of the GPL v3 or later.");
             this.Log.Write(LogLevel.Info, string.Empty);
 
