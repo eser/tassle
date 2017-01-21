@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ClientConnected.cs" company="-">
+// <copyright file="TaskInterface.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,7 +19,17 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tassle.Telnet
-{
-    public delegate void ClientConnected(int threadId);
+namespace Tassle.Tasks {
+    /// <summary>
+    /// TaskInterface interface.
+    /// </summary>
+    public interface TaskInterface {
+        // methods
+
+        /// <summary>
+        /// Does the task.
+        /// </summary>
+        /// <param name="parameters">The parameters</param>
+        void Do(TaskActionParameters parameters);
+    }
 }

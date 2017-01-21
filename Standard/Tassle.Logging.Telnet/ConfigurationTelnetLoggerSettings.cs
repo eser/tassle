@@ -23,30 +23,34 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Net;
 
-namespace Tassle.Logging.Telnet
-{
-    public class ConfigurationTelnetLoggerSettings : TelnetLoggerSettingsInterface
-    {
+namespace Tassle.Logging.Telnet {
+    public class ConfigurationTelnetLoggerSettings : TelnetLoggerSettingsInterface {
+        // fields
+
         private readonly IConfiguration _configuration;
+        private IChangeToken _changeToken;
+
+        // constructors
 
         public ConfigurationTelnetLoggerSettings(IConfiguration configuration) {
             this._configuration = configuration;
 
-            this.ChangeToken = configuration.GetReloadToken();
+            this._changeToken = configuration.GetReloadToken();
         }
 
-        public IChangeToken ChangeToken { get; private set; }
+        // properties
 
-        public bool IncludeScopes
-        {
+        public bool IncludeScopes {
             get {
-                bool includeScopes;
                 var value = this._configuration["IncludeScopes"];
 
                 if (string.IsNullOrEmpty(value)) {
                     return false;
                 }
+
+                bool includeScopes;
 
                 if (bool.TryParse(value, out includeScopes)) {
                     return includeScopes;
@@ -57,8 +61,41 @@ namespace Tassle.Logging.Telnet
             }
         }
 
+        public IPEndPoint BindEndpoint {
+            get {
+                var value = this._configuration["BindEndpoint"];
+
+                if (string.IsNullOrEmpty(value)) {
+                    return null;
+                }
+
+                IPEndPoint bindEndpoint;
+
+                try {
+                    var bindEndpointParts = value.Split(new char[] { ':' }, 2, StringSplitOptions.None);
+
+                    var bindEndpointHost = IPAddress.Parse(bindEndpointParts[0]);
+                    var bindEndpointPort = int.Parse(bindEndpointParts[1]);
+
+                    bindEndpoint = new IPEndPoint(bindEndpointHost, bindEndpointPort);
+                }
+                catch (Exception ex) {
+                    var message = $"Configuration value '{value}' for setting '{nameof(IncludeScopes)}' is not supported.";
+                    throw new InvalidOperationException(message, ex);
+                }
+
+                return bindEndpoint;
+            }
+        }
+
+        public IChangeToken ChangeToken {
+            get => this._changeToken;
+        }
+
+        // methods
+
         public TelnetLoggerSettingsInterface Reload() {
-            this.ChangeToken = null;
+            this._changeToken = null;
 
             return new ConfigurationTelnetLoggerSettings(this._configuration);
         }

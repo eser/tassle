@@ -25,28 +25,25 @@ using System.Globalization;
 using Microsoft.Extensions.Logging;
 using Tassle.Helpers;
 
-namespace Tassle.Services
-{
+namespace Tassle.Services {
     /// <summary>
     /// ServiceContainer class.
     /// </summary>
-    public abstract class ServiceContainer : ServiceControllable
-    {
+    public abstract class ServiceContainer : ControllableService, ServiceContainerInterface {
         // fields
 
         /// <summary>
         /// The children
         /// </summary>
-        private readonly ICollection<ServiceInterface> children;
+        private readonly ICollection<ServiceInterface> _children;
 
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceContainer"/> class.
         /// </summary>
-        protected ServiceContainer(ILoggerFactory loggerFactory) : base(loggerFactory)
-        {
-            this.children = new List<ServiceInterface>();
+        protected ServiceContainer(ILoggerFactory loggerFactory) : base(loggerFactory) {
+            this._children = new List<ServiceInterface>();
         }
 
         // events
@@ -54,7 +51,7 @@ namespace Tassle.Services
         /// <summary>
         /// Occurs when [on start with children].
         /// </summary>
-        public event EventHandler OnStartWithChildren;
+        public event EventHandler<ServiceStatusChangedEventArgs> StartedWithChildren;
 
         // properties
 
@@ -64,12 +61,8 @@ namespace Tassle.Services
         /// <value>
         /// The children.
         /// </value>
-        public ICollection<ServiceInterface> Children
-        {
-            get
-            {
-                return this.children;
-            }
+        public ICollection<ServiceInterface> Children {
+            get => this._children;
         }
 
         // methods
@@ -78,11 +71,9 @@ namespace Tassle.Services
         /// Adds the child.
         /// </summary>
         /// <param name="services">The services</param>
-        public void AddChild(params ServiceInterface[] services)
-        {
-            foreach (ServiceInterface service in services)
-            {
-                this.children.Add(service);
+        public void AddChild(params ServiceInterface[] services) {
+            foreach (var service in services) {
+                this._children.Add(service);
             }
         }
 
@@ -91,34 +82,28 @@ namespace Tassle.Services
         /// </summary>
         /// <param name="path">Path of the service</param>
         /// <returns>A service instance</returns>
-        public ServiceInterface FindByPath(string path)
-        {
-            Queue<string> parts = new Queue<string>(
+        public ServiceInterface FindByPath(string path) {
+            var parts = new Queue<string>(
                 path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries)
             );
 
             ServiceInterface current = this;
-            while (parts.Count > 0)
-            {
+            while (parts.Count > 0) {
                 string part = parts.Dequeue();
 
-                ServiceContainer currentAsContainer = current as ServiceContainer;
-                bool found = false;
+                var currentAsContainer = current as ServiceContainer;
+                var found = false;
 
-                if (currentAsContainer != null)
-                {
-                    foreach (ServiceInterface service in currentAsContainer.Children)
-                    {
-                        if (service.Name == path)
-                        {
+                if (currentAsContainer != null) {
+                    foreach (ServiceInterface service in currentAsContainer.Children) {
+                        if (service.Name == path) {
                             current = service;
                             found = true;
                         }
                     }
                 }
 
-                if (!found)
-                {
+                if (!found) {
                     return null;
                 }
             }
@@ -132,8 +117,7 @@ namespace Tassle.Services
         /// <typeparam name="T">A type</typeparam>
         /// <param name="path">Path of the service</param>
         /// <returns>A service instance</returns>
-        public T FindByPath<T>(string path) where T : class
-        {
+        public T FindByPath<T>(string path) where T : class {
             return this.FindByPath(path) as T;
         }
 
@@ -143,25 +127,20 @@ namespace Tassle.Services
         /// <typeparam name="T"></typeparam>
         /// <param name="recursive">if set to <c>true</c> [recursive].</param>
         /// <returns>Service if found</returns>
-        public T Find<T>(bool recursive) where T : class, ServiceInterface
-        {
+        public T Find<T>(bool recursive) where T : class, ServiceInterface {
             T result;
 
-            foreach (ServiceInterface service in this.Children)
-            {
+            foreach (var service in this.Children) {
                 result = service as T;
-                if (result != null)
-                {
+
+                if (result != null) {
                     return result;
                 }
 
-                if (recursive)
-                {
-                    ServiceContainer serviceAsContainer = service as ServiceContainer;
-                    if (serviceAsContainer != null)
-                    {
-                        return serviceAsContainer.Find<T>(true);
-                    }
+                if (recursive) {
+                    var serviceAsContainer = service as ServiceContainer;
+
+                    return serviceAsContainer?.Find<T>(true);
                 }
             }
 
@@ -171,34 +150,25 @@ namespace Tassle.Services
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public override void Start()
-        {
-            try
-            {
-                if (this.Status == ServiceStatus.Running)
-                {
+        public override void Start() {
+            try {
+                if (this.Status == ServiceStatus.Running) {
                     return;
                 }
-                
+
+                ServiceStatus previousState = this.Status;
+
                 base.Start();
 
-                foreach (Service child in this.children)
-                {
-                    ServiceControllable controllableChild = child as ServiceControllable;
+                foreach (var child in this._children) {
+                    var controllableChild = child as ControllableService;
 
-                    if (controllableChild != null)
-                    {
-                        controllableChild.Start();
-                    }
+                    controllableChild?.Start();
                 }
 
-                if (this.OnStartWithChildren != null)
-                {
-                    this.OnStartWithChildren(this, null);
-                }
+                this.StartedWithChildren?.Invoke(this, new ServiceStatusChangedEventArgs(previousState, ServiceStatus.Running));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 this.Logger.LogError(string.Format(CultureInfo.InvariantCulture, LocalResource.AnErrorOccurredWhileStartingService, this.Name), ex);
                 throw;
             }
@@ -207,33 +177,25 @@ namespace Tassle.Services
         /// <summary>
         /// Stops this instance.
         /// </summary>
-        public override void Stop()
-        {
-            try
-            {
-                if (this.Status != ServiceStatus.Running)
-                {
+        public override void Stop() {
+            try {
+                if (this.Status != ServiceStatus.Running) {
                     return;
                 }
 
                 // stop children
-                ServiceInterface[] childServices = ArrayHelpers.GetArray<ServiceInterface>(this.children);
+                var childServices = ArrayHelpers.GetArray<ServiceInterface>(this._children);
                 Array.Reverse(childServices);
 
-                foreach (ServiceInterface child in childServices)
-                {
-                    ServiceControllable controllableChild = child as ServiceControllable;
+                foreach (var child in childServices) {
+                    var controllableChild = child as ControllableService;
 
-                    if (controllableChild != null)
-                    {
-                        controllableChild.Stop();
-                    }
+                    controllableChild?.Stop();
                 }
 
                 base.Stop();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 this.Logger.LogError(string.Format(CultureInfo.InvariantCulture, LocalResource.AnErrorOccurredWhileStoppingService, this.Name), ex);
                 throw;
             }
@@ -243,18 +205,14 @@ namespace Tassle.Services
         /// Called when [dispose].
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        protected override void OnDispose(bool releaseManagedResources)
-        {
-            ServiceInterface[] childServices = ArrayHelpers.GetArray<ServiceInterface>(this.children);
+        protected override void OnDispose(bool releaseManagedResources) {
+            var childServices = ArrayHelpers.GetArray<ServiceInterface>(this._children);
             Array.Reverse(childServices);
 
-            foreach (ServiceInterface child in childServices)
-            {
-                IDisposable disposableChild = child as IDisposable;
-                if (disposableChild != null)
-                {
-                    disposableChild.Dispose();
-                }
+            foreach (var child in childServices) {
+                var disposableChild = child as IDisposable;
+
+                disposableChild?.Dispose();
             }
 
             base.OnDispose(releaseManagedResources);

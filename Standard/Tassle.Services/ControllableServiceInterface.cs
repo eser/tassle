@@ -21,24 +21,22 @@
 
 using System;
 
-namespace Tassle.Services
-{
+namespace Tassle.Services {
     /// <summary>
     /// ControllableServiceInterface interface.
     /// </summary>
-    public interface ControllableServiceInterface : ServiceInterface
-    {
+    public interface ControllableServiceInterface : ServiceInterface {
         // events
 
         /// <summary>
-        /// Occurs when [on start].
+        /// Occurs when [started].
         /// </summary>
-        event EventHandler<ServiceStatusChangedEventArgs> OnStart;
+        event EventHandler<ServiceStatusChangedEventArgs> Started;
 
         /// <summary>
-        /// Occurs when [on stop].
+        /// Occurs when [stopped].
         /// </summary>
-        event EventHandler<ServiceStatusChangedEventArgs> OnStop;
+        event EventHandler<ServiceStatusChangedEventArgs> Stopped;
 
         // methods
 

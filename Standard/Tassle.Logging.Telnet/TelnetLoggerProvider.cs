@@ -25,14 +25,15 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tassle.Logging.Telnet
-{
-    public class TelnetLoggerProvider : ILoggerProvider
-    {
+namespace Tassle.Logging.Telnet {
+    public class TelnetLoggerProvider : ILoggerProvider {
+        // fields
         private readonly ConcurrentDictionary<string, TelnetLogger> _loggers = new ConcurrentDictionary<string, TelnetLogger>();
 
         private readonly Func<string, LogLevel, bool> _filter;
         private TelnetLoggerSettingsInterface _settings;
+
+        // constructors
 
         public TelnetLoggerProvider(Func<string, LogLevel, bool> filter, bool includeScopes) {
             if (filter == null) {
@@ -56,6 +57,8 @@ namespace Tassle.Logging.Telnet
                 this._settings.ChangeToken.RegisterChangeCallback(this.OnConfigurationReload, null);
             }
         }
+
+        // methods
 
         private void OnConfigurationReload(object state) {
             // The settings object needs to change here, because the old one is probably holding on
@@ -89,6 +92,7 @@ namespace Tassle.Logging.Telnet
             if (settings != null) {
                 foreach (var prefix in GetKeyPrefixes(name)) {
                     LogLevel level;
+
                     if (settings.TryGetSwitch(prefix, out level)) {
                         return (n, l) => l >= level;
                     }
@@ -107,6 +111,7 @@ namespace Tassle.Logging.Telnet
                     yield return "Default";
                     break;
                 }
+
                 name = name.Substring(0, lastIndexOfDot);
             }
         }

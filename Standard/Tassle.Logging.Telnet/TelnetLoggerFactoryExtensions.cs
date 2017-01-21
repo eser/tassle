@@ -23,15 +23,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Tassle.Logging.Telnet
-{
-    public static class TelnetLoggerFactoryExtensions
-    {
+namespace Tassle.Logging.Telnet {
+    public static class TelnetLoggerFactoryExtensions {
+        // methods
+
         /// <summary>
         /// Adds a telnet logger that is enabled for <see cref="LogLevel"/>.Information or higher.
         /// </summary>
-        public static ILoggerFactory AddTelnet(this ILoggerFactory factory)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory) {
             return factory.AddTelnet(includeScopes: false);
         }
 
@@ -41,8 +40,7 @@ namespace Tassle.Logging.Telnet
         /// <param name="factory"></param>
         /// <param name="includeScopes">A value which indicates whether log scope information should be displayed
         /// in the output.</param>
-        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, bool includeScopes)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, bool includeScopes) {
             factory.AddTelnet((n, l) => l >= LogLevel.Information, includeScopes);
             return factory;
         }
@@ -52,8 +50,7 @@ namespace Tassle.Logging.Telnet
         /// </summary>
         /// <param name="factory">The <see cref="ILoggerFactory"/> to use.</param>
         /// <param name="minLevel">The minimum <see cref="LogLevel"/> to be logged</param>
-        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, LogLevel minLevel)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, LogLevel minLevel) {
             factory.AddTelnet(minLevel, includeScopes: false);
             return factory;
         }
@@ -65,12 +62,9 @@ namespace Tassle.Logging.Telnet
         /// <param name="minLevel">The minimum <see cref="LogLevel"/> to be logged</param>
         /// <param name="includeScopes">A value which indicates whether log scope information should be displayed
         /// in the output.</param>
-        public static ILoggerFactory AddTelnet(
-            this ILoggerFactory factory,
-            LogLevel minLevel,
-            bool includeScopes)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, LogLevel minLevel, bool includeScopes) {
             factory.AddTelnet((category, logLevel) => logLevel >= minLevel, includeScopes);
+
             return factory;
         }
 
@@ -81,8 +75,7 @@ namespace Tassle.Logging.Telnet
         /// <param name="filter"></param>
         public static ILoggerFactory AddTelnet(
             this ILoggerFactory factory,
-            Func<string, LogLevel, bool> filter)
-        {
+            Func<string, LogLevel, bool> filter) {
             factory.AddTelnet(filter, includeScopes: false);
             return factory;
         }
@@ -94,26 +87,21 @@ namespace Tassle.Logging.Telnet
         /// <param name="filter"></param>
         /// <param name="includeScopes">A value which indicates whether log scope information should be displayed
         /// in the output.</param>
-        public static ILoggerFactory AddTelnet(
-            this ILoggerFactory factory,
-            Func<string, LogLevel, bool> filter,
-            bool includeScopes)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, Func<string, LogLevel, bool> filter, bool includeScopes) {
             factory.AddProvider(new TelnetLoggerProvider(filter, includeScopes));
+
             return factory;
         }
 
-        public static ILoggerFactory AddTelnet(
-            this ILoggerFactory factory,
-            TelnetLoggerSettingsInterface settings)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, TelnetLoggerSettingsInterface settings) {
             factory.AddProvider(new TelnetLoggerProvider(settings));
+
             return factory;
         }
 
-        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, IConfiguration configuration)
-        {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, IConfiguration configuration) {
             var settings = new ConfigurationTelnetLoggerSettings(configuration);
+
             return factory.AddTelnet(settings);
         }
     }

@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ITask.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="ClientConnectedEventArgs.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,19 +19,40 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tassle.Tasks
-{
+using System;
+
+namespace Tassle.Telnet {
     /// <summary>
-    /// ITask interface.
+    /// ClientConnectedEventArgs class.
     /// </summary>
-    public interface ITask
-    {
-        // methods
+    public class ClientConnectedEventArgs : EventArgs {
+        // fields
 
         /// <summary>
-        /// Does the task.
+        /// The thread id
         /// </summary>
-        /// <param name="parameters">The parameters</param>
-        void Do(TaskActionParameters parameters);
+        private readonly int _threadId;
+
+        // constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientConnectedEventArgs"/> class.
+        /// </summary>
+        /// <param name="threadId">The thread id</param>
+        public ClientConnectedEventArgs(int threadId) {
+            this._threadId = threadId;
+        }
+
+        // properties
+
+        /// <summary>
+        /// Gets the thread id
+        /// </summary>
+        /// <value>
+        /// The thread id
+        /// </value>
+        public int ThreadId {
+            get => this._threadId;
+        }
     }
 }

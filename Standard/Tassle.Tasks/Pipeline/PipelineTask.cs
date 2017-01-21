@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="PipeTask.cs" company="-">
+// <copyright file="PipelineTask.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -25,84 +25,78 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tassle.Helpers;
 
-namespace Tassle.Tasks.Pipes
-{
+namespace Tassle.Tasks.Pipeline {
     /// <summary>
-    /// PipeTask class.
+    /// PipelineTask class.
     /// </summary>
-    public class PipeTask : IDisposable
-    {
+    public class PipelineTask : IDisposable {
         // fields
 
         /// <summary>
         /// The status sync
         /// </summary>
-        private readonly object statusSync;
+        private readonly object _statusSync;
 
         /// <summary>
         /// The action
         /// </summary>
-        private Action<object> action;
+        private Action<object> _action;
 
         /// <summary>
         /// The parameter
         /// </summary>
-        private object parameter;
+        private object _parameter;
 
         /// <summary>
         /// The cancellation token source
         /// </summary>
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
         /// The status
         /// </summary>
-        private PipeTaskStatus status;
+        private PipelineTaskStatus _status;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool disposed;
+        private bool _disposed;
 
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PipeTask"/> class.
+        /// Initializes a new instance of the <see cref="PipelineTask"/> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="action">The action.</param>
-        public PipeTask(object parameter, Action<object> action) : this()
-        {
-            this.action = action;
-            this.parameter = parameter;
+        public PipelineTask(object parameter, Action<object> action) : this() {
+            this._action = action;
+            this._parameter = parameter;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PipeTask"/> class.
+        /// Initializes a new instance of the <see cref="PipelineTask"/> class.
         /// </summary>
         /// <param name="action">The action</param>
-        public PipeTask(Action<object> action) : this()
-        {
-            this.action = action;
-            this.parameter = null;
+        public PipelineTask(Action<object> action) : this() {
+            this._action = action;
+            this._parameter = null;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PipeTask"/> class.
+        /// Initializes a new instance of the <see cref="PipelineTask"/> class.
         /// </summary>
-        protected PipeTask()
-        {
-            this.cancellationTokenSource = new CancellationTokenSource();
+        protected PipelineTask() {
+            this._cancellationTokenSource = new CancellationTokenSource();
 
-            this.statusSync = new object();
-            this.status = PipeTaskStatus.NotStarted;
+            this._statusSync = new object();
+            this._status = PipelineTaskStatus.NotStarted;
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="PipeTask"/> class.
+        /// Finalizes an instance of the <see cref="PipelineTask"/> class.
         /// </summary>
-        ~PipeTask()
-        {
+        ~PipelineTask() {
             this.Dispose(false);
         }
 
@@ -111,40 +105,30 @@ namespace Tassle.Tasks.Pipes
         /// <summary>
         /// Occurs when [status changed].
         /// </summary>
-        public event EventHandler<PipeTaskStatusChangedEventArgs> StatusChanged;
+        public event EventHandler<PipelineTaskStatusChangedEventArgs> StatusChanged;
 
         // properties
 
         /// <summary>
         /// Gets the status.
         /// </summary>
-        public PipeTaskStatus Status
-        {
-            get
-            {
-                lock (this.statusSync)
-                {
-                    return this.status;
+        public PipelineTaskStatus Status {
+            get {
+                lock (this._statusSync) {
+                    return this._status;
                 }
             }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Pipe"/> is disposed.
+        /// Gets or sets a value indicating whether this <see cref="Pipeline"/> is disposed.
         /// </summary>
         /// <value>
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
-        public bool Disposed
-        {
-            get
-            {
-                return this.disposed;
-            }
-            protected set
-            {
-                this.disposed = value;
-            }
+        public bool Disposed {
+            get => this._disposed;
+            protected set => this._disposed = value;
         }
 
         // methods
@@ -153,24 +137,21 @@ namespace Tassle.Tasks.Pipes
         /// Does the task.
         /// </summary>
         /// <returns>The task object</returns>
-        public Task DoTask()
-        {
-            return Task.Factory.StartNew(this.TaskAction, this.parameter, this.cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+        public Task DoTask() {
+            return Task.Factory.StartNew(this.TaskAction, this._parameter, this._cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
         }
 
         /// <summary>
         /// Cancels this instance.
         /// </summary>
-        public void Cancel()
-        {
-            this.cancellationTokenSource.Cancel();
+        public void Cancel() {
+            this._cancellationTokenSource.Cancel();
         }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
+        public void Dispose() {
             this.Dispose(true);
 
             // Unregister object for finalization.
@@ -181,30 +162,25 @@ namespace Tassle.Tasks.Pipes
         /// Tasks the action.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        protected void TaskAction(object parameter)
-        {
-            if (this.cancellationTokenSource.IsCancellationRequested)
-            {
-                lock (this.statusSync)
-                {
-                    this.status = PipeTaskStatus.Cancelled;
+        protected void TaskAction(object parameter) {
+            if (this._cancellationTokenSource.IsCancellationRequested) {
+                lock (this._statusSync) {
+                    this._status = PipelineTaskStatus.Cancelled;
                     this.OnStatusChanged();
                 }
 
                 return;
             }
 
-            lock (this.statusSync)
-            {
-                this.status = PipeTaskStatus.Running;
+            lock (this._statusSync) {
+                this._status = PipelineTaskStatus.Running;
                 this.OnStatusChanged();
             }
 
-            this.action(parameter);
+            this._action(parameter);
 
-            lock (this.statusSync)
-            {
-                this.status = PipeTaskStatus.Finished;
+            lock (this._statusSync) {
+                this._status = PipelineTaskStatus.Finished;
                 this.OnStatusChanged();
             }
         }
@@ -212,21 +188,16 @@ namespace Tassle.Tasks.Pipes
         /// <summary>
         /// Called when [status changed].
         /// </summary>
-        protected void OnStatusChanged()
-        {
-            if (this.StatusChanged != null)
-            {
-                this.StatusChanged(this, new PipeTaskStatusChangedEventArgs(this.status, this.parameter));
-            }
+        protected void OnStatusChanged() {
+            this.StatusChanged?.Invoke(this, new PipelineTaskStatusChangedEventArgs(this._status, this._parameter));
         }
 
         /// <summary>
         /// Called when [dispose].
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        protected virtual void OnDispose(bool releaseManagedResources)
-        {
-            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this.cancellationTokenSource);
+        protected virtual void OnDispose(bool releaseManagedResources) {
+            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this._cancellationTokenSource);
         }
 
         /// <summary>
@@ -235,16 +206,14 @@ namespace Tassle.Tasks.Pipes
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
-        protected void Dispose(bool releaseManagedResources)
-        {
-            if (this.disposed)
-            {
+        protected void Dispose(bool releaseManagedResources) {
+            if (this._disposed) {
                 return;
             }
 
             this.OnDispose(releaseManagedResources);
 
-            this.disposed = true;
+            this._disposed = true;
         }
     }
 }

@@ -23,23 +23,19 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// VariableUtils class.
     /// </summary>
-    public static class VariableHelpers
-    {
+    public static class VariableHelpers {
         // methods
 
         /// <summary>
         /// Checks the and dispose.
         /// </summary>
         /// <param name="variable">The variable</param>
-        public static void CheckAndDispose<T>(ref T variable) where T : class, IDisposable
-        {
-            if (variable != null)
-            {
+        public static void CheckAndDispose<T>(ref T variable) where T : class, IDisposable {
+            if (variable != null) {
                 variable.Dispose();
                 variable = null;
             }
@@ -50,15 +46,13 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="member">The member</param>
         /// <returns>Member type</returns>
-        public static Type GetMemberType(MemberInfo member)
-        {
-            if (member is FieldInfo)
-            {
-                return (member as FieldInfo).FieldType;
+        public static Type GetMemberType(MemberInfo member) {
+            if (member is FieldInfo fieldInfoMember) {
+                return fieldInfoMember.FieldType;
             }
-            else if (member is PropertyInfo)
-            {
-                return (member as PropertyInfo).PropertyType;
+
+            if (member is PropertyInfo propertyInfoMember) {
+                return propertyInfoMember.PropertyType;
             }
 
             return null;
@@ -71,43 +65,30 @@ namespace Tassle.Helpers
         /// <param name="instance">The instance</param>
         /// <param name="enumAsString">Whether serialize enum as string or not</param>
         /// <returns>Value of the field/property instance</returns>
-        public static object ReadMemberValue(MemberInfo member, object instance, bool enumAsString = false)
-        {
+        public static object ReadMemberValue(MemberInfo member, object instance, bool enumAsString = false) {
             object value = null;
 
-            if (member is FieldInfo)
-            {
-                FieldInfo fieldInfo = member as FieldInfo;
+            if (member is FieldInfo fieldInfoMember) {
+                value = fieldInfoMember.GetValue(instance);
 
-                value = fieldInfo.GetValue(instance);
-
-                if (fieldInfo.FieldType.GetTypeInfo().IsEnum)
-                {
-                    if (enumAsString)
-                    {
+                if (fieldInfoMember.FieldType.GetTypeInfo().IsEnum) {
+                    if (enumAsString) {
                         value = value.ToString();
                     }
-                    else
-                    {
-                        value = Convert.ChangeType(value, Enum.GetUnderlyingType(fieldInfo.FieldType));
+                    else {
+                        value = Convert.ChangeType(value, Enum.GetUnderlyingType(fieldInfoMember.FieldType));
                     }
                 }
             }
-            else if (member is PropertyInfo)
-            {
-                PropertyInfo propertyInfo = member as PropertyInfo;
+            else if (member is PropertyInfo propertyInfoMember) {
+                value = propertyInfoMember.GetValue(instance, null);
 
-                value = propertyInfo.GetValue(instance, null);
-
-                if (propertyInfo.PropertyType.GetTypeInfo().IsEnum)
-                {
-                    if (enumAsString)
-                    {
+                if (propertyInfoMember.PropertyType.GetTypeInfo().IsEnum) {
+                    if (enumAsString) {
                         value = value.ToString();
                     }
-                    else
-                    {
-                        value = Convert.ChangeType(value, Enum.GetUnderlyingType(propertyInfo.PropertyType));
+                    else {
+                        value = Convert.ChangeType(value, Enum.GetUnderlyingType(propertyInfoMember.PropertyType));
                     }
                 }
             }
@@ -122,45 +103,34 @@ namespace Tassle.Helpers
         /// <param name="instance">The instance</param>
         /// <param name="value">The value</param>
         /// <param name="enumAsString">Whether serialize enum as string or not</param>
-        public static void WriteMemberValue(MemberInfo member, object instance, object value, bool enumAsString = false)
-        {
+        public static void WriteMemberValue(MemberInfo member, object instance, object value, bool enumAsString = false) {
             FieldInfo fieldInfo = null;
             PropertyInfo propertyInfo = null;
             Type type;
 
-            if (member is FieldInfo)
-            {
-                fieldInfo = member as FieldInfo;
-                type = Nullable.GetUnderlyingType(fieldInfo.FieldType) ?? fieldInfo.FieldType;
+            if (member is FieldInfo fieldInfoMember) {
+                type = Nullable.GetUnderlyingType(fieldInfoMember.FieldType) ?? fieldInfoMember.FieldType;
             }
-            else if (member is PropertyInfo)
-            {
-                propertyInfo = member as PropertyInfo;
-                type = Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
+            else if (member is PropertyInfo propertyInfoMember) {
+                type = Nullable.GetUnderlyingType(propertyInfoMember.PropertyType) ?? propertyInfoMember.PropertyType;
             }
-            else
-            {
+            else {
                 return;
             }
 
-            if (value != null)
-            {
-                if (type.GetTypeInfo().IsEnum && enumAsString)
-                {
+            if (value != null) {
+                if (type.GetTypeInfo().IsEnum && enumAsString) {
                     value = Enum.Parse(type, value.ToString());
                 }
-                else if (type != value.GetType())
-                {
+                else if (type != value.GetType()) {
                     value = Convert.ChangeType(value, type);
                 }
             }
 
-            if (member is FieldInfo)
-            {
+            if (member is FieldInfo) {
                 fieldInfo.SetValue(instance, value);
             }
-            else if (member is PropertyInfo)
-            {
+            else if (member is PropertyInfo) {
                 propertyInfo.SetValue(instance, value);
             }
         }
@@ -170,12 +140,10 @@ namespace Tassle.Helpers
         /// </summary>
         /// <typeparam name="T">The type</typeparam>
         /// <returns>Size of the type</returns>
-        public static int GetSize<T>()
-        {
-            Type type = typeof(T);
+        public static int GetSize<T>() {
+            var type = typeof(T);
 
-            if (type.GetTypeInfo().IsValueType)
-            {
+            if (type.GetTypeInfo().IsValueType) {
                 // value type
                 return Marshal.SizeOf<T>();
             }

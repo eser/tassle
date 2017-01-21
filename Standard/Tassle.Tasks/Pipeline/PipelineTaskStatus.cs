@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ClientDisconnected.cs" company="-">
+// <copyright file="PipelineTaskStatus.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,7 +19,32 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tassle.Telnet
-{
-    public delegate void ClientDisconnected(int threadId);
+using System;
+
+namespace Tassle.Tasks.Pipeline {
+    /// <summary>
+    /// PipelineTaskStatus enumeration.
+    /// </summary>
+    /// <remarks>Converted from byte to int due to CLS compliancy.</remarks>
+    public enum PipelineTaskStatus {
+        /// <summary>
+        /// Task is NotStarted
+        /// </summary>
+        NotStarted = 0,
+
+        /// <summary>
+        /// Task is Running
+        /// </summary>
+        Running = 1,
+
+        /// <summary>
+        /// Task is Finished
+        /// </summary>
+        Finished = 2,
+
+        /// <summary>
+        /// Task is Cancelled
+        /// </summary>
+        Cancelled = 3
+    }
 }

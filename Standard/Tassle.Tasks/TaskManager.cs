@@ -26,42 +26,39 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tassle.Services;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Tasks {
     /// <summary>
     /// TaskManager class.
     /// </summary>
-    public class TaskManager : ServiceControllable
-    {
+    public class TaskManager : ControllableService {
         // fields
 
         /// <summary>
         /// The items
         /// </summary>
-        private IDictionary<string, TaskItem> items;
+        private IDictionary<string, TaskItem> _items;
 
         /// <summary>
         /// The timer
         /// </summary>
-        private Timer timer;
+        private Timer _timer;
 
         /// <summary>
         /// The now
         /// </summary>
-        private DateTimeOffset now;
+        private DateTimeOffset _now;
 
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskManager"/> class.
         /// </summary>
-        public TaskManager(ILoggerFactory loggerFactory) : base(loggerFactory)
-        {
-            this.items = new Dictionary<string, TaskItem>();
+        public TaskManager(ILoggerFactory loggerFactory) : base(loggerFactory) {
+            this._items = new Dictionary<string, TaskItem>();
 
-            this.timer = null;
+            this._timer = null;
 
-            this.now = DateTimeOffset.UtcNow;
+            this._now = DateTimeOffset.UtcNow;
         }
 
         // properties
@@ -72,12 +69,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The name.
         /// </value>
-        public override string Name
-        {
-            get
-            {
-                return "TaskManager";
-            }
+        public override string Name {
+            get => "TaskManager";
         }
 
         /// <summary>
@@ -86,12 +79,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The description.
         /// </value>
-        public override string Description
-        {
-            get
-            {
-                return "Executes scheduled tasks on time.";
-            }
+        public override string Description {
+            get => "Executes scheduled tasks on time.";
         }
 
         /// <summary>
@@ -100,16 +89,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The items.
         /// </value>
-        public IDictionary<string, TaskItem> Items
-        {
-            get
-            {
-                return this.items;
-            }
-            set
-            {
-                this.items = value;
-            }
+        public IDictionary<string, TaskItem> Items {
+            get => this._items;
+            set => this._items = value;
         }
 
         /// <summary>
@@ -118,16 +100,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The timer.
         /// </value>
-        protected Timer Timer
-        {
-            get
-            {
-                return this.timer;
-            }
-            set
-            {
-                this.timer = value;
-            }
+        protected Timer Timer {
+            get => this._timer;
+            set => this._timer = value;
         }
 
         /// <summary>
@@ -136,16 +111,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The now.
         /// </value>
-        protected DateTimeOffset Now
-        {
-            get
-            {
-                return this.now;
-            }
-            set
-            {
-                this.now = value;
-            }
+        protected DateTimeOffset Now {
+            get => this._now;
+            set => this._now = value;
         }
 
         // methods
@@ -155,13 +123,12 @@ namespace Tassle.Tasks
         /// </summary>
         /// <param name="key">The key</param>
         /// <param name="item">The item</param>
-        public void Add(string key, TaskItem item)
-        {
+        public void Add(string key, TaskItem item) {
             item.Init();
 
-            this.Items.Add(key, item);
-            if (this.Status == ServiceStatus.Running)
-            {
+            this._items.Add(key, item);
+
+            if (this.Status == ServiceStatus.Running) {
                 item.Run();
             }
         }
@@ -170,61 +137,53 @@ namespace Tassle.Tasks
         /// Removes the specified key.
         /// </summary>
         /// <param name="key">The key</param>
-        public void Remove(string key)
-        {
-            this.Items.Remove(key);
+        public void Remove(string key) {
+            this._items.Remove(key);
         }
 
         /// <summary>
         /// Clears this instance.
         /// </summary>
-        public void Clear()
-        {
-            this.Items.Clear();
+        public void Clear() {
+            this._items.Clear();
         }
 
         /// <summary>
         /// Requests a registered object to unregister.
         /// </summary>
         /// <param name="immediate">true to indicate the registered object should unregister from the hosting environment before returning; otherwise, false.</param>
-        public void Stop(bool immediate)
-        {
+        public void Stop(bool immediate) {
             this.Stop();
         }
 
         /// <summary>
         /// Invokes events will be occurred during the service start.
         /// </summary>
-        protected override void ServiceStart()
-        {
-            this.timer = new Timer(this.TimerCallback, null, Timeout.Infinite, 1000);
+        protected override void ServiceStart() {
+            this._timer = new Timer(this.TimerCallback, null, Timeout.Infinite, 1000);
         }
 
         /// <summary>
         /// Invokes events will be occurred during the service stop.
         /// </summary>
-        protected override void ServiceStop()
-        {
-            foreach (TaskItem item in this.Items.Values)
-            {
-                item.CancelActiveActions();
+        protected override void ServiceStop() {
+            foreach (var item in this._items) {
+                item.Value.CancelActiveActions();
             }
 
-            this.timer.Dispose();
-            this.timer = null;
+            this._timer.Dispose();
+            this._timer = null;
         }
 
         /// <summary>
         /// Handles the Elapsed event of the Timer control.
         /// </summary>
         /// <param name="state">Object state</param>
-        private void TimerCallback(object state)
-        {
-            this.Now = DateTimeOffset.UtcNow;
+        private void TimerCallback(object state) {
+            this._now = DateTimeOffset.UtcNow;
 
-            foreach (KeyValuePair<string, TaskItem> pair in this.Items)
-            {
-                pair.Value.Run(this.Now);
+            foreach (var pair in this._items) {
+                pair.Value.Run(this._now);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="DayOfWeekFlags.cs" company="-">
+// <copyright file="MonthFlags.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -21,52 +21,75 @@
 
 using System;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Tasks.Schedule {
     /// <summary>
-    /// DayOfWeekFlags enumeration.
+    /// MonthFlags enumeration.
     /// </summary>
     [Flags]
-    public enum DayOfWeekFlags
-    {
+    public enum MonthFlags {
         /// <summary>
         /// None of them.
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// Day Sunday.
+        /// Month January.
         /// </summary>
-        Sunday = 1,
+        January = 1,
 
         /// <summary>
-        /// Day Monday.
+        /// Month February.
         /// </summary>
-        Monday = 2,
+        February = 2,
 
         /// <summary>
-        /// Day Tuesday.
+        /// Month March.
         /// </summary>
-        Tuesday = 4,
+        March = 4,
 
         /// <summary>
-        /// Day Wednesday.
+        /// Month April.
         /// </summary>
-        Wednesday = 8,
+        April = 8,
 
         /// <summary>
-        /// Day Thursday.
+        /// Month May.
         /// </summary>
-        Thursday = 16,
+        May = 16,
 
         /// <summary>
-        /// Day Friday.
+        /// Month June.
         /// </summary>
-        Friday = 32,
+        June = 32,
 
         /// <summary>
-        /// Day Saturday.
+        /// Month July.
         /// </summary>
-        Saturday = 64
+        July = 64,
+
+        /// <summary>
+        /// Month August.
+        /// </summary>
+        August = 128,
+
+        /// <summary>
+        /// Month September.
+        /// </summary>
+        September = 256,
+
+        /// <summary>
+        /// Month October.
+        /// </summary>
+        October = 512,
+
+        /// <summary>
+        /// Month November.
+        /// </summary>
+        November = 1024,
+
+        /// <summary>
+        /// Month December.
+        /// </summary>
+        December = 2048
     }
 }

@@ -22,13 +22,11 @@
 using System;
 using System.IO;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// IOUtils class.
     /// </summary>
-    public static class IOHelpers
-    {
+    public static class IOHelpers {
         // methods
 
         /// <summary>
@@ -38,27 +36,22 @@ namespace Tassle.Helpers
         /// <param name="replaceBackslashes">if set to <c>true</c> [replace backslashes]</param>
         /// <param name="charsToRemove">The chars to remove</param>
         /// <returns>Sanitized filename</returns>
-        public static string SanitizeFilename(string filename, bool replaceBackslashes, params char[] charsToRemove)
-        {
+        public static string SanitizeFilename(string filename, bool replaceBackslashes, params char[] charsToRemove) {
             char[] newFilename = filename.ToCharArray();
             char[] invalidChars = Path.GetInvalidFileNameChars();
 
-            for (int i = 0; i < newFilename.Length; i++)
-            {
-                if (Array.IndexOf(invalidChars, newFilename[i]) != -1)
-                {
+            for (var i = 0; i < newFilename.Length; i++) {
+                if (Array.IndexOf(invalidChars, newFilename[i]) != -1) {
                     newFilename[i] = '_';
                     continue;
                 }
 
-                if (Array.IndexOf(charsToRemove, newFilename[i]) != -1)
-                {
+                if (Array.IndexOf(charsToRemove, newFilename[i]) != -1) {
                     newFilename[i] = '_';
                     continue;
                 }
 
-                if (replaceBackslashes && newFilename[i] == '\\')
-                {
+                if (replaceBackslashes && newFilename[i] == '\\') {
                     newFilename[i] = '/';
                     continue;
                 }

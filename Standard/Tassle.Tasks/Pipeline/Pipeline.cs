@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="Pipe.cs" company="-">
+// <copyright file="Pipeline.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -26,80 +26,75 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tassle.Helpers;
 
-namespace Tassle.Tasks.Pipes
-{
+namespace Tassle.Tasks.Pipeline {
     /// <summary>
-    /// Pipe class.
+    /// Pipeline class.
     /// </summary>
-    public class Pipe : IDisposable
-    {
+    public class Pipeline : IDisposable {
         // fields
 
         /// <summary>
         /// The running task count sync
         /// </summary>
-        private readonly object runningTaskCountSync;
+        private readonly object _runningTaskCountSync;
 
         /// <summary>
         /// The maximum tasks
         /// </summary>
-        private readonly int maximumTasks;
+        private readonly int _maximumTasks;
 
         /// <summary>
         /// The parameters
         /// </summary>
-        private ConcurrentQueue<object> parameters;
+        private ConcurrentQueue<object> _parameters;
 
         /// <summary>
         /// The action
         /// </summary>
-        private Action<object> action;
+        private Action<object> _action;
 
         /// <summary>
         /// The cancellation token source
         /// </summary>
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
         /// The running task count
         /// </summary>
-        private int runningTaskCount;
+        private int _runningTaskCount;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool disposed;
+        private bool _disposed;
 
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pipe"/> class.
+        /// Initializes a new instance of the <see cref="Pipeline"/> class.
         /// </summary>
         /// <param name="maximumTasks">The maximum tasks.</param>
         /// <param name="action">The action.</param>
-        public Pipe(int maximumTasks, Action<object> action) : this()
-        {
-            this.maximumTasks = maximumTasks;
-            this.action = action;
+        public Pipeline(int maximumTasks, Action<object> action) : this() {
+            this._maximumTasks = maximumTasks;
+            this._action = action;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pipe"/> class.
+        /// Initializes a new instance of the <see cref="Pipeline"/> class.
         /// </summary>
-        protected Pipe()
-        {
-            this.parameters = new ConcurrentQueue<object>();
+        protected Pipeline() {
+            this._parameters = new ConcurrentQueue<object>();
 
-            this.cancellationTokenSource = new CancellationTokenSource();
+            this._cancellationTokenSource = new CancellationTokenSource();
 
-            this.runningTaskCountSync = new object();
+            this._runningTaskCountSync = new object();
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="Pipe"/> class.
+        /// Finalizes an instance of the <see cref="Pipeline"/> class.
         /// </summary>
-        ~Pipe()
-        {
+        ~Pipeline() {
             this.Dispose(false);
         }
 
@@ -108,25 +103,22 @@ namespace Tassle.Tasks.Pipes
         /// <summary>
         /// Occurs when [task status changed].
         /// </summary>
-        public event EventHandler<PipeTaskStatusChangedEventArgs> TaskStatusChanged;
+        public event EventHandler<PipelineTaskStatusChangedEventArgs> TaskStatusChanged;
 
         /// <summary>
         /// Occurs when [tasks done].
         /// </summary>
-        public event EventHandler<PipeTasksDoneEventArgs> TasksDone;
+        public event EventHandler<PipelineTasksDoneEventArgs> TasksDone;
 
         // properties
 
         /// <summary>
         /// Gets the running task count.
         /// </summary>
-        public int RunningTaskCount
-        {
-            get
-            {
-                lock (this.runningTaskCountSync)
-                {
-                    return this.runningTaskCount;
+        public int RunningTaskCount {
+            get {
+                lock (this._runningTaskCountSync) {
+                    return this._runningTaskCount;
                 }
             }
         }
@@ -134,13 +126,10 @@ namespace Tassle.Tasks.Pipes
         /// <summary>
         /// Gets the available task slot count.
         /// </summary>
-        public int AvailableTaskSlotCount
-        {
-            get
-            {
-                lock (this.runningTaskCountSync)
-                {
-                    return this.maximumTasks - this.runningTaskCount;
+        public int AvailableTaskSlotCount {
+            get {
+                lock (this._runningTaskCountSync) {
+                    return this._maximumTasks - this._runningTaskCount;
                 }
             }
         }
@@ -151,33 +140,23 @@ namespace Tassle.Tasks.Pipes
         /// <value>
         ///     <c>true</c> if this instance is running; otherwise, <c>false</c>.
         /// </value>
-        public bool IsRunning
-        {
-            get
-            {
-                lock (this.runningTaskCountSync)
-                {
-                    return this.runningTaskCount > 0;
+        public bool IsRunning {
+            get {
+                lock (this._runningTaskCountSync) {
+                    return this._runningTaskCount > 0;
                 }
             }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Pipe"/> is disposed.
+        /// Gets or sets a value indicating whether this <see cref="Pipeline"/> is disposed.
         /// </summary>
         /// <value>
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
-        public bool Disposed
-        {
-            get
-            {
-                return this.disposed;
-            }
-            protected set
-            {
-                this.disposed = value;
-            }
+        public bool Disposed {
+            get => this._disposed;
+            protected set => this._disposed = value;
         }
 
         // methods
@@ -186,10 +165,9 @@ namespace Tassle.Tasks.Pipes
         /// Adds the task.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        public void AddTask(object parameter)
-        {
-            this.parameters.Enqueue(parameter);
-            this.OnTaskStatusChanged(PipeTaskStatus.NotStarted, parameter);
+        public void AddTask(object parameter) {
+            this._parameters.Enqueue(parameter);
+            this.InvokeTaskStatusChanged(PipelineTaskStatus.NotStarted, parameter);
 
             this.FillQueue();
         }
@@ -198,32 +176,27 @@ namespace Tassle.Tasks.Pipes
         /// Cancels the specified empty queues.
         /// </summary>
         /// <param name="emptyQueues">if set to <c>true</c> [empty queues].</param>
-        public void Cancel(bool emptyQueues = true)
-        {
-            this.cancellationTokenSource.Cancel();
+        public void Cancel(bool emptyQueues = true) {
+            this._cancellationTokenSource.Cancel();
 
-            if (emptyQueues)
-            {
-                while (this.parameters.IsEmpty)
-                {
+            if (emptyQueues) {
+                while (this._parameters.IsEmpty) {
                     object dummy;
-                    this.parameters.TryDequeue(out dummy);
+                    this._parameters.TryDequeue(out dummy);
                 }
             }
 
-            lock (this.runningTaskCountSync)
-            {
-                this.runningTaskCount = 0;
+            lock (this._runningTaskCountSync) {
+                this._runningTaskCount = 0;
             }
 
-            this.OnTasksDone(true);
+            this.InvokeTasksDone(true);
         }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
+        public void Dispose() {
             this.Dispose(true);
 
             // Unregister object for finalization.
@@ -233,10 +206,8 @@ namespace Tassle.Tasks.Pipes
         /// <summary>
         /// Fills the queue.
         /// </summary>
-        protected void FillQueue()
-        {
-            while (this.DequeueAndDoTask())
-            {
+        protected void FillQueue() {
+            while (this.DequeueAndDoTask()) {
             }
         }
 
@@ -245,29 +216,24 @@ namespace Tassle.Tasks.Pipes
         /// </summary>
         /// <remarks>Lock the running task count before entering the function</remarks>
         /// <returns>Whether the task is done or not</returns>
-        protected bool DequeueAndDoTask()
-        {
+        protected bool DequeueAndDoTask() {
             object parameter;
 
-            lock (this.runningTaskCountSync)
-            {
-                if (this.runningTaskCount >= this.maximumTasks)
-                {
+            lock (this._runningTaskCountSync) {
+                if (this._runningTaskCount >= this._maximumTasks) {
                     return false;
                 }
 
-                if (!this.parameters.TryDequeue(out parameter))
-                {
-                    if (this.runningTaskCount == 0)
-                    {
-                        this.OnTasksDone(false);
+                if (!this._parameters.TryDequeue(out parameter)) {
+                    if (this._runningTaskCount == 0) {
+                        this.InvokeTasksDone(false);
                     }
 
                     return false;
                 }
             }
 
-            Task.Factory.StartNew(this.TaskAction, parameter, this.cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+            Task.Factory.StartNew(this.TaskAction, parameter, this._cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
             return true;
         }
 
@@ -275,63 +241,50 @@ namespace Tassle.Tasks.Pipes
         /// Tasks the action.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        protected void TaskAction(object parameter)
-        {
-            if (this.cancellationTokenSource.IsCancellationRequested)
-            {
-                this.OnTaskStatusChanged(PipeTaskStatus.Cancelled, parameter);
+        protected void TaskAction(object parameter) {
+            if (this._cancellationTokenSource.IsCancellationRequested) {
+                this.InvokeTaskStatusChanged(PipelineTaskStatus.Cancelled, parameter);
                 return;
             }
 
-            lock (this.runningTaskCountSync)
-            {
-                this.runningTaskCount++;
-                this.OnTaskStatusChanged(PipeTaskStatus.Running, parameter);
+            lock (this._runningTaskCountSync) {
+                this._runningTaskCount++;
+                this.InvokeTaskStatusChanged(PipelineTaskStatus.Running, parameter);
             }
 
-            this.action(parameter);
+            this._action(parameter);
 
-            lock (this.runningTaskCountSync)
-            {
-                this.runningTaskCount--;
-                this.OnTaskStatusChanged(PipeTaskStatus.Finished, parameter);
+            lock (this._runningTaskCountSync) {
+                this._runningTaskCount--;
+                this.InvokeTaskStatusChanged(PipelineTaskStatus.Finished, parameter);
 
                 this.DequeueAndDoTask();
             }
         }
 
         /// <summary>
-        /// Called when [tasks done].
+        /// Gets called when [tasks done].
         /// </summary>
         /// <param name="isCancelled">if set to <c>true</c> [is cancelled].</param>
-        protected void OnTasksDone(bool isCancelled)
-        {
-            if (this.TasksDone != null)
-            {
-                this.TasksDone(this, new PipeTasksDoneEventArgs(isCancelled));
-            }
+        protected void InvokeTasksDone(bool isCancelled) {
+            this.TasksDone?.Invoke(this, new PipelineTasksDoneEventArgs(isCancelled));
         }
 
         /// <summary>
-        /// Called when [task status changed].
+        /// Gets called when [task status changed].
         /// </summary>
         /// <param name="status">The status.</param>
         /// <param name="parameter">The parameter.</param>
-        protected void OnTaskStatusChanged(PipeTaskStatus status, object parameter)
-        {
-            if (this.TaskStatusChanged != null)
-            {
-                this.TaskStatusChanged(this, new PipeTaskStatusChangedEventArgs(status, parameter));
-            }
+        protected void InvokeTaskStatusChanged(PipelineTaskStatus status, object parameter) {
+            this.TaskStatusChanged?.Invoke(this, new PipelineTaskStatusChangedEventArgs(status, parameter));
         }
 
         /// <summary>
         /// Called when [dispose].
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        protected virtual void OnDispose(bool releaseManagedResources)
-        {
-            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this.cancellationTokenSource);
+        protected virtual void OnDispose(bool releaseManagedResources) {
+            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this._cancellationTokenSource);
         }
 
         /// <summary>
@@ -340,16 +293,14 @@ namespace Tassle.Tasks.Pipes
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
-        protected void Dispose(bool releaseManagedResources)
-        {
-            if (this.disposed)
-            {
+        protected void Dispose(bool releaseManagedResources) {
+            if (this._disposed) {
                 return;
             }
 
             this.OnDispose(releaseManagedResources);
 
-            this.disposed = true;
+            this._disposed = true;
         }
     }
 }

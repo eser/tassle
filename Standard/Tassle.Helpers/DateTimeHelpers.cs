@@ -22,13 +22,11 @@
 using System;
 using System.Globalization;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// DateTimeUtils class.
     /// </summary>
-    public static class DateTimeHelpers
-    {
+    public static class DateTimeHelpers {
         // methods
 
         /// <summary>
@@ -36,9 +34,9 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="datetime">DateTime to be converted</param>
         /// <returns>Unix Timestamp</returns>
-        public static double UnixTimestamp(DateTimeOffset? datetime)
-        {
-            DateTimeOffset epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+        public static double UnixTimestamp(DateTimeOffset? datetime) {
+            var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+
             return (datetime.GetValueOrDefault(DateTimeOffset.UtcNow) - epoch).TotalSeconds;
         }
 
@@ -47,9 +45,9 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="secondsPassed">The seconds passed</param>
         /// <returns>DateTime Object</returns>
-        public static DateTimeOffset FromUnixtime(double secondsPassed)
-        {
-            DateTimeOffset epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+        public static DateTimeOffset FromUnixtime(double secondsPassed) {
+            var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+
             return epoch.AddSeconds(secondsPassed);
         }
 
@@ -58,8 +56,7 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="datetime">The datetime.</param>
         /// <returns>ISO8601 formatted datetime</returns>
-        public static string ISO8601(DateTimeOffset datetime)
-        {
+        public static string ISO8601(DateTimeOffset datetime) {
             return datetime.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'sszzz");
         }
 
@@ -68,8 +65,7 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="datetime">The datetime.</param>
         /// <returns>DateTime Object</returns>
-        public static DateTimeOffset FromISO8601(string datetime)
-        {
+        public static DateTimeOffset FromISO8601(string datetime) {
             return DateTimeOffset.ParseExact(
                 datetime,
                 "yyyy'-'MM'-'dd'T'HH':'mm':'sszzz", // new string[] { "s", "u" },
@@ -83,8 +79,7 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="timeZoneId">The time zone id</param>
         /// <returns>The time zone</returns>
-        public static TimeZoneInfo GetTimeZone(string timeZoneId)
-        {
+        public static TimeZoneInfo GetTimeZone(string timeZoneId) {
             return TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
         }
 
@@ -94,9 +89,8 @@ namespace Tassle.Helpers
         /// <param name="timeZoneId">The time zone id</param>
         /// <param name="dateTime">The date time</param>
         /// <returns>The converted DateTime object</returns>
-        public static DateTimeOffset ToSpecificTimeZone(string timeZoneId, DateTimeOffset dateTime)
-        {
-            TimeZoneInfo timeZoneInfo = DateTimeHelpers.GetTimeZone(timeZoneId);
+        public static DateTimeOffset ToSpecificTimeZone(string timeZoneId, DateTimeOffset dateTime) {
+            var timeZoneInfo = DateTimeHelpers.GetTimeZone(timeZoneId);
             return dateTime.ToOffset(timeZoneInfo.BaseUtcOffset);
         }
 
@@ -105,8 +99,7 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="dateTime">The date time</param>
         /// <returns>The converted DateTime object</returns>
-        public static DateTimeOffset ToUniversal(DateTimeOffset dateTime)
-        {
+        public static DateTimeOffset ToUniversal(DateTimeOffset dateTime) {
             return dateTime.ToUniversalTime();
         }
     }

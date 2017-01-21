@@ -21,13 +21,11 @@
 
 using System;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// NetUtils class.
     /// </summary>
-    public static class NetHelpers
-    {
+    public static class NetHelpers {
         // methods
 
         /// <summary>
@@ -35,20 +33,17 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="ipAddress">The IP address</param>
         /// <returns>The IP range</returns>
-        public static string ConvertToIPRange(string ipAddress)
-        {
+        public static string ConvertToIPRange(string ipAddress) {
             string[] ipArray = ipAddress.Split('.');
             double ipRange = 0;
 
-            for (int i = 0; i < 4; i++)
-            {
-                int numPosition = int.Parse(ipArray[3 - i].ToString());
-                if (i == 4)
-                {
+            for (var i = 0; i < 4; i++) {
+                var numPosition = int.Parse(ipArray[3 - i].ToString());
+
+                if (i == 4) {
                     ipRange += numPosition;
                 }
-                else
-                {
+                else {
                     ipRange += (numPosition % 256) * Math.Pow(256, i);
                 }
             }

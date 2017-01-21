@@ -19,13 +19,11 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// HashUtils class.
     /// </summary>
-    public static class HashHelpers
-    {
+    public static class HashHelpers {
         // methods
 
         /// <summary>
@@ -36,8 +34,7 @@ namespace Tassle.Helpers
         /// <param name="input">array of objects, parameters combination that you need
         /// to get a unique hash code for them</param>
         /// <returns>Hash code</returns>
-        public static int RSHash(params object[] input)
-        {
+        public static int RSHash(params object[] input) {
             const int B = 378551;
             int a = 63689;
             int hash = 0;
@@ -46,12 +43,9 @@ namespace Tassle.Helpers
             //// not get an overflow exception.
             //// It can be enhanced later by catching the OverflowException.
 
-            unchecked
-            {
-                for (int i = 0; i < input.Length; i++)
-                {
-                    if (input[i] != null)
-                    {
+            unchecked {
+                for (var i = 0; i < input.Length; i++) {
+                    if (input[i] != null) {
                         hash = (hash * a) + input[i].GetHashCode();
                         a = a * B;
                     }

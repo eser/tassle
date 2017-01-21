@@ -21,13 +21,11 @@
 
 using System.Collections.Generic;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// ArrayUtils class.
     /// </summary>
-    public static class ArrayHelpers
-    {
+    public static class ArrayHelpers {
         // methods
 
         /// <summary>
@@ -36,9 +34,8 @@ namespace Tassle.Helpers
         /// <typeparam name="T">The type array contains</typeparam>
         /// <param name="collection">The collection</param>
         /// <returns>Array of given type</returns>
-        public static T[] GetArray<T>(ICollection<T> collection)
-        {
-            T[] array = new T[collection.Count];
+        public static T[] GetArray<T>(ICollection<T> collection) {
+            var array = new T[collection.Count];
             collection.CopyTo(array, 0);
 
             return array;
@@ -50,9 +47,9 @@ namespace Tassle.Helpers
         /// <typeparam name="T">The type array contains</typeparam>
         /// <param name="enumerable">The enumerable</param>
         /// <returns>Array of given type</returns>
-        public static T[] GetArray<T>(IEnumerable<T> enumerable)
-        {
-            List<T> collection = new List<T>(enumerable);
+        public static T[] GetArray<T>(IEnumerable<T> enumerable) {
+            var collection = new List<T>(enumerable);
+
             return collection.ToArray();
         }
     }

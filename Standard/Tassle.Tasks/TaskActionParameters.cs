@@ -23,34 +23,32 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Tasks {
     /// <summary>
     /// TaskActionParameters class.
     /// </summary>
-    public class TaskActionParameters : IDisposable
-    {
+    public class TaskActionParameters : IDisposable {
         // fields
 
         /// <summary>
         /// The source
         /// </summary>
-        private readonly TaskItem source;
+        private readonly TaskItem _source;
 
         /// <summary>
         /// The action started
         /// </summary>
-        private readonly DateTimeOffset actionStarted;
+        private readonly DateTimeOffset _actionStarted;
 
         /// <summary>
         /// The cancellation token source
         /// </summary>
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool disposed;
+        private bool _disposed;
 
         // constructors
 
@@ -60,18 +58,16 @@ namespace Tassle.Tasks
         /// <param name="source">The source</param>
         /// <param name="actionStarted">The action started</param>
         /// <param name="cancellationTokenSource">The cancellation token source</param>
-        public TaskActionParameters(TaskItem source, DateTimeOffset actionStarted, CancellationTokenSource cancellationTokenSource)
-        {
-            this.source = source;
-            this.actionStarted = actionStarted;
-            this.cancellationTokenSource = cancellationTokenSource;
+        public TaskActionParameters(TaskItem source, DateTimeOffset actionStarted, CancellationTokenSource cancellationTokenSource) {
+            this._source = source;
+            this._actionStarted = actionStarted;
+            this._cancellationTokenSource = cancellationTokenSource;
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="TaskActionParameters"/> class.
         /// </summary>
-        ~TaskActionParameters()
-        {
+        ~TaskActionParameters() {
             this.Dispose(false);
         }
 
@@ -83,12 +79,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The source.
         /// </value>
-        public TaskItem Source
-        {
-            get
-            {
-                return this.source;
-            }
+        public TaskItem Source {
+            get => this._source;
         }
 
         /// <summary>
@@ -97,12 +89,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The action started.
         /// </value>
-        public DateTimeOffset ActionStarted
-        {
-            get
-            {
-                return this.actionStarted;
-            }
+        public DateTimeOffset ActionStarted {
+            get => this._actionStarted;
         }
 
         /// <summary>
@@ -111,12 +99,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The cancellation token source.
         /// </value>
-        public CancellationTokenSource CancellationTokenSource
-        {
-            get
-            {
-                return this.cancellationTokenSource;
-            }
+        public CancellationTokenSource CancellationTokenSource {
+            get => this._cancellationTokenSource;
         }
 
         /// <summary>
@@ -125,16 +109,9 @@ namespace Tassle.Tasks
         /// <value>
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
-        public bool Disposed
-        {
-            get
-            {
-                return this.disposed;
-            }
-            protected set
-            {
-                this.disposed = value;
-            }
+        public bool Disposed {
+            get => this._disposed;
+            protected set => this._disposed = value;
         }
 
         // methods
@@ -142,8 +119,7 @@ namespace Tassle.Tasks
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
+        public void Dispose() {
             this.Dispose(true);
 
             GC.SuppressFinalize(this);
@@ -153,12 +129,10 @@ namespace Tassle.Tasks
         /// Called when [dispose].
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        protected virtual void OnDispose(bool releaseManagedResources)
-        {
-            if (this.cancellationTokenSource != null)
-            {
-                this.cancellationTokenSource.Dispose();
-                this.cancellationTokenSource = null;
+        protected virtual void OnDispose(bool releaseManagedResources) {
+            if (this._cancellationTokenSource != null) {
+                this._cancellationTokenSource.Dispose();
+                this._cancellationTokenSource = null;
             }
         }
 
@@ -168,10 +142,8 @@ namespace Tassle.Tasks
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
-        protected void Dispose(bool releaseManagedResources)
-        {
-            if (this.Disposed)
-            {
+        protected void Dispose(bool releaseManagedResources) {
+            if (this.Disposed) {
                 return;
             }
 

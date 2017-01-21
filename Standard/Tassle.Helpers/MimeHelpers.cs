@@ -22,19 +22,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// MimeUtils class.
     /// </summary>
-    public static class MimeHelpers
-    {
+    public static class MimeHelpers {
         // fields
 
         /// <summary>
         /// The mappings
         /// </summary>
-        private static IDictionary<string, string> mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        private static IDictionary<string, string> s_mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             // combination of values from Windows 7 Registry and 
             // from C:\Windows\System32\inetsrv\config\applicationHost.config
@@ -608,12 +606,8 @@ namespace Tassle.Helpers
         /// <value>
         /// The mappings.
         /// </value>
-        public static IDictionary<string, string> Mappings
-        {
-            get
-            {
-                return MimeHelpers.mappings;
-            }
+        public static IDictionary<string, string> Mappings {
+            get => MimeHelpers.s_mappings;
         }
 
         // methods
@@ -625,15 +619,13 @@ namespace Tassle.Helpers
         /// <param name="defaultMimetype">The default mime type</param>
         /// <remarks>Taken from http://stackoverflow.com/questions/1029740/get-mime-type-from-extension</remarks>
         /// <returns>The mime type</returns>
-        public static string GetMimeType(string extension, string defaultMimetype = "application/octet-stream")
-        {
-            if (!extension.StartsWith("."))
-            {
+        public static string GetMimeType(string extension, string defaultMimetype = "application/octet-stream") {
+            if (!extension.StartsWith(".")) {
                 extension = "." + extension;
             }
 
             string mime;
-            return MimeHelpers.mappings.TryGetValue(extension, out mime) ? mime : defaultMimetype;
+            return MimeHelpers.s_mappings.TryGetValue(extension, out mime) ? mime : defaultMimetype;
         }
 
         /// <summary>
@@ -641,20 +633,16 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="mimeType">Type of the MIME</param>
         /// <returns>The mime encoding</returns>
-        public static string GetProperMimeEncoding(string mimeType)
-        {
-            if (mimeType.StartsWith("text/", StringComparison.Ordinal))
-            {
+        public static string GetProperMimeEncoding(string mimeType) {
+            if (mimeType.StartsWith("text/", StringComparison.Ordinal)) {
                 return "quoted-printable";
             }
 
-            if (mimeType.StartsWith("message/", StringComparison.Ordinal))
-            {
+            if (mimeType.StartsWith("message/", StringComparison.Ordinal)) {
                 return "7bit";
             }
 
-            switch (mimeType)
-            {
+            switch (mimeType) {
                 case "application/x-javascript":
                     return "quoted-printable";
                 default:

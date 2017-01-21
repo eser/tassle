@@ -21,13 +21,11 @@
 
 using System;
 
-namespace Tassle.Services
-{
+namespace Tassle.Services {
     /// <summary>
     /// Status of the service instance.
     /// </summary>
-    public enum ServiceStatus
-    {
+    public enum ServiceStatus {
         /// <summary>
         /// The passive
         /// </summary>

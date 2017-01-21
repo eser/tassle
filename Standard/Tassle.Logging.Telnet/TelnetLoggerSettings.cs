@@ -22,23 +22,54 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
+using System.Net;
 
-namespace Tassle.Logging.Telnet
-{
-    public class TelnetLoggerSettings : TelnetLoggerSettingsInterface
-    {
-        public IChangeToken ChangeToken { get; set; }
+namespace Tassle.Logging.Telnet {
+    public class TelnetLoggerSettings : TelnetLoggerSettingsInterface {
+        // fields
+        private bool _includeScopes;
 
-        public bool IncludeScopes { get; set; }
+        private IPEndPoint _bindEndpoint;
 
-        public IDictionary<string, LogLevel> Switches { get; set; } = new Dictionary<string, LogLevel>();
+        private IDictionary<string, LogLevel> _switches;
+
+        private IChangeToken _changeToken;
+
+        // constructors
+
+        public TelnetLoggerSettings() {
+            this._switches = new Dictionary<string, LogLevel>();
+        }
+
+        // properties
+        public bool IncludeScopes {
+            get => this._includeScopes;
+            set => this._includeScopes = value;
+        }
+
+        public IPEndPoint BindEndpoint {
+            get => this._bindEndpoint;
+            set => this._bindEndpoint = value;
+        }
+
+        public IDictionary<string, LogLevel> Switches {
+            get => this._switches;
+            set => this._switches = value;
+        }
+
+        public IChangeToken ChangeToken {
+            get => this._changeToken;
+            set => this._changeToken = value;
+        }
+
+        // methods
 
         public TelnetLoggerSettingsInterface Reload() {
             return this;
         }
 
         public bool TryGetSwitch(string name, out LogLevel level) {
-            return this.Switches.TryGetValue(name, out level);
+            return this._switches.TryGetValue(name, out level);
         }
     }
 }

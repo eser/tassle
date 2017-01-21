@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="PipeTaskStatusChangedEventArgs.cs" company="-">
+// <copyright file="PipelineTasksDoneEventArgs.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -21,60 +21,38 @@
 
 using System;
 
-namespace Tassle.Tasks.Pipes
-{
+namespace Tassle.Tasks.Pipeline {
     /// <summary>
-    /// PipeTaskStatusChangedEventArgs class.
+    /// PipelineTasksDoneEventArgs class.
     /// </summary>
-    public class PipeTaskStatusChangedEventArgs : EventArgs
-    {
+    public class PipelineTasksDoneEventArgs : EventArgs {
         // fields
 
         /// <summary>
-        /// The status
+        /// The is cancelled
         /// </summary>
-        private readonly PipeTaskStatus status;
-
-        /// <summary>
-        /// The parameter
-        /// </summary>
-        private readonly object parameter;
+        private readonly bool _isCancelled;
 
         // constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PipeTaskStatusChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="PipelineTasksDoneEventArgs"/> class.
         /// </summary>
-        /// <param name="status">The status.</param>
-        /// <param name="parameter">The parameter.</param>
-        public PipeTaskStatusChangedEventArgs(PipeTaskStatus status, object parameter) : base()
-        {
-            this.status = status;
-            this.parameter = parameter;
+        /// <param name="isCancelled">if set to <c>true</c> [is cancelled].</param>
+        public PipelineTasksDoneEventArgs(bool isCancelled) : base() {
+            this._isCancelled = isCancelled;
         }
 
         // properties
 
         /// <summary>
-        /// Gets the status.
+        /// Gets a value indicating whether this instance is cancelled.
         /// </summary>
-        public PipeTaskStatus Status
-        {
-            get
-            {
-                return this.status;
-            }
-        }
-
-        /// <summary>
-        /// Gets the parameter.
-        /// </summary>
-        public object Parameter
-        {
-            get
-            {
-                return this.parameter;
-            }
+        /// <value>
+        ///     <c>true</c> if this instance is cancelled; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsCancelled {
+            get => this._isCancelled;
         }
     }
 }

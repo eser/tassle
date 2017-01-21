@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="MonthFlags.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="MessageReceivedEventArgs.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -21,77 +21,55 @@
 
 using System;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Telnet {
     /// <summary>
-    /// MonthFlags enumeration.
+    /// MessageReceivedEventArgs class.
     /// </summary>
-    [Flags]
-    public enum MonthFlags
-    {
-        /// <summary>
-        /// None of them.
-        /// </summary>
-        None = 0,
+    public class MessageReceivedEventArgs : EventArgs {
+        // fields
 
         /// <summary>
-        /// Month January.
+        /// The thread id
         /// </summary>
-        January = 1,
+        private readonly int _threadId;
 
         /// <summary>
-        /// Month February.
+        /// The message
         /// </summary>
-        February = 2,
+        private readonly string _message;
+
+        // constructors
 
         /// <summary>
-        /// Month March.
+        /// Initializes a new instance of the <see cref="MessageReceivedEventArgs"/> class.
         /// </summary>
-        March = 4,
+        /// <param name="threadId">The thread id</param>
+        /// <param name="message">The message</param>
+        public MessageReceivedEventArgs(int threadId, string message) {
+            this._threadId = threadId;
+            this._message = message;
+        }
+
+        // properties
 
         /// <summary>
-        /// Month April.
+        /// Gets the thread id
         /// </summary>
-        April = 8,
+        /// <value>
+        /// The thread id
+        /// </value>
+        public int ThreadId {
+            get => this._threadId;
+        }
 
         /// <summary>
-        /// Month May.
+        /// Gets the message
         /// </summary>
-        May = 16,
-
-        /// <summary>
-        /// Month June.
-        /// </summary>
-        June = 32,
-
-        /// <summary>
-        /// Month July.
-        /// </summary>
-        July = 64,
-
-        /// <summary>
-        /// Month August.
-        /// </summary>
-        August = 128,
-
-        /// <summary>
-        /// Month September.
-        /// </summary>
-        September = 256,
-
-        /// <summary>
-        /// Month October.
-        /// </summary>
-        October = 512,
-
-        /// <summary>
-        /// Month November.
-        /// </summary>
-        November = 1024,
-
-        /// <summary>
-        /// Month December.
-        /// </summary>
-        December = 2048
+        /// <value>
+        /// The message
+        /// </value>
+        public string Message {
+            get => this._message;
+        }
     }
 }

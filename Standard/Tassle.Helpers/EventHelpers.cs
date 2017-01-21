@@ -22,13 +22,11 @@
 using System;
 using System.Reflection;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// EventUtils class.
     /// </summary>
-    public static class EventHelpers
-    {
+    public static class EventHelpers {
         // methods
 
         /// <summary>
@@ -37,13 +35,11 @@ namespace Tassle.Helpers
         /// <param name="eventObject">The event object</param>
         /// <param name="eventMember">The event member</param>
         /// <param name="handler">The handler</param>
-        public static void EventOnce(object eventObject, string eventMember, EventHandler handler)
-        {
+        public static void EventOnce(object eventObject, string eventMember, EventHandler handler) {
             EventInfo eventInfo = eventObject.GetType().GetTypeInfo().GetEvent(eventMember);
             EventHandler tempEventHandler = null;
 
-            tempEventHandler = (sender, e) =>
-            {
+            tempEventHandler = (sender, e) => {
                 handler.Invoke(null, new EventArgs());
                 eventInfo.RemoveEventHandler(eventObject, tempEventHandler);
             };

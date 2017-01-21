@@ -23,15 +23,12 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace Tassle.Telnet
-{
+namespace Tassle.Telnet {
     /// <summary>
     /// A TelnetThread instance.
     /// </summary>
-    public class TelnetThread
-    {
+    public class TelnetThread {
         // constants
         public const int BufferLength = 2048;
 
@@ -40,58 +37,57 @@ namespace Tassle.Telnet
         /// <summary>
         /// The server
         /// </summary>
-        private TelnetServer server;
+        private TelnetServer _server;
 
         /// <summary>
         /// The thread id
         /// </summary>
-        private int threadId;
+        private int _threadId;
 
         /// <summary>
         /// The client thread
         /// </summary>
-        private Thread clientThread;
+        private Thread _clientThread;
 
         /// <summary>
         /// The client thread cancelled
         /// </summary>
-        private volatile bool clientThreadCancelled;
+        private volatile bool _clientThreadCancelled;
 
         /// <summary>
         /// The queued messages
         /// </summary>
-        private Queue<string> queuedMessages;
+        private Queue<string> _queuedMessages;
 
         /// <summary>
         /// The stream
         /// </summary>
-        private NetworkStream stream;
+        private NetworkStream _stream;
 
         /// <summary>
         /// The buffer
         /// </summary>
-        private byte[] buffer;
+        private byte[] _buffer;
 
         /// <summary>
         /// The string buffer
         /// </summary>
-        private string stringBuffer;
+        private string _stringBuffer;
 
         // constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TelnetThread"/> class.
         /// </summary>
-        public TelnetThread(TelnetServer telnetServer, TcpClient tcpClient, int threadId)
-        {
-            this.server = telnetServer;
-            this.queuedMessages = new Queue<string>();
-            this.threadId = threadId;
+        public TelnetThread(TelnetServer telnetServer, TcpClient tcpClient, int threadId) {
+            this._server = telnetServer;
+            this._queuedMessages = new Queue<string>();
+            this._threadId = threadId;
 
-            this.buffer = new byte[TelnetThread.BufferLength];
-            this.stringBuffer = string.Empty;
+            this._buffer = new byte[TelnetThread.BufferLength];
+            this._stringBuffer = string.Empty;
 
-            this.stream = tcpClient.GetStream();
+            this._stream = tcpClient.GetStream();
         }
 
         // properties
@@ -102,16 +98,9 @@ namespace Tassle.Telnet
         /// <value>
         /// The thread id
         /// </value>
-        public int ThreadId
-        {
-            get
-            {
-                return this.threadId;
-            }
-            set
-            {
-                this.threadId = value;
-            }
+        public int ThreadId {
+            get => this._threadId;
+            set => this._threadId = value;
         }
 
         /// <summary>
@@ -120,16 +109,9 @@ namespace Tassle.Telnet
         /// <value>
         /// The client thread
         /// </value>
-        public Thread ClientThread
-        {
-            get
-            {
-                return this.clientThread;
-            }
-            set
-            {
-                this.clientThread = value;
-            }
+        public Thread ClientThread {
+            get => this._clientThread;
+            set => this._clientThread = value;
         }
 
         /// <summary>
@@ -138,78 +120,62 @@ namespace Tassle.Telnet
         /// <value>
         /// The stream
         /// </value>
-        public NetworkStream Stream
-        {
-            get
-            {
-                return this.stream;
-            }
-            set
-            {
-                this.stream = value;
-            }
+        public NetworkStream Stream {
+            get => this._stream;
+            set => this._stream = value;
         }
 
         // methods
 
-        public void Start()
-        {
-            this.server.OnClientConnected(this.ThreadId);
+        public void Start() {
+            this._server.InvokeClientConnected(this.ThreadId);
 
-            this.clientThread = new Thread(new ThreadStart(this.ConnectionThread));
-            this.clientThread.Start();
+            this._clientThread = new Thread(new ThreadStart(this.ConnectionThread));
+            this._clientThread.Start();
         }
 
-        public void Stop()
-        {
-            this.clientThreadCancelled = true;
+        public void Stop() {
+            this._clientThreadCancelled = true;
 
             // this.clientThread.Interrupt();
         }
 
-        public void SendMessageDirect(string message)
-        {
-            this.queuedMessages.Enqueue(message + Environment.NewLine);
+        public void SendMessageDirect(string message) {
+            this._queuedMessages.Enqueue(message + Environment.NewLine);
         }
 
-        private void ConnectionThread()
-        {
-            this.stream.WriteByte(0);
+        private void ConnectionThread() {
+            this._stream.WriteByte(0);
 
-            while (!this.clientThreadCancelled)
-            {
-                while (this.queuedMessages.Count > 0)
-                {
-                    var bytes = this.server.Encoding.GetBytes(this.queuedMessages.Dequeue());
-                    this.stream.Write(bytes, 0, bytes.Length);
+            while (!this._clientThreadCancelled) {
+                while (this._queuedMessages.Count > 0) {
+                    var bytes = this._server.Encoding.GetBytes(this._queuedMessages.Dequeue());
+                    this._stream.Write(bytes, 0, bytes.Length);
                 }
 
-                var readTask = this.stream.ReadAsync(this.buffer, 0, this.buffer.Length); // TODO: use cancellation token
+                var readTask = this._stream.ReadAsync(this._buffer, 0, this._buffer.Length); // TODO: use cancellation token
 
                 readTask.ContinueWith(t => this.ReadCallback(t.Result));
             }
 
-            this.stream.Dispose();
-            this.server.OnClientDisconnected(this.threadId);
+            this._stream.Dispose();
+            this._server.InvokeClientDisconnected(this._threadId);
         }
 
-        private void ReadCallback(int read)
-        {
-            if (read == 0)
-            {
+        private void ReadCallback(int read) {
+            if (read == 0) {
                 this.Stop();
                 return;
             }
 
-            this.stringBuffer += this.server.Encoding.GetString(this.buffer, 0, read);
+            this._stringBuffer += this._server.Encoding.GetString(this._buffer, 0, read);
 
-            var newLineIndex = this.stringBuffer.IndexOf('\n');
-            if (newLineIndex > 0)
-            {
-                var line = this.stringBuffer.Substring(0, newLineIndex - 1);
-                this.server.OnClientMessageReceived(this.ThreadId, line);
+            var newLineIndex = this._stringBuffer.IndexOf('\n');
+            if (newLineIndex > 0) {
+                var line = this._stringBuffer.Substring(0, newLineIndex - 1);
+                this._server.InvokeMessageReceived(this.ThreadId, line);
 
-                this.stringBuffer = this.stringBuffer.Substring(newLineIndex + 1);
+                this._stringBuffer = this._stringBuffer.Substring(newLineIndex + 1);
             }
         }
     }

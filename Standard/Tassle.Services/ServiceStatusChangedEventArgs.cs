@@ -21,24 +21,22 @@
 
 using System;
 
-namespace Tassle.Services
-{
+namespace Tassle.Services {
     /// <summary>
     /// ServiceStatusChangedEventArgs class.
     /// </summary>
-    public class ServiceStatusChangedEventArgs : EventArgs
-    {
+    public class ServiceStatusChangedEventArgs : EventArgs {
         // fields
 
         /// <summary>
         /// The previous state
         /// </summary>
-        private readonly ServiceStatus previousState;
+        private readonly ServiceStatus _previousState;
 
         /// <summary>
         /// The status
         /// </summary>
-        private readonly ServiceStatus status;
+        private readonly ServiceStatus _status;
 
         // constructors
 
@@ -47,10 +45,9 @@ namespace Tassle.Services
         /// </summary>
         /// <param name="previousState">State of the previous</param>
         /// <param name="status">The status</param>
-        public ServiceStatusChangedEventArgs(ServiceStatus previousState, ServiceStatus status)
-        {
-            this.previousState = previousState;
-            this.status = status;
+        public ServiceStatusChangedEventArgs(ServiceStatus previousState, ServiceStatus status) {
+            this._previousState = previousState;
+            this._status = status;
         }
 
         // properties
@@ -61,12 +58,8 @@ namespace Tassle.Services
         /// <value>
         /// The state of the previous.
         /// </value>
-        public ServiceStatus PreviousState
-        {
-            get
-            {
-                return this.previousState;
-            }
+        public ServiceStatus PreviousState {
+            get => this._previousState;
         }
 
         /// <summary>
@@ -75,12 +68,8 @@ namespace Tassle.Services
         /// <value>
         /// The status.
         /// </value>
-        public ServiceStatus Status
-        {
-            get
-            {
-                return this.status;
-            }
+        public ServiceStatus Status {
+            get => this._status;
         }
     }
 }

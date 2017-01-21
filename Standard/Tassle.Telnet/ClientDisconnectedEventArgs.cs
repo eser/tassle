@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ServiceInterface.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="ClientDisconnectedEventArgs.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -20,53 +20,39 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Microsoft.Extensions.Logging;
 
-namespace Tassle.Services {
+namespace Tassle.Telnet {
     /// <summary>
-    /// ServiceInterface interface.
+    /// ClientDisconnectedEventArgs class.
     /// </summary>
-    public interface ServiceInterface : IDisposable {
+    public class ClientDisconnectedEventArgs : EventArgs {
+        // fields
+
+        /// <summary>
+        /// The thread id
+        /// </summary>
+        private readonly int _threadId;
+
+        // constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientDisconnectedEventArgs"/> class.
+        /// </summary>
+        /// <param name="threadId">The thread id</param>
+        public ClientDisconnectedEventArgs(int threadId) {
+            this._threadId = threadId;
+        }
+
         // properties
 
         /// <summary>
-        /// Gets the name.
+        /// Gets the thread id
         /// </summary>
         /// <value>
-        /// The name.
+        /// The thread id
         /// </value>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the description.
-        /// </summary>
-        /// <value>
-        /// The description.
-        /// </value>
-        string Description { get; }
-
-        /// <summary>
-        /// Gets the status.
-        /// </summary>
-        /// <value>
-        /// The status.
-        /// </value>
-        ServiceStatus Status { get; }
-
-        /// <summary>
-        /// Gets the status date.
-        /// </summary>
-        /// <value>
-        /// The status date.
-        /// </value>
-        DateTimeOffset StatusDate { get; }
-
-        /// <summary>
-        /// Gets or sets the logger.
-        /// </summary>
-        /// <value>
-        /// The logger.
-        /// </value>
-        ILogger Logger { get; }
+        public int ThreadId {
+            get => this._threadId;
+        }
     }
 }

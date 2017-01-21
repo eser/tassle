@@ -21,14 +21,12 @@
 
 using System;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Tasks.Schedule {
     /// <summary>
     /// HourFlags enumeration.
     /// </summary>
     [Flags]
-    public enum HourFlags
-    {
+    public enum HourFlags {
         /// <summary>
         /// None of them.
         /// </summary>

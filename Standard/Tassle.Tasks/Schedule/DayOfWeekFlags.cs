@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="PipeTaskStatus.cs" company="-">
+// <copyright file="DayOfWeekFlags.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -21,32 +21,50 @@
 
 using System;
 
-namespace Tassle.Tasks.Pipes
-{
+namespace Tassle.Tasks.Schedule {
     /// <summary>
-    /// PipeTaskStatus enumeration.
+    /// DayOfWeekFlags enumeration.
     /// </summary>
-    /// <remarks>Converted from byte to int due to CLS compliancy.</remarks>
-    public enum PipeTaskStatus
-    {
+    [Flags]
+    public enum DayOfWeekFlags {
         /// <summary>
-        /// Task is NotStarted
+        /// None of them.
         /// </summary>
-        NotStarted = 0,
+        None = 0,
 
         /// <summary>
-        /// Task is Running
+        /// Day Sunday.
         /// </summary>
-        Running = 1,
+        Sunday = 1,
 
         /// <summary>
-        /// Task is Finished
+        /// Day Monday.
         /// </summary>
-        Finished = 2,
+        Monday = 2,
 
         /// <summary>
-        /// Task is Cancelled
+        /// Day Tuesday.
         /// </summary>
-        Cancelled = 3
+        Tuesday = 4,
+
+        /// <summary>
+        /// Day Wednesday.
+        /// </summary>
+        Wednesday = 8,
+
+        /// <summary>
+        /// Day Thursday.
+        /// </summary>
+        Thursday = 16,
+
+        /// <summary>
+        /// Day Friday.
+        /// </summary>
+        Friday = 32,
+
+        /// <summary>
+        /// Day Saturday.
+        /// </summary>
+        Saturday = 64
     }
 }

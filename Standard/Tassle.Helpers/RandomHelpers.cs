@@ -22,28 +22,25 @@
 using System;
 using System.Text;
 
-namespace Tassle.Helpers
-{
+namespace Tassle.Helpers {
     /// <summary>
     /// RandomUtils class.
     /// </summary>
-    public static class RandomHelpers
-    {
+    public static class RandomHelpers {
         // fields
 
         /// <summary>
         /// The random object
         /// </summary>
-        private static Random randomObject;
+        private static Random s_randomObject;
 
         // constructors
 
         /// <summary>
         /// Initializes static members of the <see cref="RandomHelpers"/> class.
         /// </summary>
-        static RandomHelpers()
-        {
-            RandomHelpers.randomObject = new Random();
+        static RandomHelpers() {
+            RandomHelpers.s_randomObject = new Random();
         }
 
         // properties
@@ -54,16 +51,9 @@ namespace Tassle.Helpers
         /// <value>
         /// The random object.
         /// </value>
-        public static Random RandomObject
-        {
-            get
-            {
-                return RandomHelpers.randomObject;
-            }
-            set
-            {
-                RandomHelpers.randomObject = value;
-            }
+        public static Random RandomObject {
+            get => RandomHelpers.s_randomObject;
+            set => RandomHelpers.s_randomObject = value;
         }
 
         // methods
@@ -72,13 +62,11 @@ namespace Tassle.Helpers
         /// Generates a random GUID.
         /// </summary>
         /// <returns>Generated GUID</returns>
-        public static Guid RandomGuid()
-        {
-            byte[] seed = new byte[16];
+        public static Guid RandomGuid() {
+            var seed = new byte[16];
 
-            for (int i = 0; i < seed.Length; i++)
-            {
-                seed[i] = (byte)RandomHelpers.randomObject.Next(255);
+            for (var i = 0; i < seed.Length; i++) {
+                seed[i] = (byte)RandomHelpers.s_randomObject.Next(255);
             }
 
             return new Guid(seed);
@@ -90,9 +78,8 @@ namespace Tassle.Helpers
         /// <param name="min">The min</param>
         /// <param name="max">The max</param>
         /// <returns>Generated number</returns>
-        public static int RandomNumber(int min, int max)
-        {
-            return RandomHelpers.RandomNumber(RandomHelpers.randomObject, min, max);
+        public static int RandomNumber(int min, int max) {
+            return RandomHelpers.RandomNumber(RandomHelpers.s_randomObject, min, max);
         }
 
         /// <summary>
@@ -102,8 +89,7 @@ namespace Tassle.Helpers
         /// <param name="min">The min</param>
         /// <param name="max">The max</param>
         /// <returns>Generated number</returns>
-        public static int RandomNumber(Random random, int min, int max)
-        {
+        public static int RandomNumber(Random random, int min, int max) {
             return random.Next(min, max);
         }
 
@@ -112,9 +98,8 @@ namespace Tassle.Helpers
         /// </summary>
         /// <param name="size">The size</param>
         /// <returns>Generated string</returns>
-        public static string RandomString(int size)
-        {
-            return RandomHelpers.RandomString(RandomHelpers.randomObject, size);
+        public static string RandomString(int size) {
+            return RandomHelpers.RandomString(RandomHelpers.s_randomObject, size);
         }
 
         /// <summary>
@@ -123,13 +108,12 @@ namespace Tassle.Helpers
         /// <param name="random">The random</param>
         /// <param name="size">The size</param>
         /// <returns>Generated string</returns>
-        public static string RandomString(Random random, int size)
-        {
-            StringBuilder builder = new StringBuilder();
+        public static string RandomString(Random random, int size) {
+            var builder = new StringBuilder();
 
-            for (int i = 0; i < size; i++)
-            {
+            for (var i = 0; i < size; i++) {
                 char currentChar = Convert.ToChar(Convert.ToInt32(Math.Floor((26 * random.NextDouble()) + 65)));
+
                 builder.Append(currentChar);
             }
 

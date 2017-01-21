@@ -20,64 +20,45 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-
-#if NET451
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Messaging;
-#else
 using System.Threading;
-#endif
 
-namespace Tassle.Logging.Telnet
-{
-    public class TelnetLogScope
-    {
+namespace Tassle.Logging.Telnet {
+    public class TelnetLogScope {
+        // fields
+
+        private static AsyncLocal<TelnetLogScope> s_value = new AsyncLocal<TelnetLogScope>();
+
         private readonly string _name;
         private readonly object _state;
+
+        private TelnetLogScope _parent;
+
+        // constructors
 
         internal TelnetLogScope(string name, object state) {
             this._name = name;
             this._state = state;
         }
 
-        public TelnetLogScope Parent { get; private set; }
-
-#if NET451
-        private static readonly string FieldKey = $"{typeof(ConsoleLogScope).FullName}.Value.{AppDomain.CurrentDomain.Id}";
-
-        public static ConsoleLogScope Current {
-            get {
-                var handle = CallContext.LogicalGetData(FieldKey) as ObjectHandle;
-                if (handle == null) {
-                    return default(ConsoleLogScope);
-                }
-
-                return (ConsoleLogScope)handle.Unwrap();
-            }
-            set {
-                CallContext.LogicalSetData(FieldKey, new ObjectHandle(value));
-            }
+        internal TelnetLogScope(string name, object state, TelnetLogScope parent) : this(name, state) {
+            this._parent = parent;
         }
-#else
-        private static AsyncLocal<TelnetLogScope> _value = new AsyncLocal<TelnetLogScope>();
 
-        public static TelnetLogScope Current
-        {
-            set {
-                _value.Value = value;
-            }
-            get {
-                return _value.Value;
-            }
+        // properties
+        public static TelnetLogScope Current {
+            get => TelnetLogScope.s_value.Value;
         }
-#endif
+
+        public TelnetLogScope Parent {
+            get => this._parent;
+        }
+
+        // methods
 
         public static IDisposable Push(string name, object state) {
-            var temp = TelnetLogScope.Current;
+            var parent = TelnetLogScope.Current;
 
-            TelnetLogScope.Current = new TelnetLogScope(name, state) {
-                Parent = temp
-            };
+            TelnetLogScope.s_value.Value = new TelnetLogScope(name, state, parent);
 
             return new DisposableScope();
         }
@@ -86,10 +67,9 @@ namespace Tassle.Logging.Telnet
             return this._state?.ToString();
         }
 
-        private class DisposableScope : IDisposable
-        {
+        private class DisposableScope : IDisposable {
             public void Dispose() {
-                Current = Current.Parent;
+                TelnetLogScope.s_value.Value = TelnetLogScope.s_value.Value.Parent;
             }
         }
     }

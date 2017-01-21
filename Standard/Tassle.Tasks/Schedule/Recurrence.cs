@@ -22,54 +22,52 @@
 using System;
 using Tassle.Helpers;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Tasks.Schedule {
     /// <summary>
     /// Recurrence class.
     /// </summary>
-    public class Recurrence
-    {
+    public class Recurrence {
         // fields
 
         /// <summary>
         /// Once
         /// </summary>
-        public static Recurrence Once = new Recurrence(DateTimeOffset.MinValue, TimeSpan.Zero);
+        private static Recurrence s_once = new Recurrence(DateTimeOffset.MinValue, TimeSpan.Zero);
 
         /// <summary>
         /// The date start
         /// </summary>
-        private readonly DateTimeOffset dateStart;
+        private readonly DateTimeOffset _dateStart;
 
         /// <summary>
         /// The interval
         /// </summary>
-        private readonly TimeSpan interval;
+        private readonly TimeSpan _interval;
 
         /// <summary>
         /// The date end
         /// </summary>
-        private DateTimeOffset dateEnd;
+        private DateTimeOffset _dateEnd;
 
         /// <summary>
         /// The excluded hours
         /// </summary>
-        private HourFlags excludedHours;
+        private HourFlags _excludedHours;
 
         /// <summary>
         /// The excluded day of weeks
         /// </summary>
-        private DayOfWeekFlags excludedDayOfWeeks;
+        private DayOfWeekFlags _excludedDayOfWeeks;
 
         /// <summary>
         /// The excluded days
         /// </summary>
-        private DayFlags excludedDays;
+        private DayFlags _excludedDays;
 
         /// <summary>
         /// The excluded months
         /// </summary>
-        private MonthFlags excludedMonths;
+        private MonthFlags _excludedMonths;
 
         // constructors
 
@@ -79,16 +77,27 @@ namespace Tassle.Tasks
         /// <param name="dateStart">The date start</param>
         /// <param name="interval">The interval</param>
         /// <remarks>Use TimeSpan.Zero as interval for non-recurring events.</remarks>
-        public Recurrence(DateTimeOffset dateStart, TimeSpan interval)
-        {
-            this.dateStart = dateStart;
-            this.dateEnd = DateTimeOffset.MaxValue;
-            this.interval = interval;
+        public Recurrence(DateTimeOffset dateStart, TimeSpan interval) {
+            this._dateStart = dateStart;
+            this._dateEnd = DateTimeOffset.MaxValue;
+            this._interval = interval;
 
-            this.excludedHours = HourFlags.None;
-            this.excludedDayOfWeeks = DayOfWeekFlags.None;
-            this.excludedDays = DayFlags.None;
-            this.excludedMonths = MonthFlags.None;
+            this._excludedHours = HourFlags.None;
+            this._excludedDayOfWeeks = DayOfWeekFlags.None;
+            this._excludedDays = DayFlags.None;
+            this._excludedMonths = MonthFlags.None;
+        }
+
+        // properties
+
+        /// <summary>
+        /// Gets the once.
+        /// </summary>
+        /// <value>
+        /// The once.
+        /// </value>
+        public static Recurrence Once {
+            get => Recurrence.s_once;
         }
 
         /// <summary>
@@ -97,17 +106,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The date start.
         /// </value>
-        public DateTimeOffset DateStart
-        {
-            get
-            {
-                return this.dateStart;
-            }
-
-            //// set
-            //// {
-            ////    this.dateStart = value;
-            //// }
+        public DateTimeOffset DateStart {
+            get => this._dateStart;
         }
 
         /// <summary>
@@ -116,16 +116,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The date end.
         /// </value>
-        public DateTimeOffset DateEnd
-        {
-            get
-            {
-                return this.dateEnd;
-            }
-            set
-            {
-                this.dateEnd = value;
-            }
+        public DateTimeOffset DateEnd {
+            get => this._dateEnd;
+            set => this._dateEnd = value;
         }
 
         /// <summary>
@@ -134,17 +127,8 @@ namespace Tassle.Tasks
         /// <value>
         /// The interval.
         /// </value>
-        public TimeSpan Interval
-        {
-            get
-            {
-                return this.interval;
-            }
-
-            //// set
-            //// {
-            ////    this.interval = value;
-            //// }
+        public TimeSpan Interval {
+            get => this._interval;
         }
 
         /// <summary>
@@ -153,16 +137,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The excluded hours.
         /// </value>
-        public HourFlags ExcludedHours
-        {
-            get
-            {
-                return this.excludedHours;
-            }
-            set
-            {
-                this.excludedHours = value;
-            }
+        public HourFlags ExcludedHours {
+            get => this._excludedHours;
+            set => this._excludedHours = value;
         }
 
         /// <summary>
@@ -171,16 +148,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The excluded day of weeks.
         /// </value>
-        public DayOfWeekFlags ExcludedDayOfWeeks
-        {
-            get
-            {
-                return this.excludedDayOfWeeks;
-            }
-            set
-            {
-                this.excludedDayOfWeeks = value;
-            }
+        public DayOfWeekFlags ExcludedDayOfWeeks {
+            get => this._excludedDayOfWeeks;
+            set => this._excludedDayOfWeeks = value;
         }
 
         /// <summary>
@@ -189,16 +159,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The excluded days.
         /// </value>
-        public DayFlags ExcludedDays
-        {
-            get
-            {
-                return this.excludedDays;
-            }
-            set
-            {
-                this.excludedDays = value;
-            }
+        public DayFlags ExcludedDays {
+            get => this._excludedDays;
+            set => this._excludedDays = value;
         }
 
         /// <summary>
@@ -207,16 +170,9 @@ namespace Tassle.Tasks
         /// <value>
         /// The excluded months.
         /// </value>
-        public MonthFlags ExcludedMonths
-        {
-            get
-            {
-                return this.excludedMonths;
-            }
-            set
-            {
-                this.excludedMonths = value;
-            }
+        public MonthFlags ExcludedMonths {
+            get => this._excludedMonths;
+            set => this._excludedMonths = value;
         }
 
         // methods
@@ -226,8 +182,7 @@ namespace Tassle.Tasks
         /// </summary>
         /// <param name="dateTime">The date time</param>
         /// <returns>Recurrence instance</returns>
-        public static Recurrence OnceAt(DateTimeOffset dateTime)
-        {
+        public static Recurrence OnceAt(DateTimeOffset dateTime) {
             return new Recurrence(dateTime, TimeSpan.Zero);
         }
 
@@ -236,8 +191,7 @@ namespace Tassle.Tasks
         /// </summary>
         /// <param name="period">The period</param>
         /// <returns>Recurrence instance</returns>
-        public static Recurrence Periodically(TimeSpan period)
-        {
+        public static Recurrence Periodically(TimeSpan period) {
             return new Recurrence(DateTimeOffset.MinValue, period);
         }
 
@@ -246,35 +200,28 @@ namespace Tassle.Tasks
         /// </summary>
         /// <param name="dateTime">The date time</param>
         /// <returns>Is date valid or not</returns>
-        public bool CheckDate(DateTimeOffset dateTime)
-        {
-            if (this.ExcludedMonths.HasFlag((MonthFlags)dateTime.Month))
-            {
+        public bool CheckDate(DateTimeOffset dateTime) {
+            if (this._excludedMonths.HasFlag((MonthFlags)dateTime.Month)) {
                 return false;
             }
 
-            if (this.ExcludedDayOfWeeks.HasFlag((DayOfWeekFlags)(dateTime.DayOfWeek + 1)))
-            {
+            if (this._excludedDayOfWeeks.HasFlag((DayOfWeekFlags)(dateTime.DayOfWeek + 1))) {
                 return false;
             }
 
-            if (this.ExcludedDays.HasFlag((DayFlags)dateTime.Day))
-            {
+            if (this._excludedDays.HasFlag((DayFlags)dateTime.Day)) {
                 return false;
             }
 
-            if (this.ExcludedHours.HasFlag((HourFlags)(dateTime.Hour + 1)))
-            {
+            if (this._excludedHours.HasFlag((HourFlags)(dateTime.Hour + 1))) {
                 return false;
             }
 
-            if (this.DateStart != DateTimeOffset.MinValue && this.DateStart > dateTime)
-            {
+            if (this._dateStart != DateTimeOffset.MinValue && this._dateStart > dateTime) {
                 return false;
             }
 
-            if (this.DateEnd != DateTimeOffset.MaxValue && this.DateEnd < dateTime)
-            {
+            if (this._dateEnd != DateTimeOffset.MaxValue && this._dateEnd < dateTime) {
                 return false;
             }
 
@@ -287,9 +234,8 @@ namespace Tassle.Tasks
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        public override int GetHashCode()
-        {
-            return HashHelpers.RSHash(this.DateStart, this.DateEnd, this.Interval, this.ExcludedHours, this.ExcludedDayOfWeeks, this.ExcludedDays, this.ExcludedMonths);
+        public override int GetHashCode() {
+            return HashHelpers.RSHash(this._dateStart, this._dateEnd, this._interval, this._excludedHours, this._excludedDayOfWeeks, this._excludedDays, this._excludedMonths);
         }
 
         /// <summary>
@@ -299,17 +245,14 @@ namespace Tassle.Tasks
         /// <returns>
         /// true if the specified object  is equal to the current object; otherwise, false.
         /// </returns>
-        public override bool Equals(object obj)
-        {
-            Recurrence other = (Recurrence)obj;
+        public override bool Equals(object obj) {
+            var other = (Recurrence)obj;
 
-            if (this.DateStart != other.DateStart || this.DateEnd != other.DateEnd || this.Interval != other.Interval)
-            {
+            if (this._dateStart != other._dateStart || this._dateEnd != other._dateEnd || this._interval != other._interval) {
                 return false;
             }
 
-            if (this.ExcludedHours != other.ExcludedHours || this.ExcludedDayOfWeeks != other.ExcludedDayOfWeeks || this.ExcludedDays != other.ExcludedDays || this.ExcludedMonths != other.ExcludedMonths)
-            {
+            if (this._excludedHours != other._excludedHours || this._excludedDayOfWeeks != other._excludedDayOfWeeks || this._excludedDays != other._excludedDays || this._excludedMonths != other._excludedMonths) {
                 return false;
             }
 

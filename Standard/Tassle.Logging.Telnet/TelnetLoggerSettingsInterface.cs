@@ -21,14 +21,19 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using System.Net;
 
-namespace Tassle.Logging.Telnet
-{
-    public interface TelnetLoggerSettingsInterface
-    {
+namespace Tassle.Logging.Telnet {
+    public interface TelnetLoggerSettingsInterface {
+        // properties
+
         bool IncludeScopes { get; }
 
+        IPEndPoint BindEndpoint { get; }
+
         IChangeToken ChangeToken { get; }
+
+        // methods
 
         bool TryGetSwitch(string name, out LogLevel level);
 

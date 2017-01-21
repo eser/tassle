@@ -21,13 +21,11 @@
 
 using System;
 
-namespace Tassle.Tasks
-{
+namespace Tassle.Tasks {
     /// <summary>
     /// TaskItemStatus enumeration.
     /// </summary>
-    public enum TaskItemStatus
-    {
+    public enum TaskItemStatus {
         /// <summary>
         /// Not started
         /// </summary>
