@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+  <PropertyGroup Label="Configuration" />
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <OutputType>library</OutputType>

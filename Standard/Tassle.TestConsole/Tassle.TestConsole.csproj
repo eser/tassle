@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+  <PropertyGroup Label="Configuration" />
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.App" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tassle.Helpers\Tassle.Helpers.csproj" />
+    <ProjectReference Include="..\Tassle.Services\Tassle.Services.csproj" />
+    <ProjectReference Include="..\Tassle.Tasks\Tassle.Tasks.csproj" />
+    <ProjectReference Include="..\Tassle.Telnet\Tassle.Telnet.csproj" />
+    <ProjectReference Include="..\Tassle.Logging.Telnet\Tassle.Logging.Telnet.csproj" />
+  </ItemGroup>
+</Project>
