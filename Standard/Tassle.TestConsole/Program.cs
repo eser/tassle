@@ -27,6 +27,13 @@ using Tassle.Tasks.Schedule;
 
 namespace Tassle.TestConsole {
     public class Program {
+        public static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddLogging();
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton<TaskManager>();
+        }
+
         public static void Main(string[] args) {
             //TasslehoffCoreConfig tasslehoffConfig = new TasslehoffCoreConfig() {
             //    Culture = "en-us"
@@ -53,29 +60,28 @@ namespace Tassle.TestConsole {
             */
 
             // dependency injection container
-            var serviceProvider = new ServiceCollection()
-                .AddLogging()
-                // .AddScoped();
-                .BuildServiceProvider();
+            var serviceCollection = new ServiceCollection();
+            Program.ConfigureServices(serviceCollection);
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             // setup console logging
-            var loggerFactory = serviceProvider
-                .GetService<ILoggerFactory>();
-            
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             loggerFactory
                 .AddConsole(LogLevel.Debug);
                 // .AddDebug();
 
             // task manager
-            var taskManager = new TaskManager(loggerFactory);
+            var taskManager = serviceProvider.GetService<TaskManager>();
 
             var taskItem = new TaskItem(
                    (TaskActionParameters param) => {
                        Console.WriteLine("helo");
                    }
                )
-               .SetRecurrence(Recurrence.Once)
-               .SetRepeat(4)
+               // .SetRecurrence(Recurrence.Once)
+               // .SetRepeat(4)
+               .SetRecurrence(new Recurrence(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1)))
                .Postpone(TimeSpan.FromSeconds(5));
 
             taskManager.Add("task", taskItem);

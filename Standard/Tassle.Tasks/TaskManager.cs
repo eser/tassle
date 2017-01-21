@@ -160,7 +160,7 @@ namespace Tassle.Tasks {
         /// Invokes events will be occurred during the service start.
         /// </summary>
         protected override void ServiceStart() {
-            this._timer = new Timer(this.TimerCallback, null, Timeout.Infinite, 1000);
+            this._timer = new Timer(this.TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
         }
 
         /// <summary>
