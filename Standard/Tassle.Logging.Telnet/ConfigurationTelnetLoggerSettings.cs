@@ -61,32 +61,32 @@ namespace Tassle.Logging.Telnet {
             }
         }
 
-        public IPEndPoint BindEndpoint {
-            get {
-                var value = this._configuration["BindEndpoint"];
+        //public IPEndPoint BindEndpoint {
+        //    get {
+        //        var value = this._configuration["BindEndpoint"];
 
-                if (string.IsNullOrEmpty(value)) {
-                    return null;
-                }
+        //        if (string.IsNullOrEmpty(value)) {
+        //            return null;
+        //        }
 
-                IPEndPoint bindEndpoint;
+        //        IPEndPoint bindEndpoint;
 
-                try {
-                    var bindEndpointParts = value.Split(new char[] { ':' }, 2, StringSplitOptions.None);
+        //        try {
+        //            var bindEndpointParts = value.Split(new char[] { ':' }, 2, StringSplitOptions.None);
 
-                    var bindEndpointHost = IPAddress.Parse(bindEndpointParts[0]);
-                    var bindEndpointPort = int.Parse(bindEndpointParts[1]);
+        //            var bindEndpointHost = IPAddress.Parse(bindEndpointParts[0]);
+        //            var bindEndpointPort = int.Parse(bindEndpointParts[1]);
 
-                    bindEndpoint = new IPEndPoint(bindEndpointHost, bindEndpointPort);
-                }
-                catch (Exception ex) {
-                    var message = $"Configuration value '{value}' for setting '{nameof(IncludeScopes)}' is not supported.";
-                    throw new InvalidOperationException(message, ex);
-                }
+        //            bindEndpoint = new IPEndPoint(bindEndpointHost, bindEndpointPort);
+        //        }
+        //        catch (Exception ex) {
+        //            var message = $"Configuration value '{value}' for setting '{nameof(IncludeScopes)}' is not supported.";
+        //            throw new InvalidOperationException(message, ex);
+        //        }
 
-                return bindEndpoint;
-            }
-        }
+        //        return bindEndpoint;
+        //    }
+        //}
 
         public IChangeToken ChangeToken {
             get => this._changeToken;

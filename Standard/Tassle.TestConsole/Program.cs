@@ -24,6 +24,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using Tassle.Tasks;
 using Tassle.Tasks.Schedule;
+using Tassle.Logging.Telnet;
+using Tassle.Telnet;
+using System.Net;
 
 namespace Tassle.TestConsole {
     public class Program {
@@ -65,11 +68,16 @@ namespace Tassle.TestConsole {
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
+            // setup telnet server
+            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
+            telnetServer.Start();
+
             // setup console logging
             var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             loggerFactory
-                .AddConsole(LogLevel.Debug);
-                // .AddDebug();
+                .AddConsole(LogLevel.Debug)
+                .AddDebug()
+                .AddTelnet(telnetServer);
 
             // task manager
             var taskManager = serviceProvider.GetService<TaskManager>();

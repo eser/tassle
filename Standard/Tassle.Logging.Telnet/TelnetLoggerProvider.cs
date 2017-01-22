@@ -24,6 +24,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using Tassle.Telnet;
 
 namespace Tassle.Logging.Telnet {
     public class TelnetLoggerProvider : ILoggerProvider {
@@ -35,7 +36,7 @@ namespace Tassle.Logging.Telnet {
 
         // constructors
 
-        public TelnetLoggerProvider(Func<string, LogLevel, bool> filter, bool includeScopes) {
+        public TelnetLoggerProvider(TelnetServer telnetServer, Func<string, LogLevel, bool> filter, bool includeScopes) {
             if (filter == null) {
                 throw new ArgumentNullException(nameof(filter));
             }
@@ -46,7 +47,7 @@ namespace Tassle.Logging.Telnet {
             };
         }
 
-        public TelnetLoggerProvider(TelnetLoggerSettingsInterface settings) {
+        public TelnetLoggerProvider(TelnetServer telnetServer, TelnetLoggerSettingsInterface settings) {
             if (settings == null) {
                 throw new ArgumentNullException(nameof(settings));
             }
@@ -81,7 +82,7 @@ namespace Tassle.Logging.Telnet {
         }
 
         private TelnetLogger CreateTelnetImplementation(string name) {
-            return new TelnetLogger(name, GetFilter(name, this._settings), _settings.IncludeScopes);
+            return new TelnetLogger(name, GetFilter(name, this._settings), this._settings.IncludeScopes);
         }
 
         private Func<string, LogLevel, bool> GetFilter(string name, TelnetLoggerSettingsInterface settings) {

@@ -29,7 +29,7 @@ namespace Tassle.Logging.Telnet {
         // fields
         private bool _includeScopes;
 
-        private IPEndPoint _bindEndpoint;
+        //private IPEndPoint _bindEndpoint;
 
         private IDictionary<string, LogLevel> _switches;
 
@@ -47,10 +47,10 @@ namespace Tassle.Logging.Telnet {
             set => this._includeScopes = value;
         }
 
-        public IPEndPoint BindEndpoint {
-            get => this._bindEndpoint;
-            set => this._bindEndpoint = value;
-        }
+        //public IPEndPoint BindEndpoint {
+        //    get => this._bindEndpoint;
+        //    set => this._bindEndpoint = value;
+        //}
 
         public IDictionary<string, LogLevel> Switches {
             get => this._switches;

@@ -21,7 +21,9 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 using System.Text;
+using Tassle.Telnet;
 
 namespace Tassle.Logging.Telnet {
     public class TelnetLogger : ILogger {

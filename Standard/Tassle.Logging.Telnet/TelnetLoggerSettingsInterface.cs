@@ -29,7 +29,7 @@ namespace Tassle.Logging.Telnet {
 
         bool IncludeScopes { get; }
 
-        IPEndPoint BindEndpoint { get; }
+        //IPEndPoint BindEndpoint { get; }
 
         IChangeToken ChangeToken { get; }
 
