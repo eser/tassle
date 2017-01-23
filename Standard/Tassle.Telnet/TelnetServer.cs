@@ -30,7 +30,7 @@ namespace Tassle.Telnet {
     /// <summary>
     /// A TelnetServer instance.
     /// </summary>
-    public class TelnetServer {
+    public class TelnetServer : TelnetServerInterface {
         // fields
 
         /// <summary>

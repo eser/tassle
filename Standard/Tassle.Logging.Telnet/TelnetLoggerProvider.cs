@@ -34,9 +34,11 @@ namespace Tassle.Logging.Telnet {
         private readonly Func<string, LogLevel, bool> _filter;
         private TelnetLoggerSettingsInterface _settings;
 
+        private IServiceProvider _serviceProvider;
+
         // constructors
 
-        public TelnetLoggerProvider(TelnetServer telnetServer, Func<string, LogLevel, bool> filter, bool includeScopes) {
+        public TelnetLoggerProvider(IServiceProvider serviceProvider, Func<string, LogLevel, bool> filter, bool includeScopes) {
             if (filter == null) {
                 throw new ArgumentNullException(nameof(filter));
             }
@@ -45,14 +47,17 @@ namespace Tassle.Logging.Telnet {
             this._settings = new TelnetLoggerSettings() {
                 IncludeScopes = includeScopes,
             };
+
+            this._serviceProvider = serviceProvider;
         }
 
-        public TelnetLoggerProvider(TelnetServer telnetServer, TelnetLoggerSettingsInterface settings) {
+        public TelnetLoggerProvider(IServiceProvider serviceProvider, TelnetLoggerSettingsInterface settings) {
             if (settings == null) {
                 throw new ArgumentNullException(nameof(settings));
             }
 
             this._settings = settings;
+            this._serviceProvider = serviceProvider;
 
             if (this._settings.ChangeToken != null) {
                 this._settings.ChangeToken.RegisterChangeCallback(this.OnConfigurationReload, null);
@@ -82,7 +87,9 @@ namespace Tassle.Logging.Telnet {
         }
 
         private TelnetLogger CreateTelnetImplementation(string name) {
-            return new TelnetLogger(name, GetFilter(name, this._settings), this._settings.IncludeScopes);
+            var telnetServer = this._serviceProvider.GetService(typeof(TelnetServerInterface)) as TelnetServerInterface;
+
+            return new TelnetLogger(name, telnetServer, this.GetFilter(name, this._settings), this._settings.IncludeScopes);
         }
 
         private Func<string, LogLevel, bool> GetFilter(string name, TelnetLoggerSettingsInterface settings) {

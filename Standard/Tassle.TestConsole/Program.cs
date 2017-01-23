@@ -30,13 +30,6 @@ using System.Net;
 
 namespace Tassle.TestConsole {
     public class Program {
-        public static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddLogging();
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton<TaskManager>();
-        }
-
         public static void Main(string[] args) {
             //TasslehoffCoreConfig tasslehoffConfig = new TasslehoffCoreConfig() {
             //    Culture = "en-us"
@@ -62,14 +55,12 @@ namespace Tassle.TestConsole {
             Console.WriteLine("done");
             */
 
-            // dependency injection container
-            var serviceCollection = new ServiceCollection();
-            Program.ConfigureServices(serviceCollection);
+            // initialize bootstrapper
+            var bootstrapper = new Bootstrapper();
+            var serviceProvider = bootstrapper.GetServiceProvider();
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            // setup telnet server
-            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
+            // start telnet
+            var telnetServer = serviceProvider.GetService<TelnetServerInterface>();
             telnetServer.Start();
 
             // setup console logging
@@ -77,14 +68,15 @@ namespace Tassle.TestConsole {
             loggerFactory
                 .AddConsole(LogLevel.Debug)
                 .AddDebug()
-                .AddTelnet(telnetServer);
+                .AddTelnet(serviceProvider);
 
             // task manager
             var taskManager = serviceProvider.GetService<TaskManager>();
-
+            var taskLogger = loggerFactory.CreateLogger("task");
             var taskItem = new TaskItem(
                    (TaskActionParameters param) => {
-                       Console.WriteLine("helo");
+                       // Console.WriteLine("helo");
+                       taskLogger.LogInformation("helo");
                    }
                )
                // .SetRecurrence(Recurrence.Once)

@@ -45,6 +45,8 @@ namespace Tassle.Logging.Telnet {
 
         private string _name;
 
+        private TelnetServerInterface _telnetServer;
+
         // constructors
 
         static TelnetLogger() {
@@ -54,7 +56,7 @@ namespace Tassle.Logging.Telnet {
             TelnetLogger.s_newLineWithMessagePadding = Environment.NewLine + TelnetLogger.s_messagePadding;
         }
 
-        public TelnetLogger(string name, Func<string, LogLevel, bool> filter, bool includeScopes) {
+        public TelnetLogger(string name, TelnetServerInterface telnetServer, Func<string, LogLevel, bool> filter, bool includeScopes) {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -62,6 +64,7 @@ namespace Tassle.Logging.Telnet {
             this._name = name;
             this._filter = filter ?? ((category, logLevel) => true);
             this._includeScopes = includeScopes;
+            this._telnetServer = telnetServer;
         }
 
         // properties
@@ -149,11 +152,11 @@ namespace Tassle.Logging.Telnet {
                 lock (TelnetLogger.s_lock) {
                     if (!string.IsNullOrEmpty(logLevelString)) {
                         // log level string
-                        Console.Write(logLevelString);
+                        this._telnetServer.BroadcastMessage(logLevelString);
                     }
 
                     // use default colors from here on
-                    Console.Write(logMessage);
+                    this._telnetServer.BroadcastMessage(logMessage);
 
                     // In case of AnsiLogConsole, the messages are not yet written to the console,
                     // this would flush them instead.
