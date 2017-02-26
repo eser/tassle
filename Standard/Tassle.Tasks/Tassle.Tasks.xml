@@ -1,0 +1,1294 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tassle.Tasks</name>
+    </assembly>
+    <members>
+        <member name="T:Tassle.Tasks.Pipeline.Pipeline">
+            <summary>
+            Pipeline class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._runningTaskCountSync">
+            <summary>
+            The running task count sync
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._maximumTasks">
+            <summary>
+            The maximum tasks
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._parameters">
+            <summary>
+            The parameters
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._action">
+            <summary>
+            The action
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._cancellationTokenSource">
+            <summary>
+            The cancellation token source
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._runningTaskCount">
+            <summary>
+            The running task count
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.Pipeline._disposed">
+            <summary>
+            The disposed
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.#ctor(System.Int32,System.Action{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.Pipeline"/> class.
+            </summary>
+            <param name="maximumTasks">The maximum tasks.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.Pipeline"/> class.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Tassle.Tasks.Pipeline.Pipeline"/> class.
+            </summary>
+        </member>
+        <member name="E:Tassle.Tasks.Pipeline.Pipeline.TaskStatusChanged">
+            <summary>
+            Occurs when [task status changed].
+            </summary>
+        </member>
+        <member name="E:Tassle.Tasks.Pipeline.Pipeline.TasksDone">
+            <summary>
+            Occurs when [tasks done].
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.Pipeline.RunningTaskCount">
+            <summary>
+            Gets the running task count.
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.Pipeline.AvailableTaskSlotCount">
+            <summary>
+            Gets the available task slot count.
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.Pipeline.IsRunning">
+            <summary>
+            Gets a value indicating whether this instance is running.
+            </summary>
+            <value>
+                <c>true</c> if this instance is running; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.Pipeline.Disposed">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:Tassle.Tasks.Pipeline.Pipeline"/> is disposed.
+            </summary>
+            <value>
+              <c>true</c> if disposed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.AddTask(System.Object)">
+            <summary>
+            Adds the task.
+            </summary>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.Cancel(System.Boolean)">
+            <summary>
+            Cancels the specified empty queues.
+            </summary>
+            <param name="emptyQueues">if set to <c>true</c> [empty queues].</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.FillQueue">
+            <summary>
+            Fills the queue.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.DequeueAndDoTask">
+            <summary>
+            Pops the and do task.
+            </summary>
+            <remarks>Lock the running task count before entering the function</remarks>
+            <returns>Whether the task is done or not</returns>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.TaskAction(System.Object)">
+            <summary>
+            Tasks the action.
+            </summary>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.InvokeTasksDone(System.Boolean)">
+            <summary>
+            Gets called when [tasks done].
+            </summary>
+            <param name="isCancelled">if set to <c>true</c> [is cancelled].</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.InvokeTaskStatusChanged(Tassle.Tasks.Pipeline.PipelineTaskStatus,System.Object)">
+            <summary>
+            Gets called when [task status changed].
+            </summary>
+            <param name="status">The status.</param>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.OnDispose(System.Boolean)">
+            <summary>
+            Called when [dispose].
+            </summary>
+            <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.Pipeline.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources
+            </summary>
+            <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:Tassle.Tasks.Pipeline.PipelineTask">
+            <summary>
+            PipelineTask class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTask._statusSync">
+            <summary>
+            The status sync
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTask._action">
+            <summary>
+            The action
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTask._parameter">
+            <summary>
+            The parameter
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTask._cancellationTokenSource">
+            <summary>
+            The cancellation token source
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTask._status">
+            <summary>
+            The status
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTask._disposed">
+            <summary>
+            The disposed
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.#ctor(System.Object,System.Action{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.PipelineTask"/> class.
+            </summary>
+            <param name="parameter">The parameter.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.#ctor(System.Action{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.PipelineTask"/> class.
+            </summary>
+            <param name="action">The action</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.PipelineTask"/> class.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Tassle.Tasks.Pipeline.PipelineTask"/> class.
+            </summary>
+        </member>
+        <member name="E:Tassle.Tasks.Pipeline.PipelineTask.StatusChanged">
+            <summary>
+            Occurs when [status changed].
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.PipelineTask.Status">
+            <summary>
+            Gets the status.
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.PipelineTask.Disposed">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:Tassle.Tasks.Pipeline.Pipeline"/> is disposed.
+            </summary>
+            <value>
+              <c>true</c> if disposed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.DoTask">
+            <summary>
+            Does the task.
+            </summary>
+            <returns>The task object</returns>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.Cancel">
+            <summary>
+            Cancels this instance.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.TaskAction(System.Object)">
+            <summary>
+            Tasks the action.
+            </summary>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.OnStatusChanged">
+            <summary>
+            Called when [status changed].
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.OnDispose(System.Boolean)">
+            <summary>
+            Called when [dispose].
+            </summary>
+            <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTask.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources
+            </summary>
+            <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:Tassle.Tasks.Pipeline.PipelineTasksDoneEventArgs">
+            <summary>
+            PipelineTasksDoneEventArgs class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTasksDoneEventArgs._isCancelled">
+            <summary>
+            The is cancelled
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTasksDoneEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.PipelineTasksDoneEventArgs"/> class.
+            </summary>
+            <param name="isCancelled">if set to <c>true</c> [is cancelled].</param>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.PipelineTasksDoneEventArgs.IsCancelled">
+            <summary>
+            Gets a value indicating whether this instance is cancelled.
+            </summary>
+            <value>
+                <c>true</c> if this instance is cancelled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Tassle.Tasks.Pipeline.PipelineTaskStatus">
+            <summary>
+            PipelineTaskStatus enumeration.
+            </summary>
+            <remarks>Converted from byte to int due to CLS compliancy.</remarks>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTaskStatus.NotStarted">
+            <summary>
+            Task is NotStarted
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTaskStatus.Running">
+            <summary>
+            Task is Running
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTaskStatus.Finished">
+            <summary>
+            Task is Finished
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTaskStatus.Cancelled">
+            <summary>
+            Task is Cancelled
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs">
+            <summary>
+            PipelineTaskStatusChangedEventArgs class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs._status">
+            <summary>
+            The status
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs._parameter">
+            <summary>
+            The parameter
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs.#ctor(Tassle.Tasks.Pipeline.PipelineTaskStatus,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs"/> class.
+            </summary>
+            <param name="status">The status.</param>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs.Status">
+            <summary>
+            Gets the status.
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.Pipeline.PipelineTaskStatusChangedEventArgs.Parameter">
+            <summary>
+            Gets the parameter.
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.Schedule.DayFlags">
+            <summary>
+            DayFlags enumeration.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.None">
+            <summary>
+            None of them.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D01">
+            <summary>
+            Day 01.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D02">
+            <summary>
+            Day 02.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D03">
+            <summary>
+            Day 03.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D04">
+            <summary>
+            Day 04.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D05">
+            <summary>
+            Day 05.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D06">
+            <summary>
+            Day 06.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D07">
+            <summary>
+            Day 07.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D08">
+            <summary>
+            Day 08.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D09">
+            <summary>
+            Day 09.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D10">
+            <summary>
+            Day 10.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D11">
+            <summary>
+            Day 11.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D12">
+            <summary>
+            Day 12.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D13">
+            <summary>
+            Day 13.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D14">
+            <summary>
+            Day 14.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D15">
+            <summary>
+            Day 15.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D16">
+            <summary>
+            Day 16.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D17">
+            <summary>
+            Day 17.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D18">
+            <summary>
+            Day 18.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D19">
+            <summary>
+            Day 19.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D20">
+            <summary>
+            Day 20.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D21">
+            <summary>
+            Day 21.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D22">
+            <summary>
+            Day 22.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D23">
+            <summary>
+            Day 23.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D24">
+            <summary>
+            Day 24.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D25">
+            <summary>
+            Day 25.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D26">
+            <summary>
+            Day 26.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D27">
+            <summary>
+            Day 27.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D28">
+            <summary>
+            Day 28.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D29">
+            <summary>
+            Day 29.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D30">
+            <summary>
+            Day 30.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayFlags.D31">
+            <summary>
+            Day 31.
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.Schedule.DayOfWeekFlags">
+            <summary>
+            DayOfWeekFlags enumeration.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.None">
+            <summary>
+            None of them.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Sunday">
+            <summary>
+            Day Sunday.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Monday">
+            <summary>
+            Day Monday.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Tuesday">
+            <summary>
+            Day Tuesday.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Wednesday">
+            <summary>
+            Day Wednesday.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Thursday">
+            <summary>
+            Day Thursday.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Friday">
+            <summary>
+            Day Friday.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.DayOfWeekFlags.Saturday">
+            <summary>
+            Day Saturday.
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.Schedule.HourFlags">
+            <summary>
+            HourFlags enumeration.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.None">
+            <summary>
+            None of them.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H00">
+            <summary>
+            Hour 00.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H01">
+            <summary>
+            Hour 01.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H02">
+            <summary>
+            Hour 02.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H03">
+            <summary>
+            Hour 03.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H04">
+            <summary>
+            Hour 04.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H05">
+            <summary>
+            Hour 05.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H06">
+            <summary>
+            Hour 06.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H07">
+            <summary>
+            Hour 07.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H08">
+            <summary>
+            Hour 08.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H09">
+            <summary>
+            Hour 09.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H10">
+            <summary>
+            Hour 10.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H11">
+            <summary>
+            Hour 11.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H12">
+            <summary>
+            Hour 12.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H13">
+            <summary>
+            Hour 13.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H14">
+            <summary>
+            Hour 14.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H15">
+            <summary>
+            Hour 15.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H16">
+            <summary>
+            Hour 16.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H17">
+            <summary>
+            Hour 17.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H18">
+            <summary>
+            Hour 18.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H19">
+            <summary>
+            Hour 19.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H20">
+            <summary>
+            Hour 20.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H21">
+            <summary>
+            Hour 21.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H22">
+            <summary>
+            Hour 22.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.HourFlags.H23">
+            <summary>
+            Hour 23.
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.Schedule.MonthFlags">
+            <summary>
+            MonthFlags enumeration.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.None">
+            <summary>
+            None of them.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.January">
+            <summary>
+            Month January.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.February">
+            <summary>
+            Month February.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.March">
+            <summary>
+            Month March.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.April">
+            <summary>
+            Month April.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.May">
+            <summary>
+            Month May.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.June">
+            <summary>
+            Month June.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.July">
+            <summary>
+            Month July.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.August">
+            <summary>
+            Month August.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.September">
+            <summary>
+            Month September.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.October">
+            <summary>
+            Month October.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.November">
+            <summary>
+            Month November.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.MonthFlags.December">
+            <summary>
+            Month December.
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.Schedule.Recurrence">
+            <summary>
+            Recurrence class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence.s_once">
+            <summary>
+            Once
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._dateStart">
+            <summary>
+            The date start
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._interval">
+            <summary>
+            The interval
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._dateEnd">
+            <summary>
+            The date end
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._excludedHours">
+            <summary>
+            The excluded hours
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._excludedDayOfWeeks">
+            <summary>
+            The excluded day of weeks
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._excludedDays">
+            <summary>
+            The excluded days
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.Schedule.Recurrence._excludedMonths">
+            <summary>
+            The excluded months
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.Schedule.Recurrence.#ctor(System.DateTimeOffset,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.Schedule.Recurrence"/> class.
+            </summary>
+            <param name="dateStart">The date start</param>
+            <param name="interval">The interval</param>
+            <remarks>Use TimeSpan.Zero as interval for non-recurring events.</remarks>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.Once">
+            <summary>
+            Gets the once.
+            </summary>
+            <value>
+            The once.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.DateStart">
+            <summary>
+            Gets the date start.
+            </summary>
+            <value>
+            The date start.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.DateEnd">
+            <summary>
+            Gets or sets the date end.
+            </summary>
+            <value>
+            The date end.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.Interval">
+            <summary>
+            Gets the interval.
+            </summary>
+            <value>
+            The interval.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.ExcludedHours">
+            <summary>
+            Gets or sets the excluded hours.
+            </summary>
+            <value>
+            The excluded hours.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.ExcludedDayOfWeeks">
+            <summary>
+            Gets or sets the excluded day of weeks.
+            </summary>
+            <value>
+            The excluded day of weeks.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.ExcludedDays">
+            <summary>
+            Gets or sets the excluded days.
+            </summary>
+            <value>
+            The excluded days.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.Schedule.Recurrence.ExcludedMonths">
+            <summary>
+            Gets or sets the excluded months.
+            </summary>
+            <value>
+            The excluded months.
+            </value>
+        </member>
+        <member name="M:Tassle.Tasks.Schedule.Recurrence.OnceAt(System.DateTimeOffset)">
+            <summary>
+            Creates recurrence works at once on specified time.
+            </summary>
+            <param name="dateTime">The date time</param>
+            <returns>Recurrence instance</returns>
+        </member>
+        <member name="M:Tassle.Tasks.Schedule.Recurrence.Periodically(System.TimeSpan)">
+            <summary>
+            Creates periodical recurrence instance.
+            </summary>
+            <param name="period">The period</param>
+            <returns>Recurrence instance</returns>
+        </member>
+        <member name="M:Tassle.Tasks.Schedule.Recurrence.CheckDate(System.DateTimeOffset)">
+            <summary>
+            Checks the date.
+            </summary>
+            <param name="dateTime">The date time</param>
+            <returns>Is date valid or not</returns>
+        </member>
+        <member name="M:Tassle.Tasks.Schedule.Recurrence.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:Tassle.Tasks.Schedule.Recurrence.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+            </summary>
+            <param name="obj">The object to compare with the current object</param>
+            <returns>
+            true if the specified object  is equal to the current object; otherwise, false.
+            </returns>
+        </member>
+        <member name="T:Tassle.Tasks.TaskActionParameters">
+            <summary>
+            TaskActionParameters class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskActionParameters._source">
+            <summary>
+            The source
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskActionParameters._actionStarted">
+            <summary>
+            The action started
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskActionParameters._cancellationTokenSource">
+            <summary>
+            The cancellation token source
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskActionParameters._disposed">
+            <summary>
+            The disposed
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskActionParameters.#ctor(Tassle.Tasks.TaskItem,System.DateTimeOffset,System.Threading.CancellationTokenSource)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.TaskActionParameters" /> class.
+            </summary>
+            <param name="source">The source</param>
+            <param name="actionStarted">The action started</param>
+            <param name="cancellationTokenSource">The cancellation token source</param>
+        </member>
+        <member name="M:Tassle.Tasks.TaskActionParameters.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Tassle.Tasks.TaskActionParameters"/> class.
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.TaskActionParameters.Source">
+            <summary>
+            Gets the source.
+            </summary>
+            <value>
+            The source.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskActionParameters.ActionStarted">
+            <summary>
+            Gets the action started.
+            </summary>
+            <value>
+            The action started.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskActionParameters.CancellationTokenSource">
+            <summary>
+            Gets the cancellation token source.
+            </summary>
+            <value>
+            The cancellation token source.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskActionParameters.Disposed">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="!:Service"/> is disposed.
+            </summary>
+            <value>
+              <c>true</c> if disposed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Tassle.Tasks.TaskActionParameters.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskActionParameters.OnDispose(System.Boolean)">
+            <summary>
+            Called when [dispose].
+            </summary>
+            <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        </member>
+        <member name="M:Tassle.Tasks.TaskActionParameters.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        </member>
+        <member name="T:Tassle.Tasks.TaskInterface">
+            <summary>
+            TaskInterface interface.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskInterface.Do(Tassle.Tasks.TaskActionParameters)">
+            <summary>
+            Does the task.
+            </summary>
+            <param name="parameters">The parameters</param>
+        </member>
+        <member name="T:Tassle.Tasks.TaskItem">
+            <summary>
+            TaskItem class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._recurrence">
+            <summary>
+            The recurrence
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._repeat">
+            <summary>
+            The repeat
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._action">
+            <summary>
+            The action
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._status">
+            <summary>
+            The status
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._lastRun">
+            <summary>
+            The last run
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._lifetime">
+            <summary>
+            The lifetime
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItem._activeActions">
+            <summary>
+            The active actions
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.#ctor(System.Action{Tassle.Tasks.TaskActionParameters})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.TaskItem" /> class.
+            </summary>
+            <param name="recurrence">The recurrence</param>
+            <param name="action">The action</param>
+            <param name="lifetime">The lifetime</param>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.Recurrence">
+            <summary>
+            Gets or sets the recurrence.
+            </summary>
+            <value>
+            The recurrence.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.Repeat">
+            <summary>
+            Gets or sets the repeat.
+            </summary>
+            <value>
+            The repeat.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.Action">
+            <summary>
+            Gets or sets the action.
+            </summary>
+            <value>
+            The action.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.Status">
+            <summary>
+            Gets the status.
+            </summary>
+            <value>
+            The status.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.LastRun">
+            <summary>
+            Gets the last run.
+            </summary>
+            <value>
+            The last run.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.Lifetime">
+            <summary>
+            Gets the lifetime.
+            </summary>
+            <value>
+            The lifetime.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskItem.ActiveActions">
+            <summary>
+            Gets the active actions.
+            </summary>
+            <value>
+            The active actions.
+            </value>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.SetRecurrence(Tassle.Tasks.Schedule.Recurrence)">
+            <summary>
+            Sets recurrence of task item.
+            </summary>
+            <param name="recurrence">Recurrence</param>
+            <returns>Task Item</returns>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.SetRepeat(System.Int32)">
+            <summary>
+            Sets repeat of task item.
+            </summary>
+            <param name="repeat">Repeat</param>
+            <returns>Task Item</returns>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.SetLifetime(System.TimeSpan)">
+            <summary>
+            Sets lifetime of task item.
+            </summary>
+            <param name="lifetime">Life time</param>
+            <returns>Task Item</returns>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.Postpone(System.TimeSpan)">
+            <summary>
+            Postpones the task schedule.
+            </summary>
+            <param name="timespan">The timespan which will be added to start time</param>
+            <returns>Task Item</returns>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.Init">
+            <summary>
+            Initializes this instance.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.Run(System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Runs the specified date time.
+            </summary>
+            <param name="dateTime">The date time</param>
+        </member>
+        <member name="M:Tassle.Tasks.TaskItem.CancelActiveActions">
+            <summary>
+            Cancels the active actions.
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.TaskItemStatus">
+            <summary>
+            TaskItemStatus enumeration.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItemStatus.NotStarted">
+            <summary>
+            Not started
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItemStatus.Running">
+            <summary>
+            Item is running
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskItemStatus.Stopped">
+            <summary>
+            Item is stopped
+            </summary>
+        </member>
+        <member name="T:Tassle.Tasks.TaskManager">
+            <summary>
+            TaskManager class.
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskManager._items">
+            <summary>
+            The items
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskManager._timer">
+            <summary>
+            The timer
+            </summary>
+        </member>
+        <member name="F:Tassle.Tasks.TaskManager._now">
+            <summary>
+            The now
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tassle.Tasks.TaskManager"/> class.
+            </summary>
+        </member>
+        <member name="P:Tassle.Tasks.TaskManager.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskManager.Description">
+            <summary>
+            Gets the description.
+            </summary>
+            <value>
+            The description.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskManager.Items">
+            <summary>
+            Gets or sets the items.
+            </summary>
+            <value>
+            The items.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskManager.Timer">
+            <summary>
+            Gets or sets the timer.
+            </summary>
+            <value>
+            The timer.
+            </value>
+        </member>
+        <member name="P:Tassle.Tasks.TaskManager.Now">
+            <summary>
+            Gets or sets the now.
+            </summary>
+            <value>
+            The now.
+            </value>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.Add(System.String,Tassle.Tasks.TaskItem)">
+            <summary>
+            Adds the specified key.
+            </summary>
+            <param name="key">The key</param>
+            <param name="item">The item</param>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.Remove(System.String)">
+            <summary>
+            Removes the specified key.
+            </summary>
+            <param name="key">The key</param>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.Clear">
+            <summary>
+            Clears this instance.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.Stop(System.Boolean)">
+            <summary>
+            Requests a registered object to unregister.
+            </summary>
+            <param name="immediate">true to indicate the registered object should unregister from the hosting environment before returning; otherwise, false.</param>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.ServiceStart">
+            <summary>
+            Invokes events will be occurred during the service start.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.ServiceStop">
+            <summary>
+            Invokes events will be occurred during the service stop.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.TaskManager.TimerCallback(System.Object)">
+            <summary>
+            Handles the Elapsed event of the Timer control.
+            </summary>
+            <param name="state">Object state</param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tassle.Logging.Telnet</name>
+    </assembly>
+    <members>
+        <member name="M:Tassle.Logging.Telnet.TelnetLoggerFactoryExtensions.AddTelnet(Microsoft.Extensions.Logging.ILoggerFactory,System.IServiceProvider)">
+            <summary>
+            Adds a telnet logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>.Information or higher.
+            </summary>
+        </member>
+        <member name="M:Tassle.Logging.Telnet.TelnetLoggerFactoryExtensions.AddTelnet(Microsoft.Extensions.Logging.ILoggerFactory,System.IServiceProvider,System.Boolean)">
+            <summary>
+            Adds a telnet logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>.Information or higher.
+            </summary>
+            <param name="factory"></param>
+            <param name="includeScopes">A value which indicates whether log scope information should be displayed
+            in the output.</param>
+        </member>
+        <member name="M:Tassle.Logging.Telnet.TelnetLoggerFactoryExtensions.AddTelnet(Microsoft.Extensions.Logging.ILoggerFactory,System.IServiceProvider,Microsoft.Extensions.Logging.LogLevel)">
+            <summary>
+            Adds a telnet logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>s of minLevel or higher.
+            </summary>
+            <param name="factory">The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> to use.</param>
+            <param name="minLevel">The minimum <see cref="T:Microsoft.Extensions.Logging.LogLevel"/> to be logged</param>
+        </member>
+        <member name="M:Tassle.Logging.Telnet.TelnetLoggerFactoryExtensions.AddTelnet(Microsoft.Extensions.Logging.ILoggerFactory,System.IServiceProvider,Microsoft.Extensions.Logging.LogLevel,System.Boolean)">
+            <summary>
+            Adds a telnet logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>s of minLevel or higher.
+            </summary>
+            <param name="factory"></param>
+            <param name="minLevel">The minimum <see cref="T:Microsoft.Extensions.Logging.LogLevel"/> to be logged</param>
+            <param name="includeScopes">A value which indicates whether log scope information should be displayed
+            in the output.</param>
+        </member>
+        <member name="M:Tassle.Logging.Telnet.TelnetLoggerFactoryExtensions.AddTelnet(Microsoft.Extensions.Logging.ILoggerFactory,System.IServiceProvider,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            Adds a telnet logger that is enabled as defined by the filter function.
+            </summary>
+            <param name="factory"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="M:Tassle.Logging.Telnet.TelnetLoggerFactoryExtensions.AddTelnet(Microsoft.Extensions.Logging.ILoggerFactory,System.IServiceProvider,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean},System.Boolean)">
+            <summary>
+            Adds a telnet logger that is enabled as defined by the filter function.
+            </summary>
+            <param name="factory"></param>
+            <param name="filter"></param>
+            <param name="includeScopes">A value which indicates whether log scope information should be displayed
+            in the output.</param>
+        </member>
+    </members>
+</doc>

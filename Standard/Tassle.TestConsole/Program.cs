@@ -31,14 +31,14 @@ using System.Net;
 namespace Tassle.TestConsole {
     public class Program {
         public static void Main(string[] args) {
-            //TasslehoffCoreConfig tasslehoffConfig = new TasslehoffCoreConfig() {
+            //TassleCoreConfig tassleConfig = new TassleCoreConfig() {
             //    Culture = "en-us"
             //};
 
-            //TasslehoffCore tasslehoff = new TasslehoffCore(tasslehoffConfig);
+            //TassleCore tassle = new TassleCore(tassleConfig);
 
 
-            //tasslehoff.Start();
+            //tassle.Start();
 
             /*
             DynamicAssembly da = new DynamicAssembly("Deneme");
