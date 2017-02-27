@@ -11,7 +11,7 @@
     <Product>Tassle</Product>
     <Title>Tassle.Data</Title>
     <Description>Data component of Tassle</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Eser Ozvataf</Authors>
     <PackageProjectUrl>https://github.com/eserozvataf/tassle</PackageProjectUrl>
     <RepositoryUrl>https://github.com/eserozvataf/tassle</RepositoryUrl>
@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
 </Project>
