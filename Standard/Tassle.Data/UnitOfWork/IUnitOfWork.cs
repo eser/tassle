@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="Bootstrapper.cs" company="-">
+// <copyright file="IUnitOfWork.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,32 +19,31 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Tassle.Data.Entity;
+using Tassle.Data.Repository;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using Tassle.Tasks;
-using Tassle.Telnet;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Tassle.TestConsole {
-    public class Bootstrapper {
-        public IServiceProvider GetServiceProvider() {
-            var services = new ServiceCollection();
+namespace Tassle.Data.UnitOfWork {
+    /// <summary>
+    /// Unit of work implementasyonlarinin kullanacagi interface
+    /// </summary>
+    public interface IUnitOfWork : IDisposable {
+        // properties
 
-            services.AddLogging();
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
-            services.AddSingleton<TaskManager>();
+        IUnitOfWorkTransaction Transaction { get; }
 
-            return services.BuildServiceProvider();
-        }
+        // methods
 
-        public ITelnetServer CreateTelnetServer() {
-            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
+        int SaveChanges(bool? acceptAllChangesOnSuccess = null);
 
-            return telnetServer;
-        }
+        Task<int> SaveChangesAsync(bool? acceptAllChangesOnSuccess = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        IRepository<T> GetGenericRepository<T>()
+            where T : class, IEntity, new();
+
+        T GetRepository<T>()
+            where T : class;
     }
 }

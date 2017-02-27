@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Net;
 
 namespace Tassle.Logging.Telnet {
-    public class TelnetLoggerSettings : TelnetLoggerSettingsInterface {
+    public class TelnetLoggerSettings : ITelnetLoggerSettings {
         // fields
         private bool _includeScopes;
 
@@ -64,7 +64,7 @@ namespace Tassle.Logging.Telnet {
 
         // methods
 
-        public TelnetLoggerSettingsInterface Reload() {
+        public ITelnetLoggerSettings Reload() {
             return this;
         }
 

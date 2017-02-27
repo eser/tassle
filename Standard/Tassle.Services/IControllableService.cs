@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="TaskInterface.cs" company="-">
+// <copyright file="IControllableService.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,17 +19,40 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tassle.Tasks {
+using System;
+
+namespace Tassle.Services {
     /// <summary>
-    /// TaskInterface interface.
+    /// IControllableService interface.
     /// </summary>
-    public interface TaskInterface {
+    public interface IControllableService : IService {
+        // events
+
+        /// <summary>
+        /// Occurs when [started].
+        /// </summary>
+        event EventHandler<ServiceStatusChangedEventArgs> Started;
+
+        /// <summary>
+        /// Occurs when [stopped].
+        /// </summary>
+        event EventHandler<ServiceStatusChangedEventArgs> Stopped;
+
         // methods
 
         /// <summary>
-        /// Does the task.
+        /// Restarts this instance.
         /// </summary>
-        /// <param name="parameters">The parameters</param>
-        void Do(TaskActionParameters parameters);
+        void Restart();
+
+        /// <summary>
+        /// Starts this instance.
+        /// </summary>
+        void Start();
+
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
+        void Stop();
     }
 }

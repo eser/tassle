@@ -95,7 +95,7 @@ namespace Tassle.Logging.Telnet {
             return factory;
         }
 
-        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, IServiceProvider serviceProvider, TelnetLoggerSettingsInterface settings) {
+        public static ILoggerFactory AddTelnet(this ILoggerFactory factory, IServiceProvider serviceProvider, ITelnetLoggerSettings settings) {
             factory.AddProvider(new TelnetLoggerProvider(serviceProvider, settings));
 
             return factory;

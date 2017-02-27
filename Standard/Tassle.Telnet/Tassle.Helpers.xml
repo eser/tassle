@@ -52,6 +52,82 @@
             The thread id
             </value>
         </member>
+        <member name="T:Tassle.Telnet.ITelnetServer">
+            <summary>
+            ITelnetServer interface.
+            </summary>
+        </member>
+        <member name="E:Tassle.Telnet.ITelnetServer.MessageReceived">
+            <summary>
+            Occurs when [on message received].
+            </summary>
+        </member>
+        <member name="E:Tassle.Telnet.ITelnetServer.ClientConnected">
+            <summary>
+            Occurs when [on client connected].
+            </summary>
+        </member>
+        <member name="E:Tassle.Telnet.ITelnetServer.ClientDisconnected">
+            <summary>
+            Occurs when [client disconnected].
+            </summary>
+        </member>
+        <member name="P:Tassle.Telnet.ITelnetServer.ListenerThread">
+            <summary>
+            Gets or sets the listener thread
+            </summary>
+            <value>
+            The listener thread
+            </value>
+        </member>
+        <member name="P:Tassle.Telnet.ITelnetServer.Threads">
+            <summary>
+            Gets or sets the threads
+            </summary>
+            <value>
+            The threads
+            </value>
+        </member>
+        <member name="P:Tassle.Telnet.ITelnetServer.IsRunning">
+            <summary>
+            Gets is running
+            </summary>
+            <value>
+            Is running
+            </value>
+        </member>
+        <member name="P:Tassle.Telnet.ITelnetServer.Encoding">
+            <summary>
+            Gets or sets the encoding
+            </summary>
+            <value>
+            The encoding
+            </value>
+        </member>
+        <member name="M:Tassle.Telnet.ITelnetServer.Start">
+            <summary>
+            Starts the server.
+            </summary>
+        </member>
+        <member name="M:Tassle.Telnet.ITelnetServer.Stop">
+            <summary>
+            Stops the server.
+            </summary>
+        </member>
+        <member name="M:Tassle.Telnet.ITelnetServer.BroadcastMessage(System.String)">
+            <summary>
+            Broadcasts a message.
+            </summary>
+            <param name="message">Message content</param>
+        </member>
+        <member name="M:Tassle.Telnet.ITelnetServer.SendMessage(System.Int32,System.String)">
+            <summary>
+            Sends a message to specific client.
+            </summary>
+            <param name="threadId">Thread id</param>
+            <param name="message">Message content</param>
+            <returns>Is message is delivered or not</returns>
+        </member>
         <member name="T:Tassle.Telnet.MessageReceivedEventArgs">
             <summary>
             MessageReceivedEventArgs class.
@@ -234,82 +310,6 @@
             <summary>
             Main loop for listener thread
             </summary>
-        </member>
-        <member name="T:Tassle.Telnet.TelnetServerInterface">
-            <summary>
-            TelnetServerInterface interface.
-            </summary>
-        </member>
-        <member name="E:Tassle.Telnet.TelnetServerInterface.MessageReceived">
-            <summary>
-            Occurs when [on message received].
-            </summary>
-        </member>
-        <member name="E:Tassle.Telnet.TelnetServerInterface.ClientConnected">
-            <summary>
-            Occurs when [on client connected].
-            </summary>
-        </member>
-        <member name="E:Tassle.Telnet.TelnetServerInterface.ClientDisconnected">
-            <summary>
-            Occurs when [client disconnected].
-            </summary>
-        </member>
-        <member name="P:Tassle.Telnet.TelnetServerInterface.ListenerThread">
-            <summary>
-            Gets or sets the listener thread
-            </summary>
-            <value>
-            The listener thread
-            </value>
-        </member>
-        <member name="P:Tassle.Telnet.TelnetServerInterface.Threads">
-            <summary>
-            Gets or sets the threads
-            </summary>
-            <value>
-            The threads
-            </value>
-        </member>
-        <member name="P:Tassle.Telnet.TelnetServerInterface.IsRunning">
-            <summary>
-            Gets is running
-            </summary>
-            <value>
-            Is running
-            </value>
-        </member>
-        <member name="P:Tassle.Telnet.TelnetServerInterface.Encoding">
-            <summary>
-            Gets or sets the encoding
-            </summary>
-            <value>
-            The encoding
-            </value>
-        </member>
-        <member name="M:Tassle.Telnet.TelnetServerInterface.Start">
-            <summary>
-            Starts the server.
-            </summary>
-        </member>
-        <member name="M:Tassle.Telnet.TelnetServerInterface.Stop">
-            <summary>
-            Stops the server.
-            </summary>
-        </member>
-        <member name="M:Tassle.Telnet.TelnetServerInterface.BroadcastMessage(System.String)">
-            <summary>
-            Broadcasts a message.
-            </summary>
-            <param name="message">Message content</param>
-        </member>
-        <member name="M:Tassle.Telnet.TelnetServerInterface.SendMessage(System.Int32,System.String)">
-            <summary>
-            Sends a message to specific client.
-            </summary>
-            <param name="threadId">Thread id</param>
-            <param name="message">Message content</param>
-            <returns>Is message is delivered or not</returns>
         </member>
         <member name="T:Tassle.Telnet.TelnetThread">
             <summary>

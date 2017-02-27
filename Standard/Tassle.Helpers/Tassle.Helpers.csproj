@@ -1,10 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Label="Configuration" />
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
     <OutputType>library</OutputType>
     <DocumentationFile>$(OutDir)Tassle.Helpers.xml</DocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Product>Tassle</Product>
+    <Title>Tassle.Helpers</Title>
+    <Description>Helpers for Tassle components</Description>
+    <Version>1.0.0</Version>
+    <Authors>Eser Ozvataf</Authors>
+    <PackageProjectUrl>https://github.com/eserozvataf/tassle</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/eserozvataf/tassle</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/eserozvataf/tassle/blob/development/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />

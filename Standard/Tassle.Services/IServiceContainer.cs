@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ServiceContainerInterface.cs" company="-">
+// <copyright file="IServiceContainer.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -24,9 +24,9 @@ using System.Collections.Generic;
 
 namespace Tassle.Services {
     /// <summary>
-    /// ServiceContainerInterface interface.
+    /// IServiceContainer interface.
     /// </summary>
-    public interface ServiceContainerInterface : ControllableServiceInterface {
+    public interface IServiceContainer : IControllableService {
         // events
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Tassle.Services {
         /// <value>
         /// The children.
         /// </value>
-        ICollection<ServiceInterface> Children { get; }
+        ICollection<IService> Children { get; }
 
         // methods
 
@@ -50,14 +50,14 @@ namespace Tassle.Services {
         /// Adds the child.
         /// </summary>
         /// <param name="services">The services</param>
-        void AddChild(params ServiceInterface[] services);
+        void AddChild(params IService[] services);
 
         /// <summary>
         /// Finds an service with path notation.
         /// </summary>
         /// <param name="path">Path of the service</param>
         /// <returns>A service instance</returns>
-        ServiceInterface FindByPath(string path);
+        IService FindByPath(string path);
 
         /// <summary>
         /// Finds an service with path notation.
@@ -73,6 +73,6 @@ namespace Tassle.Services {
         /// <typeparam name="T"></typeparam>
         /// <param name="recursive">if set to <c>true</c> [recursive].</param>
         /// <returns>Service if found</returns>
-        T Find<T>(bool recursive) where T : class, ServiceInterface;
+        T Find<T>(bool recursive) where T : class, IService;
     }
 }

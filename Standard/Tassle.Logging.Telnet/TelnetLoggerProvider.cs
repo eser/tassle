@@ -32,7 +32,7 @@ namespace Tassle.Logging.Telnet {
         private readonly ConcurrentDictionary<string, TelnetLogger> _loggers = new ConcurrentDictionary<string, TelnetLogger>();
 
         private readonly Func<string, LogLevel, bool> _filter;
-        private TelnetLoggerSettingsInterface _settings;
+        private ITelnetLoggerSettings _settings;
 
         private IServiceProvider _serviceProvider;
 
@@ -51,7 +51,7 @@ namespace Tassle.Logging.Telnet {
             this._serviceProvider = serviceProvider;
         }
 
-        public TelnetLoggerProvider(IServiceProvider serviceProvider, TelnetLoggerSettingsInterface settings) {
+        public TelnetLoggerProvider(IServiceProvider serviceProvider, ITelnetLoggerSettings settings) {
             if (settings == null) {
                 throw new ArgumentNullException(nameof(settings));
             }
@@ -87,12 +87,12 @@ namespace Tassle.Logging.Telnet {
         }
 
         private TelnetLogger CreateTelnetImplementation(string name) {
-            var telnetServer = this._serviceProvider.GetService(typeof(TelnetServerInterface)) as TelnetServerInterface;
+            var telnetServer = this._serviceProvider.GetService(typeof(ITelnetServer)) as ITelnetServer;
 
             return new TelnetLogger(name, telnetServer, this.GetFilter(name, this._settings), this._settings.IncludeScopes);
         }
 
-        private Func<string, LogLevel, bool> GetFilter(string name, TelnetLoggerSettingsInterface settings) {
+        private Func<string, LogLevel, bool> GetFilter(string name, ITelnetLoggerSettings settings) {
             if (this._filter != null) {
                 return this._filter;
             }

@@ -26,7 +26,7 @@ using System;
 using System.Net;
 
 namespace Tassle.Logging.Telnet {
-    public class ConfigurationTelnetLoggerSettings : TelnetLoggerSettingsInterface {
+    public class ConfigurationTelnetLoggerSettings : ITelnetLoggerSettings {
         // fields
 
         private readonly IConfiguration _configuration;
@@ -94,7 +94,7 @@ namespace Tassle.Logging.Telnet {
 
         // methods
 
-        public TelnetLoggerSettingsInterface Reload() {
+        public ITelnetLoggerSettings Reload() {
             this._changeToken = null;
 
             return new ConfigurationTelnetLoggerSettings(this._configuration);

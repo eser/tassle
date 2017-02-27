@@ -27,7 +27,7 @@ namespace Tassle.Services {
     /// <summary>
     /// Service class.
     /// </summary>
-    public abstract class Service : ServiceInterface {
+    public abstract class Service : IService {
         // fields
 
         /// <summary>

@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Services", "Standard\Tassle.Services\Tassle.Services.csproj", "{D1A9670C-B6B9-4BBB-A45F-4DFF562F78D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Services", "Standard\Tassle.Services\Tassle.Services.csproj", "{D1A9670C-B6B9-4BBB-A45F-4DFF562F78D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Standard", "Standard", "{64A89E07-9E3D-4843-9119-D627615D25BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Helpers", "Standard\Tassle.Helpers\Tassle.Helpers.csproj", "{D237CEA4-104A-48FD-859F-8072BBBE4267}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Helpers", "Standard\Tassle.Helpers\Tassle.Helpers.csproj", "{D237CEA4-104A-48FD-859F-8072BBBE4267}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Telnet", "Standard\Tassle.Telnet\Tassle.Telnet.csproj", "{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Telnet", "Standard\Tassle.Telnet\Tassle.Telnet.csproj", "{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Logging.Telnet", "Standard\Tassle.Logging.Telnet\Tassle.Logging.Telnet.csproj", "{2EFB7777-12DB-4CBF-804D-56431ABED92E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Tasks", "Standard\Tassle.Tasks\Tassle.Tasks.csproj", "{E4348414-F591-4AB1-8F2C-ED86EF0F471A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Tasks", "Standard\Tassle.Tasks\Tassle.Tasks.csproj", "{E4348414-F591-4AB1-8F2C-ED86EF0F471A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.TestConsole", "Standard\Tassle.TestConsole\Tassle.TestConsole.csproj", "{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.TestConsole", "Standard\Tassle.TestConsole\Tassle.TestConsole.csproj", "{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Data", "Standard\Tassle.Data\Tassle.Data.csproj", "{9B25C08D-F061-46E1-9FA9-1A8238977A46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +140,24 @@ Global
 		{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}.Release|x64.Build.0 = Release|x64
 		{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}.Release|x86.ActiveCfg = Release|x86
 		{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}.Release|x86.Build.0 = Release|x86
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Debug|x64.ActiveCfg = Debug|x64
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Debug|x64.Build.0 = Debug|x64
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Debug|x86.ActiveCfg = Debug|x86
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Debug|x86.Build.0 = Debug|x86
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Publish|Any CPU.Build.0 = Debug|Any CPU
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Publish|x64.ActiveCfg = Release|x64
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Publish|x64.Build.0 = Release|x64
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Publish|x86.ActiveCfg = Release|x86
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Publish|x86.Build.0 = Release|x86
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Release|x64.ActiveCfg = Release|x64
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Release|x64.Build.0 = Release|x64
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Release|x86.ActiveCfg = Release|x86
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +169,7 @@ Global
 		{2EFB7777-12DB-4CBF-804D-56431ABED92E} = {64A89E07-9E3D-4843-9119-D627615D25BD}
 		{E4348414-F591-4AB1-8F2C-ED86EF0F471A} = {64A89E07-9E3D-4843-9119-D627615D25BD}
 		{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E} = {64A89E07-9E3D-4843-9119-D627615D25BD}
+		{9B25C08D-F061-46E1-9FA9-1A8238977A46} = {64A89E07-9E3D-4843-9119-D627615D25BD}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Tasslehoff.CommandLine\Tasslehoff.CommandLine.csproj

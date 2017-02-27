@@ -27,7 +27,7 @@ namespace Tassle.Services {
     /// <summary>
     /// ControllableService class.
     /// </summary>
-    public abstract class ControllableService : Service, ControllableServiceInterface {
+    public abstract class ControllableService : Service, IControllableService {
         // constructors
 
         /// <summary>

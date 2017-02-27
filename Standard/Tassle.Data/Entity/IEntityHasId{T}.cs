@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="Bootstrapper.cs" company="-">
+// <copyright file="IEntityHasId{T}.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,32 +19,12 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using Tassle.Tasks;
-using Tassle.Telnet;
-
-namespace Tassle.TestConsole {
-    public class Bootstrapper {
-        public IServiceProvider GetServiceProvider() {
-            var services = new ServiceCollection();
-
-            services.AddLogging();
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
-            services.AddSingleton<TaskManager>();
-
-            return services.BuildServiceProvider();
-        }
-
-        public ITelnetServer CreateTelnetServer() {
-            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
-
-            return telnetServer;
-        }
+namespace Tassle.Data.Entity {
+    /// <summary>
+    /// Id property'si iceren entity tanimlarina ait interface
+    /// </summary>
+    /// <typeparam name="T">Id property'sinin tipi</typeparam>
+    public interface IEntityHasId<T> : IEntity {
+        T Id { get; set; }
     }
 }

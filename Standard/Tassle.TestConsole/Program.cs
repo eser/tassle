@@ -60,7 +60,7 @@ namespace Tassle.TestConsole {
             var serviceProvider = bootstrapper.GetServiceProvider();
 
             // start telnet
-            var telnetServer = serviceProvider.GetService<TelnetServerInterface>();
+            var telnetServer = serviceProvider.GetService<ITelnetServer>();
             telnetServer.Start();
 
             // setup console logging

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ControllableServiceInterface.cs" company="-">
+// <copyright file="EfRepositorySet{T}.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,40 +19,34 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Tassle.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
+using System.Linq.Expressions;
 
-namespace Tassle.Services {
-    /// <summary>
-    /// ControllableServiceInterface interface.
-    /// </summary>
-    public interface ControllableServiceInterface : ServiceInterface {
-        // events
+namespace Tassle.Data.Repository {
+    public class EfRepositorySet<T> : IRepositorySet<T>
+        where T : class, IEntity {
+        // fields
+        private IQueryable<T> _dbSet;
 
-        /// <summary>
-        /// Occurs when [started].
-        /// </summary>
-        event EventHandler<ServiceStatusChangedEventArgs> Started;
+        // constructors
 
-        /// <summary>
-        /// Occurs when [stopped].
-        /// </summary>
-        event EventHandler<ServiceStatusChangedEventArgs> Stopped;
+        public EfRepositorySet(IQueryable<T> dbSet) {
+            this._dbSet = dbSet;
+        }
 
         // methods
 
-        /// <summary>
-        /// Restarts this instance.
-        /// </summary>
-        void Restart();
+        public IRepositorySet<T> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty) {
+            this._dbSet = this._dbSet.Include(navigationProperty);
 
-        /// <summary>
-        /// Starts this instance.
-        /// </summary>
-        void Start();
+            return this;
+        }
 
-        /// <summary>
-        /// Stops this instance.
-        /// </summary>
-        void Stop();
+        public IQueryable<T> AsQueryable() {
+            return this._dbSet;
+        }
     }
 }

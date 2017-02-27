@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="Bootstrapper.cs" company="-">
+// <copyright file="IRepositorySet{T}.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,32 +19,16 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Tassle.Data.Entity;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using Tassle.Tasks;
-using Tassle.Telnet;
+using System.Linq;
+using System.Linq.Expressions;
 
-namespace Tassle.TestConsole {
-    public class Bootstrapper {
-        public IServiceProvider GetServiceProvider() {
-            var services = new ServiceCollection();
+namespace Tassle.Data.Repository {
+    public interface IRepositorySet<T>
+        where T : class, IEntity {
+        IRepositorySet<T> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty);
 
-            services.AddLogging();
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
-            services.AddSingleton<TaskManager>();
-
-            return services.BuildServiceProvider();
-        }
-
-        public ITelnetServer CreateTelnetServer() {
-            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
-
-            return telnetServer;
-        }
+        IQueryable<T> AsQueryable();
     }
 }

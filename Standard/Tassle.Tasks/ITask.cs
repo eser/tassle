@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ServiceInterface.cs" company="-">
+// <copyright file="ITask.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,54 +19,17 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Microsoft.Extensions.Logging;
-
-namespace Tassle.Services {
+namespace Tassle.Tasks {
     /// <summary>
-    /// ServiceInterface interface.
+    /// ITask interface.
     /// </summary>
-    public interface ServiceInterface : IDisposable {
-        // properties
+    public interface ITask {
+        // methods
 
         /// <summary>
-        /// Gets the name.
+        /// Does the task.
         /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the description.
-        /// </summary>
-        /// <value>
-        /// The description.
-        /// </value>
-        string Description { get; }
-
-        /// <summary>
-        /// Gets the status.
-        /// </summary>
-        /// <value>
-        /// The status.
-        /// </value>
-        ServiceStatus Status { get; }
-
-        /// <summary>
-        /// Gets the status date.
-        /// </summary>
-        /// <value>
-        /// The status date.
-        /// </value>
-        DateTimeOffset StatusDate { get; }
-
-        /// <summary>
-        /// Gets or sets the logger.
-        /// </summary>
-        /// <value>
-        /// The logger.
-        /// </value>
-        ILogger Logger { get; }
+        /// <param name="parameters">The parameters</param>
+        void Do(TaskActionParameters parameters);
     }
 }

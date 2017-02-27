@@ -55,35 +55,127 @@
             Invokes events will be occurred during the service stop.
             </summary>
         </member>
-        <member name="T:Tassle.Services.ControllableServiceInterface">
+        <member name="T:Tassle.Services.IControllableService">
             <summary>
-            ControllableServiceInterface interface.
+            IControllableService interface.
             </summary>
         </member>
-        <member name="E:Tassle.Services.ControllableServiceInterface.Started">
+        <member name="E:Tassle.Services.IControllableService.Started">
             <summary>
             Occurs when [started].
             </summary>
         </member>
-        <member name="E:Tassle.Services.ControllableServiceInterface.Stopped">
+        <member name="E:Tassle.Services.IControllableService.Stopped">
             <summary>
             Occurs when [stopped].
             </summary>
         </member>
-        <member name="M:Tassle.Services.ControllableServiceInterface.Restart">
+        <member name="M:Tassle.Services.IControllableService.Restart">
             <summary>
             Restarts this instance.
             </summary>
         </member>
-        <member name="M:Tassle.Services.ControllableServiceInterface.Start">
+        <member name="M:Tassle.Services.IControllableService.Start">
             <summary>
             Starts this instance.
             </summary>
         </member>
-        <member name="M:Tassle.Services.ControllableServiceInterface.Stop">
+        <member name="M:Tassle.Services.IControllableService.Stop">
             <summary>
             Stops this instance.
             </summary>
+        </member>
+        <member name="T:Tassle.Services.IService">
+            <summary>
+            IService interface.
+            </summary>
+        </member>
+        <member name="P:Tassle.Services.IService.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:Tassle.Services.IService.Description">
+            <summary>
+            Gets the description.
+            </summary>
+            <value>
+            The description.
+            </value>
+        </member>
+        <member name="P:Tassle.Services.IService.Status">
+            <summary>
+            Gets the status.
+            </summary>
+            <value>
+            The status.
+            </value>
+        </member>
+        <member name="P:Tassle.Services.IService.StatusDate">
+            <summary>
+            Gets the status date.
+            </summary>
+            <value>
+            The status date.
+            </value>
+        </member>
+        <member name="P:Tassle.Services.IService.Logger">
+            <summary>
+            Gets or sets the logger.
+            </summary>
+            <value>
+            The logger.
+            </value>
+        </member>
+        <member name="T:Tassle.Services.IServiceContainer">
+            <summary>
+            IServiceContainer interface.
+            </summary>
+        </member>
+        <member name="E:Tassle.Services.IServiceContainer.StartedWithChildren">
+            <summary>
+            Occurs when [started with children].
+            </summary>
+        </member>
+        <member name="P:Tassle.Services.IServiceContainer.Children">
+            <summary>
+            Gets the children.
+            </summary>
+            <value>
+            The children.
+            </value>
+        </member>
+        <member name="M:Tassle.Services.IServiceContainer.AddChild(Tassle.Services.IService[])">
+            <summary>
+            Adds the child.
+            </summary>
+            <param name="services">The services</param>
+        </member>
+        <member name="M:Tassle.Services.IServiceContainer.FindByPath(System.String)">
+            <summary>
+            Finds an service with path notation.
+            </summary>
+            <param name="path">Path of the service</param>
+            <returns>A service instance</returns>
+        </member>
+        <member name="M:Tassle.Services.IServiceContainer.FindByPath``1(System.String)">
+            <summary>
+            Finds an service with path notation.
+            </summary>
+            <typeparam name="T">A type</typeparam>
+            <param name="path">Path of the service</param>
+            <returns>A service instance</returns>
+        </member>
+        <member name="M:Tassle.Services.IServiceContainer.Find``1(System.Boolean)">
+            <summary>
+            Finds the specified dependency (recursively if needed).
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="recursive">if set to <c>true</c> [recursive].</param>
+            <returns>Service if found</returns>
         </member>
         <member name="T:Tassle.Services.LocalResource">
             <summary>
@@ -269,7 +361,7 @@
             The children.
             </value>
         </member>
-        <member name="M:Tassle.Services.ServiceContainer.AddChild(Tassle.Services.ServiceInterface[])">
+        <member name="M:Tassle.Services.ServiceContainer.AddChild(Tassle.Services.IService[])">
             <summary>
             Adds the child.
             </summary>
@@ -313,98 +405,6 @@
             Called when [dispose].
             </summary>
             <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        </member>
-        <member name="T:Tassle.Services.ServiceContainerInterface">
-            <summary>
-            ServiceContainerInterface interface.
-            </summary>
-        </member>
-        <member name="E:Tassle.Services.ServiceContainerInterface.StartedWithChildren">
-            <summary>
-            Occurs when [started with children].
-            </summary>
-        </member>
-        <member name="P:Tassle.Services.ServiceContainerInterface.Children">
-            <summary>
-            Gets the children.
-            </summary>
-            <value>
-            The children.
-            </value>
-        </member>
-        <member name="M:Tassle.Services.ServiceContainerInterface.AddChild(Tassle.Services.ServiceInterface[])">
-            <summary>
-            Adds the child.
-            </summary>
-            <param name="services">The services</param>
-        </member>
-        <member name="M:Tassle.Services.ServiceContainerInterface.FindByPath(System.String)">
-            <summary>
-            Finds an service with path notation.
-            </summary>
-            <param name="path">Path of the service</param>
-            <returns>A service instance</returns>
-        </member>
-        <member name="M:Tassle.Services.ServiceContainerInterface.FindByPath``1(System.String)">
-            <summary>
-            Finds an service with path notation.
-            </summary>
-            <typeparam name="T">A type</typeparam>
-            <param name="path">Path of the service</param>
-            <returns>A service instance</returns>
-        </member>
-        <member name="M:Tassle.Services.ServiceContainerInterface.Find``1(System.Boolean)">
-            <summary>
-            Finds the specified dependency (recursively if needed).
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="recursive">if set to <c>true</c> [recursive].</param>
-            <returns>Service if found</returns>
-        </member>
-        <member name="T:Tassle.Services.ServiceInterface">
-            <summary>
-            ServiceInterface interface.
-            </summary>
-        </member>
-        <member name="P:Tassle.Services.ServiceInterface.Name">
-            <summary>
-            Gets the name.
-            </summary>
-            <value>
-            The name.
-            </value>
-        </member>
-        <member name="P:Tassle.Services.ServiceInterface.Description">
-            <summary>
-            Gets the description.
-            </summary>
-            <value>
-            The description.
-            </value>
-        </member>
-        <member name="P:Tassle.Services.ServiceInterface.Status">
-            <summary>
-            Gets the status.
-            </summary>
-            <value>
-            The status.
-            </value>
-        </member>
-        <member name="P:Tassle.Services.ServiceInterface.StatusDate">
-            <summary>
-            Gets the status date.
-            </summary>
-            <value>
-            The status date.
-            </value>
-        </member>
-        <member name="P:Tassle.Services.ServiceInterface.Logger">
-            <summary>
-            Gets or sets the logger.
-            </summary>
-            <value>
-            The logger.
-            </value>
         </member>
         <member name="T:Tassle.Services.ServiceStatus">
             <summary>

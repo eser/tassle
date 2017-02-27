@@ -45,7 +45,7 @@ namespace Tassle.Logging.Telnet {
 
         private string _name;
 
-        private TelnetServerInterface _telnetServer;
+        private ITelnetServer _telnetServer;
 
         // constructors
 
@@ -56,7 +56,7 @@ namespace Tassle.Logging.Telnet {
             TelnetLogger.s_newLineWithMessagePadding = Environment.NewLine + TelnetLogger.s_messagePadding;
         }
 
-        public TelnetLogger(string name, TelnetServerInterface telnetServer, Func<string, LogLevel, bool> filter, bool includeScopes) {
+        public TelnetLogger(string name, ITelnetServer telnetServer, Func<string, LogLevel, bool> filter, bool includeScopes) {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }

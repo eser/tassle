@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="TelnetLoggerSettingsInterface.cs" company="-">
+// <copyright file="ITelnetLoggerSettings.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -24,7 +24,7 @@ using Microsoft.Extensions.Primitives;
 using System.Net;
 
 namespace Tassle.Logging.Telnet {
-    public interface TelnetLoggerSettingsInterface {
+    public interface ITelnetLoggerSettings {
         // properties
 
         bool IncludeScopes { get; }
@@ -37,6 +37,6 @@ namespace Tassle.Logging.Telnet {
 
         bool TryGetSwitch(string name, out LogLevel level);
 
-        TelnetLoggerSettingsInterface Reload();
+        ITelnetLoggerSettings Reload();
     }
 }

@@ -29,13 +29,13 @@ namespace Tassle.Services {
     /// <summary>
     /// ServiceContainer class.
     /// </summary>
-    public abstract class ServiceContainer : ControllableService, ServiceContainerInterface {
+    public abstract class ServiceContainer : ControllableService, IServiceContainer {
         // fields
 
         /// <summary>
         /// The children
         /// </summary>
-        private readonly ICollection<ServiceInterface> _children;
+        private readonly ICollection<IService> _children;
 
         // constructors
 
@@ -43,7 +43,7 @@ namespace Tassle.Services {
         /// Initializes a new instance of the <see cref="ServiceContainer"/> class.
         /// </summary>
         protected ServiceContainer(ILoggerFactory loggerFactory) : base(loggerFactory) {
-            this._children = new List<ServiceInterface>();
+            this._children = new List<IService>();
         }
 
         // events
@@ -61,7 +61,7 @@ namespace Tassle.Services {
         /// <value>
         /// The children.
         /// </value>
-        public ICollection<ServiceInterface> Children {
+        public ICollection<IService> Children {
             get => this._children;
         }
 
@@ -71,7 +71,7 @@ namespace Tassle.Services {
         /// Adds the child.
         /// </summary>
         /// <param name="services">The services</param>
-        public void AddChild(params ServiceInterface[] services) {
+        public void AddChild(params IService[] services) {
             foreach (var service in services) {
                 this._children.Add(service);
             }
@@ -82,12 +82,12 @@ namespace Tassle.Services {
         /// </summary>
         /// <param name="path">Path of the service</param>
         /// <returns>A service instance</returns>
-        public ServiceInterface FindByPath(string path) {
+        public IService FindByPath(string path) {
             var parts = new Queue<string>(
                 path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries)
             );
 
-            ServiceInterface current = this;
+            IService current = this;
             while (parts.Count > 0) {
                 string part = parts.Dequeue();
 
@@ -95,7 +95,7 @@ namespace Tassle.Services {
                 var found = false;
 
                 if (currentAsContainer != null) {
-                    foreach (ServiceInterface service in currentAsContainer.Children) {
+                    foreach (IService service in currentAsContainer.Children) {
                         if (service.Name == path) {
                             current = service;
                             found = true;
@@ -127,7 +127,7 @@ namespace Tassle.Services {
         /// <typeparam name="T"></typeparam>
         /// <param name="recursive">if set to <c>true</c> [recursive].</param>
         /// <returns>Service if found</returns>
-        public T Find<T>(bool recursive) where T : class, ServiceInterface {
+        public T Find<T>(bool recursive) where T : class, IService {
             T result;
 
             foreach (var service in this.Children) {
@@ -184,7 +184,7 @@ namespace Tassle.Services {
                 }
 
                 // stop children
-                var childServices = ArrayHelpers.GetArray<ServiceInterface>(this._children);
+                var childServices = ArrayHelpers.GetArray<IService>(this._children);
                 Array.Reverse(childServices);
 
                 foreach (var child in childServices) {
@@ -206,7 +206,7 @@ namespace Tassle.Services {
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected override void OnDispose(bool releaseManagedResources) {
-            var childServices = ArrayHelpers.GetArray<ServiceInterface>(this._children);
+            var childServices = ArrayHelpers.GetArray<IService>(this._children);
             Array.Reverse(childServices);
 
             foreach (var child in childServices) {

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// <copyright file="TelnetServerInterface.cs" company="-">
+// <copyright file="ITelnetServer.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -28,9 +28,9 @@ using System.Threading;
 
 namespace Tassle.Telnet {
     /// <summary>
-    /// TelnetServerInterface interface.
+    /// ITelnetServer interface.
     /// </summary>
-    public interface TelnetServerInterface {
+    public interface ITelnetServer {
         // events
 
         /// <summary>

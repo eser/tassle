@@ -4,6 +4,17 @@
         <name>Tassle.Tasks</name>
     </assembly>
     <members>
+        <member name="T:Tassle.Tasks.ITask">
+            <summary>
+            ITask interface.
+            </summary>
+        </member>
+        <member name="M:Tassle.Tasks.ITask.Do(Tassle.Tasks.TaskActionParameters)">
+            <summary>
+            Does the task.
+            </summary>
+            <param name="parameters">The parameters</param>
+        </member>
         <member name="T:Tassle.Tasks.Pipeline.Pipeline">
             <summary>
             Pipeline class.
@@ -1005,17 +1016,6 @@
             Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
-        </member>
-        <member name="T:Tassle.Tasks.TaskInterface">
-            <summary>
-            TaskInterface interface.
-            </summary>
-        </member>
-        <member name="M:Tassle.Tasks.TaskInterface.Do(Tassle.Tasks.TaskActionParameters)">
-            <summary>
-            Does the task.
-            </summary>
-            <param name="parameters">The parameters</param>
         </member>
         <member name="T:Tassle.Tasks.TaskItem">
             <summary>

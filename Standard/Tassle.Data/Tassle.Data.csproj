@@ -4,13 +4,13 @@
     <TargetFramework>netstandard1.6</TargetFramework>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.Tasks.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Tassle.Data.xml</DocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup>
     <Product>Tassle</Product>
-    <Title>Tassle.Tasks</Title>
-    <Description>Tasks component of Tassle</Description>
+    <Title>Tassle.Data</Title>
+    <Description>Data component of Tassle</Description>
     <Version>1.0.0</Version>
     <Authors>Eser Ozvataf</Authors>
     <PackageProjectUrl>https://github.com/eserozvataf/tassle</PackageProjectUrl>
@@ -18,10 +18,7 @@
     <PackageLicenseUrl>https://github.com/eserozvataf/tassle/blob/development/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tassle.Services\Tassle.Services.csproj" />
-    <ProjectReference Include="..\Tassle.Helpers\Tassle.Helpers.csproj" />
   </ItemGroup>
 </Project>
