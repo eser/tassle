@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="EfRepositorySet{T}.cs" company="-">
+// <copyright file="IRepositorySet{TEntity,TProperty}.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,33 +19,13 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 using Tassle.Data.Entity;
 
 namespace Tassle.Data.Repository {
-    public class EfRepositorySet<T> : IRepositorySet<T>
-        where T : class, IEntity {
-        // fields
-
-        private IQueryable<T> _dbSet;
-
-        // constructors
-
-        public EfRepositorySet(IQueryable<T> dbSet) {
-            this._dbSet = dbSet;
-        }
-
-        // methods
-
-        public IRepositorySet<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty) {
-            return new EfRepositorySet<T, TProperty>(this._dbSet.Include(navigationProperty));
-        }
-
-        public IQueryable<T> AsQueryable() {
-            return this._dbSet;
-        }
+    public interface IRepositorySet<TEntity, TProperty> : IRepositorySet<TEntity>
+        where TEntity : class, IEntity {
+        IRepositorySet<TEntity, TNewProperty> ThenInclude<TNewProperty>(Expression<Func<TProperty, TNewProperty>> navigationProperty);
     }
 }
