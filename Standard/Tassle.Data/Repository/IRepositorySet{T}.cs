@@ -20,6 +20,7 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Tassle.Data.Entity;
@@ -27,6 +28,8 @@ using Tassle.Data.Entity;
 namespace Tassle.Data.Repository {
     public interface IRepositorySet<T>
         where T : class, IEntity {
+        IRepositorySet<T, IEnumerable<TProperty>> Include<TProperty>(Expression<Func<T, IEnumerable<TProperty>>> navigationProperty);
+
         IRepositorySet<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty);
 
         IQueryable<T> AsQueryable();

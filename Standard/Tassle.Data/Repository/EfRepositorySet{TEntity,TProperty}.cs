@@ -19,12 +19,11 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Tassle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query;
+using System;
+using System.Linq.Expressions;
+using Tassle.Data.Entity;
 
 namespace Tassle.Data.Repository {
     public class EfRepositorySet<TEntity, TProperty> : EfRepositorySet<TEntity>, IRepositorySet<TEntity, TProperty>
@@ -39,10 +38,18 @@ namespace Tassle.Data.Repository {
             this._dbSet = dbSet;
         }
 
+        // properties
+
+        internal IIncludableQueryable<TEntity, TProperty> DbSet {
+            get => this._dbSet;
+        }
+
         // methods
 
-        public IRepositorySet<TEntity, TNewProperty> ThenInclude<TNewProperty>(Expression<Func<TProperty, TNewProperty>> navigationProperty) {
-            return new EfRepositorySet<TEntity, TNewProperty>(this._dbSet.ThenInclude(navigationProperty));
+        public IRepositorySet<TEntity, TNextProperty> ThenInclude<TNextProperty>(Expression<Func<TProperty, TNextProperty>> navigationPropertyPath) {
+            var newDbSet = EntityFrameworkQueryableExtensions.ThenInclude(this.DbSet, navigationPropertyPath);
+
+            return new EfRepositorySet<TEntity, TNextProperty>(newDbSet);
         }
     }
 }

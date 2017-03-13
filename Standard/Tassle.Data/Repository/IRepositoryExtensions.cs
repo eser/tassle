@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="EfRepositorySet{T}.cs" company="-">
+// <copyright file="IRepositoryExtensions.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,48 +19,19 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using Tassle.Data.Entity;
 
 namespace Tassle.Data.Repository {
-    public class EfRepositorySet<T> : IRepositorySet<T>
-        where T : class, IEntity {
-        // fields
-
-        private IQueryable<T> _dbSet;
-
-        // constructors
-
-        public EfRepositorySet(IQueryable<T> dbSet) {
-            this._dbSet = dbSet;
+    public static class IRepositoryExtensions {
+        public static IRepositorySet<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(this IRepositorySet<TEntity, IEnumerable<TPreviousProperty>> source, Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath) where TEntity : class, IEntity {
+            return source.ThenInclude(navigationPropertyPath);
         }
 
-        // properties
-
-        internal IQueryable<T> DbSet {
-            get => this._dbSet;
-        }
-
-        // methods
-
-        public IRepositorySet<T, IEnumerable<TProperty>> Include<TProperty>(Expression<Func<T, IEnumerable<TProperty>>> navigationProperty) {
-            var newDbSet = this._dbSet.Include(navigationProperty);
-
-            return new EfRepositorySet<T, IEnumerable<TProperty>>(newDbSet);
-        }
-
-        public IRepositorySet<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty) {
-            var newDbSet = this._dbSet.Include(navigationProperty);
-
-            return new EfRepositorySet<T, TProperty>(newDbSet);
-        }
-
-        public IQueryable<T> AsQueryable() {
-            return this._dbSet;
+        public static IRepositorySet<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(this IRepositorySet<TEntity, ICollection<TPreviousProperty>> source, Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath) where TEntity : class, IEntity {
+            return source.ThenInclude(navigationPropertyPath);
         }
     }
 }

@@ -26,6 +26,6 @@ using Tassle.Data.Entity;
 namespace Tassle.Data.Repository {
     public interface IRepositorySet<TEntity, TProperty> : IRepositorySet<TEntity>
         where TEntity : class, IEntity {
-        IRepositorySet<TEntity, TNewProperty> ThenInclude<TNewProperty>(Expression<Func<TProperty, TNewProperty>> navigationProperty);
+        IRepositorySet<TEntity, TNextProperty> ThenInclude<TNextProperty>(Expression<Func<TProperty, TNextProperty>> navigationPropertyPath);
     }
 }
