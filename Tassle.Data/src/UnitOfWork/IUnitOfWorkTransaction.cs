@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Tassle.Data.UnitOfWork {
+namespace Tassle.Data {
     /// <summary>
     /// Unit of work transaction scopelarinin kullanacagi interface
     /// </summary>

@@ -23,7 +23,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using Tassle.Tasks;
-using Tassle.Tasks.Schedule;
 using Tassle.Logging.Telnet;
 using Tassle.Telnet;
 using System.Net;

@@ -19,7 +19,6 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Tassle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Tassle.Data.Repository {
+namespace Tassle.Data {
     /// <summary>
     /// Entity framework uzerinde calisan jenerik repository sinifi
     /// </summary>

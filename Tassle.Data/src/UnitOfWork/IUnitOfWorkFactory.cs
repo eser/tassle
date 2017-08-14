@@ -21,7 +21,7 @@
 
 using System.Threading.Tasks;
 
-namespace Tassle.Data.UnitOfWork {
+namespace Tassle.Data {
     public interface IUnitOfWorkFactory {
         IUnitOfWork Create(ScopeType scopeType = ScopeType.Default);
 

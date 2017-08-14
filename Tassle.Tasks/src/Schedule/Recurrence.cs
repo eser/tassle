@@ -22,7 +22,7 @@
 using System;
 using Tassle.Helpers;
 
-namespace Tassle.Tasks.Schedule {
+namespace Tassle.Tasks {
     /// <summary>
     /// Recurrence class.
     /// </summary>

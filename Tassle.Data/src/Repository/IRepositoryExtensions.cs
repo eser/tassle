@@ -22,9 +22,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Tassle.Data.Entity;
 
-namespace Tassle.Data.Repository {
+namespace Tassle.Data {
     public static class IRepositoryExtensions {
         public static IRepositorySet<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(this IRepositorySet<TEntity, IEnumerable<TPreviousProperty>> source, Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath) where TEntity : class, IEntity {
             return source.ThenInclude(navigationPropertyPath);

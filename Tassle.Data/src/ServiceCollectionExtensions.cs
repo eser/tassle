@@ -21,7 +21,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Tassle.Data.UnitOfWork;
 
 namespace Tassle.Data {
     /// <summary>

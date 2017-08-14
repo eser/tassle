@@ -1,0 +1,30 @@
+<Project>
+
+  <PropertyGroup>
+    <Product>Tassle</Product>
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <Authors>Eser Ozvataf</Authors>
+    <PackageProjectUrl>https://github.com/eserozvataf/tassle</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/eserozvataf/tassle</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/eserozvataf/tassle/blob/development/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="src/**/*.cs" />
+  </ItemGroup>
+
+</Project>

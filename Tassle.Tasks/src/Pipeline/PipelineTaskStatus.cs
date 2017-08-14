@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Tassle.Tasks.Pipeline {
+namespace Tassle.Tasks {
     /// <summary>
     /// PipelineTaskStatus enumeration.
     /// </summary>

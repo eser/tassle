@@ -26,7 +26,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tassle.Helpers;
 
-namespace Tassle.Tasks.Pipeline {
+namespace Tassle.Tasks {
     /// <summary>
     /// Pipeline class.
     /// </summary>

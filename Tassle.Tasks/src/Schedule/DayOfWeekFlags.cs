@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Tassle.Tasks.Schedule {
+namespace Tassle.Tasks {
     /// <summary>
     /// DayOfWeekFlags enumeration.
     /// </summary>

@@ -22,7 +22,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 
-namespace Tassle.Data.UnitOfWork {
+namespace Tassle.Data {
     /// <summary>
     /// Entity framework uzerinde kullanilabilir unit of work siniflarinin olusturdugu
     /// transaction scopelara ait sinif tanimi

@@ -23,9 +23,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Linq.Expressions;
-using Tassle.Data.Entity;
 
-namespace Tassle.Data.Repository {
+namespace Tassle.Data {
     public class EfRepositorySet<TEntity, TProperty> : EfRepositorySet<TEntity>, IRepositorySet<TEntity, TProperty>
         where TEntity : class, IEntity {
         // fields

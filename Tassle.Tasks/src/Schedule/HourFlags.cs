@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Tassle.Tasks.Schedule {
+namespace Tassle.Tasks {
     /// <summary>
     /// HourFlags enumeration.
     /// </summary>

@@ -21,9 +21,8 @@
 
 using System;
 using System.Linq.Expressions;
-using Tassle.Data.Entity;
 
-namespace Tassle.Data.Repository {
+namespace Tassle.Data {
     public interface IRepositorySet<TEntity, TProperty> : IRepositorySet<TEntity>
         where TEntity : class, IEntity {
         IRepositorySet<TEntity, TNextProperty> ThenInclude<TNextProperty>(Expression<Func<TProperty, TNextProperty>> navigationPropertyPath);

@@ -19,14 +19,12 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Tassle.Data.Entity;
-using Tassle.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tassle.Data.UnitOfWork {
+namespace Tassle.Data {
     /// <summary>
     /// Entity framework uzerinde kullanilabilir unit of work sinifi
     /// </summary>

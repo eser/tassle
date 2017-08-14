@@ -24,7 +24,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tassle.Data.UnitOfWork {
+namespace Tassle.Data {
     /// <summary>
     /// Entity framework uzerinde kullanilabilir unit of work sinif factorysi
     /// </summary>

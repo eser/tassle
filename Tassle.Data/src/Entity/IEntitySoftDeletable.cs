@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Tassle.Data.Entity {
+namespace Tassle.Data {
     /// <summary>
     /// Soft delete islemine izin veren entity tanimlarina ait interface
     /// </summary>

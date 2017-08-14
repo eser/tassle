@@ -23,9 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Tassle.Data.Entity;
 
-namespace Tassle.Data.Repository {
+namespace Tassle.Data {
     public interface IRepositorySet<T>
         where T : class, IEntity {
         IRepositorySet<T, IEnumerable<TProperty>> Include<TProperty>(Expression<Func<T, IEnumerable<TProperty>>> navigationProperty);
