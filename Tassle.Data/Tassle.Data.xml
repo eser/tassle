@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tassle.Data</name>
+    </assembly>
+    <members>
+        <member name="T:Tassle.Data.Entity.IEntity">
+            <summary>
+            Entitylere ait interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.Entity.IEntityHasId`1">
+            <summary>
+            Id property'si iceren entity tanimlarina ait interface
+            </summary>
+            <typeparam name="T">Id property'sinin tipi</typeparam>
+        </member>
+        <member name="T:Tassle.Data.Entity.IEntitySoftDeletable">
+            <summary>
+            Soft delete islemine izin veren entity tanimlarina ait interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.Repository.EfRepository`2">
+            <summary>
+            Entity framework uzerinde calisan jenerik repository sinifi
+            </summary>
+            <typeparam name="TEntity">Repository'nin icerdigi veriye ait sinif tipi</typeparam>
+            <typeparam name="TDbContext">Veri tipini iceren DbContext</typeparam>
+        </member>
+        <member name="T:Tassle.Data.Repository.IRepository`1">
+            <summary>
+            Jenerik repository tanimlari icin kullanilan interface
+            </summary>
+            <typeparam name="T">Repositorynin icerdigi veri sinif tipi</typeparam>
+        </member>
+        <member name="T:Tassle.Data.ServiceCollectionExtensions">
+            <summary>
+            Dependency injection containera extension olarak eklenecek metodlarin yer aldigi extension sinifi
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.UnitOfWork.EfUnitOfWorkFactory`1">
+            <summary>
+            Entity framework uzerinde kullanilabilir unit of work sinif factorysi
+            </summary>
+            <typeparam name="T">DbContext</typeparam>
+        </member>
+        <member name="T:Tassle.Data.UnitOfWork.EfUnitOfWorkTransaction">
+            <summary>
+            Entity framework uzerinde kullanilabilir unit of work siniflarinin olusturdugu
+            transaction scopelara ait sinif tanimi
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.UnitOfWork.EfUnitOfWork`1">
+            <summary>
+            Entity framework uzerinde kullanilabilir unit of work sinifi
+            </summary>
+            <typeparam name="T">DbContext</typeparam>
+        </member>
+        <member name="T:Tassle.Data.UnitOfWork.IUnitOfWork">
+            <summary>
+            Unit of work implementasyonlarinin kullanacagi interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.UnitOfWork.IUnitOfWorkTransaction">
+            <summary>
+            Unit of work transaction scopelarinin kullanacagi interface
+            </summary>
+        </member>
+    </members>
+</doc>
