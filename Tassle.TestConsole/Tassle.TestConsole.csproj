@@ -8,6 +8,14 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <OutputType>exe</OutputType>
     <DocumentationFile>$(OutDir)Tassle.TestConsole.xml</DocumentationFile>
+    <StartupObject />
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Tassle.TestConsole</RootNamespace>
+    <Title>Tassle.TestConsole</Title>
+    <Description>Console Application for testing Tassle components</Description>
   </PropertyGroup>
 
   <ItemGroup>
