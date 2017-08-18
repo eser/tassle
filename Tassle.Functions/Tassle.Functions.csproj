@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Common.Build.props" />
+
+  <PropertyGroup Label="Configuration" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>library</OutputType>
+    <DocumentationFile>$(OutDir)Tassle.Functions.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tassle.Functions</PackageId>
+    <RootNamespace>Tassle.Functions</RootNamespace>
+    <Title>Tassle.Functions</Title>
+    <Description>Primitive FaaS implementation of Tassle</Description>
+  </PropertyGroup>
+
+</Project>
