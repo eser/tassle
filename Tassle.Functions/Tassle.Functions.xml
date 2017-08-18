@@ -4,5 +4,35 @@
         <name>Tassle.Functions</name>
     </assembly>
     <members>
+        <member name="T:Tassle.Functions.FunctionManager">
+            <summary>
+            FunctionManager class.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.IFunctionManager">
+            <summary>
+            IFunctionManager interface.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.Request">
+            <summary>
+            Request class.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.Request`1">
+            <summary>
+            Request{T} class.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.Response">
+            <summary>
+            Response class.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.Response`1">
+            <summary>
+            Response{T} class.
+            </summary>
+        </member>
     </members>
 </doc>
