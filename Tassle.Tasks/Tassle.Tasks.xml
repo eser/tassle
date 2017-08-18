@@ -20,37 +20,37 @@
             Pipeline class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._runningTaskCountSync">
+        <member name="F:Tassle.Tasks.Pipeline.runningTaskCountSync">
             <summary>
             The running task count sync
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._maximumTasks">
+        <member name="F:Tassle.Tasks.Pipeline.maximumTasks">
             <summary>
             The maximum tasks
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._parameters">
+        <member name="F:Tassle.Tasks.Pipeline.parameters">
             <summary>
             The parameters
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._action">
+        <member name="F:Tassle.Tasks.Pipeline.action">
             <summary>
             The action
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._cancellationTokenSource">
+        <member name="F:Tassle.Tasks.Pipeline.cancellationTokenSource">
             <summary>
             The cancellation token source
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._runningTaskCount">
+        <member name="F:Tassle.Tasks.Pipeline.runningTaskCount">
             <summary>
             The running task count
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Pipeline._disposed">
+        <member name="F:Tassle.Tasks.Pipeline.disposed">
             <summary>
             The disposed
             </summary>
@@ -173,32 +173,32 @@
             PipelineTask class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTask._statusSync">
+        <member name="F:Tassle.Tasks.PipelineTask.statusSync">
             <summary>
             The status sync
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTask._action">
+        <member name="F:Tassle.Tasks.PipelineTask.action">
             <summary>
             The action
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTask._parameter">
+        <member name="F:Tassle.Tasks.PipelineTask.parameter">
             <summary>
             The parameter
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTask._cancellationTokenSource">
+        <member name="F:Tassle.Tasks.PipelineTask.cancellationTokenSource">
             <summary>
             The cancellation token source
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTask._status">
+        <member name="F:Tassle.Tasks.PipelineTask.status">
             <summary>
             The status
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTask._disposed">
+        <member name="F:Tassle.Tasks.PipelineTask.disposed">
             <summary>
             The disposed
             </summary>
@@ -288,7 +288,7 @@
             PipelineTasksDoneEventArgs class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTasksDoneEventArgs._isCancelled">
+        <member name="F:Tassle.Tasks.PipelineTasksDoneEventArgs.isCancelled">
             <summary>
             The is cancelled
             </summary>
@@ -338,12 +338,12 @@
             PipelineTaskStatusChangedEventArgs class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTaskStatusChangedEventArgs._status">
+        <member name="F:Tassle.Tasks.PipelineTaskStatusChangedEventArgs.status">
             <summary>
             The status
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.PipelineTaskStatusChangedEventArgs._parameter">
+        <member name="F:Tassle.Tasks.PipelineTaskStatusChangedEventArgs.parameter">
             <summary>
             The parameter
             </summary>
@@ -780,42 +780,42 @@
             Recurrence class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence.s_once">
+        <member name="F:Tassle.Tasks.Recurrence.once">
             <summary>
             Once
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._dateStart">
+        <member name="F:Tassle.Tasks.Recurrence.dateStart">
             <summary>
             The date start
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._interval">
+        <member name="F:Tassle.Tasks.Recurrence.interval">
             <summary>
             The interval
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._dateEnd">
+        <member name="F:Tassle.Tasks.Recurrence.dateEnd">
             <summary>
             The date end
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._excludedHours">
+        <member name="F:Tassle.Tasks.Recurrence.excludedHours">
             <summary>
             The excluded hours
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._excludedDayOfWeeks">
+        <member name="F:Tassle.Tasks.Recurrence.excludedDayOfWeeks">
             <summary>
             The excluded day of weeks
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._excludedDays">
+        <member name="F:Tassle.Tasks.Recurrence.excludedDays">
             <summary>
             The excluded days
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.Recurrence._excludedMonths">
+        <member name="F:Tassle.Tasks.Recurrence.excludedMonths">
             <summary>
             The excluded months
             </summary>
@@ -935,22 +935,22 @@
             TaskActionParameters class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskActionParameters._source">
+        <member name="F:Tassle.Tasks.TaskActionParameters.source">
             <summary>
             The source
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskActionParameters._actionStarted">
+        <member name="F:Tassle.Tasks.TaskActionParameters.actionStarted">
             <summary>
             The action started
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskActionParameters._cancellationTokenSource">
+        <member name="F:Tassle.Tasks.TaskActionParameters.cancellationTokenSource">
             <summary>
             The cancellation token source
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskActionParameters._disposed">
+        <member name="F:Tassle.Tasks.TaskActionParameters.disposed">
             <summary>
             The disposed
             </summary>
@@ -1022,37 +1022,37 @@
             TaskItem class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._recurrence">
+        <member name="F:Tassle.Tasks.TaskItem.recurrence">
             <summary>
             The recurrence
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._repeat">
+        <member name="F:Tassle.Tasks.TaskItem.repeat">
             <summary>
             The repeat
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._action">
+        <member name="F:Tassle.Tasks.TaskItem.action">
             <summary>
             The action
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._status">
+        <member name="F:Tassle.Tasks.TaskItem.status">
             <summary>
             The status
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._lastRun">
+        <member name="F:Tassle.Tasks.TaskItem.lastRun">
             <summary>
             The last run
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._lifetime">
+        <member name="F:Tassle.Tasks.TaskItem.lifetime">
             <summary>
             The lifetime
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskItem._activeActions">
+        <member name="F:Tassle.Tasks.TaskItem.activeActions">
             <summary>
             The active actions
             </summary>
@@ -1190,17 +1190,17 @@
             TaskManager class.
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskManager._items">
+        <member name="F:Tassle.Tasks.TaskManager.items">
             <summary>
             The items
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskManager._timer">
+        <member name="F:Tassle.Tasks.TaskManager.timer">
             <summary>
             The timer
             </summary>
         </member>
-        <member name="F:Tassle.Tasks.TaskManager._now">
+        <member name="F:Tassle.Tasks.TaskManager.now">
             <summary>
             The now
             </summary>

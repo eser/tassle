@@ -33,19 +33,19 @@ namespace Tassle.Data {
         where T : DbContext {
         // fields
 
-        private readonly IServiceProvider _serviceProvider;
-        private T _dbContext;
-        private IUnitOfWorkTransaction _transaction;
-        private bool _isSaveChangesCalled;
-        private bool _isDisposed;
+        private readonly IServiceProvider serviceProvider;
+        private T dbContext;
+        private IUnitOfWorkTransaction transaction;
+        private bool isSaveChangesCalled;
+        private bool isDisposed;
 
         // constructors
 
         internal EfUnitOfWork(IServiceProvider serviceProvider, T dbContext) {
-            this._serviceProvider = serviceProvider;
-            this._dbContext = dbContext;
-            this._isSaveChangesCalled = false;
-            this._isDisposed = false;
+            this.serviceProvider = serviceProvider;
+            this.dbContext = dbContext;
+            this.isSaveChangesCalled = false;
+            this.isDisposed = false;
         }
 
         ~EfUnitOfWork() {
@@ -55,11 +55,11 @@ namespace Tassle.Data {
         // properties
 
         public T DbContext {
-            get => this._dbContext;
+            get => this.dbContext;
         }
 
         public IUnitOfWorkTransaction Transaction {
-            get => this._transaction;
+            get => this.transaction;
         }
 
         // methods
@@ -67,17 +67,17 @@ namespace Tassle.Data {
         internal void BeginTransaction() {
             this.CheckDisposed();
 
-            var transaction = this._dbContext.Database.BeginTransaction();
+            var transaction = this.dbContext.Database.BeginTransaction();
 
-            this._transaction = new EfUnitOfWorkTransaction(transaction);
+            this.transaction = new EfUnitOfWorkTransaction(transaction);
         }
 
         internal async Task BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken)) {
             this.CheckDisposed();
 
-            var transaction = await this._dbContext.Database.BeginTransactionAsync(cancellationToken);
+            var transaction = await this.dbContext.Database.BeginTransactionAsync(cancellationToken);
 
-            this._transaction = new EfUnitOfWorkTransaction(transaction);
+            this.transaction = new EfUnitOfWorkTransaction(transaction);
         }
 
         public int SaveChanges(bool? acceptAllChangesOnSuccess = null) {
@@ -85,10 +85,10 @@ namespace Tassle.Data {
             this.CheckSaveChangesCalledPreviously();
 
             var result = acceptAllChangesOnSuccess.HasValue ?
-                this._dbContext.SaveChanges(acceptAllChangesOnSuccess.Value) :
-                this._dbContext.SaveChanges();
+                this.dbContext.SaveChanges(acceptAllChangesOnSuccess.Value) :
+                this.dbContext.SaveChanges();
 
-            this._isSaveChangesCalled = true;
+            this.isSaveChangesCalled = true;
 
             return result;
         }
@@ -98,26 +98,26 @@ namespace Tassle.Data {
             this.CheckSaveChangesCalledPreviously();
 
             var result = acceptAllChangesOnSuccess.HasValue ?
-                await this._dbContext.SaveChangesAsync(acceptAllChangesOnSuccess.Value, cancellationToken) :
-                await this._dbContext.SaveChangesAsync(cancellationToken);
+                await this.dbContext.SaveChangesAsync(acceptAllChangesOnSuccess.Value, cancellationToken) :
+                await this.dbContext.SaveChangesAsync(cancellationToken);
 
-            if (this._transaction != null) {
-                this._transaction.Commit();
+            if (this.transaction != null) {
+                this.transaction.Commit();
             }
 
-            this._isSaveChangesCalled = true;
+            this.isSaveChangesCalled = true;
 
             return result;
         }
 
         public IRepository<TEntity> GetGenericRepository<TEntity>()
             where TEntity : class, IEntity, new() {
-            return new EfRepository<TEntity, T>(this._dbContext);
+            return new EfRepository<TEntity, T>(this.dbContext);
         }
 
         public TRepository GetRepository<TRepository>()
             where TRepository : class {
-            return this._serviceProvider.GetService(typeof(TRepository)) as TRepository;
+            return this.serviceProvider.GetService(typeof(TRepository)) as TRepository;
         }
 
         public void Dispose() {
@@ -126,38 +126,38 @@ namespace Tassle.Data {
         }
 
         protected void CheckDisposed() {
-            if (this._isDisposed) {
+            if (this.isDisposed) {
                 throw new ObjectDisposedException("The UnitOfWork is already disposed and cannot be used anymore.");
             }
         }
 
         protected void CheckSaveChangesCalledPreviously() {
-            if (this._isSaveChangesCalled) {
+            if (this.isSaveChangesCalled) {
                 throw new ObjectDisposedException("The UnitOfWork is already called save changes method and cannot be used anymore.");
             }
         }
 
         protected virtual void Dispose(bool disposing) {
-            if (!this._isDisposed) {
+            if (!this.isDisposed) {
                 if (disposing) {
-                    if (this._transaction != null) {
-                        if (!this._isSaveChangesCalled) {
-                            this._transaction.Rollback();
+                    if (this.transaction != null) {
+                        if (!this.isSaveChangesCalled) {
+                            this.transaction.Rollback();
                         }
 
-                        this._transaction.Dispose();
-                        this._transaction = null;
+                        this.transaction.Dispose();
+                        this.transaction = null;
                     }
 
-                    if (this._dbContext != null) {
+                    if (this.dbContext != null) {
                         // FIXME: could be a shared DbContext
-                        //this._dbContext.Dispose();
-                        this._dbContext = null;
+                        //this.dbContext.Dispose();
+                        this.dbContext = null;
                     }
                 }
             }
 
-            this._isDisposed = true;
+            this.isDisposed = true;
         }
     }
 }

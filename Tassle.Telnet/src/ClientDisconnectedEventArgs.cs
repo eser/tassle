@@ -31,7 +31,7 @@ namespace Tassle.Telnet {
         /// <summary>
         /// The thread id
         /// </summary>
-        private readonly int _threadId;
+        private readonly int threadId;
 
         // constructors
 
@@ -40,7 +40,7 @@ namespace Tassle.Telnet {
         /// </summary>
         /// <param name="threadId">The thread id</param>
         public ClientDisconnectedEventArgs(int threadId) {
-            this._threadId = threadId;
+            this.threadId = threadId;
         }
 
         // properties
@@ -52,7 +52,7 @@ namespace Tassle.Telnet {
         /// The thread id
         /// </value>
         public int ThreadId {
-            get => this._threadId;
+            get => this.threadId;
         }
     }
 }

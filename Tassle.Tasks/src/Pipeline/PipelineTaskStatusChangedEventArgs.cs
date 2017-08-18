@@ -31,12 +31,12 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The status
         /// </summary>
-        private readonly PipelineTaskStatus _status;
+        private readonly PipelineTaskStatus status;
 
         /// <summary>
         /// The parameter
         /// </summary>
-        private readonly object _parameter;
+        private readonly object parameter;
 
         // constructors
 
@@ -46,8 +46,8 @@ namespace Tassle.Tasks {
         /// <param name="status">The status.</param>
         /// <param name="parameter">The parameter.</param>
         public PipelineTaskStatusChangedEventArgs(PipelineTaskStatus status, object parameter) : base() {
-            this._status = status;
-            this._parameter = parameter;
+            this.status = status;
+            this.parameter = parameter;
         }
 
         // properties
@@ -56,14 +56,14 @@ namespace Tassle.Tasks {
         /// Gets the status.
         /// </summary>
         public PipelineTaskStatus Status {
-            get => this._status;
+            get => this.status;
         }
 
         /// <summary>
         /// Gets the parameter.
         /// </summary>
         public object Parameter {
-            get => this._parameter;
+            get => this.parameter;
         }
     }
 }

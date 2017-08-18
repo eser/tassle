@@ -33,22 +33,22 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The source
         /// </summary>
-        private readonly TaskItem _source;
+        private readonly TaskItem source;
 
         /// <summary>
         /// The action started
         /// </summary>
-        private readonly DateTimeOffset _actionStarted;
+        private readonly DateTimeOffset actionStarted;
 
         /// <summary>
         /// The cancellation token source
         /// </summary>
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool _disposed;
+        private bool disposed;
 
         // constructors
 
@@ -59,9 +59,9 @@ namespace Tassle.Tasks {
         /// <param name="actionStarted">The action started</param>
         /// <param name="cancellationTokenSource">The cancellation token source</param>
         public TaskActionParameters(TaskItem source, DateTimeOffset actionStarted, CancellationTokenSource cancellationTokenSource) {
-            this._source = source;
-            this._actionStarted = actionStarted;
-            this._cancellationTokenSource = cancellationTokenSource;
+            this.source = source;
+            this.actionStarted = actionStarted;
+            this.cancellationTokenSource = cancellationTokenSource;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Tassle.Tasks {
         /// The source.
         /// </value>
         public TaskItem Source {
-            get => this._source;
+            get => this.source;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Tassle.Tasks {
         /// The action started.
         /// </value>
         public DateTimeOffset ActionStarted {
-            get => this._actionStarted;
+            get => this.actionStarted;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Tassle.Tasks {
         /// The cancellation token source.
         /// </value>
         public CancellationTokenSource CancellationTokenSource {
-            get => this._cancellationTokenSource;
+            get => this.cancellationTokenSource;
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace Tassle.Tasks {
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
         public bool Disposed {
-            get => this._disposed;
-            protected set => this._disposed = value;
+            get => this.disposed;
+            protected set => this.disposed = value;
         }
 
         // methods
@@ -130,9 +130,9 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void OnDispose(bool releaseManagedResources) {
-            if (this._cancellationTokenSource != null) {
-                this._cancellationTokenSource.Dispose();
-                this._cancellationTokenSource = null;
+            if (this.cancellationTokenSource != null) {
+                this.cancellationTokenSource.Dispose();
+                this.cancellationTokenSource = null;
             }
         }
 

@@ -30,36 +30,36 @@ namespace Tassle.Data {
         where T : class, IEntity {
         // fields
 
-        private IQueryable<T> _dbSet;
+        private IQueryable<T> dbSet;
 
         // constructors
 
         public EfRepositorySet(IQueryable<T> dbSet) {
-            this._dbSet = dbSet;
+            this.dbSet = dbSet;
         }
 
         // properties
 
         internal IQueryable<T> DbSet {
-            get => this._dbSet;
+            get => this.dbSet;
         }
 
         // methods
 
         public IRepositorySet<T, IEnumerable<TProperty>> Include<TProperty>(Expression<Func<T, IEnumerable<TProperty>>> navigationProperty) {
-            var newDbSet = this._dbSet.Include(navigationProperty);
+            var newDbSet = this.dbSet.Include(navigationProperty);
 
             return new EfRepositorySet<T, IEnumerable<TProperty>>(newDbSet);
         }
 
         public IRepositorySet<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty) {
-            var newDbSet = this._dbSet.Include(navigationProperty);
+            var newDbSet = this.dbSet.Include(navigationProperty);
 
             return new EfRepositorySet<T, TProperty>(newDbSet);
         }
 
         public IQueryable<T> AsQueryable() {
-            return this._dbSet;
+            return this.dbSet;
         }
     }
 }

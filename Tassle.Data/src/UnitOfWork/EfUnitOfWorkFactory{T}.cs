@@ -33,30 +33,30 @@ namespace Tassle.Data {
         where T : DbContext {
         // fields
 
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         // constructors
 
         public EfUnitOfWorkFactory(IServiceProvider serviceProvider) {
-            this._serviceProvider = serviceProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         // methods
 
         public IUnitOfWork Create(ScopeType scopeType = ScopeType.Default) {
-            var dbContext = this._serviceProvider.GetService(typeof(T)) as T;
+            var dbContext = this.serviceProvider.GetService(typeof(T)) as T;
 
             return this.Create(dbContext, scopeType);
         }
 
         public async Task<IUnitOfWork> CreateAsync(ScopeType scopeType = ScopeType.Default) {
-            var dbContext = this._serviceProvider.GetService(typeof(T)) as T;
+            var dbContext = this.serviceProvider.GetService(typeof(T)) as T;
 
             return await this.CreateAsync(dbContext, scopeType);
         }
 
         public IUnitOfWork Create(T dbContext, ScopeType scopeType = ScopeType.Default) {
-            var unitOfWork = new EfUnitOfWork<T>(this._serviceProvider, dbContext);
+            var unitOfWork = new EfUnitOfWork<T>(this.serviceProvider, dbContext);
 
             if (scopeType == ScopeType.Transactional) {
                 unitOfWork.BeginTransaction();
@@ -66,7 +66,7 @@ namespace Tassle.Data {
         }
 
         public async Task<IUnitOfWork> CreateAsync(T dbContext, ScopeType scopeType = ScopeType.Default, CancellationToken cancellationToken = default(CancellationToken)) {
-            var unitOfWork = new EfUnitOfWork<T>(this._serviceProvider, dbContext);
+            var unitOfWork = new EfUnitOfWork<T>(this.serviceProvider, dbContext);
 
             if (scopeType == ScopeType.Transactional) {
                 await unitOfWork.BeginTransactionAsync(cancellationToken);

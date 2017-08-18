@@ -37,42 +37,42 @@ namespace Tassle.Telnet {
         /// <summary>
         /// The server
         /// </summary>
-        private TelnetServer _server;
+        private TelnetServer server;
 
         /// <summary>
         /// The thread id
         /// </summary>
-        private int _threadId;
+        private int threadId;
 
         /// <summary>
         /// The client thread
         /// </summary>
-        private Thread _clientThread;
+        private Thread clientThread;
 
         /// <summary>
         /// The client thread cancelled
         /// </summary>
-        private volatile bool _clientThreadCancelled;
+        private volatile bool clientThreadCancelled;
 
         /// <summary>
         /// The queued messages
         /// </summary>
-        private Queue<string> _queuedMessages;
+        private Queue<string> queuedMessages;
 
         /// <summary>
         /// The stream
         /// </summary>
-        private NetworkStream _stream;
+        private NetworkStream stream;
 
         /// <summary>
         /// The buffer
         /// </summary>
-        private byte[] _buffer;
+        private byte[] buffer;
 
         /// <summary>
         /// The string buffer
         /// </summary>
-        private string _stringBuffer;
+        private string stringBuffer;
 
         // constructors
 
@@ -80,14 +80,14 @@ namespace Tassle.Telnet {
         /// Initializes a new instance of the <see cref="TelnetThread"/> class.
         /// </summary>
         public TelnetThread(TelnetServer telnetServer, TcpClient tcpClient, int threadId) {
-            this._server = telnetServer;
-            this._queuedMessages = new Queue<string>();
-            this._threadId = threadId;
+            this.server = telnetServer;
+            this.queuedMessages = new Queue<string>();
+            this.threadId = threadId;
 
-            this._buffer = new byte[TelnetThread.BufferLength];
-            this._stringBuffer = string.Empty;
+            this.buffer = new byte[TelnetThread.BufferLength];
+            this.stringBuffer = string.Empty;
 
-            this._stream = tcpClient.GetStream();
+            this.stream = tcpClient.GetStream();
         }
 
         // properties
@@ -99,8 +99,8 @@ namespace Tassle.Telnet {
         /// The thread id
         /// </value>
         public int ThreadId {
-            get => this._threadId;
-            set => this._threadId = value;
+            get => this.threadId;
+            set => this.threadId = value;
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace Tassle.Telnet {
         /// The client thread
         /// </value>
         public Thread ClientThread {
-            get => this._clientThread;
-            set => this._clientThread = value;
+            get => this.clientThread;
+            set => this.clientThread = value;
         }
 
         /// <summary>
@@ -121,45 +121,45 @@ namespace Tassle.Telnet {
         /// The stream
         /// </value>
         public NetworkStream Stream {
-            get => this._stream;
-            set => this._stream = value;
+            get => this.stream;
+            set => this.stream = value;
         }
 
         // methods
 
         public void Start() {
-            this._server.InvokeClientConnected(this.ThreadId);
+            this.server.InvokeClientConnected(this.ThreadId);
 
-            this._clientThread = new Thread(new ThreadStart(this.ConnectionThread));
-            this._clientThread.Start();
+            this.clientThread = new Thread(new ThreadStart(this.ConnectionThread));
+            this.clientThread.Start();
         }
 
         public void Stop() {
-            this._clientThreadCancelled = true;
+            this.clientThreadCancelled = true;
 
             // this.clientThread.Interrupt();
         }
 
         public void SendMessageDirect(string message) {
-            this._queuedMessages.Enqueue(message + Environment.NewLine);
+            this.queuedMessages.Enqueue(message + Environment.NewLine);
         }
 
         private void ConnectionThread() {
-            this._stream.WriteByte(0);
+            this.stream.WriteByte(0);
 
-            while (!this._clientThreadCancelled) {
-                while (this._queuedMessages.Count > 0) {
-                    var bytes = this._server.Encoding.GetBytes(this._queuedMessages.Dequeue());
-                    this._stream.Write(bytes, 0, bytes.Length);
+            while (!this.clientThreadCancelled) {
+                while (this.queuedMessages.Count > 0) {
+                    var bytes = this.server.Encoding.GetBytes(this.queuedMessages.Dequeue());
+                    this.stream.Write(bytes, 0, bytes.Length);
                 }
 
-                var readTask = this._stream.ReadAsync(this._buffer, 0, this._buffer.Length); // TODO: use cancellation token
+                var readTask = this.stream.ReadAsync(this.buffer, 0, this.buffer.Length); // TODO: use cancellation token
 
                 readTask.ContinueWith(t => this.ReadCallback(t.Result));
             }
 
-            this._stream.Dispose();
-            this._server.InvokeClientDisconnected(this._threadId);
+            this.stream.Dispose();
+            this.server.InvokeClientDisconnected(this.threadId);
         }
 
         private void ReadCallback(int read) {
@@ -168,14 +168,14 @@ namespace Tassle.Telnet {
                 return;
             }
 
-            this._stringBuffer += this._server.Encoding.GetString(this._buffer, 0, read);
+            this.stringBuffer += this.server.Encoding.GetString(this.buffer, 0, read);
 
-            var newLineIndex = this._stringBuffer.IndexOf('\n');
+            var newLineIndex = this.stringBuffer.IndexOf('\n');
             if (newLineIndex > 0) {
-                var line = this._stringBuffer.Substring(0, newLineIndex - 1);
-                this._server.InvokeMessageReceived(this.ThreadId, line);
+                var line = this.stringBuffer.Substring(0, newLineIndex - 1);
+                this.server.InvokeMessageReceived(this.ThreadId, line);
 
-                this._stringBuffer = this._stringBuffer.Substring(newLineIndex + 1);
+                this.stringBuffer = this.stringBuffer.Substring(newLineIndex + 1);
             }
         }
     }

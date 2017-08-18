@@ -35,32 +35,32 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The status sync
         /// </summary>
-        private readonly object _statusSync;
+        private readonly object statusSync;
 
         /// <summary>
         /// The action
         /// </summary>
-        private Action<object> _action;
+        private Action<object> action;
 
         /// <summary>
         /// The parameter
         /// </summary>
-        private object _parameter;
+        private object parameter;
 
         /// <summary>
         /// The cancellation token source
         /// </summary>
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
         /// The status
         /// </summary>
-        private PipelineTaskStatus _status;
+        private PipelineTaskStatus status;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool _disposed;
+        private bool disposed;
 
         // constructors
 
@@ -70,8 +70,8 @@ namespace Tassle.Tasks {
         /// <param name="parameter">The parameter.</param>
         /// <param name="action">The action.</param>
         public PipelineTask(object parameter, Action<object> action) : this() {
-            this._action = action;
-            this._parameter = parameter;
+            this.action = action;
+            this.parameter = parameter;
         }
 
         /// <summary>
@@ -79,18 +79,18 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="action">The action</param>
         public PipelineTask(Action<object> action) : this() {
-            this._action = action;
-            this._parameter = null;
+            this.action = action;
+            this.parameter = null;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineTask"/> class.
         /// </summary>
         protected PipelineTask() {
-            this._cancellationTokenSource = new CancellationTokenSource();
+            this.cancellationTokenSource = new CancellationTokenSource();
 
-            this._statusSync = new object();
-            this._status = PipelineTaskStatus.NotStarted;
+            this.statusSync = new object();
+            this.status = PipelineTaskStatus.NotStarted;
         }
 
         /// <summary>
@@ -114,8 +114,8 @@ namespace Tassle.Tasks {
         /// </summary>
         public PipelineTaskStatus Status {
             get {
-                lock (this._statusSync) {
-                    return this._status;
+                lock (this.statusSync) {
+                    return this.status;
                 }
             }
         }
@@ -127,8 +127,8 @@ namespace Tassle.Tasks {
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
         public bool Disposed {
-            get => this._disposed;
-            protected set => this._disposed = value;
+            get => this.disposed;
+            protected set => this.disposed = value;
         }
 
         // methods
@@ -138,14 +138,14 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <returns>The task object</returns>
         public Task DoTask() {
-            return Task.Factory.StartNew(this.TaskAction, this._parameter, this._cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+            return Task.Factory.StartNew(this.TaskAction, this.parameter, this.cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
         }
 
         /// <summary>
         /// Cancels this instance.
         /// </summary>
         public void Cancel() {
-            this._cancellationTokenSource.Cancel();
+            this.cancellationTokenSource.Cancel();
         }
 
         /// <summary>
@@ -163,24 +163,24 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         protected void TaskAction(object parameter) {
-            if (this._cancellationTokenSource.IsCancellationRequested) {
-                lock (this._statusSync) {
-                    this._status = PipelineTaskStatus.Cancelled;
+            if (this.cancellationTokenSource.IsCancellationRequested) {
+                lock (this.statusSync) {
+                    this.status = PipelineTaskStatus.Cancelled;
                     this.OnStatusChanged();
                 }
 
                 return;
             }
 
-            lock (this._statusSync) {
-                this._status = PipelineTaskStatus.Running;
+            lock (this.statusSync) {
+                this.status = PipelineTaskStatus.Running;
                 this.OnStatusChanged();
             }
 
-            this._action(parameter);
+            this.action(parameter);
 
-            lock (this._statusSync) {
-                this._status = PipelineTaskStatus.Finished;
+            lock (this.statusSync) {
+                this.status = PipelineTaskStatus.Finished;
                 this.OnStatusChanged();
             }
         }
@@ -189,7 +189,7 @@ namespace Tassle.Tasks {
         /// Called when [status changed].
         /// </summary>
         protected void OnStatusChanged() {
-            this.StatusChanged?.Invoke(this, new PipelineTaskStatusChangedEventArgs(this._status, this._parameter));
+            this.StatusChanged?.Invoke(this, new PipelineTaskStatusChangedEventArgs(this.status, this.parameter));
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void OnDispose(bool releaseManagedResources) {
-            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this._cancellationTokenSource);
+            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this.cancellationTokenSource);
         }
 
         /// <summary>
@@ -207,13 +207,13 @@ namespace Tassle.Tasks {
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
         protected void Dispose(bool releaseManagedResources) {
-            if (this._disposed) {
+            if (this.disposed) {
                 return;
             }
 
             this.OnDispose(releaseManagedResources);
 
-            this._disposed = true;
+            this.disposed = true;
         }
     }
 }

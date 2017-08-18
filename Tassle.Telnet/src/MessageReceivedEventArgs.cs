@@ -31,12 +31,12 @@ namespace Tassle.Telnet {
         /// <summary>
         /// The thread id
         /// </summary>
-        private readonly int _threadId;
+        private readonly int threadId;
 
         /// <summary>
         /// The message
         /// </summary>
-        private readonly string _message;
+        private readonly string message;
 
         // constructors
 
@@ -46,8 +46,8 @@ namespace Tassle.Telnet {
         /// <param name="threadId">The thread id</param>
         /// <param name="message">The message</param>
         public MessageReceivedEventArgs(int threadId, string message) {
-            this._threadId = threadId;
-            this._message = message;
+            this.threadId = threadId;
+            this.message = message;
         }
 
         // properties
@@ -59,7 +59,7 @@ namespace Tassle.Telnet {
         /// The thread id
         /// </value>
         public int ThreadId {
-            get => this._threadId;
+            get => this.threadId;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Tassle.Telnet {
         /// The message
         /// </value>
         public string Message {
-            get => this._message;
+            get => this.message;
         }
     }
 }

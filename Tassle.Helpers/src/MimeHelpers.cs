@@ -32,7 +32,7 @@ namespace Tassle.Helpers {
         /// <summary>
         /// The mappings
         /// </summary>
-        private static IDictionary<string, string> s_mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        private static IDictionary<string, string> mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             // combination of values from Windows 7 Registry and 
             // from C:\Windows\System32\inetsrv\config\applicationHost.config
@@ -607,7 +607,7 @@ namespace Tassle.Helpers {
         /// The mappings.
         /// </value>
         public static IDictionary<string, string> Mappings {
-            get => MimeHelpers.s_mappings;
+            get => MimeHelpers.mappings;
         }
 
         // methods
@@ -625,7 +625,7 @@ namespace Tassle.Helpers {
             }
 
             string mime;
-            return MimeHelpers.s_mappings.TryGetValue(extension, out mime) ? mime : defaultMimetype;
+            return MimeHelpers.mappings.TryGetValue(extension, out mime) ? mime : defaultMimetype;
         }
 
         /// <summary>

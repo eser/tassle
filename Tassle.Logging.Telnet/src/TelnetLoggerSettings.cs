@@ -27,39 +27,39 @@ using System.Net;
 namespace Tassle.Logging.Telnet {
     public class TelnetLoggerSettings : ITelnetLoggerSettings {
         // fields
-        private bool _includeScopes;
+        private bool includeScopes;
 
-        //private IPEndPoint _bindEndpoint;
+        //private IPEndPoint bindEndpoint;
 
-        private IDictionary<string, LogLevel> _switches;
+        private IDictionary<string, LogLevel> switches;
 
-        private IChangeToken _changeToken;
+        private IChangeToken changeToken;
 
         // constructors
 
         public TelnetLoggerSettings() {
-            this._switches = new Dictionary<string, LogLevel>();
+            this.switches = new Dictionary<string, LogLevel>();
         }
 
         // properties
         public bool IncludeScopes {
-            get => this._includeScopes;
-            set => this._includeScopes = value;
+            get => this.includeScopes;
+            set => this.includeScopes = value;
         }
 
         //public IPEndPoint BindEndpoint {
-        //    get => this._bindEndpoint;
-        //    set => this._bindEndpoint = value;
+        //    get => this.bindEndpoint;
+        //    set => this.bindEndpoint = value;
         //}
 
         public IDictionary<string, LogLevel> Switches {
-            get => this._switches;
-            set => this._switches = value;
+            get => this.switches;
+            set => this.switches = value;
         }
 
         public IChangeToken ChangeToken {
-            get => this._changeToken;
-            set => this._changeToken = value;
+            get => this.changeToken;
+            set => this.changeToken = value;
         }
 
         // methods
@@ -69,7 +69,7 @@ namespace Tassle.Logging.Telnet {
         }
 
         public bool TryGetSwitch(string name, out LogLevel level) {
-            return this._switches.TryGetValue(name, out level);
+            return this.switches.TryGetValue(name, out level);
         }
     }
 }

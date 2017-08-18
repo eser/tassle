@@ -30,14 +30,14 @@ namespace Tassle.Data {
     public class EfUnitOfWorkTransaction : IUnitOfWorkTransaction {
         // fields
 
-        private IDbContextTransaction _transaction;
-        private bool _isDisposed;
+        private IDbContextTransaction transaction;
+        private bool isDisposed;
 
         // constructors
 
         public EfUnitOfWorkTransaction(IDbContextTransaction transaction) {
-            this._transaction = transaction;
-            this._isDisposed = false;
+            this.transaction = transaction;
+            this.isDisposed = false;
         }
 
         ~EfUnitOfWorkTransaction() {
@@ -49,13 +49,13 @@ namespace Tassle.Data {
         public void Commit() {
             this.CheckDisposed();
 
-            this._transaction.Commit();
+            this.transaction.Commit();
         }
 
         public void Rollback() {
             this.CheckDisposed();
 
-            this._transaction.Rollback();
+            this.transaction.Rollback();
         }
 
         public void Dispose() {
@@ -64,22 +64,22 @@ namespace Tassle.Data {
         }
 
         protected void CheckDisposed() {
-            if (this._isDisposed) {
+            if (this.isDisposed) {
                 throw new ObjectDisposedException("The UnitOfWorkTransaction is already disposed and cannot be used anymore.");
             }
         }
 
         protected virtual void Dispose(bool disposing) {
-            if (!this._isDisposed) {
+            if (!this.isDisposed) {
                 if (disposing) {
-                    if (this._transaction != null) {
-                        this._transaction.Dispose();
-                        this._transaction = null;
+                    if (this.transaction != null) {
+                        this.transaction.Dispose();
+                        this.transaction = null;
                     }
                 }
             }
 
-            this._isDisposed = true;
+            this.isDisposed = true;
         }
     }
 }

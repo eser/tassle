@@ -9,7 +9,7 @@
             ClientConnectedEventArgs class.
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.ClientConnectedEventArgs._threadId">
+        <member name="F:Tassle.Telnet.ClientConnectedEventArgs.threadId">
             <summary>
             The thread id
             </summary>
@@ -33,7 +33,7 @@
             ClientDisconnectedEventArgs class.
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.ClientDisconnectedEventArgs._threadId">
+        <member name="F:Tassle.Telnet.ClientDisconnectedEventArgs.threadId">
             <summary>
             The thread id
             </summary>
@@ -133,12 +133,12 @@
             MessageReceivedEventArgs class.
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.MessageReceivedEventArgs._threadId">
+        <member name="F:Tassle.Telnet.MessageReceivedEventArgs.threadId">
             <summary>
             The thread id
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.MessageReceivedEventArgs._message">
+        <member name="F:Tassle.Telnet.MessageReceivedEventArgs.message">
             <summary>
             The message
             </summary>
@@ -171,42 +171,42 @@
             A TelnetServer instance.
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._lockObject">
+        <member name="F:Tassle.Telnet.TelnetServer.lockObject">
             <summary>
             The lock object
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._listenerThread">
+        <member name="F:Tassle.Telnet.TelnetServer.listenerThread">
             <summary>
             The listener thread
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._listenerThreadCancelled">
+        <member name="F:Tassle.Telnet.TelnetServer.listenerThreadCancelled">
             <summary>
             The listener thread cancelled
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._bindEndpoint">
+        <member name="F:Tassle.Telnet.TelnetServer.bindEndpoint">
             <summary>
             The IP endpoint
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._threads">
+        <member name="F:Tassle.Telnet.TelnetServer.threads">
             <summary>
             The threads
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._nextThreadId">
+        <member name="F:Tassle.Telnet.TelnetServer.nextThreadId">
             <summary>
             The next thread id
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._isRunning">
+        <member name="F:Tassle.Telnet.TelnetServer.isRunning">
             <summary>
             Is running
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetServer._encoding">
+        <member name="F:Tassle.Telnet.TelnetServer.encoding">
             <summary>
             The encoding
             </summary>
@@ -316,42 +316,42 @@
             A TelnetThread instance.
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._server">
+        <member name="F:Tassle.Telnet.TelnetThread.server">
             <summary>
             The server
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._threadId">
+        <member name="F:Tassle.Telnet.TelnetThread.threadId">
             <summary>
             The thread id
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._clientThread">
+        <member name="F:Tassle.Telnet.TelnetThread.clientThread">
             <summary>
             The client thread
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._clientThreadCancelled">
+        <member name="F:Tassle.Telnet.TelnetThread.clientThreadCancelled">
             <summary>
             The client thread cancelled
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._queuedMessages">
+        <member name="F:Tassle.Telnet.TelnetThread.queuedMessages">
             <summary>
             The queued messages
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._stream">
+        <member name="F:Tassle.Telnet.TelnetThread.stream">
             <summary>
             The stream
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._buffer">
+        <member name="F:Tassle.Telnet.TelnetThread.buffer">
             <summary>
             The buffer
             </summary>
         </member>
-        <member name="F:Tassle.Telnet.TelnetThread._stringBuffer">
+        <member name="F:Tassle.Telnet.TelnetThread.stringBuffer">
             <summary>
             The string buffer
             </summary>

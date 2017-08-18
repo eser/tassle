@@ -37,14 +37,14 @@ namespace Tassle.Data {
         where TDbContext : DbContext {
         // fields
 
-        private readonly TDbContext _dbContext;
-        private readonly DbSet<TEntity> _dbSet;
+        private readonly TDbContext dbContext;
+        private readonly DbSet<TEntity> dbSet;
 
         // constructors
 
         public EfRepository(TDbContext dbContext) {
-            this._dbContext = dbContext;
-            this._dbSet = this._dbContext.Set<TEntity>();
+            this.dbContext = dbContext;
+            this.dbSet = this.dbContext.Set<TEntity>();
         }
 
         // methods
@@ -82,136 +82,136 @@ namespace Tassle.Data {
         }
 
         public virtual void Add(TEntity entity) {
-            // var addedEntity = this._dbContext.Entry(entity);
+            // var addedEntity = this.dbContext.Entry(entity);
             // addedEntity.State = EntityState.Added;
-            this._dbContext.Add(entity);
+            this.dbContext.Add(entity);
         }
 
         public virtual async Task AddAsync(TEntity entity) {
-            // var addedEntity = this._dbContext.Entry(entity);
+            // var addedEntity = this.dbContext.Entry(entity);
             // addedEntity.State = EntityState.Added;
-            await this._dbContext.AddAsync(entity);
+            await this.dbContext.AddAsync(entity);
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities) {
             // foreach (var entity in entities)
             // {
-            //     var addedEntity = this._dbContext.Entry(entity);
+            //     var addedEntity = this.dbContext.Entry(entity);
             //     addedEntity.State = EntityState.Added;
             // }
-            this._dbContext.AddRange(entities);
+            this.dbContext.AddRange(entities);
         }
 
         public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities) {
             // foreach (var entity in entities)
             // {
-            //     var addedEntity = this._dbContext.Entry(entity);
+            //     var addedEntity = this.dbContext.Entry(entity);
             //     addedEntity.State = EntityState.Added;
             // }
-            await this._dbContext.AddRangeAsync(entities);
+            await this.dbContext.AddRangeAsync(entities);
         }
 
         public virtual void Update(TEntity entity) {
-            this._dbSet.Attach(entity);
+            this.dbSet.Attach(entity);
 
-            var entityToUpdate = this._dbContext.Entry(entity);
+            var entityToUpdate = this.dbContext.Entry(entity);
             entityToUpdate.State = EntityState.Modified;
         }
 
         public virtual async Task UpdateAsync(TEntity entity) {
-            this._dbSet.Attach(entity);
+            this.dbSet.Attach(entity);
 
-            var entityToUpdate = this._dbContext.Entry(entity);
+            var entityToUpdate = this.dbContext.Entry(entity);
             entityToUpdate.State = EntityState.Modified;
         }
 
         public virtual void UpdateRange(IEnumerable<TEntity> entities) {
-            this._dbSet.AttachRange(entities);
+            this.dbSet.AttachRange(entities);
 
             foreach (var entity in entities) {
-                var entityToUpdate = this._dbContext.Entry(entity);
+                var entityToUpdate = this.dbContext.Entry(entity);
                 entityToUpdate.State = EntityState.Modified;
             }
         }
 
         public virtual async Task UpdateRangeAsync(IEnumerable<TEntity> entities) {
-            this._dbSet.AttachRange(entities);
+            this.dbSet.AttachRange(entities);
 
             foreach (var entity in entities) {
-                var entityToUpdate = this._dbContext.Entry(entity);
+                var entityToUpdate = this.dbContext.Entry(entity);
                 entityToUpdate.State = EntityState.Modified;
             }
         }
 
         public virtual void Delete(TEntity entity) {
-            var entityToDelete = this._dbContext.Entry(entity);
+            var entityToDelete = this.dbContext.Entry(entity);
 
             if (entityToDelete.State == EntityState.Detached) {
-                this._dbSet.Attach(entity);
+                this.dbSet.Attach(entity);
             }
 
             // entityToDelete.State = EntityState.Deleted;
-            this._dbSet.Remove(entity);
+            this.dbSet.Remove(entity);
         }
 
         public virtual async Task DeleteAsync(TEntity entity) {
-            var entityToDelete = this._dbContext.Entry(entity);
+            var entityToDelete = this.dbContext.Entry(entity);
 
             if (entityToDelete.State == EntityState.Detached) {
-                this._dbSet.Attach(entity);
+                this.dbSet.Attach(entity);
             }
 
             // entityToDelete.State = EntityState.Deleted;
-            this._dbSet.Remove(entity);
+            this.dbSet.Remove(entity);
         }
 
         public virtual void DeleteRange(IEnumerable<TEntity> entities) {
             foreach (var entity in entities) {
-                var entityToDelete = this._dbContext.Entry(entity);
+                var entityToDelete = this.dbContext.Entry(entity);
 
                 if (entityToDelete.State == EntityState.Detached) {
-                    this._dbSet.Attach(entity);
+                    this.dbSet.Attach(entity);
                 }
 
                 // entityToDelete.State = EntityState.Deleted;
             }
 
-            this._dbSet.RemoveRange(entities);
+            this.dbSet.RemoveRange(entities);
         }
 
         public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities) {
             foreach (var entity in entities) {
-                var entityToDelete = this._dbContext.Entry(entity);
+                var entityToDelete = this.dbContext.Entry(entity);
 
                 if (entityToDelete.State == EntityState.Detached) {
-                    this._dbSet.Attach(entity);
+                    this.dbSet.Attach(entity);
                 }
 
                 // entityToDelete.State = EntityState.Deleted;
             }
 
-            this._dbSet.RemoveRange(entities);
+            this.dbSet.RemoveRange(entities);
         }
 
         //public virtual IQueryable<TEntity> Query(string query, params object[] parameters)
         //{
-        //    return this._dbSet.SqlQuery(query, parameters).AsQueryable();
+        //    return this.dbSet.SqlQuery(query, parameters).AsQueryable();
         //}
 
         //public virtual Task<IQueryable<TEntity>> QueryAsync(string query, params object[] parameters)
         //{
-        //    return (await this._dbSet.SqlQueryAsync(query, parameters)).AsQueryable();
+        //    return (await this.dbSet.SqlQueryAsync(query, parameters)).AsQueryable();
         //}
 
         protected IQueryable<TEntity> GetDbSet(Func<IRepositorySet<TEntity>, IRepositorySet<TEntity>> func = null) {
             if (func != null) {
-                var dbSet = this._dbContext.Set<TEntity>();
+                var dbSet = this.dbContext.Set<TEntity>();
                 var repositorySet = new EfRepositorySet<TEntity>(dbSet);
 
                 return func(repositorySet).AsQueryable();
             }
 
-            return this._dbSet;
+            return this.dbSet;
         }
     }
 }

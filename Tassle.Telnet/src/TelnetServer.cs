@@ -36,42 +36,42 @@ namespace Tassle.Telnet {
         /// <summary>
         /// The lock object
         /// </summary>
-        private object _lockObject;
+        private object lockObject;
 
         /// <summary>
         /// The listener thread
         /// </summary>
-        private Thread _listenerThread;
+        private Thread listenerThread;
 
         /// <summary>
         /// The listener thread cancelled
         /// </summary>
-        private volatile bool _listenerThreadCancelled;
+        private volatile bool listenerThreadCancelled;
 
         /// <summary>
         /// The IP endpoint
         /// </summary>
-        private IPEndPoint _bindEndpoint;
+        private IPEndPoint bindEndpoint;
 
         /// <summary>
         /// The threads
         /// </summary>
-        private Dictionary<int, TelnetThread> _threads;
+        private Dictionary<int, TelnetThread> threads;
 
         /// <summary>
         /// The next thread id
         /// </summary>
-        private int _nextThreadId;
+        private int nextThreadId;
 
         /// <summary>
         /// Is running
         /// </summary>
-        private bool _isRunning;
+        private bool isRunning;
 
         /// <summary>
         /// The encoding
         /// </summary>
-        private Encoding _encoding;
+        private Encoding encoding;
 
         // events
 
@@ -96,12 +96,12 @@ namespace Tassle.Telnet {
         /// Initializes a new instance of the <see cref="TelnetServer"/> class.
         /// </summary>
         public TelnetServer(IPEndPoint bindEndpoint) {
-            this._lockObject = new object();
-            this._bindEndpoint = bindEndpoint;
-            this._threads = new Dictionary<int, TelnetThread>();
-            this._nextThreadId = 0;
-            this._isRunning = false;
-            this._encoding = Encoding.ASCII;
+            this.lockObject = new object();
+            this.bindEndpoint = bindEndpoint;
+            this.threads = new Dictionary<int, TelnetThread>();
+            this.nextThreadId = 0;
+            this.isRunning = false;
+            this.encoding = Encoding.ASCII;
         }
 
         // properties
@@ -113,8 +113,8 @@ namespace Tassle.Telnet {
         /// The listener thread
         /// </value>
         public Thread ListenerThread {
-            get => this._listenerThread;
-            set => this._listenerThread = value;
+            get => this.listenerThread;
+            set => this.listenerThread = value;
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace Tassle.Telnet {
         /// The threads
         /// </value>
         public Dictionary<int, TelnetThread> Threads {
-            get => this._threads;
-            set => this._threads = value;
+            get => this.threads;
+            set => this.threads = value;
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Tassle.Telnet {
         /// Is running
         /// </value>
         public bool IsRunning {
-            get => this._isRunning;
+            get => this.isRunning;
         }
 
         /// <summary>
@@ -145,8 +145,8 @@ namespace Tassle.Telnet {
         /// The encoding
         /// </value>
         public Encoding Encoding {
-            get => this._encoding;
-            set => this._encoding = value;
+            get => this.encoding;
+            set => this.encoding = value;
         }
 
         // methods
@@ -155,24 +155,24 @@ namespace Tassle.Telnet {
         /// Starts the server.
         /// </summary>
         public void Start() {
-            this._listenerThread = new Thread(this.ListenerThreadMain) {
+            this.listenerThread = new Thread(this.ListenerThreadMain) {
                 IsBackground = true
             };
 
-            this._listenerThread.Start();
+            this.listenerThread.Start();
         }
 
         /// <summary>
         /// Stops the server.
         /// </summary>
         public void Stop() {
-            this._listenerThreadCancelled = true;
+            this.listenerThreadCancelled = true;
 
-            foreach (var telnetThread in this._threads.Values) {
+            foreach (var telnetThread in this.threads.Values) {
                 telnetThread.Stop();
             }
 
-            // this._listenerThread.Interrupt();
+            // this.listenerThread.Interrupt();
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Tassle.Telnet {
         /// </summary>
         /// <param name="message">Message content</param>
         public void BroadcastMessage(string message) {
-            foreach (var telnetThread in this._threads.Values) {
+            foreach (var telnetThread in this.threads.Values) {
                 telnetThread.SendMessageDirect(message);
             }
         }
@@ -192,11 +192,11 @@ namespace Tassle.Telnet {
         /// <param name="message">Message content</param>
         /// <returns>Is message is delivered or not</returns>
         public bool SendMessage(int threadId, string message) {
-            if (!this._threads.ContainsKey(threadId)) {
+            if (!this.threads.ContainsKey(threadId)) {
                 return false;
             }
 
-            var telnetThread = this._threads[threadId];
+            var telnetThread = this.threads[threadId];
 
             telnetThread.SendMessageDirect(message);
 
@@ -225,7 +225,7 @@ namespace Tassle.Telnet {
         /// </summary>
         /// <param name="threadId">Thread id</param>
         internal void InvokeClientDisconnected(int threadId) {
-            this._threads.Remove(threadId);
+            this.threads.Remove(threadId);
 
             this.ClientDisconnected?.Invoke(this, new ClientDisconnectedEventArgs(threadId));
         }
@@ -234,29 +234,29 @@ namespace Tassle.Telnet {
         /// Main loop for listener thread
         /// </summary>
         private void ListenerThreadMain() {
-            var tcpListener = new TcpListener(this._bindEndpoint);
+            var tcpListener = new TcpListener(this.bindEndpoint);
             tcpListener.Start();
 
-            this._isRunning = true;
+            this.isRunning = true;
 
-            while (!this._listenerThreadCancelled) {
+            while (!this.listenerThreadCancelled) {
                 var acceptTcpClientTask = tcpListener.AcceptTcpClientAsync();
 
                 acceptTcpClientTask.ContinueWith(t => this.AcceptTcpClientCallback(t.Result));
             }
 
             tcpListener.Stop();
-            this._isRunning = false;
+            this.isRunning = false;
         }
 
         private void AcceptTcpClientCallback(TcpClient tcpClient) {
             TelnetThread clientThread;
 
-            lock (this._lockObject) {
-                var threadId = this._nextThreadId++;
+            lock (this.lockObject) {
+                var threadId = this.nextThreadId++;
                 clientThread = new TelnetThread(this, tcpClient, threadId);
 
-                this._threads.Add(threadId, clientThread);
+                this.threads.Add(threadId, clientThread);
             }
 
             clientThread.Start();

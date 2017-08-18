@@ -127,7 +127,7 @@
             MimeUtils class.
             </summary>
         </member>
-        <member name="F:Tassle.Helpers.MimeHelpers.s_mappings">
+        <member name="F:Tassle.Helpers.MimeHelpers.mappings">
             <summary>
             The mappings
             </summary>
@@ -173,7 +173,7 @@
             RandomUtils class.
             </summary>
         </member>
-        <member name="F:Tassle.Helpers.RandomHelpers.s_randomObject">
+        <member name="F:Tassle.Helpers.RandomHelpers.randomObject">
             <summary>
             The random object
             </summary>

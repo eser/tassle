@@ -32,7 +32,7 @@ namespace Tassle.Helpers {
         /// <summary>
         /// The random object
         /// </summary>
-        private static Random s_randomObject;
+        private static Random randomObject;
 
         // constructors
 
@@ -40,7 +40,7 @@ namespace Tassle.Helpers {
         /// Initializes static members of the <see cref="RandomHelpers"/> class.
         /// </summary>
         static RandomHelpers() {
-            RandomHelpers.s_randomObject = new Random();
+            RandomHelpers.randomObject = new Random();
         }
 
         // properties
@@ -52,8 +52,8 @@ namespace Tassle.Helpers {
         /// The random object.
         /// </value>
         public static Random RandomObject {
-            get => RandomHelpers.s_randomObject;
-            set => RandomHelpers.s_randomObject = value;
+            get => RandomHelpers.randomObject;
+            set => RandomHelpers.randomObject = value;
         }
 
         // methods
@@ -66,7 +66,7 @@ namespace Tassle.Helpers {
             var seed = new byte[16];
 
             for (var i = 0; i < seed.Length; i++) {
-                seed[i] = (byte)RandomHelpers.s_randomObject.Next(255);
+                seed[i] = (byte)RandomHelpers.randomObject.Next(255);
             }
 
             return new Guid(seed);
@@ -79,7 +79,7 @@ namespace Tassle.Helpers {
         /// <param name="max">The max</param>
         /// <returns>Generated number</returns>
         public static int RandomNumber(int min, int max) {
-            return RandomHelpers.RandomNumber(RandomHelpers.s_randomObject, min, max);
+            return RandomHelpers.RandomNumber(RandomHelpers.randomObject, min, max);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Tassle.Helpers {
         /// <param name="size">The size</param>
         /// <returns>Generated string</returns>
         public static string RandomString(int size) {
-            return RandomHelpers.RandomString(RandomHelpers.s_randomObject, size);
+            return RandomHelpers.RandomString(RandomHelpers.randomObject, size);
         }
 
         /// <summary>

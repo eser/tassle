@@ -238,22 +238,22 @@
             Service class.
             </summary>
         </member>
-        <member name="F:Tassle.Services.Service._status">
+        <member name="F:Tassle.Services.Service.status">
             <summary>
             The status
             </summary>
         </member>
-        <member name="F:Tassle.Services.Service._statusDate">
+        <member name="F:Tassle.Services.Service.statusDate">
             <summary>
             The status date
             </summary>
         </member>
-        <member name="F:Tassle.Services.Service._logger">
+        <member name="F:Tassle.Services.Service.logger">
             <summary>
             The logger
             </summary>
         </member>
-        <member name="F:Tassle.Services.Service._disposed">
+        <member name="F:Tassle.Services.Service.disposed">
             <summary>
             The disposed
             </summary>
@@ -338,7 +338,7 @@
             ServiceContainer class.
             </summary>
         </member>
-        <member name="F:Tassle.Services.ServiceContainer._children">
+        <member name="F:Tassle.Services.ServiceContainer.children">
             <summary>
             The children
             </summary>
@@ -431,12 +431,12 @@
             ServiceStatusChangedEventArgs class.
             </summary>
         </member>
-        <member name="F:Tassle.Services.ServiceStatusChangedEventArgs._previousState">
+        <member name="F:Tassle.Services.ServiceStatusChangedEventArgs.previousState">
             <summary>
             The previous state
             </summary>
         </member>
-        <member name="F:Tassle.Services.ServiceStatusChangedEventArgs._status">
+        <member name="F:Tassle.Services.ServiceStatusChangedEventArgs.status">
             <summary>
             The status
             </summary>

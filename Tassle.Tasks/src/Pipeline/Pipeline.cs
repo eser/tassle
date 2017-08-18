@@ -36,37 +36,37 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The running task count sync
         /// </summary>
-        private readonly object _runningTaskCountSync;
+        private readonly object runningTaskCountSync;
 
         /// <summary>
         /// The maximum tasks
         /// </summary>
-        private readonly int _maximumTasks;
+        private readonly int maximumTasks;
 
         /// <summary>
         /// The parameters
         /// </summary>
-        private ConcurrentQueue<object> _parameters;
+        private ConcurrentQueue<object> parameters;
 
         /// <summary>
         /// The action
         /// </summary>
-        private Action<object> _action;
+        private Action<object> action;
 
         /// <summary>
         /// The cancellation token source
         /// </summary>
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
         /// The running task count
         /// </summary>
-        private int _runningTaskCount;
+        private int runningTaskCount;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool _disposed;
+        private bool disposed;
 
         // constructors
 
@@ -76,19 +76,19 @@ namespace Tassle.Tasks {
         /// <param name="maximumTasks">The maximum tasks.</param>
         /// <param name="action">The action.</param>
         public Pipeline(int maximumTasks, Action<object> action) : this() {
-            this._maximumTasks = maximumTasks;
-            this._action = action;
+            this.maximumTasks = maximumTasks;
+            this.action = action;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pipeline"/> class.
         /// </summary>
         protected Pipeline() {
-            this._parameters = new ConcurrentQueue<object>();
+            this.parameters = new ConcurrentQueue<object>();
 
-            this._cancellationTokenSource = new CancellationTokenSource();
+            this.cancellationTokenSource = new CancellationTokenSource();
 
-            this._runningTaskCountSync = new object();
+            this.runningTaskCountSync = new object();
         }
 
         /// <summary>
@@ -117,8 +117,8 @@ namespace Tassle.Tasks {
         /// </summary>
         public int RunningTaskCount {
             get {
-                lock (this._runningTaskCountSync) {
-                    return this._runningTaskCount;
+                lock (this.runningTaskCountSync) {
+                    return this.runningTaskCount;
                 }
             }
         }
@@ -128,8 +128,8 @@ namespace Tassle.Tasks {
         /// </summary>
         public int AvailableTaskSlotCount {
             get {
-                lock (this._runningTaskCountSync) {
-                    return this._maximumTasks - this._runningTaskCount;
+                lock (this.runningTaskCountSync) {
+                    return this.maximumTasks - this.runningTaskCount;
                 }
             }
         }
@@ -142,8 +142,8 @@ namespace Tassle.Tasks {
         /// </value>
         public bool IsRunning {
             get {
-                lock (this._runningTaskCountSync) {
-                    return this._runningTaskCount > 0;
+                lock (this.runningTaskCountSync) {
+                    return this.runningTaskCount > 0;
                 }
             }
         }
@@ -155,8 +155,8 @@ namespace Tassle.Tasks {
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
         public bool Disposed {
-            get => this._disposed;
-            protected set => this._disposed = value;
+            get => this.disposed;
+            protected set => this.disposed = value;
         }
 
         // methods
@@ -166,7 +166,7 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         public void AddTask(object parameter) {
-            this._parameters.Enqueue(parameter);
+            this.parameters.Enqueue(parameter);
             this.InvokeTaskStatusChanged(PipelineTaskStatus.NotStarted, parameter);
 
             this.FillQueue();
@@ -177,17 +177,17 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="emptyQueues">if set to <c>true</c> [empty queues].</param>
         public void Cancel(bool emptyQueues = true) {
-            this._cancellationTokenSource.Cancel();
+            this.cancellationTokenSource.Cancel();
 
             if (emptyQueues) {
-                while (this._parameters.IsEmpty) {
+                while (this.parameters.IsEmpty) {
                     object dummy;
-                    this._parameters.TryDequeue(out dummy);
+                    this.parameters.TryDequeue(out dummy);
                 }
             }
 
-            lock (this._runningTaskCountSync) {
-                this._runningTaskCount = 0;
+            lock (this.runningTaskCountSync) {
+                this.runningTaskCount = 0;
             }
 
             this.InvokeTasksDone(true);
@@ -219,13 +219,13 @@ namespace Tassle.Tasks {
         protected bool DequeueAndDoTask() {
             object parameter;
 
-            lock (this._runningTaskCountSync) {
-                if (this._runningTaskCount >= this._maximumTasks) {
+            lock (this.runningTaskCountSync) {
+                if (this.runningTaskCount >= this.maximumTasks) {
                     return false;
                 }
 
-                if (!this._parameters.TryDequeue(out parameter)) {
-                    if (this._runningTaskCount == 0) {
+                if (!this.parameters.TryDequeue(out parameter)) {
+                    if (this.runningTaskCount == 0) {
                         this.InvokeTasksDone(false);
                     }
 
@@ -233,7 +233,7 @@ namespace Tassle.Tasks {
                 }
             }
 
-            Task.Factory.StartNew(this.TaskAction, parameter, this._cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+            Task.Factory.StartNew(this.TaskAction, parameter, this.cancellationTokenSource.Token, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
             return true;
         }
 
@@ -242,20 +242,20 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         protected void TaskAction(object parameter) {
-            if (this._cancellationTokenSource.IsCancellationRequested) {
+            if (this.cancellationTokenSource.IsCancellationRequested) {
                 this.InvokeTaskStatusChanged(PipelineTaskStatus.Cancelled, parameter);
                 return;
             }
 
-            lock (this._runningTaskCountSync) {
-                this._runningTaskCount++;
+            lock (this.runningTaskCountSync) {
+                this.runningTaskCount++;
                 this.InvokeTaskStatusChanged(PipelineTaskStatus.Running, parameter);
             }
 
-            this._action(parameter);
+            this.action(parameter);
 
-            lock (this._runningTaskCountSync) {
-                this._runningTaskCount--;
+            lock (this.runningTaskCountSync) {
+                this.runningTaskCount--;
                 this.InvokeTaskStatusChanged(PipelineTaskStatus.Finished, parameter);
 
                 this.DequeueAndDoTask();
@@ -284,7 +284,7 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected virtual void OnDispose(bool releaseManagedResources) {
-            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this._cancellationTokenSource);
+            VariableHelpers.CheckAndDispose<CancellationTokenSource>(ref this.cancellationTokenSource);
         }
 
         /// <summary>
@@ -294,13 +294,13 @@ namespace Tassle.Tasks {
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
         protected void Dispose(bool releaseManagedResources) {
-            if (this._disposed) {
+            if (this.disposed) {
                 return;
             }
 
             this.OnDispose(releaseManagedResources);
 
-            this._disposed = true;
+            this.disposed = true;
         }
     }
 }

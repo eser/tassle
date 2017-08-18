@@ -29,18 +29,18 @@ namespace Tassle.Data {
         where TEntity : class, IEntity {
         // fields
 
-        private IIncludableQueryable<TEntity, TProperty> _dbSet;
+        private IIncludableQueryable<TEntity, TProperty> dbSet;
 
         // constructors
 
         public EfRepositorySet(IIncludableQueryable<TEntity, TProperty> dbSet) : base(dbSet) {
-            this._dbSet = dbSet;
+            this.dbSet = dbSet;
         }
 
         // properties
 
         internal IIncludableQueryable<TEntity, TProperty> DbSet {
-            get => this._dbSet;
+            get => this.dbSet;
         }
 
         // methods

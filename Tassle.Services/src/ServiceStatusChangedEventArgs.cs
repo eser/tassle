@@ -31,12 +31,12 @@ namespace Tassle.Services {
         /// <summary>
         /// The previous state
         /// </summary>
-        private readonly ServiceStatus _previousState;
+        private readonly ServiceStatus previousState;
 
         /// <summary>
         /// The status
         /// </summary>
-        private readonly ServiceStatus _status;
+        private readonly ServiceStatus status;
 
         // constructors
 
@@ -46,8 +46,8 @@ namespace Tassle.Services {
         /// <param name="previousState">State of the previous</param>
         /// <param name="status">The status</param>
         public ServiceStatusChangedEventArgs(ServiceStatus previousState, ServiceStatus status) {
-            this._previousState = previousState;
-            this._status = status;
+            this.previousState = previousState;
+            this.status = status;
         }
 
         // properties
@@ -59,7 +59,7 @@ namespace Tassle.Services {
         /// The state of the previous.
         /// </value>
         public ServiceStatus PreviousState {
-            get => this._previousState;
+            get => this.previousState;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Tassle.Services {
         /// The status.
         /// </value>
         public ServiceStatus Status {
-            get => this._status;
+            get => this.status;
         }
     }
 }

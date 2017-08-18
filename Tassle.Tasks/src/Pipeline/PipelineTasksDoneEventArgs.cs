@@ -31,7 +31,7 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The is cancelled
         /// </summary>
-        private readonly bool _isCancelled;
+        private readonly bool isCancelled;
 
         // constructors
 
@@ -40,7 +40,7 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="isCancelled">if set to <c>true</c> [is cancelled].</param>
         public PipelineTasksDoneEventArgs(bool isCancelled) : base() {
-            this._isCancelled = isCancelled;
+            this.isCancelled = isCancelled;
         }
 
         // properties
@@ -52,7 +52,7 @@ namespace Tassle.Tasks {
         ///     <c>true</c> if this instance is cancelled; otherwise, <c>false</c>.
         /// </value>
         public bool IsCancelled {
-            get => this._isCancelled;
+            get => this.isCancelled;
         }
     }
 }

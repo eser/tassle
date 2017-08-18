@@ -33,22 +33,22 @@ namespace Tassle.Services {
         /// <summary>
         /// The status
         /// </summary>
-        private ServiceStatus _status;
+        private ServiceStatus status;
 
         /// <summary>
         /// The status date
         /// </summary>
-        private DateTimeOffset _statusDate;
+        private DateTimeOffset statusDate;
 
         /// <summary>
         /// The logger
         /// </summary>
-        private ILogger _logger = null;
+        private ILogger logger = null;
 
         /// <summary>
         /// The disposed
         /// </summary>
-        private bool _disposed;
+        private bool disposed;
 
         // constructors
 
@@ -56,10 +56,10 @@ namespace Tassle.Services {
         /// Initializes a new instance of the <see cref="Service"/> class.
         /// </summary>
         protected Service(ILoggerFactory loggerFactory) {
-            this._status = (this is ControllableService) ? ServiceStatus.Stopped : ServiceStatus.Passive;
-            this._statusDate = DateTimeOffset.UtcNow;
+            this.status = (this is ControllableService) ? ServiceStatus.Stopped : ServiceStatus.Passive;
+            this.statusDate = DateTimeOffset.UtcNow;
 
-            this._logger = loggerFactory.CreateLogger(this.Name);
+            this.logger = loggerFactory.CreateLogger(this.Name);
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace Tassle.Services {
         /// The status.
         /// </value>
         public ServiceStatus Status {
-            get => this._status;
-            protected set => this._status = value;
+            get => this.status;
+            protected set => this.status = value;
         }
 
         /// <summary>
@@ -109,8 +109,8 @@ namespace Tassle.Services {
         /// The status date.
         /// </value>
         public DateTimeOffset StatusDate {
-            get => this._statusDate;
-            protected set => this._statusDate = value;
+            get => this.statusDate;
+            protected set => this.statusDate = value;
         }
 
         /// <summary>
@@ -120,8 +120,8 @@ namespace Tassle.Services {
         /// The logger.
         /// </value>
         public ILogger Logger {
-            get => this._logger;
-            protected set => this._logger = value;
+            get => this.logger;
+            protected set => this.logger = value;
         }
 
         /// <summary>
@@ -131,8 +131,8 @@ namespace Tassle.Services {
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
         public bool Disposed {
-            get => this._disposed;
-            protected set => this._disposed = value;
+            get => this.disposed;
+            protected set => this.disposed = value;
         }
 
         // methods
@@ -160,13 +160,13 @@ namespace Tassle.Services {
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "log")]
         protected void Dispose(bool releaseManagedResources) {
-            if (this._disposed) {
+            if (this.disposed) {
                 return;
             }
 
             this.OnDispose(releaseManagedResources);
 
-            this._disposed = true;
+            this.disposed = true;
         }
     }
 }

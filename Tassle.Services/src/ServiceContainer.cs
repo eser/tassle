@@ -35,7 +35,7 @@ namespace Tassle.Services {
         /// <summary>
         /// The children
         /// </summary>
-        private readonly ICollection<IService> _children;
+        private readonly ICollection<IService> children;
 
         // constructors
 
@@ -43,7 +43,7 @@ namespace Tassle.Services {
         /// Initializes a new instance of the <see cref="ServiceContainer"/> class.
         /// </summary>
         protected ServiceContainer(ILoggerFactory loggerFactory) : base(loggerFactory) {
-            this._children = new List<IService>();
+            this.children = new List<IService>();
         }
 
         // events
@@ -62,7 +62,7 @@ namespace Tassle.Services {
         /// The children.
         /// </value>
         public ICollection<IService> Children {
-            get => this._children;
+            get => this.children;
         }
 
         // methods
@@ -73,7 +73,7 @@ namespace Tassle.Services {
         /// <param name="services">The services</param>
         public void AddChild(params IService[] services) {
             foreach (var service in services) {
-                this._children.Add(service);
+                this.children.Add(service);
             }
         }
 
@@ -160,7 +160,7 @@ namespace Tassle.Services {
 
                 base.Start();
 
-                foreach (var child in this._children) {
+                foreach (var child in this.children) {
                     var controllableChild = child as ControllableService;
 
                     controllableChild?.Start();
@@ -184,7 +184,7 @@ namespace Tassle.Services {
                 }
 
                 // stop children
-                var childServices = ArrayHelpers.GetArray<IService>(this._children);
+                var childServices = ArrayHelpers.GetArray<IService>(this.children);
                 Array.Reverse(childServices);
 
                 foreach (var child in childServices) {
@@ -206,7 +206,7 @@ namespace Tassle.Services {
         /// </summary>
         /// <param name="releaseManagedResources"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
         protected override void OnDispose(bool releaseManagedResources) {
-            var childServices = ArrayHelpers.GetArray<IService>(this._children);
+            var childServices = ArrayHelpers.GetArray<IService>(this.children);
             Array.Reverse(childServices);
 
             foreach (var child in childServices) {

@@ -31,29 +31,29 @@ namespace Tassle.Logging.Telnet {
 
         // Writing to console is not an atomic operation in the current implementation and since multiple logger
         // instances are created with a different name. Also since Console is global, using a static lock is fine.
-        private static readonly object s_lock = new object();
-        private static readonly string s_loglevelPadding = ": ";
-        private static readonly string s_messagePadding;
-        private static readonly string s_newLineWithMessagePadding;
+        private static readonly object lockObject = new object();
+        private static readonly string loglevelPadding = ": ";
+        private static readonly string messagePadding;
+        private static readonly string newLineWithMessagePadding;
 
         [ThreadStatic]
-        private static StringBuilder s_logBuilder;
+        private static StringBuilder logBuilder;
 
-        private Func<string, LogLevel, bool> _filter;
+        private Func<string, LogLevel, bool> filter;
 
-        private bool _includeScopes;
+        private bool includeScopes;
 
-        private string _name;
+        private string name;
 
-        private ITelnetServer _telnetServer;
+        private ITelnetServer telnetServer;
 
         // constructors
 
         static TelnetLogger() {
             var logLevelString = TelnetLogger.GetLogLevelString(LogLevel.Information);
 
-            TelnetLogger.s_messagePadding = new string(' ', logLevelString.Length + TelnetLogger.s_loglevelPadding.Length);
-            TelnetLogger.s_newLineWithMessagePadding = Environment.NewLine + TelnetLogger.s_messagePadding;
+            TelnetLogger.messagePadding = new string(' ', logLevelString.Length + TelnetLogger.loglevelPadding.Length);
+            TelnetLogger.newLineWithMessagePadding = Environment.NewLine + TelnetLogger.messagePadding;
         }
 
         public TelnetLogger(string name, ITelnetServer telnetServer, Func<string, LogLevel, bool> filter, bool includeScopes) {
@@ -61,32 +61,32 @@ namespace Tassle.Logging.Telnet {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            this._name = name;
-            this._filter = filter ?? ((category, logLevel) => true);
-            this._includeScopes = includeScopes;
-            this._telnetServer = telnetServer;
+            this.name = name;
+            this.filter = filter ?? ((category, logLevel) => true);
+            this.includeScopes = includeScopes;
+            this.telnetServer = telnetServer;
         }
 
         // properties
 
         public Func<string, LogLevel, bool> Filter {
-            get => this._filter;
+            get => this.filter;
             set {
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
                 }
 
-                this._filter = value;
+                this.filter = value;
             }
         }
 
         public bool IncludeScopes {
-            get => this._includeScopes;
-            set => this._includeScopes = value;
+            get => this.includeScopes;
+            set => this.includeScopes = value;
         }
 
         public string Name {
-            get => this._name;
+            get => this.name;
         }
 
         // methods
@@ -103,13 +103,13 @@ namespace Tassle.Logging.Telnet {
             var message = formatter(state, exception);
 
             if (!string.IsNullOrEmpty(message) || exception != null) {
-                this.WriteMessage(logLevel, this._name, eventId.Id, message, exception);
+                this.WriteMessage(logLevel, this.name, eventId.Id, message, exception);
             }
         }
 
         public virtual void WriteMessage(LogLevel logLevel, string logName, int eventId, string message, Exception exception) {
-            var logBuilder = TelnetLogger.s_logBuilder;
-            TelnetLogger.s_logBuilder = null;
+            var logBuilder = TelnetLogger.logBuilder;
+            TelnetLogger.logBuilder = null;
 
             if (logBuilder == null) {
                 logBuilder = new StringBuilder();
@@ -123,20 +123,20 @@ namespace Tassle.Logging.Telnet {
             if (!string.IsNullOrEmpty(message)) {
                 logLevelString = TelnetLogger.GetLogLevelString(logLevel);
                 // category and event id
-                logBuilder.Append(TelnetLogger.s_loglevelPadding);
+                logBuilder.Append(TelnetLogger.loglevelPadding);
                 logBuilder.Append(logName);
                 logBuilder.Append("[");
                 logBuilder.Append(eventId);
                 logBuilder.AppendLine("]");
                 // scope information
-                if (this._includeScopes) {
+                if (this.includeScopes) {
                     this.GetScopeInformation(logBuilder);
                 }
                 // message
-                logBuilder.Append(TelnetLogger.s_messagePadding);
+                logBuilder.Append(TelnetLogger.messagePadding);
                 var len = logBuilder.Length;
                 logBuilder.AppendLine(message);
-                logBuilder.Replace(Environment.NewLine, TelnetLogger.s_newLineWithMessagePadding, len, message.Length);
+                logBuilder.Replace(Environment.NewLine, TelnetLogger.newLineWithMessagePadding, len, message.Length);
             }
 
             // Example:
@@ -149,14 +149,14 @@ namespace Tassle.Logging.Telnet {
 
             if (logBuilder.Length > 0) {
                 var logMessage = logBuilder.ToString();
-                lock (TelnetLogger.s_lock) {
+                lock (TelnetLogger.lockObject) {
                     if (!string.IsNullOrEmpty(logLevelString)) {
                         // log level string
-                        this._telnetServer.BroadcastMessage(logLevelString);
+                        this.telnetServer.BroadcastMessage(logLevelString);
                     }
 
                     // use default colors from here on
-                    this._telnetServer.BroadcastMessage(logMessage);
+                    this.telnetServer.BroadcastMessage(logMessage);
 
                     // In case of AnsiLogConsole, the messages are not yet written to the console,
                     // this would flush them instead.
@@ -169,11 +169,11 @@ namespace Tassle.Logging.Telnet {
                 logBuilder.Capacity = 1024;
             }
 
-            TelnetLogger.s_logBuilder = logBuilder;
+            TelnetLogger.logBuilder = logBuilder;
         }
 
         public bool IsEnabled(LogLevel logLevel) {
-            return this._filter(this._name, logLevel);
+            return this.filter(this.name, logLevel);
         }
 
         public IDisposable BeginScope<TState>(TState state) {
@@ -181,7 +181,7 @@ namespace Tassle.Logging.Telnet {
                 throw new ArgumentNullException(nameof(state));
             }
 
-            return TelnetLogScope.Push(this._name, state);
+            return TelnetLogScope.Push(this.name, state);
         }
 
         private static string GetLogLevelString(LogLevel logLevel) {
@@ -221,7 +221,7 @@ namespace Tassle.Logging.Telnet {
             }
 
             if (builder.Length > length) {
-                builder.Insert(length, TelnetLogger.s_messagePadding);
+                builder.Insert(length, TelnetLogger.messagePadding);
                 builder.AppendLine();
             }
         }

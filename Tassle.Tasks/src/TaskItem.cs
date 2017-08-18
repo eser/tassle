@@ -35,37 +35,37 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The recurrence
         /// </summary>
-        private Recurrence _recurrence;
+        private Recurrence recurrence;
 
         /// <summary>
         /// The repeat
         /// </summary>
-        private int _repeat;
+        private int repeat;
 
         /// <summary>
         /// The action
         /// </summary>
-        private Action<TaskActionParameters> _action;
+        private Action<TaskActionParameters> action;
 
         /// <summary>
         /// The status
         /// </summary>
-        private TaskItemStatus _status;
+        private TaskItemStatus status;
 
         /// <summary>
         /// The last run
         /// </summary>
-        private DateTimeOffset _lastRun;
+        private DateTimeOffset lastRun;
 
         /// <summary>
         /// The lifetime
         /// </summary>
-        private TimeSpan _lifetime;
+        private TimeSpan lifetime;
 
         /// <summary>
         /// The active actions
         /// </summary>
-        private ICollection<TaskActionParameters> _activeActions;
+        private ICollection<TaskActionParameters> activeActions;
 
         // constructors
 
@@ -76,15 +76,15 @@ namespace Tassle.Tasks {
         /// <param name="action">The action</param>
         /// <param name="lifetime">The lifetime</param>
         public TaskItem(Action<TaskActionParameters> action) {
-            this._status = TaskItemStatus.NotStarted;
-            this._lastRun = DateTimeOffset.MinValue;
+            this.status = TaskItemStatus.NotStarted;
+            this.lastRun = DateTimeOffset.MinValue;
 
-            this._recurrence = Recurrence.Once;
-            this._repeat = 1;
-            this._action = action;
-            this._lifetime = TimeSpan.Zero;
+            this.recurrence = Recurrence.Once;
+            this.repeat = 1;
+            this.action = action;
+            this.lifetime = TimeSpan.Zero;
 
-            this._activeActions = new Collection<TaskActionParameters>();
+            this.activeActions = new Collection<TaskActionParameters>();
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace Tassle.Tasks {
         /// The recurrence.
         /// </value>
         public Recurrence Recurrence {
-            get => this._recurrence;
-            set => this._recurrence = value;
+            get => this.recurrence;
+            set => this.recurrence = value;
         }
 
         /// <summary>
@@ -105,8 +105,8 @@ namespace Tassle.Tasks {
         /// The repeat.
         /// </value>
         public int Repeat {
-            get => this._repeat;
-            set => this._repeat = value;
+            get => this.repeat;
+            set => this.repeat = value;
         }
 
         /// <summary>
@@ -116,8 +116,8 @@ namespace Tassle.Tasks {
         /// The action.
         /// </value>
         public Action<TaskActionParameters> Action {
-            get => this._action;
-            set => this._action = value;
+            get => this.action;
+            set => this.action = value;
         }
 
         /// <summary>
@@ -127,8 +127,8 @@ namespace Tassle.Tasks {
         /// The status.
         /// </value>
         public TaskItemStatus Status {
-            get => this._status;
-            protected set => this._status = value;
+            get => this.status;
+            protected set => this.status = value;
         }
 
         /// <summary>
@@ -138,8 +138,8 @@ namespace Tassle.Tasks {
         /// The last run.
         /// </value>
         public DateTimeOffset LastRun {
-            get => this._lastRun;
-            protected set => this._lastRun = value;
+            get => this.lastRun;
+            protected set => this.lastRun = value;
         }
 
         /// <summary>
@@ -149,8 +149,8 @@ namespace Tassle.Tasks {
         /// The lifetime.
         /// </value>
         public TimeSpan Lifetime {
-            get => this._lifetime;
-            protected set => this._lifetime = value;
+            get => this.lifetime;
+            protected set => this.lifetime = value;
         }
 
         /// <summary>
@@ -160,8 +160,8 @@ namespace Tassle.Tasks {
         /// The active actions.
         /// </value>
         public ICollection<TaskActionParameters> ActiveActions {
-            get => this._activeActions;
-            protected set => this._activeActions = value;
+            get => this.activeActions;
+            protected set => this.activeActions = value;
         }
 
         // methods
@@ -172,7 +172,7 @@ namespace Tassle.Tasks {
         /// <param name="recurrence">Recurrence</param>
         /// <returns>Task Item</returns>
         public TaskItem SetRecurrence(Recurrence recurrence) {
-            this._recurrence = recurrence;
+            this.recurrence = recurrence;
 
             return this;
         }
@@ -183,7 +183,7 @@ namespace Tassle.Tasks {
         /// <param name="repeat">Repeat</param>
         /// <returns>Task Item</returns>
         public TaskItem SetRepeat(int repeat) {
-            this._repeat = repeat;
+            this.repeat = repeat;
 
             return this;
         }
@@ -194,7 +194,7 @@ namespace Tassle.Tasks {
         /// <param name="lifetime">Life time</param>
         /// <returns>Task Item</returns>
         public TaskItem SetLifetime(TimeSpan lifetime) {
-            this._lifetime = lifetime;
+            this.lifetime = lifetime;
 
             return this;
         }
@@ -205,9 +205,9 @@ namespace Tassle.Tasks {
         /// <param name="timespan">The timespan which will be added to start time</param>
         /// <returns>Task Item</returns>
         public TaskItem Postpone(TimeSpan timespan) {
-            this._recurrence = new Recurrence(
+            this.recurrence = new Recurrence(
                 DateTimeOffset.UtcNow.Add(timespan),
-                this._recurrence.Interval
+                this.recurrence.Interval
             );
 
             return this;
@@ -217,8 +217,8 @@ namespace Tassle.Tasks {
         /// Initializes this instance.
         /// </summary>
         public void Init() {
-            this._status = TaskItemStatus.Running;
-            this._lastRun = DateTimeOffset.UtcNow;
+            this.status = TaskItemStatus.Running;
+            this.lastRun = DateTimeOffset.UtcNow;
         }
 
         /// <summary>
@@ -228,48 +228,48 @@ namespace Tassle.Tasks {
         public void Run(DateTimeOffset? dateTime = null) {
             DateTimeOffset now = dateTime.GetValueOrDefault(DateTimeOffset.UtcNow);
 
-            if (now > this._recurrence.DateEnd) {
-                this._status = TaskItemStatus.Stopped;
+            if (now > this.recurrence.DateEnd) {
+                this.status = TaskItemStatus.Stopped;
                 return;
             }
 
-            if (!this._recurrence.CheckDate(now)) {
+            if (!this.recurrence.CheckDate(now)) {
                 return;
             }
 
-            if (this._status != TaskItemStatus.Running) {
+            if (this.status != TaskItemStatus.Running) {
                 return;
             }
 
-            if (now.Subtract(this._lastRun) < this._recurrence.Interval) {
+            if (now.Subtract(this.lastRun) < this.recurrence.Interval) {
                 return;
             }
 
-            this._lastRun = now;
+            this.lastRun = now;
 
             CancellationTokenSource cancellationTokenSource;
-            if (this._lifetime != TimeSpan.Zero) {
-                cancellationTokenSource = new CancellationTokenSource(this._lifetime);
+            if (this.lifetime != TimeSpan.Zero) {
+                cancellationTokenSource = new CancellationTokenSource(this.lifetime);
             }
             else {
                 cancellationTokenSource = new CancellationTokenSource();
             }
 
             var cronActionParameters = new TaskActionParameters(this, now, cancellationTokenSource);
-            this._activeActions.Add(cronActionParameters);
+            this.activeActions.Add(cronActionParameters);
 
             Action actionToRun = () => {
-                for (var i = this._repeat; i > 0; i--) {
-                    this._action(cronActionParameters);
+                for (var i = this.repeat; i > 0; i--) {
+                    this.action(cronActionParameters);
                 }
 
-                this._activeActions.Remove(cronActionParameters);
+                this.activeActions.Remove(cronActionParameters);
             };
 
             var lastTask = Task.Run(actionToRun, cancellationTokenSource.Token);
 
-            if (this._recurrence.Interval == TimeSpan.Zero) {
-                this._status = TaskItemStatus.Stopped;
+            if (this.recurrence.Interval == TimeSpan.Zero) {
+                this.status = TaskItemStatus.Stopped;
             }
         }
 
@@ -277,7 +277,7 @@ namespace Tassle.Tasks {
         /// Cancels the active actions.
         /// </summary>
         public void CancelActiveActions() {
-            foreach (var activeAction in this._activeActions) {
+            foreach (var activeAction in this.activeActions) {
                 activeAction.CancellationTokenSource.Cancel();
             }
         }

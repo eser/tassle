@@ -26,31 +26,31 @@ namespace Tassle.Logging.Telnet {
     public class TelnetLogScope {
         // fields
 
-        private static AsyncLocal<TelnetLogScope> s_value = new AsyncLocal<TelnetLogScope>();
+        private static AsyncLocal<TelnetLogScope> value = new AsyncLocal<TelnetLogScope>();
 
-        private readonly string _name;
-        private readonly object _state;
+        private readonly string name;
+        private readonly object state;
 
-        private TelnetLogScope _parent;
+        private TelnetLogScope parent;
 
         // constructors
 
         internal TelnetLogScope(string name, object state) {
-            this._name = name;
-            this._state = state;
+            this.name = name;
+            this.state = state;
         }
 
         internal TelnetLogScope(string name, object state, TelnetLogScope parent) : this(name, state) {
-            this._parent = parent;
+            this.parent = parent;
         }
 
         // properties
         public static TelnetLogScope Current {
-            get => TelnetLogScope.s_value.Value;
+            get => TelnetLogScope.value.Value;
         }
 
         public TelnetLogScope Parent {
-            get => this._parent;
+            get => this.parent;
         }
 
         // methods
@@ -58,18 +58,18 @@ namespace Tassle.Logging.Telnet {
         public static IDisposable Push(string name, object state) {
             var parent = TelnetLogScope.Current;
 
-            TelnetLogScope.s_value.Value = new TelnetLogScope(name, state, parent);
+            TelnetLogScope.value.Value = new TelnetLogScope(name, state, parent);
 
             return new DisposableScope();
         }
 
         public override string ToString() {
-            return this._state?.ToString();
+            return this.state?.ToString();
         }
 
         private class DisposableScope : IDisposable {
             public void Dispose() {
-                TelnetLogScope.s_value.Value = TelnetLogScope.s_value.Value.Parent;
+                TelnetLogScope.value.Value = TelnetLogScope.value.Value.Parent;
             }
         }
     }

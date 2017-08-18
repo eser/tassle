@@ -29,22 +29,22 @@ namespace Tassle.Logging.Telnet {
     public class ConfigurationTelnetLoggerSettings : ITelnetLoggerSettings {
         // fields
 
-        private readonly IConfiguration _configuration;
-        private IChangeToken _changeToken;
+        private readonly IConfiguration configuration;
+        private IChangeToken changeToken;
 
         // constructors
 
         public ConfigurationTelnetLoggerSettings(IConfiguration configuration) {
-            this._configuration = configuration;
+            this.configuration = configuration;
 
-            this._changeToken = configuration.GetReloadToken();
+            this.changeToken = configuration.GetReloadToken();
         }
 
         // properties
 
         public bool IncludeScopes {
             get {
-                var value = this._configuration["IncludeScopes"];
+                var value = this.configuration["IncludeScopes"];
 
                 if (string.IsNullOrEmpty(value)) {
                     return false;
@@ -63,7 +63,7 @@ namespace Tassle.Logging.Telnet {
 
         //public IPEndPoint BindEndpoint {
         //    get {
-        //        var value = this._configuration["BindEndpoint"];
+        //        var value = this.configuration["BindEndpoint"];
 
         //        if (string.IsNullOrEmpty(value)) {
         //            return null;
@@ -89,19 +89,19 @@ namespace Tassle.Logging.Telnet {
         //}
 
         public IChangeToken ChangeToken {
-            get => this._changeToken;
+            get => this.changeToken;
         }
 
         // methods
 
         public ITelnetLoggerSettings Reload() {
-            this._changeToken = null;
+            this.changeToken = null;
 
-            return new ConfigurationTelnetLoggerSettings(this._configuration);
+            return new ConfigurationTelnetLoggerSettings(this.configuration);
         }
 
         public bool TryGetSwitch(string name, out LogLevel level) {
-            var switches = this._configuration.GetSection("LogLevel");
+            var switches = this.configuration.GetSection("LogLevel");
             if (switches == null) {
                 level = LogLevel.None;
 

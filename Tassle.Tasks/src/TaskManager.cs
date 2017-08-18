@@ -36,17 +36,17 @@ namespace Tassle.Tasks {
         /// <summary>
         /// The items
         /// </summary>
-        private IDictionary<string, TaskItem> _items;
+        private IDictionary<string, TaskItem> items;
 
         /// <summary>
         /// The timer
         /// </summary>
-        private Timer _timer;
+        private Timer timer;
 
         /// <summary>
         /// The now
         /// </summary>
-        private DateTimeOffset _now;
+        private DateTimeOffset now;
 
         // constructors
 
@@ -54,11 +54,11 @@ namespace Tassle.Tasks {
         /// Initializes a new instance of the <see cref="TaskManager"/> class.
         /// </summary>
         public TaskManager(ILoggerFactory loggerFactory) : base(loggerFactory) {
-            this._items = new Dictionary<string, TaskItem>();
+            this.items = new Dictionary<string, TaskItem>();
 
-            this._timer = null;
+            this.timer = null;
 
-            this._now = DateTimeOffset.UtcNow;
+            this.now = DateTimeOffset.UtcNow;
         }
 
         // properties
@@ -90,8 +90,8 @@ namespace Tassle.Tasks {
         /// The items.
         /// </value>
         public IDictionary<string, TaskItem> Items {
-            get => this._items;
-            set => this._items = value;
+            get => this.items;
+            set => this.items = value;
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace Tassle.Tasks {
         /// The timer.
         /// </value>
         protected Timer Timer {
-            get => this._timer;
-            set => this._timer = value;
+            get => this.timer;
+            set => this.timer = value;
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace Tassle.Tasks {
         /// The now.
         /// </value>
         protected DateTimeOffset Now {
-            get => this._now;
-            set => this._now = value;
+            get => this.now;
+            set => this.now = value;
         }
 
         // methods
@@ -126,7 +126,7 @@ namespace Tassle.Tasks {
         public void Add(string key, TaskItem item) {
             item.Init();
 
-            this._items.Add(key, item);
+            this.items.Add(key, item);
 
             if (this.Status == ServiceStatus.Running) {
                 item.Run();
@@ -138,14 +138,14 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="key">The key</param>
         public void Remove(string key) {
-            this._items.Remove(key);
+            this.items.Remove(key);
         }
 
         /// <summary>
         /// Clears this instance.
         /// </summary>
         public void Clear() {
-            this._items.Clear();
+            this.items.Clear();
         }
 
         /// <summary>
@@ -160,19 +160,19 @@ namespace Tassle.Tasks {
         /// Invokes events will be occurred during the service start.
         /// </summary>
         protected override void ServiceStart() {
-            this._timer = new Timer(this.TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
+            this.timer = new Timer(this.TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
         }
 
         /// <summary>
         /// Invokes events will be occurred during the service stop.
         /// </summary>
         protected override void ServiceStop() {
-            foreach (var item in this._items) {
+            foreach (var item in this.items) {
                 item.Value.CancelActiveActions();
             }
 
-            this._timer.Dispose();
-            this._timer = null;
+            this.timer.Dispose();
+            this.timer = null;
         }
 
         /// <summary>
@@ -180,10 +180,10 @@ namespace Tassle.Tasks {
         /// </summary>
         /// <param name="state">Object state</param>
         private void TimerCallback(object state) {
-            this._now = DateTimeOffset.UtcNow;
+            this.now = DateTimeOffset.UtcNow;
 
-            foreach (var pair in this._items) {
-                pair.Value.Run(this._now);
+            foreach (var pair in this.items) {
+                pair.Value.Run(this.now);
             }
         }
     }

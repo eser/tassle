@@ -29,12 +29,12 @@ using Tassle.Telnet;
 namespace Tassle.Logging.Telnet {
     public class TelnetLoggerProvider : ILoggerProvider {
         // fields
-        private readonly ConcurrentDictionary<string, TelnetLogger> _loggers = new ConcurrentDictionary<string, TelnetLogger>();
+        private readonly ConcurrentDictionary<string, TelnetLogger> loggers = new ConcurrentDictionary<string, TelnetLogger>();
 
-        private readonly Func<string, LogLevel, bool> _filter;
-        private ITelnetLoggerSettings _settings;
+        private readonly Func<string, LogLevel, bool> filter;
+        private ITelnetLoggerSettings settings;
 
-        private IServiceProvider _serviceProvider;
+        private IServiceProvider serviceProvider;
 
         // constructors
 
@@ -43,12 +43,12 @@ namespace Tassle.Logging.Telnet {
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            this._filter = filter;
-            this._settings = new TelnetLoggerSettings() {
+            this.filter = filter;
+            this.settings = new TelnetLoggerSettings() {
                 IncludeScopes = includeScopes,
             };
 
-            this._serviceProvider = serviceProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         public TelnetLoggerProvider(IServiceProvider serviceProvider, ITelnetLoggerSettings settings) {
@@ -56,11 +56,11 @@ namespace Tassle.Logging.Telnet {
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            this._settings = settings;
-            this._serviceProvider = serviceProvider;
+            this.settings = settings;
+            this.serviceProvider = serviceProvider;
 
-            if (this._settings.ChangeToken != null) {
-                this._settings.ChangeToken.RegisterChangeCallback(this.OnConfigurationReload, null);
+            if (this.settings.ChangeToken != null) {
+                this.settings.ChangeToken.RegisterChangeCallback(this.OnConfigurationReload, null);
             }
         }
 
@@ -69,32 +69,32 @@ namespace Tassle.Logging.Telnet {
         private void OnConfigurationReload(object state) {
             // The settings object needs to change here, because the old one is probably holding on
             // to an old change token.
-            this._settings = this._settings.Reload();
+            this.settings = this.settings.Reload();
 
-            foreach (var logger in this._loggers.Values) {
-                logger.Filter = GetFilter(logger.Name, this._settings);
-                logger.IncludeScopes = this._settings.IncludeScopes;
+            foreach (var logger in this.loggers.Values) {
+                logger.Filter = GetFilter(logger.Name, this.settings);
+                logger.IncludeScopes = this.settings.IncludeScopes;
             }
 
             // The token will change each time it reloads, so we need to register again.
-            if (this._settings?.ChangeToken != null) {
-                this._settings.ChangeToken.RegisterChangeCallback(this.OnConfigurationReload, null);
+            if (this.settings?.ChangeToken != null) {
+                this.settings.ChangeToken.RegisterChangeCallback(this.OnConfigurationReload, null);
             }
         }
 
         public ILogger CreateLogger(string name) {
-            return this._loggers.GetOrAdd(name, this.CreateTelnetImplementation);
+            return this.loggers.GetOrAdd(name, this.CreateTelnetImplementation);
         }
 
         private TelnetLogger CreateTelnetImplementation(string name) {
-            var telnetServer = this._serviceProvider.GetService(typeof(ITelnetServer)) as ITelnetServer;
+            var telnetServer = this.serviceProvider.GetService(typeof(ITelnetServer)) as ITelnetServer;
 
-            return new TelnetLogger(name, telnetServer, this.GetFilter(name, this._settings), this._settings.IncludeScopes);
+            return new TelnetLogger(name, telnetServer, this.GetFilter(name, this.settings), this.settings.IncludeScopes);
         }
 
         private Func<string, LogLevel, bool> GetFilter(string name, ITelnetLoggerSettings settings) {
-            if (this._filter != null) {
-                return this._filter;
+            if (this.filter != null) {
+                return this.filter;
             }
 
             if (settings != null) {
