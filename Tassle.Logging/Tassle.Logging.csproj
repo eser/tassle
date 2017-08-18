@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Common.Build.props" />
+
+  <PropertyGroup Label="Configuration" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>library</OutputType>
+    <DocumentationFile>$(OutDir)Tassle.Logging.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tassle.Logging</PackageId>
+    <RootNamespace>Tassle.Logging</RootNamespace>
+    <Title>Tassle.Logging</Title>
+    <Description>Logging component for Tassle</Description>
+  </PropertyGroup>
+
+</Project>
