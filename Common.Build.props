@@ -4,23 +4,33 @@
     <Product>Tassle</Product>
     <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>Eser Ozvataf</Authors>
-    <PackageProjectUrl>https://github.com/eserozvataf/tassle</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/eserozvataf/tassle</RepositoryUrl>
+    <Copyright></Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/eserozvataf/tassle/blob/development/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/eserozvataf/tassle</PackageProjectUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageTags></PackageTags>
+    <RepositoryUrl>https://github.com/eserozvataf/tassle</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <IncludeSource>false</IncludeSource>
+    <IncludeBuildOutput>true</IncludeBuildOutput>
+    <IncludeContentInPack>true</IncludeContentInPack>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" developmentDependency="true" />
   </ItemGroup>
 
   <ItemGroup>
