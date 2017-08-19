@@ -4,6 +4,11 @@
         <name>Tassle.Functions</name>
     </assembly>
     <members>
+        <member name="T:Tassle.Functions.DependencyInjectionUtils">
+            <summary>
+            DependencyInjectionUtils class.
+            </summary>
+        </member>
         <member name="T:Tassle.Functions.FunctionManager">
             <summary>
             FunctionManager class.

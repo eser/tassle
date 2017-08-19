@@ -6,6 +6,19 @@
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+//// 
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Threading.Tasks;
 
@@ -14,7 +27,32 @@ namespace Tassle.Functions {
     /// FunctionManager class.
     /// </summary>
     public class FunctionManager : IFunctionManager {
-        public Task Run(Func<Request, Response> target) {
+        // fields
+
+        private readonly IServiceProvider serviceProvider;
+
+        // constructors
+
+        public FunctionManager(IServiceProvider serviceProvider) {
+            this.serviceProvider = serviceProvider;
+        }
+
+        // properties
+
+        public IServiceProvider ServiceProvider {
+            get => this.serviceProvider;
+        }
+
+        // methods
+
+        // private Response TestFunc(Request req, DateTime? x = null) {
+        //     return new Response();
+        // }
+
+        public Task<Response> Run(Func<Request, Response> target, Request request) {
+            // var response = DependencyInjectionUtils.CallMethodWithServiceProvider(target, this.serviceProvider);
+            // this.Run(this.TestFunc, request);
+            return null;
         }
     }
 }

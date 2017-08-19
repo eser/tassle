@@ -27,10 +27,15 @@
 
   <ItemGroup>
     <ProjectReference Include="../Tassle.Helpers/Tassle.Helpers.csproj" />
+    <ProjectReference Include="../Tassle.Configuration/Tassle.Configuration.csproj" />
+    <ProjectReference Include="../Tassle.DependencyInjection/Tassle.DependencyInjection.csproj" />
     <ProjectReference Include="../Tassle.Services/Tassle.Services.csproj" />
     <ProjectReference Include="../Tassle.Tasks/Tassle.Tasks.csproj" />
+    <ProjectReference Include="../Tassle.Functions/Tassle.Functions.csproj" />
     <ProjectReference Include="../Tassle.Telnet/Tassle.Telnet.csproj" />
     <ProjectReference Include="../Tassle.Logging.Telnet/Tassle.Logging.Telnet.csproj" />
+    <ProjectReference Include="../Tassle.Validation/Tassle.Validation.csproj" />
+    <ProjectReference Include="../Tassle.Data/Tassle.Data.csproj" />
   </ItemGroup>
 
 </Project>
