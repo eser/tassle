@@ -11,7 +11,7 @@
 .vs/
 
 # Visual Studio Code
-.vscode/
+# .vscode/
 
 # macOS files
 .DS_Store
