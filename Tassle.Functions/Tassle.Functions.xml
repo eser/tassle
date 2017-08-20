@@ -14,6 +14,11 @@
             FunctionManager class.
             </summary>
         </member>
+        <member name="T:Tassle.Functions.IFunction">
+            <summary>
+            IFunction interface.
+            </summary>
+        </member>
         <member name="T:Tassle.Functions.IFunctionManager">
             <summary>
             IFunctionManager interface.
@@ -37,6 +42,16 @@
         <member name="T:Tassle.Functions.Response`1">
             <summary>
             Response{T} class.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.FunctionResultExtensions">
+            <summary>
+            Request class.
+            </summary>
+        </member>
+        <member name="T:Tassle.Functions.FunctionResultType">
+            <summary>
+            ResponseType enum.
             </summary>
         </member>
     </members>

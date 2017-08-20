@@ -26,6 +26,8 @@ using Tassle.Tasks;
 using Tassle.Logging.Telnet;
 using Tassle.Telnet;
 using System.Net;
+using Tassle.Functions;
+using System.Threading.Tasks;
 
 namespace Tassle.TestConsole {
     public class Program {
@@ -58,34 +60,39 @@ namespace Tassle.TestConsole {
             var bootstrapper = new Bootstrapper();
             var serviceProvider = bootstrapper.GetServiceProvider();
 
-            // start telnet
-            var telnetServer = serviceProvider.GetService<ITelnetServer>();
-            telnetServer.Start();
+            // // start telnet
+            // var telnetServer = serviceProvider.GetService<ITelnetServer>();
+            // telnetServer.Start();
 
-            // setup console logging
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-            loggerFactory
-                .AddConsole(LogLevel.Debug)
-                .AddDebug()
-                .AddTelnet(serviceProvider);
+            // // setup console logging
+            // var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            // loggerFactory
+            //     .AddConsole(LogLevel.Debug)
+            //     .AddDebug()
+            //     .AddTelnet(serviceProvider);
 
-            // task manager
-            var taskManager = serviceProvider.GetService<TaskManager>();
-            var taskLogger = loggerFactory.CreateLogger("task");
-            var taskItem = new TaskItem(
-                   (TaskActionParameters param) => {
-                       // Console.WriteLine("helo");
-                       taskLogger.LogInformation("helo");
-                   }
-               )
-               // .SetRecurrence(Recurrence.Once)
-               // .SetRepeat(4)
-               .SetRecurrence(new Recurrence(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1)))
-               .Postpone(TimeSpan.FromSeconds(5));
+            // // task manager
+            // var taskManager = serviceProvider.GetService<TaskManager>();
+            // var taskLogger = loggerFactory.CreateLogger("task");
+            // var taskItem = new TaskItem(
+            //        (TaskActionParameters param) => {
+            //            // Console.WriteLine("helo");
+            //            taskLogger.LogInformation("helo");
+            //        }
+            //    )
+            //    // .SetRecurrence(Recurrence.Once)
+            //    // .SetRepeat(4)
+            //    .SetRecurrence(new Recurrence(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1)))
+            //    .Postpone(TimeSpan.FromSeconds(5));
 
-            taskManager.Add("task", taskItem);
+            // taskManager.Add("task", taskItem);
 
-            taskManager.Start();
+            // taskManager.Start();
+
+            var fm = new FunctionManager(serviceProvider);
+            fm.RunAsync(
+                new TestFunction(),
+                new Request<int>() { Value = 5 });
 
             Console.Read();
         }

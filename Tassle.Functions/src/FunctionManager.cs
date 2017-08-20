@@ -45,13 +45,19 @@ namespace Tassle.Functions {
 
         // methods
 
-        // private Response TestFunc(Request req, DateTime? x = null) {
-        //     return new Response();
-        // }
+        public async Task<Response> RunAsync(IFunction target, Request request) {
+            var methodNames = new string[] { "RunAsync", "Run" };
 
-        public Task<Response> Run(Func<Request, Response> target, Request request) {
-            // var response = DependencyInjectionUtils.CallMethodWithServiceProvider(target, this.serviceProvider);
-            // this.Run(this.TestFunc, request);
+            var response = DependencyInjectionUtils.CallMethodWithServiceProvider(target, methodNames, this.serviceProvider, request);
+
+            if (response.methodName == "RunAsync") {
+                return await (response.returnValue as Task<Response>);
+            }
+
+            if (response.methodName == "Run") {
+                return (response.returnValue as Response);
+            }
+
             return null;
         }
     }

@@ -27,6 +27,6 @@ namespace Tassle.Functions {
     /// IFunctionManager interface.
     /// </summary>
     public interface IFunctionManager {
-        Task<Response> Run(Func<Request, Response> target, Request request);
+        Task<Response> RunAsync(IFunction target, Request request);
     }
 }

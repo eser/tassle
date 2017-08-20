@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// <copyright file="Response{T}.cs" company="-">
+// <copyright file="FunctionResultType.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -21,9 +21,13 @@
 
 namespace Tassle.Functions {
     /// <summary>
-    /// Response{T} class.
+    /// ResponseType enum.
     /// </summary>
-    public class Response<T> : Response {
-        public T Value { get; set; }
+    public enum FunctionResultType {
+        Success,
+
+        Rejected,
+
+        Failed,
     }
 }

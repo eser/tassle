@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// <copyright file="Response{T}.cs" company="-">
+// <copyright file="TestFunction.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,11 +19,18 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Tassle.Functions {
+using System;
+using Tassle.Functions;
+
+namespace Tassle.TestConsole {
     /// <summary>
-    /// Response{T} class.
+    /// TestFunction class.
     /// </summary>
-    public class Response<T> : Response {
-        public T Value { get; set; }
+    public class TestFunction : IFunction {
+        public Response Run(Request<int> request) {
+            Console.WriteLine(request.Value + 3);
+
+            return this.Ok();
+        }
     }
 }

@@ -24,5 +24,6 @@ namespace Tassle.Functions {
     /// Request{T} class.
     /// </summary>
     public class Request<T> : Request {
+        public T Value { get; set; }
     }
 }

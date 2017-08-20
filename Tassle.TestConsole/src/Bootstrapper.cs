@@ -34,9 +34,8 @@ namespace Tassle.TestConsole {
             var services = new ServiceCollection();
 
             services.AddLogging();
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
-            services.AddSingleton<TaskManager>();
+            // services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
+            // services.AddSingleton<TaskManager>();
 
             return services.BuildServiceProvider();
         }

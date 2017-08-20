@@ -4,5 +4,10 @@
         <name>Tassle.TestConsole</name>
     </assembly>
     <members>
+        <member name="T:Tassle.TestConsole.TestFunction">
+            <summary>
+            TestFunction class.
+            </summary>
+        </member>
     </members>
 </doc>

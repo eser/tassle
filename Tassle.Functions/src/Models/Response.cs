@@ -24,5 +24,6 @@ namespace Tassle.Functions {
     /// Response class.
     /// </summary>
     public class Response {
+        public FunctionResultType Result { get; set; }
     }
 }
