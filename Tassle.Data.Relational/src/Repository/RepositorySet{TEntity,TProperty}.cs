@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="EfRepositorySet{T}.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="RepositorySet{TEntity,TProperty}.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -10,7 +10,7 @@
 //// it under the terms of the GNU General Public License as published by
 //// the Free Software Foundation, either version 3 of the License, or
 //// (at your option) any later version.
-//// 
+////
 //// This program is distributed in the hope that it will be useful,
 //// but WITHOUT ANY WARRANTY; without even the implied warranty of
 //// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -20,46 +20,39 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Tassle.Data {
-    public class EfRepositorySet<T> : IRepositorySet<T>
-        where T : class, IEntity {
+    /// <summary>
+    /// Repository set sinifi
+    /// </summary>
+    public class RepositorySet<TEntity, TProperty> : RepositorySet<TEntity>, IRepositorySet<TEntity, TProperty>
+        where TEntity : class, IEntity {
         // fields
 
-        private IQueryable<T> dbSet;
+        private readonly IIncludableQueryable<TEntity, TProperty> dbSet;
 
         // constructors
 
-        public EfRepositorySet(IQueryable<T> dbSet) {
+        public RepositorySet(IIncludableQueryable<TEntity, TProperty> dbSet)
+            : base(dbSet) {
             this.dbSet = dbSet;
         }
 
         // properties
 
-        internal IQueryable<T> DbSet {
+        internal IIncludableQueryable<TEntity, TProperty> DbSetReference {
             get => this.dbSet;
         }
 
         // methods
 
-        public IRepositorySet<T, IEnumerable<TProperty>> Include<TProperty>(Expression<Func<T, IEnumerable<TProperty>>> navigationProperty) {
-            var newDbSet = this.dbSet.Include(navigationProperty);
+        public IRepositorySet<TEntity, TNextProperty> ThenInclude<TNextProperty>(Expression<Func<TProperty, TNextProperty>> navigationPropertyPath) {
+            var newDbSet = EntityFrameworkQueryableExtensions.ThenInclude(this.DbSetReference, navigationPropertyPath);
 
-            return new EfRepositorySet<T, IEnumerable<TProperty>>(newDbSet);
-        }
-
-        public IRepositorySet<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> navigationProperty) {
-            var newDbSet = this.dbSet.Include(navigationProperty);
-
-            return new EfRepositorySet<T, TProperty>(newDbSet);
-        }
-
-        public IQueryable<T> AsQueryable() {
-            return this.dbSet;
+            return new RepositorySet<TEntity, TNextProperty>(newDbSet);
         }
     }
 }

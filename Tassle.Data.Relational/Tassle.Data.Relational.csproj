@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Common.Build.props" />
+
+  <PropertyGroup Label="Configuration" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>library</OutputType>
+    <DocumentationFile>$(OutDir)Tassle.Data.Relational.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tassle.Data.Relational</PackageId>
+    <RootNamespace>Tassle.Data.Relational</RootNamespace>
+    <Title>Tassle.Data.Relational</Title>
+    <Description>Relational Data component of Tassle</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.*" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Tassle.Data/Tassle.Data.csproj" />
+  </ItemGroup>
+
+</Project>

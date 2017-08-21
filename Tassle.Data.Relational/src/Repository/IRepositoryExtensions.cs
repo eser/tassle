@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IUnitOfWork.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="IRepositoryExtensions.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -20,24 +20,22 @@
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Tassle.Data {
     /// <summary>
-    /// Unit of work implementasyonlarinin kullanacagi interface
+    /// Jenerik repository tanimlari icin kullanilan interface
     /// </summary>
-    public interface IUnitOfWork : IDisposable {
-        // properties
+    public static class IRepositoryExtensions {
+        public static IRepositorySet<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(this IRepositorySet<TEntity, IEnumerable<TPreviousProperty>> source, Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
+            where TEntity : class, IEntity {
+            return source.ThenInclude(navigationPropertyPath);
+        }
 
-        ScopeType ScopeType { get; set; }
-
-        // methods
-
-        IDataContext GetDataContext(IDataContext dataContext);
-
-        void SaveChanges();
-
-        Task SaveChangesAsync(CancellationToken token = default(CancellationToken));
+        public static IRepositorySet<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(this IRepositorySet<TEntity, ICollection<TPreviousProperty>> source, Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
+            where TEntity : class, IEntity {
+            return source.ThenInclude(navigationPropertyPath);
+        }
     }
 }

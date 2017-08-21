@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IUnitOfWork.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="IRelationalDataContext.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,25 +19,15 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Tassle.Data {
-    /// <summary>
-    /// Unit of work implementasyonlarinin kullanacagi interface
-    /// </summary>
-    public interface IUnitOfWork : IDisposable {
-        // properties
+    public interface IRelationalDataContext : IDataContext {
+        ContextEntityState GetEntryState<TEntity>(TEntity entity)
+            where TEntity : class;
 
-        ScopeType ScopeType { get; set; }
-
-        // methods
-
-        IDataContext GetDataContext(IDataContext dataContext);
-
-        void SaveChanges();
-
-        Task SaveChangesAsync(CancellationToken token = default(CancellationToken));
+        void SetEntryState<TEntity>(TEntity entity, ContextEntityState state)
+            where TEntity : class;
     }
 }

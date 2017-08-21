@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="EfUnitOfWorkTransaction.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="RelationalDataContextTransaction.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -10,7 +10,7 @@
 //// it under the terms of the GNU General Public License as published by
 //// the Free Software Foundation, either version 3 of the License, or
 //// (at your option) any later version.
-//// 
+////
 //// This program is distributed in the hope that it will be useful,
 //// but WITHOUT ANY WARRANTY; without even the implied warranty of
 //// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -23,25 +23,27 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System;
 
 namespace Tassle.Data {
-    /// <summary>
-    /// Entity framework uzerinde kullanilabilir unit of work siniflarinin olusturdugu
-    /// transaction scopelara ait sinif tanimi
-    /// </summary>
-    public class EfUnitOfWorkTransaction : IUnitOfWorkTransaction {
+    public class RelationalDataContextTransaction : IDataContextTransaction {
         // fields
 
-        private IDbContextTransaction transaction;
-        private bool isDisposed;
+        private readonly IDbContextTransaction transaction;
+        private volatile bool isDisposed;
 
         // constructors
 
-        public EfUnitOfWorkTransaction(IDbContextTransaction transaction) {
+        public RelationalDataContextTransaction(IDbContextTransaction transaction) {
             this.transaction = transaction;
             this.isDisposed = false;
         }
 
-        ~EfUnitOfWorkTransaction() {
+        ~RelationalDataContextTransaction() {
             this.Dispose(false);
+        }
+
+        // properties
+
+        public object TransactionObject {
+            get => this.transaction;
         }
 
         // methods
@@ -65,21 +67,20 @@ namespace Tassle.Data {
 
         protected void CheckDisposed() {
             if (this.isDisposed) {
-                throw new ObjectDisposedException("The UnitOfWorkTransaction is already disposed and cannot be used anymore.");
+                throw new ObjectDisposedException("The RelationalDataContextTransaction is already disposed and cannot be used anymore.");
             }
         }
 
         protected virtual void Dispose(bool disposing) {
-            if (!this.isDisposed) {
-                if (disposing) {
-                    if (this.transaction != null) {
-                        this.transaction.Dispose();
-                        this.transaction = null;
-                    }
-                }
+            if (this.isDisposed) {
+                return;
             }
 
             this.isDisposed = true;
+
+            if (disposing) {
+                this.transaction.Dispose();
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IUnitOfWork.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="IDataContext.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -19,22 +19,32 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tassle.Data {
-    /// <summary>
-    /// Unit of work implementasyonlarinin kullanacagi interface
-    /// </summary>
-    public interface IUnitOfWork : IDisposable {
+    public interface IDataContext {
         // properties
 
-        ScopeType ScopeType { get; set; }
+        object ContextObject { get; }
 
         // methods
 
-        IDataContext GetDataContext(IDataContext dataContext);
+        IDataContext NewContext();
+
+        void EnsureCreated();
+
+        Task EnsureCreatedAsync(CancellationToken token = default(CancellationToken));
+
+        void EnsureDeleted();
+
+        Task EnsureDeletedAsync(CancellationToken token = default(CancellationToken));
+
+        IDataContextTransaction BeginTransaction();
+
+        Task<IDataContextTransaction> BeginTransactionAsync(CancellationToken token = default(CancellationToken));
+
+        void UseTransaction(IDataContextTransaction transaction);
 
         void SaveChanges();
 

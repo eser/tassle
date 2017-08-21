@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IUnitOfWorkFactory.cs" company="-">
+// --------------------------------------------------------------------------
+// <copyright file="IDataManager.cs" company="-">
 // Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
 // Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
@@ -10,7 +10,7 @@
 //// it under the terms of the GNU General Public License as published by
 //// the Free Software Foundation, either version 3 of the License, or
 //// (at your option) any later version.
-//// 
+////
 //// This program is distributed in the hope that it will be useful,
 //// but WITHOUT ANY WARRANTY; without even the implied warranty of
 //// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -19,12 +19,17 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Threading.Tasks;
-
 namespace Tassle.Data {
-    public interface IUnitOfWorkFactory {
-        IUnitOfWork Create(ScopeType scopeType = ScopeType.Default);
+    public interface IDataManager {
+        IUnitOfWork CreateUnitOfWork(ScopeType scopeType = ScopeType.Default);
 
-        Task<IUnitOfWork> CreateAsync(ScopeType scopeType = ScopeType.Default);
+        void PushUnitOfWork(IUnitOfWork unitOfWork);
+
+        void PopUnitOfWork(IUnitOfWork unitOfWork);
+
+        IUnitOfWork PeekUnitOfWork();
+
+        T GetRepository<T>()
+            where T : class, IRepository;
     }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tassle.Data.Relational</name>
+    </assembly>
+    <members>
+        <member name="T:Tassle.Data.IEntity">
+            <summary>
+            Entitylere ait interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.IEntityHasId`1">
+            <summary>
+            Id property'si iceren entity tanimlarina ait interface
+            </summary>
+            <typeparam name="T">Id property'sinin tipi</typeparam>
+        </member>
+        <member name="T:Tassle.Data.IEntitySoftDeletable">
+            <summary>
+            Soft delete islemine izin veren entity tanimlarina ait interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.GenericRepository`1">
+            <summary>
+            Jenerik repository tanimlari icin kullanilan sinif
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.IRepositoryExtensions">
+            <summary>
+            Jenerik repository tanimlari icin kullanilan interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.IRepositorySet`2">
+            <summary>
+            Jenerik repository tanimlari icin kullanilan interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.IRepositorySet`1">
+            <summary>
+            Jenerik repository tanimlari icin kullanilan interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.IRepository`1">
+            <summary>
+            Jenerik repository tanimlari icin kullanilan interface
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.RepositorySet`2">
+            <summary>
+            Repository set sinifi
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.RepositorySet`1">
+            <summary>
+            Repository set sinifi
+            </summary>
+        </member>
+        <member name="T:Tassle.Data.ServiceCollectionExtensions">
+            <summary>
+            Dependency injection containera extension olarak eklenecek metodlarin yer aldigi extension sinifi
+            </summary>
+        </member>
+    </members>
+</doc>
