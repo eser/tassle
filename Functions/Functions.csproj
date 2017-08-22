@@ -5,9 +5,10 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.Functions</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.Functions.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Functions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Common.Build.props" />
+
+  <PropertyGroup Label="Configuration" />
+
+  <PropertyGroup>
+    <AssemblyName>Tassle.DependencyInjection</AssemblyName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>library</OutputType>
+    <DocumentationFile>$(OutDir)DependencyInjection.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tassle.DependencyInjection</PackageId>
+    <RootNamespace>Tassle.DependencyInjection</RootNamespace>
+    <Title>Tassle.DependencyInjection</Title>
+    <Description>Dependency Injection component for Tassle</Description>
+  </PropertyGroup>
+
+</Project>

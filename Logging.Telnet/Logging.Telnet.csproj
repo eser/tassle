@@ -5,9 +5,10 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.Logging.Telnet</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.Logging.Telnet.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Logging.Telnet.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -26,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Tassle.Telnet/Tassle.Telnet.csproj" />
+    <ProjectReference Include="../Telnet/Telnet.csproj" />
   </ItemGroup>
 
 </Project>

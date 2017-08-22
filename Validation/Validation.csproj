@@ -5,17 +5,18 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.Validation</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.I18N.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Validation.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageId>Tassle.I18N</PackageId>
-    <RootNamespace>Tassle.I18N</RootNamespace>
-    <Title>Tassle.I18N</Title>
-    <Description>I18N component for Tassle</Description>
+    <PackageId>Tassle.Validation</PackageId>
+    <RootNamespace>Tassle.Validation</RootNamespace>
+    <Title>Tassle.Validation</Title>
+    <Description>Validation component for Tassle</Description>
   </PropertyGroup>
 
 </Project>

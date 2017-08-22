@@ -5,29 +5,29 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Standard", "Standard", "{64A89E07-9E3D-4843-9119-D627615D25BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Helpers", "Tassle.Helpers\Tassle.Helpers.csproj", "{D237CEA4-104A-48FD-859F-8072BBBE4267}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Helpers", "Helpers\Helpers.csproj", "{D237CEA4-104A-48FD-859F-8072BBBE4267}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Telnet", "Tassle.Telnet\Tassle.Telnet.csproj", "{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Telnet", "Telnet\Telnet.csproj", "{0563CB1D-3D9C-4901-8E7C-EEFA392DF5B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Logging.Telnet", "Tassle.Logging.Telnet\Tassle.Logging.Telnet.csproj", "{2EFB7777-12DB-4CBF-804D-56431ABED92E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Logging.Telnet", "Logging.Telnet\Logging.Telnet.csproj", "{2EFB7777-12DB-4CBF-804D-56431ABED92E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.TestConsole", "Tassle.TestConsole\Tassle.TestConsole.csproj", "{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.TestConsole", "TestConsole\TestConsole.csproj", "{C0A5344A-0C25-4DE2-8CBE-81BF2F11785E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Data", "Tassle.Data\Tassle.Data.csproj", "{9B25C08D-F061-46E1-9FA9-1A8238977A46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tassle.Data", "Data\Data.csproj", "{9B25C08D-F061-46E1-9FA9-1A8238977A46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Data.Relational", "Tassle.Data.Relational\Tassle.Data.Relational.csproj", "{152DFD3B-C5FD-4E05-BA5B-1B06BE422F3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Data.Relational", "Data.Relational\Data.Relational.csproj", "{152DFD3B-C5FD-4E05-BA5B-1B06BE422F3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.I18N", "Tassle.I18N\Tassle.I18N.csproj", "{9ED52447-0401-47CD-8B03-027361D6773D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.I18N", "I18N\I18N.csproj", "{9ED52447-0401-47CD-8B03-027361D6773D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.DependencyInjection", "Tassle.DependencyInjection\Tassle.DependencyInjection.csproj", "{64AA13B7-C5FF-4294-9A44-7FC128B98779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.DependencyInjection", "DependencyInjection\DependencyInjection.csproj", "{64AA13B7-C5FF-4294-9A44-7FC128B98779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Logging", "Tassle.Logging\Tassle.Logging.csproj", "{FEF4C2BD-74B9-465E-A126-696E1427050A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Logging", "Logging\Logging.csproj", "{FEF4C2BD-74B9-465E-A126-696E1427050A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Validation", "Tassle.Validation\Tassle.Validation.csproj", "{581C7137-8028-48E7-8ADB-37EBF7DFD733}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Validation", "Validation\Validation.csproj", "{581C7137-8028-48E7-8ADB-37EBF7DFD733}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Functions", "Tassle.Functions\Tassle.Functions.csproj", "{865675EA-24BB-416B-BBF6-56980CA57966}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Functions", "Functions\Functions.csproj", "{865675EA-24BB-416B-BBF6-56980CA57966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Configuration", "Tassle.Configuration\Tassle.Configuration.csproj", "{14B51C3C-71CA-4EE3-B523-0A08F068F714}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Configuration", "Configuration\Configuration.csproj", "{14B51C3C-71CA-4EE3-B523-0A08F068F714}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

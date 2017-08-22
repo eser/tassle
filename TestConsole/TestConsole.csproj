@@ -5,9 +5,10 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.TestConsole</AssemblyName>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <OutputType>exe</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.TestConsole.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)TestConsole.xml</DocumentationFile>
     <StartupObject />
   </PropertyGroup>
 
@@ -26,14 +27,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Tassle.Helpers/Tassle.Helpers.csproj" />
-    <ProjectReference Include="../Tassle.Configuration/Tassle.Configuration.csproj" />
-    <ProjectReference Include="../Tassle.DependencyInjection/Tassle.DependencyInjection.csproj" />
-    <ProjectReference Include="../Tassle.Functions/Tassle.Functions.csproj" />
-    <ProjectReference Include="../Tassle.Telnet/Tassle.Telnet.csproj" />
-    <ProjectReference Include="../Tassle.Logging.Telnet/Tassle.Logging.Telnet.csproj" />
-    <ProjectReference Include="../Tassle.Validation/Tassle.Validation.csproj" />
-    <ProjectReference Include="../Tassle.Data/Tassle.Data.csproj" />
+    <ProjectReference Include="../Configuration/Configuration.csproj" />
+    <ProjectReference Include="../Data/Data.csproj" />
+    <ProjectReference Include="../Data.Relational/Data.Relational.csproj" />
+    <ProjectReference Include="../DependencyInjection/DependencyInjection.csproj" />
+    <ProjectReference Include="../Functions/Functions.csproj" />
+    <ProjectReference Include="../Helpers/Helpers.csproj" />
+    <ProjectReference Include="../I18N/I18N.csproj" />
+    <ProjectReference Include="../Logging/Logging.csproj" />
+    <ProjectReference Include="../Logging.Telnet/Logging.Telnet.csproj" />
+    <ProjectReference Include="../Telnet/Telnet.csproj" />
+    <ProjectReference Include="../Validation/Validation.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,17 +5,18 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.I18N</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.Logging.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)I18N.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageId>Tassle.Logging</PackageId>
-    <RootNamespace>Tassle.Logging</RootNamespace>
-    <Title>Tassle.Logging</Title>
-    <Description>Logging component for Tassle</Description>
+    <PackageId>Tassle.I18N</PackageId>
+    <RootNamespace>Tassle.I18N</RootNamespace>
+    <Title>Tassle.I18N</Title>
+    <Description>I18N component for Tassle</Description>
   </PropertyGroup>
 
 </Project>

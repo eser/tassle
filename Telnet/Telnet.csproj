@@ -5,9 +5,10 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.Telnet</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.Helpers.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Helpers.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>

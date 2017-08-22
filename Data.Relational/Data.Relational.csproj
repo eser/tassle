@@ -5,9 +5,10 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.Data.Relational</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.Data.Relational.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Data.Relational.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -26,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Tassle.Data/Tassle.Data.csproj" />
+    <ProjectReference Include="../Data/Data.csproj" />
   </ItemGroup>
 
 </Project>

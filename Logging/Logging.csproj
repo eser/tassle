@@ -5,17 +5,18 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
+    <AssemblyName>Tassle.Logging</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Tassle.DependencyInjection.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Logging.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageId>Tassle.DependencyInjection</PackageId>
-    <RootNamespace>Tassle.DependencyInjection</RootNamespace>
-    <Title>Tassle.DependencyInjection</Title>
-    <Description>Dependency Injection component for Tassle</Description>
+    <PackageId>Tassle.Logging</PackageId>
+    <RootNamespace>Tassle.Logging</RootNamespace>
+    <Title>Tassle.Logging</Title>
+    <Description>Logging component for Tassle</Description>
   </PropertyGroup>
 
 </Project>
