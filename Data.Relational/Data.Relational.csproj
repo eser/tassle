@@ -14,7 +14,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Tassle.Data.Relational</PackageId>
-    <RootNamespace>Tassle.Data.Relational</RootNamespace>
+    <RootNamespace>Tassle.Data</RootNamespace>
     <Title>Tassle.Data.Relational</Title>
     <Description>Relational Data component of Tassle</Description>
   </PropertyGroup>
@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.*" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.*" />
   </ItemGroup>
 
   <ItemGroup>
