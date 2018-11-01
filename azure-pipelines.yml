@@ -1,0 +1,51 @@
+variables:
+  buildConfiguration: 'Release'
+  artifactName: 'webapiDrop'
+
+steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core SDK 2.1.403'
+  inputs:
+    version: 2.1.403
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore dependencies'
+  inputs:
+    command: restore
+    verbosityRestore: minimal
+    arguments: '--no-cache'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build solution'
+  inputs:
+    command: build
+    arguments: '--configuration $(buildConfiguration) --no-restore --no-incremental'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Run tests'
+#   inputs:
+#     command: test
+#     projects: '**/*.Tests/*.csproj'
+#     arguments: '--configuration $(buildConfiguration) --no-build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish solution'
+  inputs:
+    command: publish
+    projects: 'TestWebApi/TestWebApi.csproj'
+    publishWebProjects: false
+    zipAfterPublish: false
+    arguments: '--configuration $(buildConfiguration) --no-build --output $(build.artifactstagingdirectory)'
+
+# - task: PublishSymbols@2
+#   displayName: 'Publish symbols path'
+#   inputs:
+#     SearchPattern: '$(build.artifactstagingdirectory)/**/*.pdb'
+#     PublishSymbols: false
+#   continueOnError: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: '$(artifactName)'
