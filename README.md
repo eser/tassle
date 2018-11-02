@@ -34,6 +34,12 @@ Docker Hub
 
 You'll find the components at [nuget.org](https://www.nuget.org/) as soon as they released.
 
+To run sample web api on your computer or hosting environment,
+
+```sh
+docker run -p 5000:80 eserozvataf/tassle
+```
+
 
 ## Quick start to contribute
 
