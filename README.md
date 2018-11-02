@@ -13,6 +13,23 @@ Previous iteration of this project is named [tasslehoff-library](https://github.
 Core.
 
 
+## CI/CD Targets
+
+Azure DevOps
+- Dashboard: https://dev.azure.com/eserozvataf/Tassle
+- Builds: https://dev.azure.com/eserozvataf/Tassle/_build
+- Releases: https://dev.azure.com/eserozvataf/Tassle/_releases2
+
+Deployments:
+- Production: http://tassle.azurewebsites.net/
+- Staging: http://tassle-staging.azurewebsites.net/
+- Testing: http://tassle-testing.azurewebsites.net/
+- Development: http://tassle-development.azurewebsites.net/
+
+Docker Hub:
+- Packages: https://hub.docker.com/r/eserozvataf/tassle
+
+
 ## Quick start to use
 
 You'll find the components at [nuget.org](https://www.nuget.org/) as soon as they released.
