@@ -19,6 +19,7 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -35,20 +36,25 @@ namespace Tassle.TestWebApi.Controllers {
         // fields
         private readonly AppSettings appSettings;
         private readonly ILogger<HomeController> logger;
+        private readonly IHostingEnvironment env;
 
         // constructors
 
         public HomeController(IOptions<AppSettings> appSettingsOptions,
-            ILogger<HomeController> logger)
+            ILogger<HomeController> logger,
+            IHostingEnvironment env)
         {
             this.appSettings = appSettingsOptions.Value;
             this.logger = logger;
+            this.env = env;
         }
 
         [HttpGet("~/")]
         public async Task<string> Index()
         {
-            return this.appSettings.Placeholder;
+            var output = $"{this.appSettings.Placeholder} ({this.env.EnvironmentName})";
+
+            return output;
         }
     }
 }
