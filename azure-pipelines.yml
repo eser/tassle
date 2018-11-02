@@ -19,7 +19,7 @@ steps:
   displayName: 'Build solution'
   inputs:
     command: build
-    arguments: '--configuration $(buildConfiguration) --no-restore --no-incremental --version-suffix $(Build.BuildNumber) -p:VersionPrefix:$(Build.BuildNumber)'
+    arguments: '--configuration $(buildConfiguration) --no-restore --no-incremental --version-suffix $(Build.BuildNumber) -p:VersionSuffix:$(Build.BuildNumber)'
 
 # - task: DotNetCoreCLI@2
 #   displayName: 'Run tests'
