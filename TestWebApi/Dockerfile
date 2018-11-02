@@ -2,7 +2,7 @@
 FROM microsoft/dotnet:aspnetcore-runtime
 
 # Environment variables
-ENV ASPNETCORE_ENVIRONMENT production
+ENV ASPNETCORE_ENVIRONMENT Production
 
 # Create app directory
 WORKDIR /app
