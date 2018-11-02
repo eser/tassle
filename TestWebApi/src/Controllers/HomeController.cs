@@ -54,12 +54,18 @@ namespace Tassle.TestWebApi.Controllers {
         }
 
         [HttpGet("~/")]
-        public async Task<string> Index()
+        public async Task<HomeIndexResult> Index()
         {
             var appVersion = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-            var output = $"{this.appSettings.Placeholder} ${this.dummyExternalService.Calculate()} (v{appVersion} on {this.environment.EnvironmentName})";
 
-            return output;
+            var result = new HomeIndexResult() {
+                Placeholder           = this.appSettings.Placeholder,
+                Version               = appVersion,
+                EnvironmentName       = this.environment.EnvironmentName,
+                ExternalServiceResult = this.dummyExternalService.Calculate(),
+            };
+
+            return result;
         }
     }
 }

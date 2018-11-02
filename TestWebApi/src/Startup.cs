@@ -25,6 +25,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -62,7 +64,15 @@ namespace Tassle.TestWebApi {
 
             services.AddLogging();
 
-            services.AddMvc();
+            services.AddMvc()
+                    .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.DateFormatHandling   = DateFormatHandling.IsoDateFormat;
+                        options.SerializerSettings.NullValueHandling    = NullValueHandling.Include;
+                        options.SerializerSettings.Formatting           = Formatting.Indented;
+                        options.SerializerSettings.TypeNameHandling     = TypeNameHandling.Auto;
+                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    });
 
             // register external services
             switch (this.environment.EnvironmentName) {
