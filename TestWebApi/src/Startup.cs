@@ -33,15 +33,27 @@ using Tassle.Telnet;
 
 namespace Tassle.TestWebApi {
     public class Startup {
+        // fields
+
+        private readonly IConfiguration configuration;
+        private readonly IHostingEnvironment environment;
+
         // constructors
 
-        public Startup(IConfiguration configuration) {
-            this.Configuration = configuration;
+        public Startup(IConfiguration configuration, IHostingEnvironment environment) {
+            this.configuration = configuration;
+            this.environment = environment;
         }
 
         // properties
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration {
+            get => this.configuration;
+        }
+
+        public IHostingEnvironment Environment {
+            get => this.environment;
+        }
 
         // methods
 
@@ -49,9 +61,20 @@ namespace Tassle.TestWebApi {
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
             services.AddLogging();
-            // services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
 
             services.AddMvc();
+
+            // register external services
+            switch (this.environment.EnvironmentName) {
+                case "Development":
+                    services.AddTransient<IDummyExternalService, FakeDummyExternalService>();
+                    break;
+                case "Testing":
+                case "Staging":
+                case "Production":
+                    services.AddTransient<IDummyExternalService, LiveDummyExternalService>();
+                    break;
+            }
         }
 
         public ITelnetServer CreateTelnetServer() {

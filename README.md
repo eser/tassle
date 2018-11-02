@@ -20,13 +20,13 @@ Azure DevOps
 - Builds: https://dev.azure.com/eserozvataf/Tassle/_build
 - Releases: https://dev.azure.com/eserozvataf/Tassle/_releases2
 
-Deployments:
+Deployments
 - Production: http://tassle.azurewebsites.net/
 - Staging: http://tassle-staging.azurewebsites.net/
 - Testing: http://tassle-testing.azurewebsites.net/
 - Development: http://tassle-development.azurewebsites.net/
 
-Docker Hub:
+Docker Hub
 - Packages: https://hub.docker.com/r/eserozvataf/tassle
 
 

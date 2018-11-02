@@ -37,24 +37,27 @@ namespace Tassle.TestWebApi.Controllers {
         // fields
         private readonly AppSettings appSettings;
         private readonly ILogger<HomeController> logger;
-        private readonly IHostingEnvironment env;
+        private readonly IHostingEnvironment environment;
+        private readonly IDummyExternalService dummyExternalService;
 
         // constructors
 
         public HomeController(IOptions<AppSettings> appSettingsOptions,
             ILogger<HomeController> logger,
-            IHostingEnvironment env)
+            IHostingEnvironment environment,
+            IDummyExternalService dummyExternalService)
         {
             this.appSettings = appSettingsOptions.Value;
             this.logger = logger;
-            this.env = env;
+            this.environment = environment;
+            this.dummyExternalService = dummyExternalService;
         }
 
         [HttpGet("~/")]
         public async Task<string> Index()
         {
             var appVersion = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-            var output = $"{this.appSettings.Placeholder} (v{appVersion} on {this.env.EnvironmentName})";
+            var output = $"{this.appSettings.Placeholder} ${this.dummyExternalService.Calculate()} (v{appVersion} on {this.environment.EnvironmentName})";
 
             return output;
         }
