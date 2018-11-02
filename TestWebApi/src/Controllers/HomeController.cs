@@ -56,7 +56,9 @@ namespace Tassle.TestWebApi.Controllers {
         [HttpGet("~/")]
         public async Task<HomeIndexResult> Index()
         {
-            var appVersion = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            var appVersion = Assembly.GetEntryAssembly()?
+                                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+                                     .InformationalVersion;
 
             var result = new HomeIndexResult() {
                 Placeholder           = this.appSettings.Placeholder,

@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using Tassle.Telnet;
 
 namespace Tassle.TestWebApi {
     public class Startup {
@@ -87,16 +86,11 @@ namespace Tassle.TestWebApi {
             }
         }
 
-        public ITelnetServer CreateTelnetServer() {
-            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
-
-            return telnetServer;
-        }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+
                 loggerFactory.AddDebug();
             }
 

@@ -34,13 +34,6 @@ namespace Tassle.TestWebApi {
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                // .ConfigureAppConfiguration((hostingContext, config) => {
-                //     config.SetBasePath(Directory.GetCurrentDirectory());
-                //     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
-                //     config.AddJsonFile("appsettings.{Environment}.json", optional: true, reloadOnChange: false);
-                //     config.AddEnvironmentVariables();
-                //     config.AddCommandLine(args);
-                // })
                 .UseStartup<Startup>();
     }
 }
