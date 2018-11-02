@@ -13,7 +13,7 @@ Previous iteration of this project is named [tasslehoff-library](https://github.
 Core.
 
 
-## CI/CD Targets
+## CI/CD Targets
 
 Azure DevOps
 - Dashboard: https://dev.azure.com/eserozvataf/Tassle
