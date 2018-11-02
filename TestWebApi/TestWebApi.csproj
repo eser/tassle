@@ -44,4 +44,8 @@
     <ProjectReference Include="../Validation/Validation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Dockerfile" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
