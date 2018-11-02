@@ -3,6 +3,8 @@
   <PropertyGroup>
     <Product>Tassle</Product>
     <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionSuffix Condition=" '$(VersionSuffix)' == '' ">0</VersionSuffix>
+    <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <Authors>Eser Ozvataf</Authors>
     <Copyright></Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

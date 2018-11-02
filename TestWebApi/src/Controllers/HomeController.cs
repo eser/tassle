@@ -26,6 +26,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Tassle.TestWebApi.Controllers {
@@ -52,7 +53,8 @@ namespace Tassle.TestWebApi.Controllers {
         [HttpGet("~/")]
         public async Task<string> Index()
         {
-            var output = $"{this.appSettings.Placeholder} ({this.env.EnvironmentName})";
+            var appVersion = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            var output = $"{this.appSettings.Placeholder} (v{appVersion} on {this.env.EnvironmentName})";
 
             return output;
         }
