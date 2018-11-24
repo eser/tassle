@@ -60,11 +60,13 @@ namespace Tassle.TestWebApi.Controllers {
                                      .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
                                      .InformationalVersion;
 
+            var serviceResult = this.dummyExternalService.Calculate();
+
             var result = new HomeIndexResult() {
                 Placeholder           = this.appSettings.Placeholder,
                 Version               = appVersion,
                 EnvironmentName       = this.environment.EnvironmentName,
-                ExternalServiceResult = this.dummyExternalService.Calculate(),
+                ExternalServiceResult = serviceResult,
             };
 
             return result;

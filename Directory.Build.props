@@ -18,6 +18,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <IncludeSource>false</IncludeSource>
@@ -32,11 +33,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" developmentDependency="true" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.*" developmentDependency="true" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61" developmentDependency="true" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="src/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" />
   </ItemGroup>
 
 </Project>
