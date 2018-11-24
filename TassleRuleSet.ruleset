@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="TassleRuleSet" Description=" " ToolsVersion="15.0">
+    <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
+        <Rule Id="AvoidAsyncSuffix" Action="Error" />
+        <Rule Id="AvoidAsyncVoid" Action="Error" />
+        <Rule Id="UseConfigureAwait" Action="Warning" />
+    </Rules>
+    <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+        <Rule Id="CA1012" Action="Error" />
+        <Rule Id="CA1032" Action="Error" />
+    	<Rule Id="CA1040" Action="None" />
+        <Rule Id="CA1041" Action="Error" />
+        <Rule Id="CA1047" Action="Error" />
+        <Rule Id="CA1048" Action="Error" />
+        <Rule Id="CA1050" Action="Error" />
+        <Rule Id="CA1051" Action="Error" />
+        <Rule Id="CA1065" Action="Error" />
+        <Rule Id="CA1404" Action="Error" />
+        <Rule Id="CA1405" Action="Error" />
+        <Rule Id="CA1712" Action="Error" />
+        <Rule Id="CA1716" Action="Error" />
+        <Rule Id="CA1719" Action="Error" />
+        <Rule Id="CA1720" Action="Error" />
+        <Rule Id="CA1721" Action="Error" />
+        <Rule Id="CA1821" Action="Error" />
+        <Rule Id="CA1822" Action="None" />
+        <Rule Id="CA2002" Action="Error" />
+        <Rule Id="CA2100" Action="Error" />
+        <Rule Id="CA2111" Action="Error" />
+        <Rule Id="CA2122" Action="Error" />
+        <Rule Id="CA2123" Action="Error" />
+        <Rule Id="CA2202" Action="Error" />
+        <Rule Id="CA2213" Action="Error" />
+        <Rule Id="CA2214" Action="Error" />
+        <Rule Id="CA2220" Action="Error" />
+        <Rule Id="CA2235" Action="Error" />
+        <Rule Id="CA2241" Action="Error" />
+        <Rule Id="CA2242" Action="Error" />
+    </Rules>
+    <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
+        <Rule Id="CS0105" Action="Error" />
+        <Rule Id="CS0108" Action="Error" />
+        <Rule Id="CS0109" Action="Error" />
+        <Rule Id="CS0114" Action="Error" />
+        <Rule Id="CS0162" Action="Error" />
+        <Rule Id="CS0183" Action="Error" />
+        <Rule Id="CS0184" Action="Error" />
+        <Rule Id="CS0251" Action="Error" />
+        <Rule Id="CS0252" Action="Error" />
+        <Rule Id="CS0253" Action="Error" />
+        <Rule Id="CS0402" Action="Error" />
+        <Rule Id="CS0435" Action="Error" />
+        <Rule Id="CS0436" Action="Error" />
+        <Rule Id="CS0437" Action="Error" />
+        <Rule Id="CS0458" Action="Error" />
+        <Rule Id="CS0464" Action="Error" />
+        <Rule Id="CS0469" Action="Error" />
+        <Rule Id="CS0472" Action="Error" />
+        <Rule Id="CS0473" Action="Error" />
+        <Rule Id="CS0626" Action="Error" />
+        <Rule Id="CS0628" Action="Error" />
+        <Rule Id="CS0642" Action="Error" />
+        <Rule Id="CS0652" Action="Error" />
+        <Rule Id="CS0665" Action="Error" />
+        <Rule Id="CS0693" Action="Error" />
+        <Rule Id="CS0728" Action="Error" />
+        <Rule Id="CS0809" Action="Error" />
+        <Rule Id="CS1522" Action="Error" />
+        <Rule Id="CS1573" Action="None" />
+        <Rule Id="CS1591" Action="None" />
+        <Rule Id="CS1687" Action="Error" />
+        <Rule Id="CS1717" Action="Error" />
+        <Rule Id="CS1718" Action="Error" />
+        <Rule Id="CS1720" Action="Error" />
+        <Rule Id="CS2002" Action="Error" />
+        <Rule Id="CS2038" Action="Error" />
+        <Rule Id="CS8029" Action="Error" />
+    </Rules>
+    <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
+    </Rules>
+    <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+        <Rule Id="SA1124" Action="None" />
+        <Rule Id="SA1202" Action="None" />
+        <Rule Id="SA1500" Action="None" />
+        <Rule Id="SA1512" Action="None" />
+        <Rule Id="SA1515" Action="None" />
+        <Rule Id="SA1600" Action="None" />
+        <Rule Id="SA1602" Action="None" />
+        <Rule Id="SA1623" Action="None" />
+    </Rules>
+</RuleSet>

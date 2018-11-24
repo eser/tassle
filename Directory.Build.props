@@ -20,6 +20,7 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)TassleRuleSet.ruleset</CodeAnalysisRuleSet>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <IncludeSource>false</IncludeSource>
     <IncludeBuildOutput>true</IncludeBuildOutput>
