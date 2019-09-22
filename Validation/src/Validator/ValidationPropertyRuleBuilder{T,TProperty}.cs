@@ -10,7 +10,7 @@
 //// it under the terms of the GNU General Public License as published by
 //// the Free Software Foundation, either version 3 of the License, or
 //// (at your option) any later version.
-//// 
+////
 //// This program is distributed in the hope that it will be useful,
 //// but WITHOUT ANY WARRANTY; without even the implied warranty of
 //// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -77,16 +77,21 @@ namespace Tassle.Validation {
             return body.Member.Name;
         }
 
-        private string GetMessage() {
+        private ValidationError GetError() {
+            var valError = new ValidationError() {
+                FieldName = this.GetNavigationPropertyName()
+            };
+
             if (this.message != null) {
-                return this.message;
+                valError.Message = this.message;
+                return valError;
             }
 
             if (this.validationDescriptions.Count > 0) {
-                var property = this.GetNavigationPropertyName();
                 var descriptions = string.Join(", ", this.validationDescriptions);
+                valError.Message = $"{valError.FieldName} should be {descriptions}";
 
-                return $"{property} should be {descriptions}";
+                return valError;
             }
 
             return null;
@@ -107,16 +112,12 @@ namespace Tassle.Validation {
                 var navigation = this.navigation.Compile();
                 var navigatedProperty = navigation(target);
 
-                if (!validationMethod(navigatedProperty)) {
+                   if (!validationMethod(navigatedProperty)) {
                     return new ValidationResult() {
                         IsValid = false,
-                        Errors = new List<IValidationError>() {
-                            new ValidationError() {
-                                Message = this.GetMessage(),
-                            },
-                        },
+                        Errors = new List<IValidationError>() { this.GetError() },
                     };
-                }
+                };
             }
 
             return new ValidationResult() {
