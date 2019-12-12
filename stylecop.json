@@ -37,12 +37,13 @@
             "allowConsecutiveUsings": false
         },
         "documentationRules": {
-            "companyName": "Eser Ozvataf (eser@ozvataf.com)",
-            "copyrightText": "Copyright (c) {companyName}. All rights reserved.\nLicensed under the {licenseName} license. See {licenseFile} file in the project root for full license information.",
-            "headerDecoration": "",
+            "companyName": "-",
+            "copyrightText": "Copyright (c) 2008-2019 {owner}. All rights reserved.\n  Licensed under the {licenseName} license. See {licenseFile} file in the project root\n  for full license information.\n\n  Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf",
+            "headerDecoration": "--------------------------------------------------------------------------",
             "xmlHeader": true,
             "variables": {
-                "licenseName": "GNU General Public License v3",
+                "owner": "Eser Ozvataf (eser@ozvataf.com)",
+                "licenseName": "Apache-2.0",
                 "licenseFile": "LICENSE"
             },
             "documentInterfaces": true,

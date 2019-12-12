@@ -1,8 +1,12 @@
-# Set default behavior to automatically normalize line endings.
-* text=auto
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text eol=lf
 
 # Behavior for image files
 *.jpg   binary
 *.png   binary
 *.gif   binary
 *.ico   binary
+*.eot   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary

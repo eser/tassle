@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <AssemblyName>Tassle.I18N</AssemblyName>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>library</OutputType>
     <DocumentationFile>$(OutDir)I18N.xml</DocumentationFile>
   </PropertyGroup>

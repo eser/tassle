@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <AssemblyName>Tassle.Validation</AssemblyName>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>library</OutputType>
     <DocumentationFile>$(OutDir)Validation.xml</DocumentationFile>
   </PropertyGroup>

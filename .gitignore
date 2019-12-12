@@ -1,3 +1,12 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Editor metadata
+# .vscode/
+.vs/
+*.swp
+
 # User-specific files
 *.suo
 *.user
@@ -7,11 +16,8 @@
 [Bb]in/
 [Oo]bj/
 
-# Visual Studio
-.vs/
-
-# Visual Studio Code
-# .vscode/
-
-# macOS files
-.DS_Store
+# Environment settings
+.env
+.env.local
+.env.development.local
+.env.production.local

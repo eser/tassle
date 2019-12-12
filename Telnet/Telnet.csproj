@@ -4,9 +4,9 @@
 
   <PropertyGroup>
     <AssemblyName>Tassle.Telnet</AssemblyName>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Helpers.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Telnet.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>

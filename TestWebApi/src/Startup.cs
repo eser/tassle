@@ -1,23 +1,13 @@
 ﻿// --------------------------------------------------------------------------
 // <copyright file="Startup.cs" company="-">
-// Copyright (c) 2008-2017 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
-// Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
+//   Copyright (c) 2008-2019 Eser Ozvataf (eser@ozvataf.com). All rights reserved.
+//   Licensed under the Apache-2.0 license. See LICENSE file in the project root
+//   for full license information.
+//
+//   Web: http://eser.ozvataf.com/ GitHub: http://github.com/eserozvataf
 // </copyright>
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
-
-//// This program is free software: you can redistribute it and/or modify
-//// it under the terms of the GNU General Public License as published by
-//// the Free Software Foundation, either version 3 of the License, or
-//// (at your option) any later version.
-////
-//// This program is distributed in the hope that it will be useful,
-//// but WITHOUT ANY WARRANTY; without even the implied warranty of
-//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//// GNU General Public License for more details.
-////
-//// You should have received a copy of the GNU General Public License
-//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,23 +15,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Tassle.TestWebApi {
     public class Startup {
         // fields
 
         private readonly IConfiguration configuration;
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
 
         // constructors
 
-        public Startup(IConfiguration configuration, IHostingEnvironment environment) {
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment) {
             this.configuration = configuration;
             this.environment = environment;
         }
@@ -52,7 +42,7 @@ namespace Tassle.TestWebApi {
             get => this.configuration;
         }
 
-        public IHostingEnvironment Environment {
+        public IWebHostEnvironment Environment {
             get => this.environment;
         }
 
@@ -66,11 +56,17 @@ namespace Tassle.TestWebApi {
             services.AddMvc()
                     .AddJsonOptions(options =>
                     {
-                        options.SerializerSettings.DateFormatHandling   = DateFormatHandling.IsoDateFormat;
-                        options.SerializerSettings.NullValueHandling    = NullValueHandling.Include;
-                        options.SerializerSettings.Formatting           = Formatting.Indented;
-                        options.SerializerSettings.TypeNameHandling     = TypeNameHandling.Auto;
-                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                        // typename handling?
+                        options.JsonSerializerOptions.AllowTrailingCommas         = true;
+                        options.JsonSerializerOptions.DictionaryKeyPolicy         = JsonNamingPolicy.CamelCase;
+                        options.JsonSerializerOptions.IgnoreNullValues            = false;
+                        options.JsonSerializerOptions.IgnoreReadOnlyProperties    = false;
+                        options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+                        options.JsonSerializerOptions.PropertyNamingPolicy        = JsonNamingPolicy.CamelCase;
+                        options.JsonSerializerOptions.ReadCommentHandling         = JsonCommentHandling.Skip;
+                        options.JsonSerializerOptions.WriteIndented               = true;
+
+                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     });
 
             // register external services
@@ -87,14 +83,14 @@ namespace Tassle.TestWebApi {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
-            if (env.IsDevelopment()) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggingBuilder loggingBuilder) {
+            if (env.EnvironmentName == "Development") {
                 app.UseDeveloperExceptionPage();
 
-                loggerFactory.AddDebug();
+                loggingBuilder.AddDebug();
             }
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggingBuilder.AddConsole();
 
             app.UseMvc();
         }
