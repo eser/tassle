@@ -20,8 +20,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Tassle.TestWebApi.Controllers {
-    //[Route("api/[controller]")]
     [ApiController]
+    // [Route("[controller]")]
     public class HomeController : ControllerBase
     {
         // fields

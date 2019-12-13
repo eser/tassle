@@ -11,16 +11,12 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace Tassle.TestWebApi {
     public class Startup {
@@ -48,23 +44,23 @@ namespace Tassle.TestWebApi {
 
         // methods
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
-            services.AddLogging();
+            services.AddHealthChecks();
 
-            services.AddMvc()
-                    .AddJsonOptions(options =>
-                    {
+            services.AddControllers()
+                    .AddJsonOptions(options => {
                         // typename handling?
-                        options.JsonSerializerOptions.AllowTrailingCommas         = true;
-                        options.JsonSerializerOptions.DictionaryKeyPolicy         = JsonNamingPolicy.CamelCase;
-                        options.JsonSerializerOptions.IgnoreNullValues            = false;
-                        options.JsonSerializerOptions.IgnoreReadOnlyProperties    = false;
+                        options.JsonSerializerOptions.AllowTrailingCommas = true;
+                        options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                        options.JsonSerializerOptions.IgnoreNullValues = false;
+                        options.JsonSerializerOptions.IgnoreReadOnlyProperties = false;
                         options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
-                        options.JsonSerializerOptions.PropertyNamingPolicy        = JsonNamingPolicy.CamelCase;
-                        options.JsonSerializerOptions.ReadCommentHandling         = JsonCommentHandling.Skip;
-                        options.JsonSerializerOptions.WriteIndented               = true;
+                        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                        options.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+                        options.JsonSerializerOptions.WriteIndented = true;
 
                         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     });
@@ -83,16 +79,26 @@ namespace Tassle.TestWebApi {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggingBuilder loggingBuilder) {
-            if (env.EnvironmentName == "Development") {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
-
-                loggingBuilder.AddDebug();
             }
 
-            loggingBuilder.AddConsole();
+            // app.UseHttpsRedirection();
+            // app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseRouting();
+            app.UseCors();
+
+            // app.UseAuthentication();
+            // app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => {
+                // endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions() { });
+                // endpoints.RequireAuthorization(new AuthorizeAttribute() { Roles = "admin", });
+                endpoints.MapControllers();
+            });
         }
     }
 }
