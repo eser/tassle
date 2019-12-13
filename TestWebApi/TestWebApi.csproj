@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Tassle.Sdk.Web/0.9.0">
 
   <PropertyGroup Label="Configuration" />
 
@@ -26,14 +26,15 @@
 
   <ItemGroup>
     <ProjectReference Include="../Configuration/Configuration.csproj" />
-    <ProjectReference Include="../Data/Data.csproj" />
     <ProjectReference Include="../Data.Relational/Data.Relational.csproj" />
+    <ProjectReference Include="../Data/Data.csproj" />
     <ProjectReference Include="../DependencyInjection/DependencyInjection.csproj" />
     <ProjectReference Include="../Functions/Functions.csproj" />
     <ProjectReference Include="../Helpers/Helpers.csproj" />
+    <ProjectReference Include="../Hosting/Hosting.csproj" />
     <ProjectReference Include="../I18N/I18N.csproj" />
-    <ProjectReference Include="../Logging/Logging.csproj" />
     <ProjectReference Include="../Logging.Telnet/Logging.Telnet.csproj" />
+    <ProjectReference Include="../Logging/Logging.csproj" />
     <ProjectReference Include="../Telnet/Telnet.csproj" />
     <ProjectReference Include="../Validation/Validation.csproj" />
   </ItemGroup>

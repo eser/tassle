@@ -19,6 +19,7 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)TassleRuleSet.ruleset</CodeAnalysisRuleSet>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>

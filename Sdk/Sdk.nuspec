@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Tassle.Sdk</id>
+    <version>0.9.0</version>
+    <authors>Eser Ozvataf</authors>
+    <owners>Eser Ozvataf</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <projectUrl>https://github.com/eserozvataf/tassle</projectUrl>
+    <description>SDK definition for Tassle projects</description>
+    <language>en-US</language>
+  </metadata>
+  <files>
+    <file src="Sdk\Sdk.props" target="Sdk\Sdk.props" />
+    <file src="Sdk\Sdk.targets" target="Sdk\Sdk.targets" />
+  </files>
+</package>

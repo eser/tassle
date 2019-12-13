@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tassle.Configuration", "Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApi", "TestWebApi\TestWebApi.csproj", "{9E136573-8DF3-47EB-B7E9-7111AB27F90B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting", "Hosting\Hosting.csproj", "{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -278,6 +280,24 @@ Global
 		{9E136573-8DF3-47EB-B7E9-7111AB27F90B}.Release|x64.Build.0 = Release|Any CPU
 		{9E136573-8DF3-47EB-B7E9-7111AB27F90B}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E136573-8DF3-47EB-B7E9-7111AB27F90B}.Release|x86.Build.0 = Release|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Debug|x64.Build.0 = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Debug|x86.Build.0 = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Publish|Any CPU.Build.0 = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Publish|x64.ActiveCfg = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Publish|x64.Build.0 = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Publish|x86.ActiveCfg = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Publish|x86.Build.0 = Debug|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Release|x64.ActiveCfg = Release|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Release|x64.Build.0 = Release|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Release|x86.ActiveCfg = Release|Any CPU
+		{62A30F20-FB8F-4EDE-B679-6CD39BAA95B7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

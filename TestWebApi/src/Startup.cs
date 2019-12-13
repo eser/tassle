@@ -82,16 +82,23 @@ namespace Tassle.TestWebApi {
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+                // app.UseBrowserLink();
+            }
+            else {
+                // app.UseExceptionHandler("/Home/Error");
             }
 
             // app.UseHttpsRedirection();
-            // app.UseStaticFiles();
-
+            app.UseHttpMethodOverride();
+            app.UseStatusCodePages();
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(); // "All"
 
             // app.UseAuthentication();
             // app.UseAuthorization();
+
+            // FIXME is there any need for output caching?
+            // app.UseStaticFiles();
 
             app.UseEndpoints(endpoints => {
                 // endpoints.MapHub<ChatHub>("/chat");
