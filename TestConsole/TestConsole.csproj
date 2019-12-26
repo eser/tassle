@@ -1,4 +1,5 @@
-﻿<Project Sdk="Tassle.Sdk/0.9.0">
+﻿<!-- <Project Sdk="Tassle.Sdk/0.9.0"> -->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Configuration" />
 
@@ -31,11 +32,16 @@
     <ProjectReference Include="../DependencyInjection/DependencyInjection.csproj" />
     <ProjectReference Include="../Functions/Functions.csproj" />
     <ProjectReference Include="../Helpers/Helpers.csproj" />
+    <ProjectReference Include="../Hosting/Hosting.csproj" />
     <ProjectReference Include="../I18N/I18N.csproj" />
     <ProjectReference Include="../Logging/Logging.csproj" />
     <ProjectReference Include="../Logging.Telnet/Logging.Telnet.csproj" />
     <ProjectReference Include="../Telnet/Telnet.csproj" />
     <ProjectReference Include="../Validation/Validation.csproj" />
   </ItemGroup>
+
+  <!-- <ItemGroup>
+    <None Include="Dockerfile" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup> -->
 
 </Project>

@@ -1,10 +1,11 @@
-﻿<Project Sdk="Tassle.Sdk/0.9.0">
+﻿<!-- <Project Sdk="Tassle.Sdk/0.9.0"> -->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
     <AssemblyName>Tassle.Hosting</AssemblyName>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>library</OutputType>
     <DocumentationFile>$(OutDir)Hosting.xml</DocumentationFile>
   </PropertyGroup>
@@ -18,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.*" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.*" />
@@ -27,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Hosting.Abstractions/Hosting.Abstractions.csproj" />
     <!-- <ProjectReference Include="../Configuration/Configuration.csproj" />
     <ProjectReference Include="../DependencyInjection/DependencyInjection.csproj" />
     <ProjectReference Include="../Logging/Logging.csproj" /> -->

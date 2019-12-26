@@ -4,22 +4,23 @@
   <PropertyGroup Label="Configuration" />
 
   <PropertyGroup>
-    <AssemblyName>Tassle.Data</AssemblyName>
+    <AssemblyName>Tassle.Hosting.Abstractions</AssemblyName>
     <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>library</OutputType>
-    <DocumentationFile>$(OutDir)Data.xml</DocumentationFile>
+    <DocumentationFile>$(OutDir)Hosting.Abstractions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageId>Tassle.Data</PackageId>
-    <RootNamespace>Tassle.Data</RootNamespace>
-    <Title>Tassle.Data</Title>
-    <Description>Data component of Tassle</Description>
+    <PackageId>Tassle.Hosting.Abstractions</PackageId>
+    <RootNamespace>Tassle.Hosting</RootNamespace>
+    <Title>Tassle.Hosting.Abstractions</Title>
+    <Description>Hosting abstractions of component for Tassle</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.*" />
   </ItemGroup>
 
 </Project>

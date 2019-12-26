@@ -1,4 +1,5 @@
-﻿<Project Sdk="Tassle.Sdk/0.9.0">
+﻿<!-- <Project Sdk="Tassle.Sdk/0.9.0"> -->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Configuration" />
 

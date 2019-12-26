@@ -52,6 +52,7 @@
         <Rule Id="CS0435" Action="Error" />
         <Rule Id="CS0436" Action="Error" />
         <Rule Id="CS0437" Action="Error" />
+        <Rule Id="CS0449" Action="Warning" />
         <Rule Id="CS0458" Action="Error" />
         <Rule Id="CS0464" Action="Error" />
         <Rule Id="CS0469" Action="Error" />
@@ -75,6 +76,7 @@
         <Rule Id="CS2002" Action="Error" />
         <Rule Id="CS2038" Action="Error" />
         <Rule Id="CS8029" Action="Error" />
+        <Rule Id="CS8713" Action="Warning" />
     </Rules>
     <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
     </Rules>

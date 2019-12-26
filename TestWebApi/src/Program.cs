@@ -9,7 +9,6 @@
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 
@@ -17,21 +16,11 @@ namespace Tassle.TestWebApi {
     public class Program {
         public static Task<int> Main(string[] args) {
             var host = new HostBuilder()
-                .ConfigureTassleDefaults(args)
-                .ConfigureWebHost(ConfigureWebHostBuilder)
+                .UseTassleStartup<Startup>(args)
+                .UseTassleWebDefaults()
                 .Build();
 
             return host.LogAndRunAsync<Program>();
-        }
-
-        private static void ConfigureWebHostBuilder(IWebHostBuilder webHostBuilder) {
-            webHostBuilder
-                .UseKestrel(
-                    (builderContext, serverOptions) => {
-                        serverOptions.AddServerHeader = false;
-                        serverOptions.AllowSynchronousIO = true;
-                    })
-                .UseStartup<Startup>();
         }
     }
 }

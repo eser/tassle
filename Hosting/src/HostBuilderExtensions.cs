@@ -9,23 +9,30 @@
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.Hosting {
     public static class HostBuilderExtensions {
-        public static IHostBuilder ConfigureTassleDefaults(this IHostBuilder hostBuilder, string[] args) {
+        public static IHostBuilder UseTassleCliStartup(this IHostBuilder hostBuilder, string[] args) {
+            return HostBuilderExtensions.UseTassleStartup<DefaultCliStartup>(hostBuilder, args);
+        }
+
+        public static IHostBuilder UseTassleWebApiStartup(this IHostBuilder hostBuilder, string[] args) {
+            return HostBuilderExtensions.UseTassleStartup<DefaultWebApiStartup>(hostBuilder, args);
+        }
+
+        public static IHostBuilder UseTassleStartup<T>(this IHostBuilder hostBuilder, string[] args)
+            where T : class, ITassleStartup, new() { // + notnull constraint
+            var startup = new T();
             var basepath = Directory.GetCurrentDirectory();
 
             return hostBuilder
+                .UseConsoleLifetime()
                 .ConfigureHostConfiguration(configHost => configHost
                     .SetBasePath(basepath)
                     .AddJsonFile("hostsettings.json", optional: true)
@@ -37,18 +44,13 @@ namespace Microsoft.Extensions.Hosting {
                     .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: false)
                     .AddEnvironmentVariables()
                     .AddCommandLine(args))
+                // .ConfigureContainer<ContainerBuilder>((context, builder) => {
+                // })
+                .ConfigureLogging((context, logging) => {
+                    // logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                })
                 .ConfigureServices((context, services) => {
-                    services.AddLogging(logging => {
-                        // logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                        logging.AddConsole();
-                    });
-
-                    // // Light up the GenericWebHostBuilder implementation
-                    // if (hostBuilder is ISupportsUseDefaultServiceProvider supportsDefaultServiceProvider)
-                    // {
-                    //     return supportsDefaultServiceProvider.UseDefaultServiceProvider(configure);
-                    // }
-
                     var isDevelopment = context.HostingEnvironment.IsDevelopment();
 
                     var options = new ServiceProviderOptions() {
@@ -61,8 +63,24 @@ namespace Microsoft.Extensions.Hosting {
                     services.Replace(
                         ServiceDescriptor.Singleton<IServiceProviderFactory<IServiceCollection>>(
                             provider));
-                })
-                .UseConsoleLifetime();
+
+                    services.Replace(
+                        ServiceDescriptor.Singleton<ITassleStartup>(startup));
+
+                    startup.ConfigureServiceProvider(context, services);
+                });
+        }
+
+        public static IHostBuilder UseTassleWebDefaults(this IHostBuilder hostBuilder) {
+            return hostBuilder.ConfigureWebHost(
+                builder => {
+                    builder.UseKestrel(
+                        (builderContext, serverOptions) => {
+                            serverOptions.AddServerHeader = false;
+                            serverOptions.AllowSynchronousIO = true;
+                        })
+                    .UseStartup<WebHostStartup>();
+                });
         }
     }
 }

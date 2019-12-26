@@ -9,13 +9,12 @@
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace Tassle.TestWebApi {
-    public class Startup : DefaultWebApiStartup {
+namespace Tassle.TestConsole {
+    public class Startup : DefaultCliStartup {
         // methods
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -23,23 +22,10 @@ namespace Tassle.TestWebApi {
             base.ConfigureServiceProvider(hostingContext, services);
 
             services.Configure<AppSettings>(hostingContext.Configuration.GetSection("AppSettings"));
-
-            // register external services
-            switch (hostingContext.HostingEnvironment.EnvironmentName) {
-                case "Development":
-                    services.AddTransient<IDummyExternalService, FakeDummyExternalService>();
-                    break;
-                case "Testing":
-                case "Staging":
-                case "Production":
-                    services.AddTransient<IDummyExternalService, LiveDummyExternalService>();
-                    break;
-            }
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            base.Configure(app, env);
+        public void Configure(ILogger<Startup> logger) {
+            logger.LogWarning("cli test");
         }
     }
 }

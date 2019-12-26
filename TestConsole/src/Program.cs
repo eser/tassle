@@ -9,18 +9,21 @@
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using Tassle.Logging.Telnet;
-using Tassle.Telnet;
-using System.Net;
-using Tassle.Functions;
+using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 
 namespace Tassle.TestConsole {
     public class Program {
-        public static void Main(string[] args) {
+        public static Task<int> Main(string[] args) {
+            var host = new HostBuilder()
+                .UseTassleStartup<Startup>(args)
+                .Build();
+
+            var result = host.LogAndRunAsync<Program>();
+
+            System.Console.WriteLine("test");
+
+            return result;
             //TassleCoreConfig tassleConfig = new TassleCoreConfig() {
             //    Culture = "en-us"
             //};
@@ -46,8 +49,8 @@ namespace Tassle.TestConsole {
             */
 
             // initialize bootstrapper
-            var bootstrapper = new Bootstrapper();
-            var serviceProvider = bootstrapper.GetServiceProvider();
+            // var bootstrapper = new Bootstrapper();
+            // var serviceProvider = bootstrapper.GetServiceProvider();
 
             // // start telnet
             // var telnetServer = serviceProvider.GetService<ITelnetServer>();
@@ -60,12 +63,10 @@ namespace Tassle.TestConsole {
             //     .AddDebug()
             //     .AddTelnet(serviceProvider);
 
-            var fm = new FunctionManager(serviceProvider);
-            fm.RunAsync(
-                new TestFunction(),
-                new Request<int>() { Value = 5 });
-
-            Console.Read();
+            // var fm = new FunctionManager(serviceProvider);
+            // fm.RunAsync(
+            //     new TestFunction(),
+            //     new Request<int>() { Value = 5 });
         }
     }
 }
