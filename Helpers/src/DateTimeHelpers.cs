@@ -12,7 +12,7 @@
 using System;
 using System.Globalization;
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// DateTimeUtils class.
     /// </summary>

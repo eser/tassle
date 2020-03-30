@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// ArrayUtils class.
     /// </summary>

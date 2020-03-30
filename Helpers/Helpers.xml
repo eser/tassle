@@ -4,12 +4,12 @@
         <name>Tassle.Helpers</name>
     </assembly>
     <members>
-        <member name="T:Tassle.Helpers.ArrayHelpers">
+        <member name="T:Tassle.ArrayHelpers">
             <summary>
             ArrayUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.ArrayHelpers.GetArray``1(System.Collections.Generic.ICollection{``0})">
+        <member name="M:Tassle.ArrayHelpers.GetArray``1(System.Collections.Generic.ICollection{``0})">
             <summary>
             Gets the array.
             </summary>
@@ -17,7 +17,7 @@
             <param name="collection">The collection</param>
             <returns>Array of given type</returns>
         </member>
-        <member name="M:Tassle.Helpers.ArrayHelpers.GetArray``1(System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:Tassle.ArrayHelpers.GetArray``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             Gets the array.
             </summary>
@@ -25,47 +25,47 @@
             <param name="enumerable">The enumerable</param>
             <returns>Array of given type</returns>
         </member>
-        <member name="T:Tassle.Helpers.DateTimeHelpers">
+        <member name="T:Tassle.DateTimeHelpers">
             <summary>
             DateTimeUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.UnixTimestamp(System.Nullable{System.DateTimeOffset})">
+        <member name="M:Tassle.DateTimeHelpers.UnixTimestamp(System.Nullable{System.DateTimeOffset})">
             <summary>
             Converts to Unix Timestamp.
             </summary>
             <param name="datetime">DateTime to be converted</param>
             <returns>Unix Timestamp</returns>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.FromUnixtime(System.Double)">
+        <member name="M:Tassle.DateTimeHelpers.FromUnixtime(System.Double)">
             <summary>
             Converts from Unix Timestamp.
             </summary>
             <param name="secondsPassed">The seconds passed</param>
             <returns>DateTime Object</returns>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.ISO8601(System.DateTimeOffset)">
+        <member name="M:Tassle.DateTimeHelpers.ISO8601(System.DateTimeOffset)">
             <summary>
             Converts to ISO8601 formatted datetime.
             </summary>
             <param name="datetime">The datetime.</param>
             <returns>ISO8601 formatted datetime</returns>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.FromISO8601(System.String)">
+        <member name="M:Tassle.DateTimeHelpers.FromISO8601(System.String)">
             <summary>
             Converts from ISO8601 formatted datetime.
             </summary>
             <param name="datetime">The datetime.</param>
             <returns>DateTime Object</returns>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.GetTimeZone(System.String)">
+        <member name="M:Tassle.DateTimeHelpers.GetTimeZone(System.String)">
             <summary>
             Gets the time zone.
             </summary>
             <param name="timeZoneId">The time zone id</param>
             <returns>The time zone</returns>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.ToSpecificTimeZone(System.String,System.DateTimeOffset)">
+        <member name="M:Tassle.DateTimeHelpers.ToSpecificTimeZone(System.String,System.DateTimeOffset)">
             <summary>
             To the specific time zone.
             </summary>
@@ -73,19 +73,19 @@
             <param name="dateTime">The date time</param>
             <returns>The converted DateTime object</returns>
         </member>
-        <member name="M:Tassle.Helpers.DateTimeHelpers.ToUniversal(System.DateTimeOffset)">
+        <member name="M:Tassle.DateTimeHelpers.ToUniversal(System.DateTimeOffset)">
             <summary>
             To the universal.
             </summary>
             <param name="dateTime">The date time</param>
             <returns>The converted DateTime object</returns>
         </member>
-        <member name="T:Tassle.Helpers.EventHelpers">
+        <member name="T:Tassle.EventHelpers">
             <summary>
             EventUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.EventHelpers.EventOnce(System.Object,System.String,System.EventHandler)">
+        <member name="M:Tassle.EventHelpers.EventOnce(System.Object,System.String,System.EventHandler)">
             <summary>
             Events the once.
             </summary>
@@ -93,12 +93,12 @@
             <param name="eventMember">The event member</param>
             <param name="handler">The handler</param>
         </member>
-        <member name="T:Tassle.Helpers.HashHelpers">
+        <member name="T:Tassle.HashHelpers">
             <summary>
             HashUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.HashHelpers.RSHash(System.Object[])">
+        <member name="M:Tassle.HashHelpers.RSHash(System.Object[])">
             <summary>
             This is a simple hashing function from "Robert Sedgwicks Hashing" in C book.
             Also, some simple optimizations to the algorithm in order to speed up
@@ -108,12 +108,12 @@
             to get a unique hash code for them</param>
             <returns>Hash code</returns>
         </member>
-        <member name="T:Tassle.Helpers.IOHelpers">
+        <member name="T:Tassle.IOHelpers">
             <summary>
             IOUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.IOHelpers.SanitizeFilename(System.String,System.Boolean,System.Char[])">
+        <member name="M:Tassle.IOHelpers.SanitizeFilename(System.String,System.Boolean,System.Char[])">
             <summary>
             Sanitizes the filename.
             </summary>
@@ -122,17 +122,17 @@
             <param name="charsToRemove">The chars to remove</param>
             <returns>Sanitized filename</returns>
         </member>
-        <member name="T:Tassle.Helpers.MimeHelpers">
+        <member name="T:Tassle.MimeHelpers">
             <summary>
             MimeUtils class.
             </summary>
         </member>
-        <member name="F:Tassle.Helpers.MimeHelpers.mappings">
+        <member name="F:Tassle.MimeHelpers.mappings">
             <summary>
             The mappings
             </summary>
         </member>
-        <member name="P:Tassle.Helpers.MimeHelpers.Mappings">
+        <member name="P:Tassle.MimeHelpers.Mappings">
             <summary>
             Gets the mappings.
             </summary>
@@ -140,7 +140,7 @@
             The mappings.
             </value>
         </member>
-        <member name="M:Tassle.Helpers.MimeHelpers.GetMimeType(System.String,System.String)">
+        <member name="M:Tassle.MimeHelpers.GetMimeType(System.String,System.String)">
             <summary>
             Gets the type of the MIME.
             </summary>
@@ -149,41 +149,41 @@
             <remarks>Taken from http://stackoverflow.com/questions/1029740/get-mime-type-from-extension</remarks>
             <returns>The mime type</returns>
         </member>
-        <member name="M:Tassle.Helpers.MimeHelpers.GetProperMimeEncoding(System.String)">
+        <member name="M:Tassle.MimeHelpers.GetProperMimeEncoding(System.String)">
             <summary>
             Gets the proper MIME encoding.
             </summary>
             <param name="mimeType">Type of the MIME</param>
             <returns>The mime encoding</returns>
         </member>
-        <member name="T:Tassle.Helpers.NetHelpers">
+        <member name="T:Tassle.NetHelpers">
             <summary>
             NetUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.NetHelpers.ConvertToIPRange(System.String)">
+        <member name="M:Tassle.NetHelpers.ConvertToIPRange(System.String)">
             <summary>
             Converts to IP range.
             </summary>
             <param name="ipAddress">The IP address</param>
             <returns>The IP range</returns>
         </member>
-        <member name="T:Tassle.Helpers.RandomHelpers">
+        <member name="T:Tassle.RandomHelpers">
             <summary>
             RandomUtils class.
             </summary>
         </member>
-        <member name="F:Tassle.Helpers.RandomHelpers.randomObject">
+        <member name="F:Tassle.RandomHelpers.randomObject">
             <summary>
             The random object
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.RandomHelpers.#cctor">
+        <member name="M:Tassle.RandomHelpers.#cctor">
             <summary>
-            Initializes static members of the <see cref="T:Tassle.Helpers.RandomHelpers"/> class.
+            Initializes static members of the <see cref="T:Tassle.RandomHelpers"/> class.
             </summary>
         </member>
-        <member name="P:Tassle.Helpers.RandomHelpers.RandomObject">
+        <member name="P:Tassle.RandomHelpers.RandomObject">
             <summary>
             Gets or sets the random object.
             </summary>
@@ -191,13 +191,13 @@
             The random object.
             </value>
         </member>
-        <member name="M:Tassle.Helpers.RandomHelpers.RandomGuid">
+        <member name="M:Tassle.RandomHelpers.RandomGuid">
             <summary>
             Generates a random GUID.
             </summary>
             <returns>Generated GUID</returns>
         </member>
-        <member name="M:Tassle.Helpers.RandomHelpers.RandomNumber(System.Int32,System.Int32)">
+        <member name="M:Tassle.RandomHelpers.RandomNumber(System.Int32,System.Int32)">
             <summary>
             Generates a random number.
             </summary>
@@ -205,7 +205,7 @@
             <param name="max">The max</param>
             <returns>Generated number</returns>
         </member>
-        <member name="M:Tassle.Helpers.RandomHelpers.RandomNumber(System.Random,System.Int32,System.Int32)">
+        <member name="M:Tassle.RandomHelpers.RandomNumber(System.Random,System.Int32,System.Int32)">
             <summary>
             Generates a random number.
             </summary>
@@ -214,14 +214,14 @@
             <param name="max">The max</param>
             <returns>Generated number</returns>
         </member>
-        <member name="M:Tassle.Helpers.RandomHelpers.RandomString(System.Int32)">
+        <member name="M:Tassle.RandomHelpers.RandomString(System.Int32)">
             <summary>
             Generates a random string.
             </summary>
             <param name="size">The size</param>
             <returns>Generated string</returns>
         </member>
-        <member name="M:Tassle.Helpers.RandomHelpers.RandomString(System.Random,System.Int32)">
+        <member name="M:Tassle.RandomHelpers.RandomString(System.Random,System.Int32)">
             <summary>
             Generates a random string.
             </summary>
@@ -229,25 +229,25 @@
             <param name="size">The size</param>
             <returns>Generated string</returns>
         </member>
-        <member name="T:Tassle.Helpers.VariableHelpers">
+        <member name="T:Tassle.VariableHelpers">
             <summary>
             VariableUtils class.
             </summary>
         </member>
-        <member name="M:Tassle.Helpers.VariableHelpers.CheckAndDispose``1(``0@)">
+        <member name="M:Tassle.VariableHelpers.CheckAndDispose``1(``0@)">
             <summary>
             Checks the and dispose.
             </summary>
             <param name="variable">The variable</param>
         </member>
-        <member name="M:Tassle.Helpers.VariableHelpers.GetMemberType(System.Reflection.MemberInfo)">
+        <member name="M:Tassle.VariableHelpers.GetMemberType(System.Reflection.MemberInfo)">
             <summary>
             Gets the member type.
             </summary>
             <param name="member">The member</param>
             <returns>Member type</returns>
         </member>
-        <member name="M:Tassle.Helpers.VariableHelpers.ReadMemberValue(System.Reflection.MemberInfo,System.Object,System.Boolean)">
+        <member name="M:Tassle.VariableHelpers.ReadMemberValue(System.Reflection.MemberInfo,System.Object,System.Boolean)">
             <summary>
             Reads the member value.
             </summary>
@@ -256,7 +256,7 @@
             <param name="enumAsString">Whether serialize enum as string or not</param>
             <returns>Value of the field/property instance</returns>
         </member>
-        <member name="M:Tassle.Helpers.VariableHelpers.WriteMemberValue(System.Reflection.MemberInfo,System.Object,System.Object,System.Boolean)">
+        <member name="M:Tassle.VariableHelpers.WriteMemberValue(System.Reflection.MemberInfo,System.Object,System.Object,System.Boolean)">
             <summary>
             Writes the member value.
             </summary>
@@ -265,7 +265,7 @@
             <param name="value">The value</param>
             <param name="enumAsString">Whether serialize enum as string or not</param>
         </member>
-        <member name="M:Tassle.Helpers.VariableHelpers.GetSize``1">
+        <member name="M:Tassle.VariableHelpers.GetSize``1">
             <summary>
             Gets the size.
             </summary>

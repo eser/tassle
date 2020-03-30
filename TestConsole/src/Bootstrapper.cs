@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using Tassle.Telnet;
 
 namespace Tassle.TestConsole {
     public class Bootstrapper {
@@ -23,15 +22,8 @@ namespace Tassle.TestConsole {
             var services = new ServiceCollection();
 
             services.AddLogging();
-            // services.AddSingleton<ITelnetServer>(this.CreateTelnetServer());
 
             return services.BuildServiceProvider();
-        }
-
-        public ITelnetServer CreateTelnetServer() {
-            var telnetServer = new TelnetServer(new IPEndPoint(IPAddress.Any, 8084));
-
-            return telnetServer;
         }
     }
 }

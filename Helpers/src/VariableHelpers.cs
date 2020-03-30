@@ -13,7 +13,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// VariableUtils class.
     /// </summary>

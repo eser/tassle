@@ -11,7 +11,7 @@
 
 using System;
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// NetUtils class.
     /// </summary>

@@ -9,7 +9,7 @@
 // <author>Eser Ozvataf (eser@ozvataf.com)</author>
 // --------------------------------------------------------------------------
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// HashUtils class.
     /// </summary>

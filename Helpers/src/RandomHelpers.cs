@@ -12,7 +12,7 @@
 using System;
 using System.Text;
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// RandomUtils class.
     /// </summary>

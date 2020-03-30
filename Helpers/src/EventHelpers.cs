@@ -12,7 +12,7 @@
 using System;
 using System.Reflection;
 
-namespace Tassle.Helpers {
+namespace Tassle {
     /// <summary>
     /// EventUtils class.
     /// </summary>

@@ -52,16 +52,11 @@ namespace Tassle.TestConsole {
             // var bootstrapper = new Bootstrapper();
             // var serviceProvider = bootstrapper.GetServiceProvider();
 
-            // // start telnet
-            // var telnetServer = serviceProvider.GetService<ITelnetServer>();
-            // telnetServer.Start();
-
             // // setup console logging
             // var loggingBuilder = serviceProvider.GetService<ILoggingBuilder>();
             // loggingBuilder
             //     .AddConsole()
-            //     .AddDebug()
-            //     .AddTelnet(serviceProvider);
+            //     .AddDebug();
 
             // var fm = new FunctionManager(serviceProvider);
             // fm.RunAsync(
